@@ -172,7 +172,7 @@ public class PagingMenuViewController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let indexPath = collectionView.indexPathForItem(at: focusView.frame.origin)
+        let indexPath = collectionView.indexPathForItem(at: focusView.center)
         focusView.isHidden = true
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             self?.collectionView.invalidateIntrinsicContentSize()
