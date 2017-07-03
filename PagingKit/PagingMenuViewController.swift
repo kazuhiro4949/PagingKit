@@ -256,14 +256,14 @@ extension PagingMenuViewController: UICollectionViewDelegate {
             offset = CGPoint(x: 0, y: min(max(0, offsetY), maxOffsetY))
         }
         collectionView.setContentOffset(offset, animated: true)
-        
+
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.focusView.frame = attribute.frame
             }, completion: { [weak self] finish in
                 guard let _self = self, finish else { return }
                 _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
-                _self.focusView.startingIndex = indexPath.row
         })
+        focusView.startingIndex = indexPath.row
     }
 }
 
