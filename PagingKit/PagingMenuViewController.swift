@@ -115,6 +115,10 @@ public class PagingMenuViewController: UIViewController {
         focusView.selectedIndex = index
     }
     
+    public var visibleCells: [UICollectionViewCell] {
+        return collectionView.visibleCells
+    }
+    
     public func cellForItem(at index: Int) -> UICollectionViewCell? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
