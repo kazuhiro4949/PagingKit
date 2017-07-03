@@ -228,9 +228,7 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
-            let selectedIndex = focusView.selectedIndex,
-            selectedIndex != indexPath.item else { return }
+        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
 
         delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.selectedIndex ?? 0)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
