@@ -112,21 +112,7 @@ public class PagingMenuViewController: UIViewController {
         }
         
         collectionView.setContentOffset(offset, animated: animated)
-    }
-    
-    public func scroll(percent: CGFloat, animated: Bool) {
-        let offset: CGPoint
-        switch direction {
-        case .horizontal:
-            let offsetX = collectionView.contentSize.width * percent
-            let boundaryOffsetX = max(0, min(offsetX, collectionView.contentSize.width - collectionView.bounds.width))
-            offset = CGPoint(x: boundaryOffsetX, y: 0)
-        case .vertical:
-            let offsetY = collectionView.contentSize.height * percent
-            let boundaryOffsetY = max(0, min(offsetY, collectionView.contentSize.height - collectionView.bounds.height))
-            offset = CGPoint(x: 0, y: boundaryOffsetY)
-        }
-        collectionView.setContentOffset(offset, animated: animated)
+        focusView.selectedIndex = index
     }
     
     public func cellForItem(at index: Int) -> UICollectionViewCell? {
@@ -195,6 +181,7 @@ public class PagingMenuViewController: UIViewController {
             focusView.translatesAutoresizingMaskIntoConstraints = true
             focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
             focusView.frame = attr.frame
+            focusView.selectedIndex = 0
             collectionView.addSubview(focusView)
         }
     }
@@ -227,25 +214,23 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        focusView.selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item
         scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            focusView.selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item
             scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
         }
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
-            let selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item,
+            let selectedIndex = focusView.selectedIndex,
             selectedIndex != indexPath.item else { return }
 
         delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.selectedIndex ?? 0)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
-
+    
         focusView.selectedIndex = indexPath.item
         
         let offset: CGPoint
