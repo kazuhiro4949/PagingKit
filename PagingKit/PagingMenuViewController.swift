@@ -162,6 +162,7 @@ public class PagingMenuViewController: UIViewController {
     
     fileprivate lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
+        view.backgroundColor = .clear
         view.translatesAutoresizingMaskIntoConstraints = true
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         return view
@@ -176,6 +177,8 @@ public class PagingMenuViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
         view.addSubview(collectionView)
+        
+        view.backgroundColor = .clear
     }
     
     override public func didReceiveMemoryWarning() {
