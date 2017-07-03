@@ -128,8 +128,8 @@ public class PagingMenuViewController: UIViewController {
         collectionView.setContentOffset(offset, animated: animated)
     }
     
-    public func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell? {
-        return collectionView.cellForItem(at: indexPath)
+    public func cellForItem(at index: Int) -> UICollectionViewCell? {
+        return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
     
     public func registerFocusView(view: PagingMenuFocusView) {
