@@ -132,6 +132,10 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
     
+    public var indexForSelected: Int {
+        return collectionView.indexPathsForSelectedItems?.first?.item ?? 0
+    }
+    
     public func registerFocusView(view: PagingMenuFocusView) {
         focusView = view
     }
