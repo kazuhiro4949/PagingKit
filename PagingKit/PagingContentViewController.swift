@@ -41,6 +41,10 @@ public class PagingContentViewController: UIViewController {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
     
+    public var currentPageIndex: Int {
+        return Int(scrollView.contentOffset.x / scrollView.bounds.width)
+    }
+    
     public func reloadData(with page: Int = 0) {
         initialLoad(with: page)
         scroll(to: page, animated: false)
