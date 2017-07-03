@@ -17,6 +17,15 @@ public protocol PagingMenuViewControllerScrollDelegate: class {
     func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView)
 }
 
+extension PagingMenuViewControllerScrollDelegate {
+    func menuViewController(viewController: PagingMenuViewController,  willBegingScroll focusView: PagingMenuFocusView) {}
+    func menuViewController(viewController: PagingMenuViewController,  didScroll focusView: PagingMenuFocusView) {}
+    func menuViewController(viewController: PagingMenuViewController,  didEndScroll focusView: PagingMenuFocusView) {}
+    
+    func menuViewController(viewController: PagingMenuViewController,  focusViewWillBeginTransition focusView: PagingMenuFocusView) {}
+    func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView) {}
+}
+
 public protocol PagingMenuViewControllerDelegate: class {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int)
 }
@@ -49,7 +58,8 @@ public class PagingMenuViewController: UIViewController {
     public weak var delegate: PagingMenuViewControllerDelegate?
     public weak var dataSource: PagingMenuViewControllerDataSource?
     
-    public let focusView = PagingMenuFocusView(frame: .zero)
+    public var focusView = PagingMenuFocusView(frame: .zero)
+    
     public var focusPointerOffset: CGPoint {
         return focusView.center
     }
@@ -118,6 +128,14 @@ public class PagingMenuViewController: UIViewController {
         collectionView.setContentOffset(offset, animated: animated)
     }
     
+    public func registerFocusView(view: PagingMenuFocusView) {
+        focusView = view
+    }
+    
+    public func registerFocusView(nib: UINib) {
+        focusView = nib.instantiate(withOwner: self, options: nil).first as! PagingMenuFocusView
+    }
+    
     public func register(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
         collectionView.register(nib, forCellWithReuseIdentifier: identifier)
     }
@@ -164,6 +182,8 @@ public class PagingMenuViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         if case nil = focusView.superview, collectionView.numberOfItems(inSection: 0) > 0, let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) {
+            focusView.translatesAutoresizingMaskIntoConstraints = true
+            focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
             focusView.frame = cell.frame
             collectionView.addSubview(focusView)
         }
