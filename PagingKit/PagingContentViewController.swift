@@ -17,9 +17,9 @@ public protocol PagingContentViewControllerDelegate: class {
 
 extension PagingContentViewControllerDelegate {
     
-    func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int){}
-    func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int?, percent: CGFloat) {}
-    func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool) {}
+    public func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int){}
+    public func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int?, percent: CGFloat) {}
+    public func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool) {}
 }
 
 public protocol PagingContentViewControllerDataSource: class {
