@@ -37,6 +37,7 @@ public protocol PagingMenuViewControllerDataSource: class {
 }
 
 public class PagingMenuFocusView: UIView {
+    var startingIndex: Int?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -111,6 +112,8 @@ public class PagingMenuViewController: UIViewController {
         }
         
         collectionView.setContentOffset(offset, animated: animated)
+        
+        focusView.startingIndex = collectionView.indexPathsForSelectedItems?.first?.item
     }
     
     public func scroll(percent: CGFloat, animated: Bool) {
@@ -130,10 +133,6 @@ public class PagingMenuViewController: UIViewController {
     
     public func cellForItem(at index: Int) -> UICollectionViewCell? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
-    }
-    
-    public var indexForSelected: Int {
-        return collectionView.indexPathsForSelectedItems?.first?.item ?? 0
     }
     
     public func registerFocusView(view: PagingMenuFocusView) {
@@ -240,10 +239,9 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
-              let previousIndexPath = collectionView.indexPathForItem(at: focusView.center) else { return }
+        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
 
-        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: previousIndexPath.row)
+        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.startingIndex ?? 0)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
         
         let offset: CGPoint
@@ -261,9 +259,10 @@ extension PagingMenuViewController: UICollectionViewDelegate {
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.focusView.frame = attribute.frame
-            }, completion: { [weak self] _ in
-                guard let _self = self else { return }
+            }, completion: { [weak self] finish in
+                guard let _self = self, finish else { return }
                 _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+                _self.focusView.startingIndex = indexPath.row
         })
     }
 }
