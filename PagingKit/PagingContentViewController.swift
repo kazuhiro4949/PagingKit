@@ -28,10 +28,13 @@ public protocol PagingContentViewControllerDataSource: class {
 }
 
 public class PagingContentViewController: UIViewController {
+    
     private var cachedViewControllers = [UIViewController?]()
     
     public weak var delegate: PagingContentViewControllerDelegate?
     public weak var dataSource: PagingContentViewControllerDataSource?
+
+    public var isEnabledPreloadContent = true
     
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
@@ -161,12 +164,19 @@ extension PagingContentViewController: UIScrollViewDelegate {
         let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
         let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
         let normalizedPercent = min(max(0, percent), 1)
+        
         delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: normalizedPercent)
         
         lastContentOffset = scrollView.contentOffset
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+
         
-        if normalizedPercent > 0.5 {
+    }
+    
+    public func preLoadContentIfNeeded(with scrollingPercent: CGFloat) {
+        guard isEnabledPreloadContent else { return }
+        
+        if scrollingPercent > 0.5 {
             loadPagesIfNeeded(page: currentPageIndex + 1)
         } else{
             loadPagesIfNeeded()

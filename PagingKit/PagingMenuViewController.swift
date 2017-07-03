@@ -238,9 +238,7 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
               let previousIndexPath = collectionView.indexPathForItem(at: focusView.center) else { return }
-        
-        collectionView.isUserInteractionEnabled = false
-        
+
         delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: previousIndexPath.row)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
         
@@ -262,7 +260,6 @@ extension PagingMenuViewController: UICollectionViewDelegate {
             }, completion: { [weak self] _ in
                 guard let _self = self else { return }
                 _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
-                _self.collectionView.isUserInteractionEnabled = true
         })
     }
 }
