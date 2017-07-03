@@ -24,7 +24,7 @@ extension PagingContentViewControllerDelegate {
 
 public protocol PagingContentViewControllerDataSource: class {
     func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int
-    func contentViewController(viewController: PagingContentViewController, viewControllerAt Index: Int) -> UIViewController
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController
 }
 
 public class PagingContentViewController: UIViewController {
@@ -160,11 +160,17 @@ extension PagingContentViewController: UIScrollViewDelegate {
         
         let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
         let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
-        
-        delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: min(max(0, percent), 1))
+        let normalizedPercent = min(max(0, percent), 1)
+        delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: normalizedPercent)
         
         lastContentOffset = scrollView.contentOffset
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+        
+        if normalizedPercent > 0.5 {
+            loadPagesIfNeeded(page: currentPageIndex + 1)
+        } else{
+            loadPagesIfNeeded()
+        }
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

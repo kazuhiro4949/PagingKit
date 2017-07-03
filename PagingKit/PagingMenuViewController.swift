@@ -188,10 +188,12 @@ public class PagingMenuViewController: UIViewController {
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        if case nil = focusView.superview, collectionView.numberOfItems(inSection: 0) > 0, let cell = collectionView.cellForItem(at: IndexPath(item: 0, section: 0)) {
+        if case nil = focusView.superview,
+            collectionView.numberOfItems(inSection: 0) > 0,
+            let attr = collectionView.layoutAttributesForItem(at: IndexPath(item: 0, section: 0)) {
             focusView.translatesAutoresizingMaskIntoConstraints = true
             focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
-            focusView.frame = cell.frame
+            focusView.frame = attr.frame
             collectionView.addSubview(focusView)
         }
     }
@@ -237,6 +239,7 @@ extension PagingMenuViewController: UICollectionViewDelegate {
         guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
               let previousIndexPath = collectionView.indexPathForItem(at: focusView.center) else { return }
         
+        collectionView.isUserInteractionEnabled = false
         
         delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: previousIndexPath.row)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
@@ -259,6 +262,7 @@ extension PagingMenuViewController: UICollectionViewDelegate {
             }, completion: { [weak self] _ in
                 guard let _self = self else { return }
                 _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+                _self.collectionView.isUserInteractionEnabled = true
         })
     }
 }
