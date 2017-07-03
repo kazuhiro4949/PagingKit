@@ -18,16 +18,16 @@ public protocol PagingMenuViewControllerScrollDelegate: class {
 }
 
 extension PagingMenuViewControllerScrollDelegate {
-    func menuViewController(viewController: PagingMenuViewController,  willBegingScroll focusView: PagingMenuFocusView) {}
-    func menuViewController(viewController: PagingMenuViewController,  didScroll focusView: PagingMenuFocusView) {}
-    func menuViewController(viewController: PagingMenuViewController,  didEndScroll focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController,  willBegingScroll focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController,  didScroll focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController,  didEndScroll focusView: PagingMenuFocusView) {}
     
-    func menuViewController(viewController: PagingMenuViewController,  focusViewWillBeginTransition focusView: PagingMenuFocusView) {}
-    func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController,  focusViewWillBeginTransition focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView) {}
 }
 
 public protocol PagingMenuViewControllerDelegate: class {
-    func menuViewController(viewController: PagingMenuViewController, didSelect page: Int)
+    func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int)
 }
 
 public protocol PagingMenuViewControllerDataSource: class {
@@ -126,6 +126,10 @@ public class PagingMenuViewController: UIViewController {
             offset = CGPoint(x: 0, y: boundaryOffsetY)
         }
         collectionView.setContentOffset(offset, animated: animated)
+    }
+    
+    public func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell? {
+        return collectionView.cellForItem(at: indexPath)
     }
     
     public func registerFocusView(view: PagingMenuFocusView) {
@@ -227,8 +231,11 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
-        delegate?.menuViewController(viewController: self, didSelect: indexPath.row)
+        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
+              let previousIndexPath = collectionView.indexPathForItem(at: focusView.center) else { return }
+        
+        
+        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: previousIndexPath.row)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
         
         let offset: CGPoint

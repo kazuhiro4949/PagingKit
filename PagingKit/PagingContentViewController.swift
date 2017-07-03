@@ -11,14 +11,14 @@ import UIKit
 public protocol PagingContentViewControllerDelegate: class {
     
     func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int)
-    func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int?, percent: CGFloat)
+    func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int, percent: CGFloat)
     func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool)
 }
 
 extension PagingContentViewControllerDelegate {
     
     public func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int){}
-    public func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int?, percent: CGFloat) {}
+    public func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int, percent: CGFloat) {}
     public func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool) {}
 }
 
@@ -108,12 +108,12 @@ public class PagingContentViewController: UIViewController {
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+        let _currentPageIndex = currentPageIndex
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
-            _self.initialLoad(with: currentIndex)
+            _self.initialLoad(with: _currentPageIndex)
             
-            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(currentIndex), y: 0)
+            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(_currentPageIndex), y: 0)
             _self.scrollView.setContentOffset(point, animated: false)
         }) { (context) in }
     }
@@ -179,8 +179,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     fileprivate func loadPagesIfNeeded(page: Int? = nil) {
-        let currentIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        let loadingPage = page ?? currentIndex
+        let loadingPage = page ?? currentPageIndex
         loadScrollView(with: loadingPage - 1)
         loadScrollView(with: loadingPage)
         loadScrollView(with: loadingPage + 1)
