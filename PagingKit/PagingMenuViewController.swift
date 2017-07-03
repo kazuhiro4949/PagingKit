@@ -37,7 +37,7 @@ public protocol PagingMenuViewControllerDataSource: class {
 }
 
 public class PagingMenuFocusView: UIView {
-    var startingIndex: Int?
+    var selectedIndex: Int?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -112,8 +112,6 @@ public class PagingMenuViewController: UIViewController {
         }
         
         collectionView.setContentOffset(offset, animated: animated)
-        
-        focusView.startingIndex = collectionView.indexPathsForSelectedItems?.first?.item
     }
     
     public func scroll(percent: CGFloat, animated: Bool) {
@@ -229,20 +227,26 @@ extension PagingMenuViewController: UICollectionViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        focusView.selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item
         scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
+            focusView.selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item
             scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
         }
     }
     
     public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
+        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath),
+            let selectedIndex = collectionView.indexPathsForSelectedItems?.first?.item,
+            selectedIndex != indexPath.item else { return }
 
-        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.startingIndex ?? 0)
+        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.selectedIndex ?? 0)
         scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
+
+        focusView.selectedIndex = indexPath.item
         
         let offset: CGPoint
         switch direction {
@@ -263,7 +267,6 @@ extension PagingMenuViewController: UICollectionViewDelegate {
                 guard let _self = self, finish else { return }
                 _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
         })
-        focusView.startingIndex = indexPath.row
     }
 }
 
