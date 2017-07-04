@@ -139,10 +139,13 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: IndexPath(item: index, section: 0))
     }
     
-    public func reloadDate(startOn index: Int = 0) {
+    public func reloadDate(startingOn index: Int? = nil) {
         collectionView.reloadData()
-        collectionView.performBatchUpdates(nil) { [weak self] (_) in
-            self?.scroll(index: index, percent: 0, animated: false)
+        
+        if let index = index {
+            collectionView.performBatchUpdates(nil) { [weak self] (_) in
+                self?.scroll(index: index, percent: 0, animated: false)
+            }
         }
     }
     
