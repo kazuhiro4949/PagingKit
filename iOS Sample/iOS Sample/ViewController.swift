@@ -28,6 +28,7 @@ class ViewController: UIViewController {
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
         menuViewController?.reloadDate(startingOn: 3)
+        contentViewController?.reloadData(with: 3)
     }
     
     override func didReceiveMemoryWarning() {
