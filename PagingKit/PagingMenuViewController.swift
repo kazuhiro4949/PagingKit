@@ -81,7 +81,7 @@ public class PagingMenuViewController: UIViewController {
         }
     }
     
-    public func scroll(index: Int, percent: CGFloat, animated: Bool) {
+    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
         guard rightIndex < collectionView.numberOfItems(inSection: 0),
             let leftAttribute = collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)),
@@ -139,8 +139,11 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: IndexPath(item: index, section: 0))
     }
     
-    public func reloadDate() {
+    public func reloadDate(startOn index: Int = 0) {
         collectionView.reloadData()
+        collectionView.performBatchUpdates(nil) { [weak self] (_) in
+            self?.scroll(index: index, percent: 0, animated: false)
+        }
     }
     
     fileprivate let layout: UICollectionViewFlowLayout = {
