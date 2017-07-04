@@ -144,7 +144,9 @@ public class PagingMenuViewController: UIViewController {
         
         if let index = index {
             collectionView.performBatchUpdates(nil) { [weak self] (_) in
+                guard let _self = self else { return }
                 self?.scroll(index: index, percent: 0, animated: false)
+                self?.delegate?.menuViewController(viewController: _self, didSelect: index, previousPage: 0)
             }
         }
     }
