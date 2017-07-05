@@ -54,14 +54,10 @@ public class PagingContentViewController: UIViewController {
     }
     
     public func scroll(to page: Int, animated: Bool) {
-        isProgramaticallyScrolling = true
         let offsetX = scrollView.bounds.width * CGFloat(page)
         let offset = CGPoint(x: offsetX, y: 0)
         loadPagesIfNeeded(page: page)
         scrollView.setContentOffset(offset, animated: animated)
-        if !animated {
-            isProgramaticallyScrolling = false
-        }
     }
     
     fileprivate var numberOfPages: Int = 0
@@ -107,23 +103,28 @@ public class PagingContentViewController: UIViewController {
         }
         let offsetX = scrollView.bounds.width * CGFloat(leftSidePageIndex)
         scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
+        
+        layoutHandler?()
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    var layoutHandler: (() -> Void)?
+    
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         let _leftSidePageIndex = leftSidePageIndex
-        coordinator.animate(alongsideTransition: { [weak self] (context) in
+        layoutHandler = { [weak self] in
             guard let _self = self else { return }
             _self.initialLoad(with: _leftSidePageIndex)
             
             let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(_leftSidePageIndex), y: 0)
             _self.scrollView.setContentOffset(point, animated: false)
-        }) { (context) in }
+            _self.layoutHandler = nil
+        }
     }
     
     fileprivate func initialLoad(with page: Int) {
@@ -151,28 +152,27 @@ public class PagingContentViewController: UIViewController {
             cachedViewControllers[page] = vc
         }
     }
+    
+    var isTracking = false
 }
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        guard !isProgramaticallyScrolling else { return }
-
+        isTracking = true
         delegate?.contentViewController(viewController: self, willBeginScrollFrom: leftSidePageIndex)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard !isProgramaticallyScrolling else { return }
-        
-        let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
-        let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
-        let normalizedPercent = min(max(0, percent), 1)
-        
-        delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: normalizedPercent)
-        
         lastContentOffset = scrollView.contentOffset
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-
         
+        if isTracking {
+            let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
+            let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
+            let normalizedPercent = min(max(0, percent), 1)
+            
+            delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: normalizedPercent)
+        }
     }
     
     public func preLoadContentIfNeeded(with scrollingPercent: CGFloat) {
@@ -186,11 +186,13 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        isTracking = false
         loadPagesIfNeeded()
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
+            isTracking = false
             loadPagesIfNeeded()
         }
     }
