@@ -39,7 +39,7 @@ public class PagingContentViewController: UIViewController {
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
     }
-    
+
     public var pagingPercent: CGFloat {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
@@ -105,6 +105,8 @@ public class PagingContentViewController: UIViewController {
             vc?.view.frame = scrollView.bounds
             vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
         }
+        let offsetX = scrollView.bounds.width * CGFloat(leftSidePageIndex)
+        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
     }
     
     override public func didReceiveMemoryWarning() {
@@ -114,12 +116,12 @@ public class PagingContentViewController: UIViewController {
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let _currentPageIndex = currentPageIndex
+        let _leftSidePageIndex = leftSidePageIndex
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
-            _self.initialLoad(with: _currentPageIndex)
+            _self.initialLoad(with: _leftSidePageIndex)
             
-            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(_currentPageIndex), y: 0)
+            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(_leftSidePageIndex), y: 0)
             _self.scrollView.setContentOffset(point, animated: false)
         }) { (context) in }
     }
@@ -154,7 +156,7 @@ public class PagingContentViewController: UIViewController {
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         guard !isProgramaticallyScrolling else { return }
-        
+
         delegate?.contentViewController(viewController: self, willBeginScrollFrom: leftSidePageIndex)
     }
     

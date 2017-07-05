@@ -46,6 +46,10 @@ class ViewController: UIViewController {
             contentViewController?.dataSource = self
         }
     }
+
+    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
+        
+    }
 }
 
 extension ViewController: PagingMenuViewControllerDataSource {
