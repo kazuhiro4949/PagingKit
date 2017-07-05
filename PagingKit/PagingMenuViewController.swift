@@ -87,29 +87,22 @@ public class PagingMenuViewController: UIViewController {
             let leftAttribute = collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)),
             let rightAttribute = collectionView.layoutAttributesForItem(at: IndexPath(item: rightIndex, section: 0)) else { return }
         
-        let offset: CGPoint
-        switch direction {
-        case .horizontal:
-            let centerPointX = leftAttribute.center.x + (rightAttribute.center.x - leftAttribute.center.x) * percent
-            let offsetX = centerPointX - collectionView.bounds.width / 2
-            let maxOffsetX = max(0, collectionView.contentSize.width - collectionView.bounds.width)
-            let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
-            offset = CGPoint(x: normaizedOffsetX, y: 0)
-            
-            focusView.center.x = centerPointX
-            let width = (rightAttribute.frame.width - leftAttribute.frame.width) * percent + leftAttribute.frame.width
-            focusView.frame.size.width = width
-        case .vertical:
-            let centerPointY = leftAttribute.center.y + (rightAttribute.center.y - leftAttribute.center.y) * percent
-            let offsetY = centerPointY - collectionView.bounds.height / 2
-            let maxOffsetY = max(0, collectionView.contentSize.height - collectionView.bounds.height)
-            let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
-            offset = CGPoint(x: normaizedOffsetY, y: 0)
-            
-            focusView.center.y = centerPointY
-            let height = (rightAttribute.frame.height - leftAttribute.frame.height) * percent + leftAttribute.frame.height
-            focusView.frame.size.height = height
-        }
+        let width = (rightAttribute.frame.width - leftAttribute.frame.width) * percent + leftAttribute.frame.width
+        let height = (rightAttribute.frame.height - leftAttribute.frame.height) * percent + leftAttribute.frame.height
+        focusView.frame.size = CGSize(width: width, height: height)
+        
+        let centerPointX = leftAttribute.center.x + (rightAttribute.center.x - leftAttribute.center.x) * percent
+        let offsetX = centerPointX - collectionView.bounds.width / 2
+        let maxOffsetX = max(0, collectionView.contentSize.width - collectionView.bounds.width)
+        let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
+        
+        let centerPointY = leftAttribute.center.y + (rightAttribute.center.y - leftAttribute.center.y) * percent
+        let offsetY = centerPointY - collectionView.bounds.height / 2
+        let maxOffsetY = max(0, collectionView.contentSize.height - collectionView.bounds.height)
+        let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
+        let offset = CGPoint(x: normaizedOffsetX, y:normaizedOffsetY)
+        
+        focusView.center = CGPoint(x: centerPointX, y: centerPointY)
         
         collectionView.setContentOffset(offset, animated: animated)
         focusView.selectedIndex = index
@@ -123,12 +116,16 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
     
-    public func registerFocusView(view: PagingMenuFocusView) {
-        focusView = view
+    public func registerFocusView(view: UIView) {
+        view.translatesAutoresizingMaskIntoConstraints = true
+        view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth, .flexibleHeight]
+        view.frame = focusView.bounds
+        focusView.addSubview(view)
     }
     
     public func registerFocusView(nib: UINib) {
-        focusView = nib.instantiate(withOwner: self, options: nil).first as! PagingMenuFocusView
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        registerFocusView(view: view)
     }
     
     public func register(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
@@ -178,6 +175,11 @@ public class PagingMenuViewController: UIViewController {
         view.addSubview(collectionView)
         
         view.backgroundColor = .clear
+        
+        focusView.translatesAutoresizingMaskIntoConstraints = true
+        focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
+        focusView.frame = collectionView.bounds
+        collectionView.addSubview(focusView)
     }
     
     override public func didReceiveMemoryWarning() {
@@ -186,32 +188,19 @@ public class PagingMenuViewController: UIViewController {
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
-        if case nil = focusView.superview,
-            collectionView.numberOfItems(inSection: 0) > 0,
-            let attr = collectionView.layoutAttributesForItem(at: IndexPath(item: 0, section: 0)) {
-            focusView.translatesAutoresizingMaskIntoConstraints = true
-            focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
-            focusView.frame = attr.frame
-            focusView.selectedIndex = 0
-            collectionView.addSubview(focusView)
-        }
+        layoutHandler?()
     }
+    
+    var layoutHandler: (() -> Void)?
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         let indexPath = collectionView.indexPathForItem(at: focusView.center)
-        focusView.isHidden = true
-        coordinator.animate(alongsideTransition: { [weak self] (context) in
+        layoutHandler = { [weak self] in
             self?.collectionView.invalidateIntrinsicContentSize()
-            
             self?.scroll(index: indexPath?.row ?? 0, percent: 0, animated: false)
-        }) { [weak self] (_) in
-            let attribute = indexPath.flatMap { self?.collectionView.layoutAttributesForItem(at: $0) }
-
-            self?.focusView.frame = attribute?.frame ?? .zero
-            self?.focusView.isHidden = false
+            self?.layoutHandler = nil
         }
     }
 }

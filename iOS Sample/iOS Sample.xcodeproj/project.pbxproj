@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */; };
 		6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9827791F0A91F400860828 /* AppDelegate.swift */; };
 		6E98277C1F0A91F400860828 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98277B1F0A91F400860828 /* ViewController.swift */; };
 		6E98277F1F0A91F400860828 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6E98277D1F0A91F400860828 /* Main.storyboard */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		6E9827761F0A91F400860828 /* iOS Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E9827791F0A91F400860828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6E98277B1F0A91F400860828 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 			children = (
 				6E9827791F0A91F400860828 /* AppDelegate.swift */,
 				6E98277B1F0A91F400860828 /* ViewController.swift */,
+				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
 				6E98277D1F0A91F400860828 /* Main.storyboard */,
 				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
 				6E9827BA1F0A947B00860828 /* MenuCell.swift */,
@@ -289,6 +292,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E9827BF1F0A958900860828 /* ContentViewController.swift in Sources */,
+				2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */,
 				6E98277C1F0A91F400860828 /* ViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
 				6E9827BC1F0A947B00860828 /* MenuCell.swift in Sources */,
@@ -544,6 +548,7 @@
 				6E9827A01F0A91F400860828 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E9827A11F0A91F400860828 /* Build configuration list for PBXNativeTarget "iOS SampleTests" */ = {
 			isa = XCConfigurationList;
@@ -552,6 +557,7 @@
 				6E9827A31F0A91F400860828 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6E9827A41F0A91F400860828 /* Build configuration list for PBXNativeTarget "iOS SampleUITests" */ = {
 			isa = XCConfigurationList;
@@ -560,6 +566,7 @@
 				6E9827A61F0A91F400860828 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
