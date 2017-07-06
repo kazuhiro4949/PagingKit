@@ -130,14 +130,14 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: IndexPath(item: index, section: 0))
     }
     
-    public func reloadDate(startingOn index: Int? = nil) {
+    public func reloadDate(startingOn index: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         collectionView.reloadData()
         
         if let index = index {
-            collectionView.performBatchUpdates(nil) { [weak self] (_) in
+            collectionView.performBatchUpdates(nil) { [weak self] (finish) in
                 guard let _self = self else { return }
                 _self.scroll(index: index, percent: 0, animated: false)
-                _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+                completionHandler?(finish)
             }
         }
     }
