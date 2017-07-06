@@ -64,7 +64,7 @@ public class PagingContentViewController: UIViewController {
     
     fileprivate var lastContentOffset = CGPoint.zero
     fileprivate var leftSidePageIndex = 0
-    fileprivate(set) var isProgramaticallyScrolling = false
+    fileprivate var isExplicityScrolling = false
     
     fileprivate let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -152,13 +152,11 @@ public class PagingContentViewController: UIViewController {
             cachedViewControllers[page] = vc
         }
     }
-    
-    var isTracking = false
 }
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isTracking = true
+        isExplicityScrolling = true
         delegate?.contentViewController(viewController: self, willBeginScrollFrom: leftSidePageIndex)
     }
     
@@ -166,7 +164,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
         lastContentOffset = scrollView.contentOffset
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         
-        if isTracking {
+        if isExplicityScrolling {
             let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
             let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
             let normalizedPercent = min(max(0, percent), 1)
@@ -186,19 +184,15 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        isTracking = false
+        isExplicityScrolling = false
         loadPagesIfNeeded()
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            isTracking = false
+            isExplicityScrolling = false
             loadPagesIfNeeded()
         }
-    }
-    
-    public func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
-        isProgramaticallyScrolling = false
     }
     
     fileprivate func loadPagesIfNeeded(page: Int? = nil) {
