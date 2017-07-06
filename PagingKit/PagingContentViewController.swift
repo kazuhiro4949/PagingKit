@@ -155,7 +155,7 @@ public class PagingContentViewController: UIViewController {
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isExplicityScrolling = true
-        delegate?.contentViewController(viewController: self, willBeginScrollFrom: leftSidePageIndex)
+        delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -166,8 +166,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
             let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
             let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
             let normalizedPercent = min(max(0, percent), 1)
-            
-            delegate?.contentViewController(viewController: self, didScrollOn: leftSidePageIndex, percent: normalizedPercent)
+            delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
         }
     }
     

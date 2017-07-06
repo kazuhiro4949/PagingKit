@@ -89,7 +89,7 @@ extension ViewController: PagingMenuViewControllerDelegate {
 }
 
 extension ViewController: PagingContentViewControllerDelegate {
-    func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int, percent: CGFloat) {
+    func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }
 }
