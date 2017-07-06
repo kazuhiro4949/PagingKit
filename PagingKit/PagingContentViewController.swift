@@ -9,17 +9,15 @@
 import UIKit
 
 public protocol PagingContentViewControllerDelegate: class {
-    
-    func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int)
-    func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int, percent: CGFloat)
-    func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool)
+    func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int)
+    func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat)
+    func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
 }
 
 extension PagingContentViewControllerDelegate {
-    
-    public func contentViewController(viewController: PagingContentViewController, willBeginScrollFrom index: Int){}
-    public func contentViewController(viewController: PagingContentViewController, didScrollOn index: Int, percent: CGFloat) {}
-    public func contentViewController(viewController: PagingContentViewController, didEndScrollFrom previousIndex: Int, to nextIndex: Int, transitionComplete: Bool) {}
+    public func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int) {}
+    public func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {}
+    public func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {}
 }
 
 public protocol PagingContentViewControllerDataSource: class {
@@ -184,15 +182,21 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if isExplicityScrolling {
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+        }
         isExplicityScrolling = false
         loadPagesIfNeeded()
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            isExplicityScrolling = false
-            loadPagesIfNeeded()
+        guard !decelerate else { return }
+        
+        if isExplicityScrolling {
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
+        isExplicityScrolling = false
+        loadPagesIfNeeded()
     }
     
     fileprivate func loadPagesIfNeeded(page: Int? = nil) {
