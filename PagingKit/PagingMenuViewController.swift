@@ -9,20 +9,10 @@
 import UIKit
 
 public protocol PagingMenuViewControllerScrollDelegate: class {
-    func menuViewController(viewController: PagingMenuViewController,  willBegingScroll focusView: PagingMenuFocusView)
-    func menuViewController(viewController: PagingMenuViewController,  didScroll focusView: PagingMenuFocusView)
-    func menuViewController(viewController: PagingMenuViewController,  didEndScroll focusView: PagingMenuFocusView)
-    
-    func menuViewController(viewController: PagingMenuViewController,  focusViewWillBeginTransition focusView: PagingMenuFocusView)
     func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView)
 }
 
 extension PagingMenuViewControllerScrollDelegate {
-    public func menuViewController(viewController: PagingMenuViewController,  willBegingScroll focusView: PagingMenuFocusView) {}
-    public func menuViewController(viewController: PagingMenuViewController,  didScroll focusView: PagingMenuFocusView) {}
-    public func menuViewController(viewController: PagingMenuViewController,  didEndScroll focusView: PagingMenuFocusView) {}
-    
-    public func menuViewController(viewController: PagingMenuViewController,  focusViewWillBeginTransition focusView: PagingMenuFocusView) {}
     public func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView) {}
 }
 
@@ -106,6 +96,10 @@ public class PagingMenuViewController: UIViewController {
         
         collectionView.setContentOffset(offset, animated: animated)
         focusView.selectedIndex = index
+        
+        if percent == 0 && !animated {
+            scrollDelegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
+        }
     }
     
     public var visibleCells: [UICollectionViewCell] {
@@ -143,7 +137,7 @@ public class PagingMenuViewController: UIViewController {
             collectionView.performBatchUpdates(nil) { [weak self] (_) in
                 guard let _self = self else { return }
                 _self.scroll(index: index, percent: 0, animated: false)
-                _self.scrollDelegate?.menuViewController(viewController: _self, didEndScroll: _self.focusView)
+                _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
             }
         }
     }
@@ -169,6 +163,7 @@ public class PagingMenuViewController: UIViewController {
         collectionView.collectionViewLayout = layout
         collectionView.delegate = self
         collectionView.dataSource = self
+
         collectionView.frame = view.bounds
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -206,21 +201,14 @@ public class PagingMenuViewController: UIViewController {
 }
 
 extension PagingMenuViewController: UICollectionViewDelegate {
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        scrollDelegate?.menuViewController(viewController: self, didScroll: focusView)
-    }
-    
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        scrollDelegate?.menuViewController(viewController: self, willBegingScroll: focusView)
-    }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
+        scrollDelegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            scrollDelegate?.menuViewController(viewController: self, didEndScroll: focusView)
+            scrollDelegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
         }
     }
     
@@ -228,7 +216,6 @@ extension PagingMenuViewController: UICollectionViewDelegate {
         guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
 
         delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.selectedIndex ?? 0)
-        scrollDelegate?.menuViewController(viewController: self, focusViewWillBeginTransition: focusView)
     
         focusView.selectedIndex = indexPath.item
         
