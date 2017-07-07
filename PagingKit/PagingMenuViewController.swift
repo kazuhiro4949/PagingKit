@@ -140,6 +140,7 @@ public class PagingMenuViewController: UIViewController {
         if let index = index {
             collectionView.performBatchUpdates(nil) { [weak self] (finish) in
                 guard let _self = self else { return }
+                _self.focusView.layer.removeAllAnimations()
                 _self.scroll(index: index, percent: 0, animated: false)
                 completionHandler?(finish)
             }
