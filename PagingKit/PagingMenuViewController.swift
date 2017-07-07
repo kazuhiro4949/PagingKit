@@ -178,9 +178,7 @@ public class PagingMenuViewController: UIViewController {
         view.addSubview(collectionView)
         
         view.backgroundColor = .clear
-        
-        focusView.translatesAutoresizingMaskIntoConstraints = true
-        focusView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
+
         focusView.frame = collectionView.bounds
         collectionView.addSubview(focusView)
     }
