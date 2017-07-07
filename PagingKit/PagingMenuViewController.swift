@@ -110,6 +110,10 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.indexPathForItem(at: focusView.center).flatMap(collectionView.cellForItem)
     }
     
+    public var currentFocusedIndex: Int? {
+        return collectionView.indexPathForItem(at: focusView.center)?.row
+    }
+    
     public func cellForItem(at index: Int) -> UICollectionViewCell? {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
@@ -140,7 +144,6 @@ public class PagingMenuViewController: UIViewController {
         if let index = index {
             collectionView.performBatchUpdates(nil) { [weak self] (finish) in
                 guard let _self = self else { return }
-                _self.focusView.layer.removeAllAnimations()
                 _self.scroll(index: index, percent: 0, animated: false)
                 completionHandler?(finish)
             }
