@@ -21,7 +21,7 @@ changing position of Menu and Content
 
 ![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif)
 
-placing view between Menu and Content
+placing a view between Menu and Content
 
 ![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif)
 
