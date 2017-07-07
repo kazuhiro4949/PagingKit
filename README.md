@@ -1,8 +1,24 @@
 # PagingKit
+PagingKit provides very customisable menu & content UI to layout and design.
 
 # What's this?
+There are many libary providing "Paging UI" which has menu and content area.
+They are convinience but not customizable because layout and design to your app make compatible with the library.
+When they doesn't fit the libaries, you need to fork it or find another library. 
+
+PagingKit has more flexible layout and design than the other libraries.
+You can construct "Menu" and "Content" UI, and they work together. That's all features this library do.
+You can fit layout and design of Pagingin UI to your apps.
+
 # Feature
+- [/] you can easily construct Paging UI many news apps have
+- [/] You can choose layout and design as you like.
+
 # Requirements
++ iOS 8.0+
++ Xcode 8.1+
++ Swift 3.0+
+
 # Installation
 ## Carthage
 + Install Carthage from Homebrew
@@ -40,6 +56,8 @@ Import EditDistance
 ```
 
 # Usage
+
+
 # Class Design
 # License
 
