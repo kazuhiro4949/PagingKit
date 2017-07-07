@@ -4,7 +4,8 @@ PagingKit provides customisable menu & content UI to layout and design.
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0+-orange.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-![paging_sample](https://user-images.githubusercontent.com/18320004/27946435-be7aa260-632c-11e7-8d3c-d6d9d6551e3a.gif)
+![paging_sample](https://user-images.githubusercontent.com/18320004/27948466-d94665b8-6334-11e7-8bd8-a5d28eddb797.gif)
+
 
 # What's this?
 There are many libary providing "Paging UI" which has menu and content area.
