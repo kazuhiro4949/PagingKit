@@ -4,6 +4,41 @@
 # Feature
 # Requirements
 # Installation
+## Carthage
++ Install Carthage from Homebrew
+```
+> ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+> brew update
+> brew install carthage
+```
++ Move your project dir and create Cartfile
+```
+> touch Cartfile
+```
++ add the following line to Cartfile
+```
+github "kazuhiro4949/PagingKit"
+```
++ Create framework
+```
+> carthage update --platform iOS
+```
+
++ In Xcode, move to "Genera > Build Phase > Linked Frameworks and Library"
++ Add the framework to your project
++ Add a new run script and put the following code
+```
+/usr/local/bin/carthage copy-frameworks
+```
++ Click "+" at Input file and Add the framework path
+```
+$(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
+```
++ Write Import statement on your source file
+```
+Import EditDistance
+```
+
 # Usage
 # Class Design
 # License
