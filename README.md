@@ -1,5 +1,5 @@
 # PagingKit
-PagingKit provides very customisable menu & content UI to layout and design.
+PagingKit provides customisable menu & content UI to layout and design.
 
 # What's this?
 There are many libary providing "Paging UI" which has menu and content area.
