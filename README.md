@@ -11,8 +11,8 @@ You can construct "Menu" and "Content" UI, and they work together. That's all fe
 You can fit layout and design of Pagingin UI to your apps.
 
 # Feature
-- [/] you can easily construct Paging UI many news apps have
-- [/] You can choose layout and design as you like.
+- [x] you can easily construct Paging UI many news apps have
+- [x] You can choose layout and design as you like.
 
 # Requirements
 + iOS 8.0+
