@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */; };
+		2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E72D1F10957100D67C04 /* OverlayViewController.swift */; };
+		2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */; };
+		2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */; };
+		2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */; };
+		2B47E7401F10C08C00D67C04 /* PagingKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B47E73F1F10C08C00D67C04 /* PagingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */; };
 		6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9827791F0A91F400860828 /* AppDelegate.swift */; };
 		6E98277C1F0A91F400860828 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98277B1F0A91F400860828 /* ViewController.swift */; };
@@ -39,7 +45,26 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2B47E7381F10BFE600D67C04 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 12;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2B47E7401F10C08C00D67C04 /* PagingKit.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayMenuCell.xib; sourceTree = "<group>"; };
+		2B47E72D1F10957100D67C04 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
+		2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayFocusView.xib; sourceTree = "<group>"; };
+		2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayFocusView.swift; sourceTree = "<group>"; };
+		2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayMenuCell.swift; sourceTree = "<group>"; };
+		2B47E73F1F10C08C00D67C04 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		6E9827761F0A91F400860828 /* iOS Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E9827791F0A91F400860828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +115,7 @@
 		6E98276D1F0A91F400860828 = {
 			isa = PBXGroup;
 			children = (
+				2B47E73F1F10C08C00D67C04 /* PagingKit.framework */,
 				6E9827781F0A91F400860828 /* iOS Sample */,
 				6E98278D1F0A91F400860828 /* iOS SampleTests */,
 				6E9827981F0A91F400860828 /* iOS SampleUITests */,
@@ -113,11 +139,16 @@
 			children = (
 				6E9827791F0A91F400860828 /* AppDelegate.swift */,
 				6E98277B1F0A91F400860828 /* ViewController.swift */,
+				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
 				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
 				6E98277D1F0A91F400860828 /* Main.storyboard */,
-				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
+				2B47E72D1F10957100D67C04 /* OverlayViewController.swift */,
+				2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */,
+				2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */,
 				6E9827BA1F0A947B00860828 /* MenuCell.swift */,
 				6E9827BB1F0A947B00860828 /* MenuCell.xib */,
+				2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */,
+				2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */,
 				6E9827C21F0A98B500860828 /* FocusView.xib */,
 				6E9827801F0A91F400860828 /* Assets.xcassets */,
 				6E9827821F0A91F400860828 /* LaunchScreen.storyboard */,
@@ -162,6 +193,7 @@
 				6E9827721F0A91F400860828 /* Sources */,
 				6E9827731F0A91F400860828 /* Frameworks */,
 				6E9827741F0A91F400860828 /* Resources */,
+				2B47E7381F10BFE600D67C04 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -263,9 +295,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6E9827841F0A91F400860828 /* LaunchScreen.storyboard in Resources */,
+				2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */,
 				6E9827811F0A91F400860828 /* Assets.xcassets in Resources */,
 				6E9827BD1F0A947B00860828 /* MenuCell.xib in Resources */,
 				6E9827C31F0A98B500860828 /* FocusView.xib in Resources */,
+				2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */,
 				6E98277F1F0A91F400860828 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -293,9 +327,12 @@
 			files = (
 				6E9827BF1F0A958900860828 /* ContentViewController.swift in Sources */,
 				2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */,
+				2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */,
 				6E98277C1F0A91F400860828 /* ViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
+				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				6E9827BC1F0A947B00860828 /* MenuCell.swift in Sources */,
+				2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

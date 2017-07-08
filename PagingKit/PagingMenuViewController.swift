@@ -49,7 +49,7 @@ public class PagingMenuViewController: UIViewController {
     public weak var delegate: PagingMenuViewControllerDelegate?
     public weak var dataSource: PagingMenuViewControllerDataSource?
     
-    public var focusView = PagingMenuFocusView(frame: .zero)
+    fileprivate var focusView = PagingMenuFocusView(frame: .zero)
     
     public var focusPointerOffset: CGPoint {
         return focusView.center
@@ -118,16 +118,17 @@ public class PagingMenuViewController: UIViewController {
         return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
     }
     
-    public func registerFocusView(view: UIView) {
+    public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
         view.translatesAutoresizingMaskIntoConstraints = true
         view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth, .flexibleHeight]
         view.frame = focusView.bounds
         focusView.addSubview(view)
+        focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
     
-    public func registerFocusView(nib: UINib) {
+    public func registerFocusView(nib: UINib, isBehindCell: Bool = false) {
         let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        registerFocusView(view: view)
+        registerFocusView(view: view, isBehindCell: isBehindCell)
     }
     
     public func register(nib: UINib?, forCellWithReuseIdentifier identifier: String) {

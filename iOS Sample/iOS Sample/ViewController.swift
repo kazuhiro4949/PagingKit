@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: String, content: UIViewController)] = (0..<20).map {
-        let title = "page \($0)"
+    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+        let title = $0
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContentViewController") as! ContentViewController
         vc.number = title
         return (menu: title, content: vc)
