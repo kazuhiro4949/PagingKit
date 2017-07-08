@@ -112,6 +112,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B47E7411F10C12400D67C04 /* Simple */ = {
+			isa = PBXGroup;
+			children = (
+				6E9827BA1F0A947B00860828 /* MenuCell.swift */,
+				6E9827BB1F0A947B00860828 /* MenuCell.xib */,
+				6E9827C21F0A98B500860828 /* FocusView.xib */,
+				6E98277B1F0A91F400860828 /* ViewController.swift */,
+			);
+			name = Simple;
+			sourceTree = "<group>";
+		};
+		2B47E7421F10C13600D67C04 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */,
+				2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */,
+				2B47E72D1F10957100D67C04 /* OverlayViewController.swift */,
+				2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */,
+				2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */,
+			);
+			name = Overlay;
+			sourceTree = "<group>";
+		};
 		6E98276D1F0A91F400860828 = {
 			isa = PBXGroup;
 			children = (
@@ -137,19 +160,12 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2B47E7421F10C13600D67C04 /* Overlay */,
+				2B47E7411F10C12400D67C04 /* Simple */,
 				6E9827791F0A91F400860828 /* AppDelegate.swift */,
-				6E98277B1F0A91F400860828 /* ViewController.swift */,
 				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
 				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
 				6E98277D1F0A91F400860828 /* Main.storyboard */,
-				2B47E72D1F10957100D67C04 /* OverlayViewController.swift */,
-				2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */,
-				2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */,
-				6E9827BA1F0A947B00860828 /* MenuCell.swift */,
-				6E9827BB1F0A947B00860828 /* MenuCell.xib */,
-				2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */,
-				2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */,
-				6E9827C21F0A98B500860828 /* FocusView.xib */,
 				6E9827801F0A91F400860828 /* Assets.xcassets */,
 				6E9827821F0A91F400860828 /* LaunchScreen.storyboard */,
 				6E9827851F0A91F400860828 /* Info.plist */,
