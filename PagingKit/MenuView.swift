@@ -8,30 +8,35 @@
 
 import UIKit
 
+public class PagingMenuCell: UIView {
+    var index: Int?
+}
+
 public protocol PagingMenuViewDataSource: class {
     func numberOfItemForPagingMenuView() -> Int
     func pagingMenuView(view: PagingMenuView, viewForItemAt index: Int) -> UIView
 }
 
 public class PagingMenuView: UIScrollView {
-    var visibleCell = [UIView]()
+    var visibleCell = [PagingMenuCell]()
     var containerView = UIView()
     
     weak var dataSource: PagingMenuViewDataSource?
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        containerView.translatesAutoresizingMaskIntoConstraints = true
-        containerView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         containerView.frame = bounds
-        containerView.frame = containerView.frame
+        containerView.center = center
         
         addSubview(containerView)
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        containerView.frame = bounds
+        containerView.center = center
+        
+        addSubview(containerView)
     }
     
     public override func layoutSubviews() {
@@ -43,22 +48,27 @@ public class PagingMenuView: UIScrollView {
         tileCell(from: visibleBounds.minX, to: visibleBounds.maxX)
     }
     
+    var numberOfItem: Int = 0
+    
     public func reloadData() {
         guard let dataSource = dataSource else {
             return
         }
         
-        let numberOfItem = dataSource.numberOfItemForPagingMenuView()
+        numberOfItem = dataSource.numberOfItemForPagingMenuView()
         let containerWidth = bounds.width * CGFloat(numberOfItem)
-        contentSize = CGSize(width: containerWidth * 2, height: bounds.height)
-        let containerSize = CGSize(width: containerWidth, height: bounds.height)
-        containerView.frame = CGRect(origin: .zero, size: containerSize)
+        contentSize = CGSize(width: containerWidth, height: bounds.height)
+        containerView.frame = CGRect(origin: .zero, size: contentSize)
+        containerView.center = CGPoint(x: contentSize.width/2, y: contentSize.height/2)
+        
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
-        let centerOffsetX = contentWidth - bounds.size.width / 2
+        let centerOffsetX = (contentWidth - bounds.size.width) / 2
         let distanceFromCenter = fabs(currentOffset.x - centerOffsetX)
         
         if distanceFromCenter > contentWidth / 4 {
@@ -73,9 +83,9 @@ public class PagingMenuView: UIScrollView {
     }
     
     @discardableResult
-    private func placeNewCellOnRight(with rightEdge: CGFloat) -> CGFloat {
-        let view = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        view.text = "aaaaaaaaaaaaaaaa"
+    private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int) -> CGFloat {
+        let view = PagingMenuCell(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        view.index = (index + 1) % numberOfItem
         containerView.addSubview(view)
         
         visibleCell.append(view)
@@ -84,47 +94,52 @@ public class PagingMenuView: UIScrollView {
         return view.frame.maxX
     }
     
-    private func placeNewCellOnLeft(with leftEdge: CGFloat) -> CGFloat {
-        let view = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        view.text = "aaaaaaaaaaaaaaaa"
+    private func placeNewCellOnLeft(with leftEdge: CGFloat, index: Int) -> CGFloat {
+        let view = PagingMenuCell(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        if index == 0 {
+            view.index = numberOfItem - 1
+        } else {
+            view.index = (index - 1) % numberOfItem
+        }
         containerView.addSubview(view)
         
         visibleCell.insert(view, at: 0)
-        view.frame.origin.x = leftEdge - frame.size.width
+        view.frame.origin.x = leftEdge - view.frame.size.width
         view.frame.origin.y = containerView.bounds.size.height - view.frame.size.height
         return view.frame.minX
     }
     
     private func tileCell(from minX: CGFloat, to maxX: CGFloat) {
         if visibleCell.isEmpty {
-            placeNewCellOnRight(with: minX)
+            placeNewCellOnRight(with: minX, index: numberOfItem - 1)
         }
         
         if let lastCell = visibleCell.last {
             var rightEdge = lastCell.frame.maxX
-            while rightEdge > maxX {
-                rightEdge = placeNewCellOnRight(with: rightEdge)
+            while rightEdge < maxX {
+                rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index!)
             }
         }
         
         if let firstCell = visibleCell.first {
             var leftEdge = firstCell.frame.minX
             while leftEdge > minX {
-                leftEdge = placeNewCellOnLeft(with: leftEdge)
+                leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index!)
             }
         }
         
-        var removeVisibleCell = visibleCell
-        for (idx, cell) in visibleCell.enumerated() where cell.frame.minX > maxX {
-            cell.removeFromSuperview()
-            removeVisibleCell.remove(at: idx)
+        var lastCell = visibleCell.last!
+        while lastCell.frame.minX > maxX {
+            lastCell.removeFromSuperview()
+            visibleCell.removeLast()
+            lastCell = visibleCell.last!
         }
-
-        for (idx, cell) in visibleCell.enumerated() where cell.frame.maxX > minX {
-            cell.removeFromSuperview()
-            removeVisibleCell.remove(at: idx)
+        
+        var firstCell = visibleCell.first!
+        while firstCell.frame.maxX < minX {
+            firstCell.removeFromSuperview()
+            visibleCell.removeFirst()
+            firstCell = visibleCell.first!
         }
     }
-    
-    
 }
