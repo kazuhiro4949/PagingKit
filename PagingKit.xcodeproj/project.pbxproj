@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B668C5F1F1395BE008A0694 /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B668C5E1F1395BE008A0694 /* MenuView.swift */; };
 		6EC140C51F0940F40054B514 /* PagingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC140BB1F0940F40054B514 /* PagingKit.framework */; };
 		6EC140CA1F0940F40054B514 /* PagingKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140C91F0940F40054B514 /* PagingKitTests.swift */; };
 		6EC140CC1F0940F40054B514 /* PagingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC140BE1F0940F40054B514 /* PagingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -25,6 +26,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B668C5E1F1395BE008A0694 /* MenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		6EC140BB1F0940F40054B514 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC140BE1F0940F40054B514 /* PagingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingKit.h; sourceTree = "<group>"; };
 		6EC140BF1F0940F40054B514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				6EC140BF1F0940F40054B514 /* Info.plist */,
 				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
 				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
+				2B668C5E1F1395BE008A0694 /* MenuView.swift */,
 			);
 			path = PagingKit;
 			sourceTree = "<group>";
@@ -206,6 +209,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6EC140D81F09410F0054B514 /* PagingContentViewController.swift in Sources */,
+				2B668C5F1F1395BE008A0694 /* MenuView.swift in Sources */,
 				6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
