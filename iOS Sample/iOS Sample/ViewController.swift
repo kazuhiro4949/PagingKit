@@ -53,19 +53,20 @@ class ViewController: UIViewController {
 }
 
 extension ViewController: PagingMenuViewControllerDataSource {
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
-        MenuCell.sizingCell.titleLabel.text = dataSource[index].menu
-        var referenceSize = UILayoutFittingCompressedSize
-        referenceSize.height = viewController.view.bounds.height
-        let size = MenuCell.sizingCell.systemLayoutSizeFitting(referenceSize, withHorizontalFittingPriority: UILayoutPriorityDefaultLow, verticalFittingPriority: UILayoutPriorityDefaultHigh)
-        return size.width
-    }
-    
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> UICollectionViewCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
         cell.titleLabel.text = dataSource[index].menu
         return cell
     }
+
+    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+        MenuCell.sizingCell.titleLabel.text = dataSource[index].menu
+        var referenceSize = UILayoutFittingCompressedSize
+        referenceSize.height = viewController.view.bounds.height
+        let size = MenuCell.sizingCell.systemLayoutSizeFitting(referenceSize)
+        return size.width
+    }
+
     
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count

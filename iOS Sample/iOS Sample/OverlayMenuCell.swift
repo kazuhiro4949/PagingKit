@@ -2,13 +2,14 @@
 //  OverlayMenuCell.swift
 //  iOS Sample
 //
-//  Created by kahayash on 2017/07/08.
+//  Created by Kazuhiro Hayashi on 2017/07/08.
 //  Copyright © 2017年 Kazuhiro Hayashi. All rights reserved.
 //
 
 import UIKit
+import PagingKit
 
-class OverlayMenuCell: UICollectionViewCell {
+class OverlayMenuCell: PagingMenuCell {
     static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
 
     @IBOutlet weak var textLabel: UILabel!

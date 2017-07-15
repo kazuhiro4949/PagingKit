@@ -55,6 +55,13 @@ class OverlayViewController: UIViewController {
 }
 
 extension OverlayViewController: PagingMenuViewControllerDataSource {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
+        cell.textLabel.text = dataSource[index].menu
+        cell.isHighlight = viewController.currentFocusedIndex == index
+        return cell
+    }
+
     
     func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
         OverlayMenuCell.sizingCell.textLabel.text = dataSource[index].menu
@@ -64,12 +71,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         return size.width
     }
     
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> UICollectionViewCell {
-        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
-        cell.textLabel.text = dataSource[index].menu
-        cell.isHighlight = viewController.currentFocusedIndex == index
-        return cell
-    }
+    
     
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count

@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import PagingKit
 
-class MenuCell: UICollectionViewCell {
+class MenuCell: PagingMenuCell {
     
     static let sizingCell = UINib(nibName: "MenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! MenuCell
 

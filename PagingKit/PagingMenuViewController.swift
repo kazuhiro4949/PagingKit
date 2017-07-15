@@ -22,7 +22,7 @@ public protocol PagingMenuViewControllerDelegate: class {
 
 public protocol PagingMenuViewControllerDataSource: class {
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> UICollectionViewCell
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell
     func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat
 }
 
@@ -54,47 +54,35 @@ public class PagingMenuViewController: UIViewController {
     public var focusPointerOffset: CGPoint {
         return focusView.center
     }
-    public var direction: Direction {
-        switch layout.scrollDirection {
-        case .horizontal:
-            return .horizontal
-        case .vertical:
-            return .vertical
-        }
-    }
+
     public var percentOffset: CGFloat {
-        switch layout.scrollDirection {
-        case .horizontal:
-            return collectionView.contentOffset.x / collectionView.contentSize.width
-        default:
-            return collectionView.contentOffset.y / collectionView.contentSize.height
-        }
+        return menuView.contentOffset.x / menuView.contentSize.width
     }
     
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
-        guard rightIndex < collectionView.numberOfItems(inSection: 0),
-            let leftAttribute = collectionView.layoutAttributesForItem(at: IndexPath(item: index, section: 0)),
-            let rightAttribute = collectionView.layoutAttributesForItem(at: IndexPath(item: rightIndex, section: 0)) else { return }
+        guard rightIndex < menuView.numberOfItem,
+            let leftFrame = menuView.rectForItem(at: index),
+            let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
         
-        let width = (rightAttribute.frame.width - leftAttribute.frame.width) * percent + leftAttribute.frame.width
-        let height = (rightAttribute.frame.height - leftAttribute.frame.height) * percent + leftAttribute.frame.height
+        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
+        let height = (rightFrame.height - leftFrame.height) * percent + leftFrame.height
         focusView.frame.size = CGSize(width: width, height: height)
         
-        let centerPointX = leftAttribute.center.x + (rightAttribute.center.x - leftAttribute.center.x) * percent
-        let offsetX = centerPointX - collectionView.bounds.width / 2
-        let maxOffsetX = max(0, collectionView.contentSize.width - collectionView.bounds.width)
+        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
+        let offsetX = centerPointX - menuView.bounds.width / 2
+        let maxOffsetX = max(0, menuView.contentSize.width - menuView.bounds.width)
         let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
         
-        let centerPointY = leftAttribute.center.y + (rightAttribute.center.y - leftAttribute.center.y) * percent
-        let offsetY = centerPointY - collectionView.bounds.height / 2
-        let maxOffsetY = max(0, collectionView.contentSize.height - collectionView.bounds.height)
+        let centerPointY = leftFrame.midY + (rightFrame.midY - leftFrame.midY) * percent
+        let offsetY = centerPointY - menuView.bounds.height / 2
+        let maxOffsetY = max(0, menuView.contentSize.height - menuView.bounds.height)
         let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
         let offset = CGPoint(x: normaizedOffsetX, y:normaizedOffsetY)
         
         focusView.center = CGPoint(x: centerPointX, y: centerPointY)
         
-        collectionView.setContentOffset(offset, animated: animated)
+        menuView.setContentOffset(offset, animated: animated)
         focusView.selectedIndex = index
         
         if percent == 0 && !animated {
@@ -102,20 +90,20 @@ public class PagingMenuViewController: UIViewController {
         }
     }
     
-    public var visibleCells: [UICollectionViewCell] {
-        return collectionView.visibleCells
+    public var visibleCells: [PagingMenuCell] {
+        return menuView.visibleCell
     }
     
-    public var currentFocusedCell: UICollectionViewCell? {
-        return collectionView.indexPathForItem(at: focusView.center).flatMap(collectionView.cellForItem)
+    public var currentFocusedCell: PagingMenuCell? {
+        return menuView.indexForItem(at: focusView.center).flatMap(menuView.cellForItem)
     }
     
     public var currentFocusedIndex: Int? {
-        return collectionView.indexPathForItem(at: focusView.center)?.row
+        return menuView.indexForItem(at: focusView.center)
     }
     
-    public func cellForItem(at index: Int) -> UICollectionViewCell? {
-        return collectionView.cellForItem(at: IndexPath(item: index, section: 0))
+    public func cellForItem(at index: Int) -> PagingMenuCell? {
+        return menuView.cellForItem(at: index)
     }
     
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
@@ -132,36 +120,33 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public func register(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
-        collectionView.register(nib, forCellWithReuseIdentifier: identifier)
+        menuView.register(nib: nib, with: identifier)
     }
     
-    public func dequeueReusableCell(withReuseIdentifier identifier: String, for index: Int) -> UICollectionViewCell {
-        return collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: IndexPath(item: index, section: 0))
+    public func dequeueReusableCell(withReuseIdentifier identifier: String, for index: Int) -> PagingMenuCell {
+        return menuView.dequeue(with: identifier)
     }
     
     public func reloadDate(startingOn index: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
-        collectionView.reloadData()
-        
-        if let index = index {
-            collectionView.performBatchUpdates(nil) { [weak self] (finish) in
-                guard let _self = self else { return }
-                _self.scroll(index: index, percent: 0, animated: false)
-                completionHandler?(finish)
+        UIView.animate(
+            withDuration: 0,
+            animations: { [weak self] in
+                self?.menuView.reloadData()
+            },
+            completion: {  [weak self] (finish) in
+                if let index = index {
+                    guard let _self = self else { return }
+                    _self.scroll(index: index, percent: 0, animated: false)
+                    completionHandler?(finish)
+                }
             }
-        }
+        )
     }
     
-    fileprivate let layout: UICollectionViewFlowLayout = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.scrollDirection = .horizontal
-        return layout
-    }()
-    
-    fileprivate lazy var collectionView: UICollectionView = {
-        let view = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
+    fileprivate var menuView: PagingMenuView = {
+        let view = PagingMenuView(frame: .zero)
         view.backgroundColor = .clear
+        view.showsHorizontalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = true
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         return view
@@ -169,19 +154,17 @@ public class PagingMenuViewController: UIViewController {
     
     override public func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.collectionViewLayout = layout
-        collectionView.delegate = self
-        collectionView.dataSource = self
+        
+        menuView.delegate = self
+        menuView.dataSource = self
 
-        collectionView.frame = view.bounds
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
-        view.addSubview(collectionView)
+        menuView.frame = view.bounds
+        view.addSubview(menuView)
         
         view.backgroundColor = .clear
 
-        focusView.frame = collectionView.bounds
-        collectionView.addSubview(focusView)
+        focusView.frame = menuView.bounds
+        menuView.addSubview(focusView)
     }
     
     override public func didReceiveMemoryWarning() {
@@ -198,16 +181,15 @@ public class PagingMenuViewController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let indexPath = collectionView.indexPathForItem(at: focusView.center)
+        let index = menuView.indexForItem(at: focusView.center)
         layoutHandler = { [weak self] in
-            self?.collectionView.invalidateIntrinsicContentSize()
-            self?.scroll(index: indexPath?.row ?? 0, percent: 0, animated: false)
+            self?.scroll(index: index ?? 0, percent: 0, animated: false)
             self?.layoutHandler = nil
         }
     }
 }
 
-extension PagingMenuViewController: UICollectionViewDelegate {
+extension PagingMenuViewController: PagingMenuViewDelegate {
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         scrollDelegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
@@ -219,57 +201,43 @@ extension PagingMenuViewController: UICollectionViewDelegate {
         }
     }
     
-    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let attribute = collectionView.layoutAttributesForItem(at: indexPath) else { return }
-
-        delegate?.menuViewController(viewController: self, didSelect: indexPath.row, previousPage: focusView.selectedIndex ?? 0)
-    
-        focusView.selectedIndex = indexPath.item
+    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
+        guard let itemFrame = pagingMenuView.rectForItem(at: index) else { return }
+        
+        delegate?.menuViewController(viewController: self, didSelect: index, previousPage: focusView.selectedIndex ?? 0)
+        
+        focusView.selectedIndex = index
         
         let offset: CGPoint
-        switch direction {
-        case .horizontal:
-            let offsetX = attribute.center.x - collectionView.bounds.width / 2
-            let maxOffsetX = collectionView.contentSize.width - collectionView.bounds.width
-            offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
-        case .vertical:
-            let offsetY = attribute.center.y - collectionView.bounds.height / 2
-            let maxOffsetY = collectionView.contentSize.height - collectionView.bounds.height
-            offset = CGPoint(x: 0, y: min(max(0, offsetY), maxOffsetY))
-        }
-        collectionView.setContentOffset(offset, animated: true)
-
+        let offsetX = itemFrame.midX - menuView.bounds.width / 2
+        let maxOffsetX = menuView.contentSize.width - menuView.bounds.width
+        offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
+        menuView.setContentOffset(offset, animated: true)
+        
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.focusView.frame = attribute.frame
-            }, completion: { [weak self] finish in
-                guard let _self = self, finish else { return }
-                _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+            self?.focusView.frame = itemFrame
+            self?.view.setNeedsLayout()
+            self?.view.layoutIfNeeded()
+        }, completion: { [weak self] finish in
+            guard let _self = self, finish else { return }
+            _self.scrollDelegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
         })
     }
 }
 
-extension PagingMenuViewController: UICollectionViewDataSource {
-    public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension PagingMenuViewController: PagingMenuViewDataSource {
+    public func numberOfItemForPagingMenuView() -> Int {
         return dataSource?.numberOfItemForMenuViewController(viewController: self) ?? 0
     }
     
-    public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
+    public func pagingMenuView(pagingMenuView: PagingMenuView, widthForItemAt index: Int) -> CGFloat {
+        let area = dataSource?.menuViewController(viewController: self, areaForItemAt: index) ?? 0
+        return area
     }
-    
-    public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return dataSource!.menuViewController(viewController: self, cellForItemAt: indexPath.row)
+
+    public func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuCell {
+        return dataSource!.menuViewController(viewController: self, cellForItemAt: index)
     }
 }
 
-extension PagingMenuViewController: UICollectionViewDelegateFlowLayout {
-    public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let area = dataSource?.menuViewController(viewController: self, areaForItemAt: indexPath.row) ?? 0
-        switch direction {
-        case .horizontal:
-            return CGSize(width: area, height: collectionView.bounds.height)
-        case .vertical:
-            return CGSize(width: area, height: collectionView.bounds.height)
-        }
-    }
-}
+

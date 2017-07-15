@@ -2,13 +2,13 @@
 //  MenuView.swift
 //  PagingKit
 //
-//  Created by kahayash on 2017/07/10.
+//  Created by Kazuhiro Hayashi on 2017/07/11.
 //  Copyright © 2017年 Kazuhiro Hayashi. All rights reserved.
 //
 
 import UIKit
 
-public class PagingMenuCell: UIView {
+open class PagingMenuCell: UIView {
     var identifier: String!
     var index: Int?
 }
@@ -19,15 +19,32 @@ public protocol PagingMenuViewDataSource: class {
     func pagingMenuView(pagingMenuView: PagingMenuView, widthForItemAt index: Int) -> CGFloat
 }
 
+public protocol PagingMenuViewDelegate: UIScrollViewDelegate {
+    func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
+}
+
 public class PagingMenuView: UIScrollView {
     var queue = [String: [PagingMenuCell]]()
     var nibs = [String: UINib]()
-    var widthQueue = [CGFloat]()
+    var frameQueue = [CGRect]()
     var visibleCell = [PagingMenuCell]()
     var containerView = UIView()
     
     
-    weak var dataSource: PagingMenuViewDataSource?
+    public weak var dataSource: PagingMenuViewDataSource?
+    
+    private weak var _delegate: PagingMenuViewDelegate?
+    public override var delegate: UIScrollViewDelegate? {
+        didSet {
+            _delegate = delegate as? PagingMenuViewDelegate
+        }
+    }
+    
+    public var isInfinity = false {
+        didSet {
+            showsHorizontalScrollIndicator = !isInfinity
+        }
+    }
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -48,37 +65,52 @@ public class PagingMenuView: UIScrollView {
     public override func layoutSubviews() {
         super.layoutSubviews()
         
-        recenterIfNeeded()
+        if isInfinity {
+            recenterIfNeeded()
+        }
         
-        let visibleBounds = convert(bounds, to: containerView)
-        tileCell(from: visibleBounds.minX * 0.75, to: visibleBounds.maxX * 1.5)
+        if numberOfItem != 0 {
+            let visibleBounds = convert(bounds, to: containerView)
+            tileCell(from: max(0, visibleBounds.minX * 0.75), to: min(contentSize.width, visibleBounds.maxX * 1.5))
+        }
     }
     
     var numberOfItem: Int = 0
+    
+    public func indexForItem(at point: CGPoint) -> Int? {
+        return frameQueue.enumerated().filter { $1.contains(point) }.flatMap{ $0.offset }.first
+    }
+    
+    
+    public func cellForItem(at index: Int) -> PagingMenuCell? {
+        return visibleCell.filter { $0.index == index }.first
+    }
     
     public func reloadData() {
         guard let dataSource = dataSource else {
             return
         }
         
+        visibleCell.forEach { $0.removeFromSuperview() }
+        visibleCell = []
+        
         numberOfItem = dataSource.numberOfItemForPagingMenuView()
         
-        widthQueue = []
+        frameQueue = []
         var containerWidth: CGFloat = 0
         (0..<numberOfItem).forEach { (index) in
             let width = dataSource.pagingMenuView(pagingMenuView: self, widthForItemAt: index)
+            frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
             containerWidth += width
-            widthQueue.append(width)
         }
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
-        containerView.center = CGPoint(x: contentSize.width/2, y: contentSize.height/2)
         
         setNeedsLayout()
         layoutIfNeeded()
     }
     
-    public func register(nib: UINib, with identifier: String) {
+    public func register(nib: UINib?, with identifier: String) {
         nibs[identifier] = nib
     }
     
@@ -99,6 +131,14 @@ public class PagingMenuView: UIScrollView {
         fatalError()
     }
     
+    public func rectForItem(at index: Int) -> CGRect? {
+        guard index < frameQueue.count else { return nil }
+        let x = (0..<index).reduce(0) { (sum, idx) in
+            return sum + frameQueue[idx].width
+        }
+        return CGRect(x: x, y: 0, width: frameQueue[index].width, height: bounds.height)
+    }
+    
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
@@ -116,6 +156,13 @@ public class PagingMenuView: UIScrollView {
         }
     }
     
+    private func align() {
+        visibleCell.forEach { (cell) in
+            let leftEdge = (0..<cell.index!).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
+            cell.frame.origin.x = leftEdge
+        }
+    }
+    
     @discardableResult
     private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
         let nextIndex = (index + 1) % numberOfItem
@@ -124,9 +171,9 @@ public class PagingMenuView: UIScrollView {
         containerView.addSubview(cell)
         
         visibleCell.append(cell)
-        cell.frame.origin.x = rightEdge
-        cell.frame.origin.y = containerView.bounds.size.height - cell.frame.size.height
-        cell.frame.size = CGSize(width: widthQueue[index], height: bounds.height)
+        cell.frame.origin = CGPoint(x: rightEdge, y: 0)
+        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
+
         return cell.frame.maxX
     }
     
@@ -143,9 +190,8 @@ public class PagingMenuView: UIScrollView {
         containerView.addSubview(cell)
         
         visibleCell.insert(cell, at: 0)
-        cell.frame.origin.x = leftEdge - cell.frame.size.width
-        cell.frame.origin.y = containerView.bounds.size.height - cell.frame.size.height
-        cell.frame.size = CGSize(width: widthQueue[index], height: bounds.height)
+        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
+        cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width, y: 0)
         return cell.frame.minX
     }
     
@@ -158,17 +204,19 @@ public class PagingMenuView: UIScrollView {
             placeNewCellOnRight(with: minX, index: numberOfItem - 1, dataSource: dataSource)
         }
         
-        if let lastCell = visibleCell.last {
+        if var lastCell = visibleCell.last {
             var rightEdge = lastCell.frame.maxX
             while rightEdge < maxX {
                 rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index!, dataSource: dataSource)
+                lastCell = visibleCell.last!
             }
         }
         
-        if let firstCell = visibleCell.first {
+        if var firstCell = visibleCell.first {
             var leftEdge = firstCell.frame.minX
             while leftEdge > minX {
                 leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index!, dataSource: dataSource)
+                firstCell = visibleCell.first!
             }
         }
         
@@ -187,6 +235,7 @@ public class PagingMenuView: UIScrollView {
             lastCell = visibleCell.last!
         }
         
+        
         var firstCell = visibleCell.first!
         while firstCell.frame.maxX < minX {
             firstCell.removeFromSuperview()
@@ -200,6 +249,13 @@ public class PagingMenuView: UIScrollView {
             }
             
             firstCell = visibleCell.first!
+        }
+    }
+    
+    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuCell }
+        if let index = selectedCell?.index {
+            _delegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
     }
 }
