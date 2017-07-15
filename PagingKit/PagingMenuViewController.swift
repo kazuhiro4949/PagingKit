@@ -40,11 +40,6 @@ public class PagingMenuFocusView: UIView {
 }
 
 public class PagingMenuViewController: UIViewController {
-    public enum Direction {
-        case horizontal
-        case vertical
-    }
-    
     public weak var scrollDelegate: PagingMenuViewControllerScrollDelegate?
     public weak var delegate: PagingMenuViewControllerDelegate?
     public weak var dataSource: PagingMenuViewControllerDataSource?
