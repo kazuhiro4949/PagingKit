@@ -76,7 +76,7 @@ $(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
 ```
 + Write Import statement on your source file
 ```
-Import EditDistance
+Import PagingKit
 ```
 
 # Usage
