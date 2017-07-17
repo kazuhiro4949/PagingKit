@@ -9,9 +9,9 @@
 import UIKit
 
 open class PagingMenuCell: UIView {
-    var identifier: String!
-    var index: Int!
-    var isSelected: Bool = false
+    public var isSelected: Bool = false
+    public internal(set) var identifier: String!
+    public internal(set) var index: Int!
 }
 
 public protocol PagingMenuViewDataSource: class {
