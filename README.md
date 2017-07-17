@@ -1,5 +1,5 @@
 # PagingKit
-PagingKit provides customisable menu & content UI to layout and design.
+PagingKit provides customisable menu & content UI.
 
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0+-orange.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -25,6 +25,13 @@ changing position of Menu and Content
 placing a view between Menu and Content
 
 ![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif)
+
+customize Menu design as follows.
+
+| simple underline | tag like menu | text highlight |
+|:-----------:|:------------:|:------------:|
+| ![simple](https://user-images.githubusercontent.com/18320004/28256283-b987079a-6afb-11e7-8e13-99849b9d6c8d.gif) | ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
+
 
 
 # Feature
