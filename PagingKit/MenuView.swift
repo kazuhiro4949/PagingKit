@@ -133,7 +133,12 @@ public class PagingMenuView: UIScrollView {
     }
     
     public func rectForItem(at index: Int) -> CGRect? {
-        guard index < frameQueue.count else { return nil }
+        guard index < frameQueue.count else {
+            let lastFrame = frameQueue.last
+            let rightEdge = lastFrame.flatMap { CGRect(x: $0.maxX, y: 0, width: 0, height: 0) }
+            return rightEdge
+        }
+        
         let x = (0..<index).reduce(0) { (sum, idx) in
             return sum + frameQueue[idx].width
         }

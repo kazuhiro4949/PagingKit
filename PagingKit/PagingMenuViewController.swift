@@ -56,8 +56,8 @@ public class PagingMenuViewController: UIViewController {
     
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
-        guard rightIndex < menuView.numberOfItem,
-            let leftFrame = menuView.rectForItem(at: index),
+
+        guard let leftFrame = menuView.rectForItem(at: index),
             let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
         
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width

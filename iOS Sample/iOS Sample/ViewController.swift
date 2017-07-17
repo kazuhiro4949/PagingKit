@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContentViewController") as! ContentViewController
         vc.number = title
@@ -27,8 +27,8 @@ class ViewController: UIViewController {
         
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
-        menuViewController?.reloadDate(startingOn: 0)
-        contentViewController?.reloadData(with: 0)
+        menuViewController?.reloadDate(startingOn: 2)
+        contentViewController?.reloadData(with: 2)
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,11 +60,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
     }
 
     func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
-        MenuCell.sizingCell.titleLabel.text = dataSource[index].menu
-        var referenceSize = UILayoutFittingCompressedSize
-        referenceSize.height = viewController.view.bounds.height
-        let size = MenuCell.sizingCell.systemLayoutSizeFitting(referenceSize)
-        return size.width
+        return viewController.view.bounds.size.width / CGFloat(dataSource.count)
     }
 
     

@@ -54,12 +54,13 @@ public class PagingContentViewController: UIViewController {
     public func scroll(to page: Int, animated: Bool) {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         loadPagesIfNeeded(page: page)
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0),
-            animations: { [weak self] in
+        if animated {
+            performSystemAnimation({ [weak self] in
                 self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-            },
-            completion: { _ in }
-        )
+            })
+        } else {
+            scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+        }
     }
     
     fileprivate var numberOfPages: Int = 0
@@ -208,4 +209,14 @@ extension PagingContentViewController: UIScrollViewDelegate {
         loadScrollView(with: loadingPage)
         loadScrollView(with: loadingPage + 1)
     }
+}
+
+private func performSystemAnimation(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+    UIView.perform(
+        .delete,
+        on: [],
+        options: UIViewAnimationOptions(rawValue: 0),
+        animations: animations,
+        completion: completion
+    )
 }
