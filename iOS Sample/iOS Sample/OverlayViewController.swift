@@ -44,7 +44,6 @@ class OverlayViewController: UIViewController {
             menuViewController = vc
             menuViewController?.dataSource = self
             menuViewController?.delegate = self
-            menuViewController?.scrollDelegate = self
         } else if let vc = segue.destination as? PagingContentViewController {
             contentViewController = vc
             contentViewController?.delegate = self
@@ -71,8 +70,6 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         return size.width
     }
     
-    
-    
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count
     }
@@ -91,14 +88,10 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        do {
-            let cell = menuViewController.cellForItem(at: page) as? OverlayMenuCell
-            cell?.highlightWithAnimation(isHighlight: false)
-        }
-        do {
-            let cell = menuViewController.cellForItem(at: previousPage) as? OverlayMenuCell
-            cell?.highlightWithAnimation(isHighlight: true)
-        }
+        let prevCell = menuViewController.cellForItem(at: page) as? OverlayMenuCell
+        prevCell?.highlightWithAnimation(isHighlight: false)
+        let selectedCell = menuViewController.cellForItem(at: previousPage) as? OverlayMenuCell
+        selectedCell?.highlightWithAnimation(isHighlight: true)
         contentViewController?.scroll(to: page, animated: true)
     }
 }
@@ -113,10 +106,5 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
             cell?.black(percent: (1 - percent) * 2)
         }
         menuViewController?.scroll(index: index, percent: percent, animated: false)
-    }
-}
-
-extension OverlayViewController: PagingMenuViewControllerScrollDelegate {
-    func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView) {
     }
 }
