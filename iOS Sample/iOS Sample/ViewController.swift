@@ -31,6 +31,11 @@ class ViewController: UIViewController {
         contentViewController?.reloadData(with: 2)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        menuViewController?.reloadDate()
+    }
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -60,7 +65,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
     }
 
     func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
-        return viewController.view.bounds.size.width / CGFloat(dataSource.count)
+        return UIScreen.main.bounds.width / CGFloat(dataSource.count)
     }
 
     
