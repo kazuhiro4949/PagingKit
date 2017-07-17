@@ -10,7 +10,8 @@ import UIKit
 
 open class PagingMenuCell: UIView {
     var identifier: String!
-    var index: Int?
+    var index: Int!
+    var isSelected: Bool = false
 }
 
 public protocol PagingMenuViewDataSource: class {
@@ -158,7 +159,7 @@ public class PagingMenuView: UIScrollView {
     
     private func align() {
         visibleCell.forEach { (cell) in
-            let leftEdge = (0..<cell.index!).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
+            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
             cell.frame.origin.x = leftEdge
         }
     }
@@ -207,7 +208,7 @@ public class PagingMenuView: UIScrollView {
         if var lastCell = visibleCell.last {
             var rightEdge = lastCell.frame.maxX
             while rightEdge < maxX {
-                rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index!, dataSource: dataSource)
+                rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index, dataSource: dataSource)
                 lastCell = visibleCell.last!
             }
         }
@@ -215,7 +216,7 @@ public class PagingMenuView: UIScrollView {
         if var firstCell = visibleCell.first {
             var leftEdge = firstCell.frame.minX
             while leftEdge > minX {
-                leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index!, dataSource: dataSource)
+                leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index, dataSource: dataSource)
                 firstCell = visibleCell.first!
             }
         }
