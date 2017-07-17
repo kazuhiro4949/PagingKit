@@ -28,9 +28,9 @@ placing a view between Menu and Content
 
 customize Menu design as follows.
 
-| simple underline | tag like menu | text highlight |
-|:-----------:|:------------:|:------------:|
-| ![simple](https://user-images.githubusercontent.com/18320004/28256283-b987079a-6afb-11e7-8e13-99849b9d6c8d.gif) | ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
+| tag like menu | text highlight |
+|:------------:|:------------:|
+| ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
 
 
 
