@@ -35,8 +35,9 @@ customize Menu design as follows.
 
 
 # Feature
-- [x] you can easily construct Paging UI many news apps have
-- [x] You can choose layout and design as you like.
+- [x] easy to costruct Paging UI many media Apps have
+- [x] customizable layout and design
+- [x] UIKit like API
 
 # Requirements
 + iOS 8.0+
