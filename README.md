@@ -18,17 +18,12 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 
 For example:
 
-changing position of Menu and Content
+| changing position of Menu and Content | placing a view between Menu and Content |
+|:------------:|:------------:|
+| ![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif) | ![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif) |
 
-![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif)
 
-placing a view between Menu and Content
-
-![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif)
-
-customize Menu design as follows.
-
-| tag like menu | text highlight |
+| tag like menu desing | text highlighted menu design |
 |:------------:|:------------:|
 | ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
 
