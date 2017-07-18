@@ -258,7 +258,8 @@ public class PagingMenuView: UIScrollView {
     private func align() {
         visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
-            cell.frame.origin.x = leftEdge
+            cell.frame.origin = CGPoint(x: leftEdge, y: bounds.minY)
+            cell.frame.size = CGSize(width: frameQueue[cell.index].width, height: bounds.height)
         }
     }
     
