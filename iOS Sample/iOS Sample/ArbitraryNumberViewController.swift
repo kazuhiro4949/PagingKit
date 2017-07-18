@@ -133,13 +133,13 @@ extension ArbitraryNumberViewController {
         alertController.addAction(UIAlertAction(title: "Create Scroll Menu", style: .`default`, handler: { [weak self] _ in
             guard let _self = self else { return }
             _self.isSegmentedMenu = false
-            _self.menuViewController.reloadDate(startingOn: _self.startPosition)
+            _self.menuViewController.reloadData(startingOn: _self.startPosition)
             _self.contentViewController.reloadData(with: _self.startPosition)
         }))
         alertController.addAction(UIAlertAction(title: "Create Segmentation", style: .`default`, handler: { [weak self] _ in
             guard let _self = self else { return }
             _self.isSegmentedMenu = true
-            _self.menuViewController.reloadDate(startingOn: _self.startPosition)
+            _self.menuViewController.reloadData(startingOn: _self.startPosition)
             _self.contentViewController.reloadData(with: _self.startPosition)
         }))
         alertController.addTextField { (textField) in

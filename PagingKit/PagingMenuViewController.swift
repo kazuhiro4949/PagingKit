@@ -118,7 +118,7 @@ public class PagingMenuViewController: UIViewController {
         return menuView.dequeue(with: identifier)
     }
     
-    public func reloadDate(startingOn index: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
+    public func reloadData(startingOn index: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in

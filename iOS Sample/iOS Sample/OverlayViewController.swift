@@ -26,7 +26,7 @@ class OverlayViewController: UIViewController {
 
         menuViewController?.register(nib: UINib(nibName: "OverlayMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "OverlayFocusView", bundle: nil), isBehindCell: true)
-        menuViewController?.reloadDate(startingOn: 0, completionHandler: { [weak self] (_) in
+        menuViewController?.reloadData(startingOn: 0, completionHandler: { [weak self] (_) in
             let cell = self?.menuViewController.currentFocusedCell as? OverlayMenuCell
             cell?.isHighlight = true
         })

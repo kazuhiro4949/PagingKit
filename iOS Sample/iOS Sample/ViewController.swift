@@ -27,13 +27,13 @@ class ViewController: UIViewController {
         
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
-        menuViewController?.reloadDate(startingOn: dataSource.count - 1)
+        menuViewController?.reloadData(startingOn: dataSource.count - 1)
         contentViewController?.reloadData(with: dataSource.count - 1)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        menuViewController?.reloadDate()
+        menuViewController?.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
