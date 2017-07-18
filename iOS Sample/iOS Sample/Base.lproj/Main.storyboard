@@ -376,7 +376,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Arbitrary Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJY-vM-KeG">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="arbitrary number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJY-vM-KeG">
                                                     <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -478,7 +478,6 @@
         <!--Arbitrary Number View Controller-->
         <scene sceneID="IvP-WP-iGb">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2ZK-Rw-lJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="Fiy-AR-bbp" customClass="ArbitraryNumberViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8EQ-YN-pHh"/>
@@ -517,6 +516,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="AO8-RS-hze"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ZK-Rw-lJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2609" y="1984"/>
         </scene>
