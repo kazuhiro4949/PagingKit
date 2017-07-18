@@ -25,12 +25,12 @@ public protocol PagingMenuViewDelegate: UIScrollViewDelegate {
 }
 
 public class PagingMenuView: UIScrollView {
-    var queue = [String: [PagingMenuCell]]()
-    var nibs = [String: UINib]()
-    var frameQueue = [CGRect]()
-    var visibleCells = [PagingMenuCell]()
-    var containerView = UIView()
-    
+    public fileprivate(set) var visibleCells = [PagingMenuCell]()
+
+    fileprivate var queue = [String: [PagingMenuCell]]()
+    fileprivate var nibs = [String: UINib]()
+    fileprivate var frameQueue = [CGRect]()
+    fileprivate var containerView = UIView()
     
     public weak var dataSource: PagingMenuViewDataSource?
     
