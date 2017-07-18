@@ -54,7 +54,7 @@ class OverlayViewController: UIViewController {
 }
 
 extension OverlayViewController: PagingMenuViewControllerDataSource {
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
         cell.textLabel.text = dataSource[index].menu
         cell.isHighlight = viewController.currentFocusedIndex == index

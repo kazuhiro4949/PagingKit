@@ -9,7 +9,7 @@
 import UIKit
 import PagingKit
 
-class TagMenuCell: PagingMenuCell {
+class TagMenuCell: PagingMenuViewCell {
     static let sizingCell = UINib(nibName: "TagMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! TagMenuCell
     
     @IBOutlet weak var contentViewTopConstraint: NSLayoutConstraint!

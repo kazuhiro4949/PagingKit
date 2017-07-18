@@ -78,7 +78,7 @@ extension TagViewController: PagingMenuViewControllerDataSource {
         return size.width
     }
     
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TagMenuCell
         cell.titieLabel.text = dataSource[index].menu.title
         cell.contentView.backgroundColor = dataSource[index].menu.color

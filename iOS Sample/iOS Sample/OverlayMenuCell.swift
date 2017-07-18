@@ -9,7 +9,7 @@
 import UIKit
 import PagingKit
 
-class OverlayMenuCell: PagingMenuCell {
+class OverlayMenuCell: PagingMenuViewCell {
     static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
 
     @IBOutlet weak var textLabel: UILabel!

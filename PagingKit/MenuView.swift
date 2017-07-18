@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class PagingMenuCell: UIView {
+open class PagingMenuViewCell: UIView {
     open var isSelected: Bool = false
     public internal(set) var identifier: String!
     public internal(set) var index: Int!
@@ -16,7 +16,7 @@ open class PagingMenuCell: UIView {
 
 public protocol PagingMenuViewDataSource: class {
     func numberOfItemForPagingMenuView() -> Int
-    func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuCell
+    func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuViewCell
     func pagingMenuView(pagingMenuView: PagingMenuView, widthForItemAt index: Int) -> CGFloat
 }
 
@@ -25,9 +25,9 @@ public protocol PagingMenuViewDelegate: UIScrollViewDelegate {
 }
 
 public class PagingMenuView: UIScrollView {
-    public fileprivate(set) var visibleCells = [PagingMenuCell]()
+    public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
-    fileprivate var queue = [String: [PagingMenuCell]]()
+    fileprivate var queue = [String: [PagingMenuViewCell]]()
     fileprivate var nibs = [String: UINib]()
     fileprivate var frameQueue = [CGRect]()
     fileprivate var containerView = UIView()
@@ -76,7 +76,7 @@ public class PagingMenuView: UIScrollView {
     }
     
     
-    public func cellForItem(at index: Int) -> PagingMenuCell? {
+    public func cellForItem(at index: Int) -> PagingMenuViewCell? {
         return visibleCells.filter { $0.index == index }.first
     }
     
@@ -108,7 +108,7 @@ public class PagingMenuView: UIScrollView {
         nibs[identifier] = nib
     }
     
-    public func dequeue(with identifier: String) -> PagingMenuCell {
+    public func dequeue(with identifier: String) -> PagingMenuViewCell {
         if var cells = queue[identifier], !cells.isEmpty {
             let cell = cells.removeFirst()
             queue[identifier] = cells
@@ -117,7 +117,7 @@ public class PagingMenuView: UIScrollView {
         }
         
         if let nib = nibs[identifier] {
-            let cell = nib.instantiate(withOwner: self, options: nil).first as! PagingMenuCell
+            let cell = nib.instantiate(withOwner: self, options: nil).first as! PagingMenuViewCell
             cell.identifier = identifier
             return cell
         }
@@ -244,7 +244,7 @@ public class PagingMenuView: UIScrollView {
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuCell }
+        let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }
         if let index = selectedCell?.index {
             _delegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }

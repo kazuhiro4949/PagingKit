@@ -51,7 +51,7 @@ class ArbitraryNumberViewController: UIViewController {
 // MARK:- PagingMenuViewControllerDataSource
 
 extension ArbitraryNumberViewController: PagingMenuViewControllerDataSource {
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
         cell.titleLabel.text = dataSource[index].menu
         return cell

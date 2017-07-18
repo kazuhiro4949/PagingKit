@@ -19,7 +19,7 @@ extension PagingMenuViewControllerDelegate {
 
 public protocol PagingMenuViewControllerDataSource: class {
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat
 }
 
@@ -81,11 +81,11 @@ public class PagingMenuViewController: UIViewController {
         }
     }
     
-    public var visibleCells: [PagingMenuCell] {
+    public var visibleCells: [PagingMenuViewCell] {
         return menuView.visibleCells
     }
     
-    public var currentFocusedCell: PagingMenuCell? {
+    public var currentFocusedCell: PagingMenuViewCell? {
         return menuView.indexForItem(at: focusView.center).flatMap(menuView.cellForItem)
     }
     
@@ -93,7 +93,7 @@ public class PagingMenuViewController: UIViewController {
         return menuView.indexForItem(at: focusView.center)
     }
     
-    public func cellForItem(at index: Int) -> PagingMenuCell? {
+    public func cellForItem(at index: Int) -> PagingMenuViewCell? {
         return menuView.cellForItem(at: index)
     }
     
@@ -114,7 +114,7 @@ public class PagingMenuViewController: UIViewController {
         menuView.register(nib: nib, with: identifier)
     }
     
-    public func dequeueReusableCell(withReuseIdentifier identifier: String, for index: Int) -> PagingMenuCell {
+    public func dequeueReusableCell(withReuseIdentifier identifier: String, for index: Int) -> PagingMenuViewCell {
         return menuView.dequeue(with: identifier)
     }
     
@@ -226,7 +226,7 @@ extension PagingMenuViewController: PagingMenuViewDataSource {
         return area
     }
 
-    public func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuCell {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuViewCell {
         return dataSource!.menuViewController(viewController: self, cellForItemAt: index)
     }
 }
