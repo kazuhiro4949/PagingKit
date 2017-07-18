@@ -20,7 +20,7 @@ extension PagingMenuViewControllerDelegate {
 public protocol PagingMenuViewControllerDataSource: class {
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat
 }
 
 public class PagingMenuFocusView: UIView {
@@ -222,7 +222,7 @@ extension PagingMenuViewController: PagingMenuViewDataSource {
     }
     
     public func pagingMenuView(pagingMenuView: PagingMenuView, widthForItemAt index: Int) -> CGFloat {
-        let area = dataSource?.menuViewController(viewController: self, areaForItemAt: index) ?? 0
+        let area = dataSource?.menuViewController(viewController: self, widthForItemAt: index) ?? 0
         return area
     }
 

@@ -62,7 +62,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
     }
 
     
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         OverlayMenuCell.sizingCell.textLabel.text = dataSource[index].menu
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height

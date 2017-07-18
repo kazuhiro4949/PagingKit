@@ -64,7 +64,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
         return cell
     }
 
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         return UIScreen.main.bounds.width / CGFloat(dataSource.count)
     }
 

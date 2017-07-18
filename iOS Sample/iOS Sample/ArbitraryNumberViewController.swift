@@ -57,7 +57,7 @@ extension ArbitraryNumberViewController: PagingMenuViewControllerDataSource {
         return cell
     }
     
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         if isSegmentedMenu {
             return UIScreen.main.bounds.width / CGFloat(dataSource.count)
         } else {

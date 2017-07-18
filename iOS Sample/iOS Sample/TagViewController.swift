@@ -70,7 +70,7 @@ extension TagViewController: PagingMenuViewControllerDataSource {
         return dataSource.count
     }
     
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         TagMenuCell.sizingCell.titieLabel.text = dataSource[index].menu.title
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
