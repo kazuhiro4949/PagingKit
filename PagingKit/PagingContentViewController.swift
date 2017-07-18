@@ -104,6 +104,11 @@ public class PagingContentViewController: UIViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        scrollView.contentSize = CGSize(
+            width: scrollView.bounds.size.width * CGFloat(numberOfPages),
+            height: scrollView.bounds.size.height
+        )
+        
         layoutHandler?()
     }
     
@@ -133,7 +138,6 @@ public class PagingContentViewController: UIViewController {
         
         numberOfPages = dataSource?.numberOfItemForContentViewController(viewController: self) ?? 0
         cachedViewControllers = Array(repeating: nil, count: numberOfPages)
-        scrollView.contentSize = CGSize(width: scrollView.bounds.size.width * CGFloat(numberOfPages), height: scrollView.bounds.size.height)
         
         loadScrollView(with: page - 1)
         loadScrollView(with: page)
