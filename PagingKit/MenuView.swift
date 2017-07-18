@@ -62,7 +62,10 @@ public class PagingMenuView: UIScrollView {
 
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
-            tileCell(from: max(0, visibleBounds.minX * 0.75), to: min(contentSize.width, visibleBounds.maxX * 1.5))
+            tileCell(
+                from: max(0, visibleBounds.minX),
+                to: min(contentSize.width, visibleBounds.maxX)
+            )
         }
     }
     
