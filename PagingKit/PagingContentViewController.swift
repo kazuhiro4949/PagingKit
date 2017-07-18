@@ -107,11 +107,6 @@ public class PagingContentViewController: UIViewController {
         layoutHandler?()
     }
     
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        layoutHandler = nil
-    }
-    
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
