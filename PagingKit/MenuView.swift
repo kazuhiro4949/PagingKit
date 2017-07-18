@@ -41,12 +41,6 @@ public class PagingMenuView: UIScrollView {
         }
     }
     
-    public var isInfinity = false {
-        didSet {
-            showsHorizontalScrollIndicator = !isInfinity
-        }
-    }
-    
     public override init(frame: CGRect) {
         super.init(frame: frame)
         containerView.frame = bounds
@@ -65,11 +59,7 @@ public class PagingMenuView: UIScrollView {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        
-        if isInfinity {
-            recenterIfNeeded()
-        }
-        
+
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
             tileCell(from: max(0, visibleBounds.minX * 0.75), to: min(contentSize.width, visibleBounds.maxX * 1.5))
@@ -210,9 +200,9 @@ public class PagingMenuView: UIScrollView {
             placeNewCellOnRight(with: minX, index: numberOfItem - 1, dataSource: dataSource)
         }
         
-        if var lastCell = visibleCell.last {
+        if var lastCell = visibleCell.last  {
             var rightEdge = lastCell.frame.maxX
-            while rightEdge < maxX {
+            while rightEdge < maxX, (0..<numberOfItem) ~= lastCell.index + 1 {
                 rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index, dataSource: dataSource)
                 lastCell = visibleCell.last!
             }
@@ -220,7 +210,7 @@ public class PagingMenuView: UIScrollView {
         
         if var firstCell = visibleCell.first {
             var leftEdge = firstCell.frame.minX
-            while leftEdge > minX {
+            while leftEdge > minX, (0..<numberOfItem) ~= firstCell.index - 1 {
                 leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index, dataSource: dataSource)
                 firstCell = visibleCell.first!
             }

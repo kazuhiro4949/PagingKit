@@ -1,5 +1,5 @@
 # PagingKit
-PagingKit provides customisable menu & content UI to layout and design.
+PagingKit provides customisable menu & content UI.
 
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0+-orange.svg)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -9,27 +9,32 @@ PagingKit provides customisable menu & content UI to layout and design.
 
 # What's this?
 There are many libaries providing "Paging UI" which has menu and content area.
-They are convinience but not customizable because layout and design to your app make compatible with the library.
-When they doesn't fit the libaries, you need to fork it or find another library. 
+They are convinience but not customizable because your app have to make compatible with the library about layout and design.
+When It doesn't fit the libaries, you need to fork the library or find another one. 
 
 PagingKit has more flexible layout and design than the other libraries.
-You can construct "Menu" and "Content" UI, and they work together. That's all features this library do.
+You can construct "Menu" and "Content" UI, and they work together. That's all features this library provides.
 You can fit layout and design of Pagingin UI to your apps as you like.
 
-For example:
+## Customized layout 
 
-changing position of Menu and Content
+| changing position of Menu and Content | placing a view between Menu and Content |
+|:------------:|:------------:|
+| ![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif) | ![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif) |
 
-![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif)
 
-placing a view between Menu and Content
+## Customized menu desing
 
-![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif)
+| tag like menu desing | text highlighted menu design |
+|:------------:|:------------:|
+| ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
+
 
 
 # Feature
-- [x] you can easily construct Paging UI many news apps have
-- [x] You can choose layout and design as you like.
+- [x] easy to costruct Paging UI many media Apps have
+- [x] customizable layout and design
+- [x] UIKit like API
 
 # Requirements
 + iOS 8.0+
@@ -69,7 +74,7 @@ $(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
 ```
 + Write Import statement on your source file
 ```
-Import EditDistance
+Import PagingKit
 ```
 
 # Usage

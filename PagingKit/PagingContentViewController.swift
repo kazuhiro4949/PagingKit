@@ -88,18 +88,10 @@ public class PagingContentViewController: UIViewController {
         
         view.backgroundColor = .clear
     }
-    
-    override public func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        if cachedViewControllers.isEmpty {
-            initialLoad(with: 0)
-        }
-    }
-    
+
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: view.bounds.size.width * CGFloat(numberOfPages), height: view.bounds.size.height)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.size.width * CGFloat(numberOfPages), height: scrollView.bounds.size.height)
         cachedViewControllers.enumerated().forEach { (offset, vc) in
             vc?.view.frame = scrollView.bounds
             vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
@@ -136,6 +128,7 @@ public class PagingContentViewController: UIViewController {
         
         numberOfPages = dataSource?.numberOfItemForContentViewController(viewController: self) ?? 0
         cachedViewControllers = Array(repeating: nil, count: numberOfPages)
+        scrollView.contentSize = CGSize(width: scrollView.bounds.size.width * CGFloat(numberOfPages), height: scrollView.bounds.size.height)
         
         loadScrollView(with: page - 1)
         loadScrollView(with: page)
