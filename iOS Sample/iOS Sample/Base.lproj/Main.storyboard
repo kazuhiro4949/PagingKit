@@ -369,6 +369,26 @@
                                             <segue destination="3sV-FM-ucq" kind="push" id="nQX-4L-VEr"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="sJY-vM-KeG" style="IBUITableViewCellStyleDefault" id="y1P-7K-TTD">
+                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="y1P-7K-TTD" id="ZwM-16-bdv">
+                                            <rect key="frame" x="0.0" y="0.0" width="342" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Arbitrary Number" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sJY-vM-KeG">
+                                                    <rect key="frame" x="15" y="0.0" width="325" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="Fiy-AR-bbp" kind="push" id="VXm-TQ-3EF"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -423,6 +443,10 @@
         <scene sceneID="bI2-7n-YZh">
             <objects>
                 <viewController id="1Uq-X9-N93" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pHE-yO-BH1"/>
+                        <viewControllerLayoutGuide type="bottom" id="qMa-wr-Yun"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="LsX-7e-2FP">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -437,6 +461,10 @@
         <scene sceneID="fQz-dM-x4j">
             <objects>
                 <viewController id="LHN-Hm-I08" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="w9F-vY-wAO"/>
+                        <viewControllerLayoutGuide type="bottom" id="yRV-Eh-K1l"/>
+                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="MNe-g4-cJ4">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -446,6 +474,87 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XdD-cD-lxD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2897" y="1118"/>
+        </scene>
+        <!--Arbitrary Number View Controller-->
+        <scene sceneID="IvP-WP-iGb">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2ZK-Rw-lJl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="Fiy-AR-bbp" customClass="ArbitraryNumberViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8EQ-YN-pHh"/>
+                        <viewControllerLayoutGuide type="bottom" id="s6q-vH-6tb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zXq-TJ-hW5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SVc-WQ-ni8">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="ocd-pc-d3r"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="TIk-7V-LFm" kind="embed" id="Siq-a4-lwf"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CJF-Nb-7Rm">
+                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
+                                <connections>
+                                    <segue destination="fgp-0P-dIQ" kind="embed" id="h4f-2P-oF1"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="CJF-Nb-7Rm" secondAttribute="trailing" id="ILx-ZY-02K"/>
+                            <constraint firstAttribute="trailing" secondItem="SVc-WQ-ni8" secondAttribute="trailing" id="Qmf-pR-0WD"/>
+                            <constraint firstItem="SVc-WQ-ni8" firstAttribute="top" secondItem="8EQ-YN-pHh" secondAttribute="bottom" id="YsZ-Yr-Dne"/>
+                            <constraint firstItem="CJF-Nb-7Rm" firstAttribute="top" secondItem="SVc-WQ-ni8" secondAttribute="bottom" id="eNh-Tb-LoX"/>
+                            <constraint firstItem="SVc-WQ-ni8" firstAttribute="leading" secondItem="zXq-TJ-hW5" secondAttribute="leading" id="epO-Y2-57y"/>
+                            <constraint firstItem="s6q-vH-6tb" firstAttribute="top" secondItem="CJF-Nb-7Rm" secondAttribute="bottom" id="lUd-CC-m1x"/>
+                            <constraint firstItem="CJF-Nb-7Rm" firstAttribute="leading" secondItem="zXq-TJ-hW5" secondAttribute="leading" id="rVs-zI-eut"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="AO8-RS-hze"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2609" y="1984"/>
+        </scene>
+        <!--Paging Menu View Controller-->
+        <scene sceneID="xaU-JT-2Wa">
+            <objects>
+                <viewController id="TIk-7V-LFm" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="78y-Rl-ToT"/>
+                        <viewControllerLayoutGuide type="bottom" id="1lF-yc-z0h"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="vw6-4a-Mbq">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DSh-Na-7bP" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3438" y="1736"/>
+        </scene>
+        <!--Paging Content View Controller-->
+        <scene sceneID="TUM-aP-dR7">
+            <objects>
+                <viewController id="fgp-0P-dIQ" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tfV-3w-cic"/>
+                        <viewControllerLayoutGuide type="bottom" id="1y8-Du-CSm"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eJr-Lf-SJU">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="U01-5V-13d" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3438" y="2114"/>
         </scene>
     </scenes>
 </document>

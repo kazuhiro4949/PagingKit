@@ -10,6 +10,7 @@ import UIKit
 import PagingKit
 
 class MenuCell: PagingMenuCell {
+    static let sizingCell = UINib(nibName: "MenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! MenuCell
 
     @IBOutlet weak var titleLabel: UILabel!
     override func awakeFromNib() {
