@@ -167,6 +167,11 @@ public class PagingMenuViewController: UIViewController {
         layoutHandler?()
     }
     
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        layoutHandler = nil
+    }
+    
     var layoutHandler: (() -> Void)?
     
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
