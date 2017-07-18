@@ -82,7 +82,7 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public var visibleCells: [PagingMenuCell] {
-        return menuView.visibleCell
+        return menuView.visibleCells
     }
     
     public var currentFocusedCell: PagingMenuCell? {

@@ -28,7 +28,7 @@ public class PagingMenuView: UIScrollView {
     var queue = [String: [PagingMenuCell]]()
     var nibs = [String: UINib]()
     var frameQueue = [CGRect]()
-    var visibleCell = [PagingMenuCell]()
+    var visibleCells = [PagingMenuCell]()
     var containerView = UIView()
     
     
@@ -74,7 +74,7 @@ public class PagingMenuView: UIScrollView {
     
     
     public func cellForItem(at index: Int) -> PagingMenuCell? {
-        return visibleCell.filter { $0.index == index }.first
+        return visibleCells.filter { $0.index == index }.first
     }
     
     public func reloadData() {
@@ -82,8 +82,8 @@ public class PagingMenuView: UIScrollView {
             return
         }
         
-        visibleCell.forEach { $0.removeFromSuperview() }
-        visibleCell = []
+        visibleCells.forEach { $0.removeFromSuperview() }
+        visibleCells = []
         
         numberOfItem = dataSource.numberOfItemForPagingMenuView()
         
@@ -144,7 +144,7 @@ public class PagingMenuView: UIScrollView {
         if distanceFromCenter > (contentWidth - bounds.size.width) / 4 {
             contentOffset = CGPoint(x: centerOffsetX, y: currentOffset.y)
             
-            for cell in visibleCell {
+            for cell in visibleCells {
                 var center = containerView.convert(cell.center, to: self)
                 center.x += centerOffsetX - currentOffset.x
                 cell.center = convert(center, to: containerView)
@@ -153,7 +153,7 @@ public class PagingMenuView: UIScrollView {
     }
     
     private func align() {
-        visibleCell.forEach { (cell) in
+        visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
             cell.frame.origin.x = leftEdge
         }
@@ -166,7 +166,7 @@ public class PagingMenuView: UIScrollView {
         cell.index = nextIndex
         containerView.addSubview(cell)
         
-        visibleCell.append(cell)
+        visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
         cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
 
@@ -185,66 +185,58 @@ public class PagingMenuView: UIScrollView {
         
         containerView.addSubview(cell)
         
-        visibleCell.insert(cell, at: 0)
+        visibleCells.insert(cell, at: 0)
         cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
         cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width, y: 0)
         return cell.frame.minX
     }
     
     private func tileCell(from minX: CGFloat, to maxX: CGFloat) {
-        guard let dataSource = dataSource else {
+        guard let dataSource = dataSource, 0 < numberOfItem else {
             return
         }
         
-        if visibleCell.isEmpty {
+        if visibleCells.isEmpty {
             placeNewCellOnRight(with: minX, index: numberOfItem - 1, dataSource: dataSource)
         }
         
-        if var lastCell = visibleCell.last  {
-            var rightEdge = lastCell.frame.maxX
-            while rightEdge < maxX, (0..<numberOfItem) ~= lastCell.index + 1 {
-                rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index, dataSource: dataSource)
-                lastCell = visibleCell.last!
-            }
+        var lastCell = visibleCells.last
+        var rightEdge = lastCell?.frame.maxX
+        while let _lastCell = lastCell, let _rightEdge = rightEdge,
+            _rightEdge < maxX, (0..<numberOfItem) ~= _lastCell.index + 1 {
+                rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource)
+                lastCell = visibleCells.last
         }
         
-        if var firstCell = visibleCell.first {
-            var leftEdge = firstCell.frame.minX
-            while leftEdge > minX, (0..<numberOfItem) ~= firstCell.index - 1 {
-                leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index, dataSource: dataSource)
-                firstCell = visibleCell.first!
-            }
+        var firstCell = visibleCells.first
+        var leftEdge = firstCell?.frame.minX
+        while let _firstCell = firstCell, let _leftEdge = leftEdge,
+            _leftEdge > minX, (0..<numberOfItem) ~= _firstCell.index - 1 {
+                leftEdge = placeNewCellOnLeft(with: _leftEdge, index: _firstCell.index, dataSource: dataSource)
+                firstCell = visibleCells.first
         }
         
-        var lastCell = visibleCell.last!
-        while lastCell.frame.minX > maxX {
+        
+        while let lastCell = visibleCells.last, lastCell.frame.minX > maxX {
             lastCell.removeFromSuperview()
-            let recycleCell = visibleCell.removeLast()
+            let recycleCell = visibleCells.removeLast()
             
-            // enqueue
             if let cells = queue[recycleCell.identifier] {
                 queue[recycleCell.identifier] = cells + [recycleCell]
             } else {
                 queue[recycleCell.identifier] = [recycleCell]
             }
-            
-            lastCell = visibleCell.last!
         }
-        
-        
-        var firstCell = visibleCell.first!
-        while firstCell.frame.maxX < minX {
+
+        while let firstCell = visibleCells.first, firstCell.frame.maxX < minX {
             firstCell.removeFromSuperview()
-            let recycleCell = visibleCell.removeFirst()
+            let recycleCell = visibleCells.removeFirst()
             
-            // enqueue
             if let cells = queue[recycleCell.identifier] {
                 queue[recycleCell.identifier] = cells + [recycleCell]
             } else {
                 queue[recycleCell.identifier] = [recycleCell]
             }
-            
-            firstCell = visibleCell.first!
         }
     }
     
