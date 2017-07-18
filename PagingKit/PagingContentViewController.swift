@@ -49,6 +49,7 @@ public class PagingContentViewController: UIViewController {
     public func reloadData(with page: Int = 0) {
         initialLoad(with: page)
         scroll(to: page, animated: false)
+        leftSidePageIndex = page
     }
     
     public func scroll(to page: Int, animated: Bool) {
@@ -65,7 +66,6 @@ public class PagingContentViewController: UIViewController {
     
     fileprivate var numberOfPages: Int = 0
     
-    fileprivate var lastContentOffset = CGPoint.zero
     fileprivate var leftSidePageIndex = 0
     fileprivate var isExplicityScrolling = false
     
@@ -157,10 +157,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        lastContentOffset = scrollView.contentOffset
-        leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        
         if isExplicityScrolling {
+            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
             let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
             let normalizedPercent = min(max(0, percent), 1)

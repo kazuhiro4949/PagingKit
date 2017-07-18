@@ -30,11 +30,6 @@ class ViewController: UIViewController {
         menuViewController?.reloadData(startingOn: dataSource.count - 1)
         contentViewController?.reloadData(with: dataSource.count - 1)
     }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        menuViewController?.reloadData()
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

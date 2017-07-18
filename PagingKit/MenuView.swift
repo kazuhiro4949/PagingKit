@@ -159,21 +159,13 @@ public class PagingMenuView: UIScrollView {
         guard let dataSource = dataSource else {
             return
         }
-        
+
         visibleCells.forEach { $0.removeFromSuperview() }
         visibleCells = []
         
         numberOfItem = dataSource.numberOfItemForPagingMenuView()
         
-        frameQueue = []
-        var containerWidth: CGFloat = 0
-        (0..<numberOfItem).forEach { (index) in
-            let width = dataSource.pagingMenuView(pagingMenuView: self, widthForItemAt: index)
-            frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
-            containerWidth += width
-        }
-        contentSize = CGSize(width: containerWidth, height: bounds.height)
-        containerView.frame = CGRect(origin: .zero, size: contentSize)
+        invalidateLayout()
         
         setNeedsLayout()
         layoutIfNeeded()
@@ -227,6 +219,23 @@ public class PagingMenuView: UIScrollView {
             return sum + frameQueue[idx].width
         }
         return CGRect(x: x, y: 0, width: frameQueue[index].width, height: bounds.height)
+    }
+    
+    public func invalidateLayout() {
+        guard let dataSource = dataSource else {
+            return
+        }
+
+        frameQueue = []
+        var containerWidth: CGFloat = 0
+        (0..<numberOfItem).forEach { (index) in
+            let width = dataSource.pagingMenuView(pagingMenuView: self, widthForItemAt: index)
+            frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
+            containerWidth += width
+        }
+        contentSize = CGSize(width: containerWidth, height: bounds.height)
+        containerView.frame = CGRect(origin: .zero, size: contentSize)
+        align()
     }
     
     private func recenterIfNeeded() {

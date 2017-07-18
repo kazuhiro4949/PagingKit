@@ -174,6 +174,7 @@ public class PagingMenuViewController: UIViewController {
         
         let index = menuView.indexForItem(at: focusView.center)
         layoutHandler = { [weak self] in
+            self?.menuView.invalidateLayout()
             self?.scroll(index: index ?? 0, percent: 0, animated: false)
             self?.layoutHandler = nil
         }
