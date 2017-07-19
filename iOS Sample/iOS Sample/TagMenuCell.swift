@@ -24,8 +24,8 @@ class TagMenuCell: PagingMenuViewCell {
                 on: [],
                 options: UIViewAnimationOptions(rawValue: 0),
                 animations: { [weak self] in
-                    self?.contentView.setNeedsLayout()
-                    self?.contentView.layoutIfNeeded()
+                    self?.setNeedsLayout()
+                    self?.layoutIfNeeded()
                 },
                 completion: { (finish) in }
             )
