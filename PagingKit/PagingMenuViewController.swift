@@ -212,7 +212,7 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         menuView.setContentOffset(offset, animated: true)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.focusView.frame = itemFrame
+            self?.scroll(index: index, animated: false)
             self?.view.setNeedsLayout()
             self?.view.layoutIfNeeded()
         }, completion: { [weak self] finish in
