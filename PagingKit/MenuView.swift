@@ -94,9 +94,12 @@ public class PagingMenuView: UIScrollView {
     fileprivate var frameQueue = [CGRect]()
     fileprivate var containerView = UIView()
     
+    
+    /// The object that acts as the data source of the paging menu view.
     public weak var dataSource: PagingMenuViewDataSource?
     
     private weak var _delegate: PagingMenuViewDelegate?
+    /// The object that acts as the delegate of the paging menu view.
     public override var delegate: UIScrollViewDelegate? {
         didSet {
             _delegate = delegate as? PagingMenuViewDelegate
