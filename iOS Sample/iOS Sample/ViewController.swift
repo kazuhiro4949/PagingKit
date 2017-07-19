@@ -27,8 +27,13 @@ class ViewController: UIViewController {
         
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
-        menuViewController?.reloadData(startingOn: dataSource.count - 1)
-        contentViewController?.reloadData(with: dataSource.count - 1)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let _self = self else { return }
+            _self.menuViewController?.reloadData(startingOn: _self.dataSource.count - 1)
+            _self.contentViewController?.reloadData(with: _self.dataSource.count - 1)
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,10 +50,6 @@ class ViewController: UIViewController {
             contentViewController?.delegate = self
             contentViewController?.dataSource = self
         }
-    }
-
-    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
-        
     }
 }
 

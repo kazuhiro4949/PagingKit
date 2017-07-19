@@ -170,13 +170,11 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="iPd-uk-Yn3">
                             <connections>
                                 <action selector="didTapDone:" destination="Cok-rS-pPT" id="tzo-zE-Nfo"/>
-                                <segue destination="RWi-X7-NgC" kind="unwind" unwindAction="unwindSegueWithSegue:" id="AVi-TT-fnA"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a2d-nm-4aZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="RWi-X7-NgC" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1678" y="1877"/>
         </scene>
