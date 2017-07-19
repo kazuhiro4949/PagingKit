@@ -50,16 +50,11 @@ public class PagingContentViewController: UIViewController {
         initialLoad(with: page)
         scroll(to: page, animated: false)
         
-        layoutHandler = { [weak self] in
+        layoutCompletionHandler = { [weak self] in
             guard let _self = self else { return }
-            _self.scrollView.contentSize = CGSize(width: _self.scrollView.bounds.size.width * CGFloat(_self.numberOfPages), height: _self.scrollView.bounds.size.height)
-            _self.cachedViewControllers.enumerated().forEach { (offset, vc) in
-                vc?.view.frame = _self.scrollView.bounds
-                vc?.view.frame.origin.x = _self.scrollView.bounds.width * CGFloat(offset)
-            }
             let offsetX = _self.scrollView.bounds.width * CGFloat(page)
             _self.scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
-            _self.layoutHandler = nil
+            _self.layoutCompletionHandler = nil
         }
         
         view.setNeedsLayout()
@@ -109,26 +104,31 @@ public class PagingContentViewController: UIViewController {
             height: scrollView.bounds.size.height
         )
         
-        layoutHandler?()
+        cachedViewControllers.enumerated().forEach { (offset, vc) in
+            vc?.view.frame = scrollView.bounds
+            vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
+        }
+        
+        layoutCompletionHandler?()
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    var layoutHandler: (() -> Void)?
+    var layoutCompletionHandler: (() -> Void)?
     
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
         let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        layoutHandler = { [weak self] in
+        layoutCompletionHandler = { [weak self] in
             guard let _self = self else { return }
             _self.initialLoad(with: leftSidePageIndex)
             
             let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(leftSidePageIndex), y: 0)
             _self.scrollView.setContentOffset(point, animated: false)
-            _self.layoutHandler = nil
+            _self.layoutCompletionHandler = nil
         }
     }
     
