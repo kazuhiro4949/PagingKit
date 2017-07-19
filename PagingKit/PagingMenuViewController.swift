@@ -213,8 +213,6 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.scroll(index: index, animated: false)
-            self?.view.setNeedsLayout()
-            self?.view.layoutIfNeeded()
         }, completion: { [weak self] finish in
             guard let _self = self, finish else { return }
             _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
