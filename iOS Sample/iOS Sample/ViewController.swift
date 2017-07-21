@@ -27,13 +27,13 @@ class ViewController: UIViewController {
         
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
-        menuViewController?.reloadDate(startingOn: 2)
-        contentViewController?.reloadData(with: 2)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        menuViewController?.reloadDate()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            guard let _self = self else { return }
+            _self.menuViewController?.reloadData(startingOn: _self.dataSource.count - 1)
+            _self.contentViewController?.reloadData(with: _self.dataSource.count - 1)
+        }
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -51,20 +51,16 @@ class ViewController: UIViewController {
             contentViewController?.dataSource = self
         }
     }
-
-    @IBAction func unwindSegue(segue: UIStoryboardSegue) {
-        
-    }
 }
 
 extension ViewController: PagingMenuViewControllerDataSource {
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
         cell.titleLabel.text = dataSource[index].menu
         return cell
     }
 
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         return UIScreen.main.bounds.width / CGFloat(dataSource.count)
     }
 

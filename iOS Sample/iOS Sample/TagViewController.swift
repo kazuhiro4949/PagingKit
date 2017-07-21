@@ -30,7 +30,7 @@ class TagViewController: UIViewController {
         super.viewDidLoad()
 
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.reloadDate(startingOn: 0) { [weak self] _ in
+        menuViewController?.reloadData(startingOn: 0) { [weak self] _ in
             let cell = self?.menuViewController.currentFocusedCell as! TagMenuCell
             cell.focus(percent: 1)
         }
@@ -70,7 +70,7 @@ extension TagViewController: PagingMenuViewControllerDataSource {
         return dataSource.count
     }
     
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         TagMenuCell.sizingCell.titieLabel.text = dataSource[index].menu.title
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
@@ -78,7 +78,7 @@ extension TagViewController: PagingMenuViewControllerDataSource {
         return size.width
     }
     
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TagMenuCell
         cell.titieLabel.text = dataSource[index].menu.title
         cell.contentView.backgroundColor = dataSource[index].menu.color

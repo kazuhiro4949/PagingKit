@@ -49,6 +49,16 @@ public class PagingContentViewController: UIViewController {
     public func reloadData(with page: Int = 0) {
         initialLoad(with: page)
         scroll(to: page, animated: false)
+        
+        layoutCompletionHandler = { [weak self] in
+            guard let _self = self else { return }
+            let offsetX = _self.scrollView.bounds.width * CGFloat(page)
+            _self.scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
+            _self.layoutCompletionHandler = nil
+        }
+        
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     public func scroll(to page: Int, animated: Bool) {
@@ -65,8 +75,6 @@ public class PagingContentViewController: UIViewController {
     
     fileprivate var numberOfPages: Int = 0
     
-    fileprivate var lastContentOffset = CGPoint.zero
-    fileprivate var leftSidePageIndex = 0
     fileprivate var isExplicityScrolling = false
     
     fileprivate let scrollView: UIScrollView = {
@@ -91,34 +99,36 @@ public class PagingContentViewController: UIViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(width: scrollView.bounds.size.width * CGFloat(numberOfPages), height: scrollView.bounds.size.height)
+        scrollView.contentSize = CGSize(
+            width: scrollView.bounds.size.width * CGFloat(numberOfPages),
+            height: scrollView.bounds.size.height
+        )
+        
         cachedViewControllers.enumerated().forEach { (offset, vc) in
             vc?.view.frame = scrollView.bounds
             vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
         }
-        let offsetX = scrollView.bounds.width * CGFloat(leftSidePageIndex)
-        scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
         
-        layoutHandler?()
+        layoutCompletionHandler?()
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    var layoutHandler: (() -> Void)?
+    var layoutCompletionHandler: (() -> Void)?
     
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let _leftSidePageIndex = leftSidePageIndex
-        layoutHandler = { [weak self] in
+        let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+        layoutCompletionHandler = { [weak self] in
             guard let _self = self else { return }
-            _self.initialLoad(with: _leftSidePageIndex)
+            _self.initialLoad(with: leftSidePageIndex)
             
-            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(_leftSidePageIndex), y: 0)
+            let point = CGPoint(x: _self.scrollView.bounds.width * CGFloat(leftSidePageIndex), y: 0)
             _self.scrollView.setContentOffset(point, animated: false)
-            _self.layoutHandler = nil
+            _self.layoutCompletionHandler = nil
         }
     }
     
@@ -128,7 +138,6 @@ public class PagingContentViewController: UIViewController {
         
         numberOfPages = dataSource?.numberOfItemForContentViewController(viewController: self) ?? 0
         cachedViewControllers = Array(repeating: nil, count: numberOfPages)
-        scrollView.contentSize = CGSize(width: scrollView.bounds.size.width * CGFloat(numberOfPages), height: scrollView.bounds.size.height)
         
         loadScrollView(with: page - 1)
         loadScrollView(with: page)
@@ -153,14 +162,13 @@ public class PagingContentViewController: UIViewController {
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isExplicityScrolling = true
+        let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        lastContentOffset = scrollView.contentOffset
-        leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        
         if isExplicityScrolling {
+            let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
             let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
             let normalizedPercent = min(max(0, percent), 1)
@@ -180,6 +188,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isExplicityScrolling {
+            let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
@@ -190,6 +199,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
         guard !decelerate else { return }
         
         if isExplicityScrolling {
+            let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false

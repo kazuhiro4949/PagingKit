@@ -26,7 +26,7 @@ class OverlayViewController: UIViewController {
 
         menuViewController?.register(nib: UINib(nibName: "OverlayMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "OverlayFocusView", bundle: nil), isBehindCell: true)
-        menuViewController?.reloadDate(startingOn: 0, completionHandler: { [weak self] (_) in
+        menuViewController?.reloadData(startingOn: 0, completionHandler: { [weak self] (_) in
             let cell = self?.menuViewController.currentFocusedCell as? OverlayMenuCell
             cell?.isHighlight = true
         })
@@ -54,7 +54,7 @@ class OverlayViewController: UIViewController {
 }
 
 extension OverlayViewController: PagingMenuViewControllerDataSource {
-    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuCell {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
         cell.textLabel.text = dataSource[index].menu
         cell.isHighlight = viewController.currentFocusedIndex == index
@@ -62,7 +62,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
     }
 
     
-    func menuViewController(viewController: PagingMenuViewController, areaForItemAt index: Int) -> CGFloat {
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         OverlayMenuCell.sizingCell.textLabel.text = dataSource[index].menu
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
