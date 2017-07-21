@@ -146,6 +146,7 @@ public class PagingMenuViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        menuView.menuDelegate = self
         menuView.delegate = self
         menuView.dataSource = self
 
@@ -186,18 +187,19 @@ public class PagingMenuViewController: UIViewController {
     }
 }
 
-extension PagingMenuViewController: PagingMenuViewDelegate {
-    
+extension PagingMenuViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
     }
-    
+
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
             delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
         }
     }
-    
+}
+
+extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
         guard let itemFrame = pagingMenuView.rectForItem(at: index) else { return }
         
@@ -213,9 +215,9 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.focusView.frame = itemFrame
-        }, completion: { [weak self] finish in
-            guard let _self = self, finish else { return }
-            _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+            }, completion: { [weak self] finish in
+                guard let _self = self, finish else { return }
+                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
         })
     }
 }
