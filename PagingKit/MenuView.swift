@@ -72,7 +72,7 @@ public protocol PagingMenuViewDataSource: class {
 /**
  The PagingMenuViewDelegate protocol defines methods that allow you to manage the selection of items in a paging menu view and to perform actions on those items.
  */
-public protocol PagingMenuViewDelegate: UIScrollViewDelegate {
+public protocol PagingMenuViewDelegate: class {
     
     /// Tells the delegate that the specified row is now selected.
     ///
@@ -98,14 +98,9 @@ public class PagingMenuView: UIScrollView {
     /// The object that acts as the data source of the paging menu view.
     public weak var dataSource: PagingMenuViewDataSource?
     
-    private weak var _delegate: PagingMenuViewDelegate?
     /// The object that acts as the delegate of the paging menu view.
-    public override var delegate: UIScrollViewDelegate? {
-        didSet {
-            _delegate = delegate as? PagingMenuViewDelegate
-        }
-    }
-    
+    public weak var menuDelegate: PagingMenuViewDelegate?
+
     public override init(frame: CGRect) {
         super.init(frame: frame)
         containerView.frame = bounds
@@ -349,7 +344,7 @@ public class PagingMenuView: UIScrollView {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }
         if let index = selectedCell?.index {
-            _delegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
+            menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
     }
 }
