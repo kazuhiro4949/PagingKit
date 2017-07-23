@@ -94,6 +94,7 @@ public class PagingMenuView: UIScrollView {
     fileprivate var widthQueue = [CGFloat]()
     fileprivate var containerView = UIView()
     
+    public fileprivate(set) var focusView = PagingMenuFocusView(frame: .zero)
     
     /// The object that acts as the data source of the paging menu view.
     public weak var dataSource: PagingMenuViewDataSource?
@@ -107,8 +108,12 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-        
+
+        focusView.frame = bounds
+        focusView.center = center
+
         addSubview(containerView)
+        addSubview(focusView)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -116,7 +121,11 @@ public class PagingMenuView: UIScrollView {
         containerView.frame = bounds
         containerView.center = center
         
+        focusView.frame = bounds
+        focusView.center = center
+        
         addSubview(containerView)
+        addSubview(focusView)
     }
     
     public override func layoutSubviews() {
@@ -254,6 +263,34 @@ public class PagingMenuView: UIScrollView {
         containerView.frame = CGRect(origin: .zero, size: contentSize)
         align()
     }
+    
+    public func scroll(index: Int, percent: CGFloat = 0) {
+        let rightIndex = index + 1
+        
+        guard let leftFrame = rectForItem(at: index),
+            let rightFrame = rectForItem(at: rightIndex) else { return }
+        
+        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
+        let height = (rightFrame.height - leftFrame.height) * percent + leftFrame.height
+        focusView.frame.size = CGSize(width: width, height: height)
+        
+        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
+        let offsetX = centerPointX - bounds.width / 2
+        let maxOffsetX = max(0, contentSize.width - bounds.width)
+        let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
+        
+        let centerPointY = leftFrame.midY + (rightFrame.midY - leftFrame.midY) * percent
+        let offsetY = centerPointY - bounds.height / 2
+        let maxOffsetY = max(0, contentSize.height - bounds.height)
+        let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
+        let offset = CGPoint(x: normaizedOffsetX, y:normaizedOffsetY)
+        
+        focusView.center = CGPoint(x: centerPointX, y: centerPointY)
+        
+        contentOffset = offset
+        focusView.selectedIndex = index
+    }
+    
     
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
