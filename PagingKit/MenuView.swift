@@ -91,7 +91,7 @@ public class PagingMenuView: UIScrollView {
 
     fileprivate var queue = [String: [PagingMenuViewCell]]()
     fileprivate var nibs = [String: UINib]()
-    fileprivate var frameQueue = [CGRect]()
+    fileprivate var widthQueue = [CGFloat]()
     fileprivate var containerView = UIView()
     
     
@@ -125,9 +125,13 @@ public class PagingMenuView: UIScrollView {
         if isInfinity {
             recenterIfNeeded()
         }
-        
+    
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
+//            tileCellInfinity(
+//                from: max(0, visibleBounds.minX),
+//                to: min(contentSize.width, visibleBounds.maxX)
+//            )
             tileCell(
                 from: max(0, visibleBounds.minX),
                 to: min(contentSize.width, visibleBounds.maxX)
@@ -145,7 +149,17 @@ public class PagingMenuView: UIScrollView {
     /// - Parameter point: A point in the local coordinate system of the paging menu view (the paging menu view’s bounds).
     /// - Returns: An index path representing the item associated with point, or nil if the point is out of the bounds of any item.
     public func indexForItem(at point: CGPoint) -> Int? {
-        return frameQueue.enumerated().filter { $1.contains(point) }.flatMap{ $0.offset }.first
+        var currentOffsetX: CGFloat = 0
+        var resultIndex: Int? = nil
+        for (idx, width) in widthQueue.enumerated() {
+            let nextOffsetX = currentOffsetX+width
+            if (currentOffsetX..<nextOffsetX) ~= point.x {
+                resultIndex = idx
+                break
+            }
+            currentOffsetX = nextOffsetX
+        }
+        return resultIndex
     }
     
     
@@ -213,16 +227,15 @@ public class PagingMenuView: UIScrollView {
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
     public func rectForItem(at index: Int) -> CGRect? {
-        guard index < frameQueue.count else {
-            let lastFrame = frameQueue.last
-            let rightEdge = lastFrame.flatMap { CGRect(x: $0.maxX, y: 0, width: 0, height: $0.height) }
-            return rightEdge
+        guard index < widthQueue.count else {
+            let rightEdge = widthQueue.reduce(CGFloat(0)) { (sum, width) in return sum + width  }
+            return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
         }
         
         let x = (0..<index).reduce(0) { (sum, idx) in
-            return sum + frameQueue[idx].width
+            return sum + widthQueue[idx]
         }
-        return CGRect(x: x, y: 0, width: frameQueue[index].width, height: bounds.height)
+        return CGRect(x: x, y: 0, width: widthQueue[index], height: bounds.height)
     }
     
     public func invalidateLayout() {
@@ -230,11 +243,11 @@ public class PagingMenuView: UIScrollView {
             return
         }
 
-        frameQueue = []
+        widthQueue = []
         var containerWidth: CGFloat = 0
         (0..<numberOfItem).forEach { (index) in
             let width = dataSource.pagingMenuView(pagingMenuView: self, widthForItemAt: index)
-            frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
+            widthQueue.append(width)
             containerWidth += width
         }
         contentSize = CGSize(width: containerWidth, height: bounds.height)
@@ -261,9 +274,9 @@ public class PagingMenuView: UIScrollView {
     
     private func align() {
         visibleCells.forEach { (cell) in
-            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
+            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widthQueue[idx] }
             cell.frame.origin = CGPoint(x: leftEdge, y: bounds.minY)
-            cell.frame.size = CGSize(width: frameQueue[cell.index].width, height: bounds.height)
+            cell.frame.size = CGSize(width: widthQueue[cell.index], height: bounds.height)
         }
     }
     
@@ -276,7 +289,7 @@ public class PagingMenuView: UIScrollView {
         
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
-        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
+        cell.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
 
         return cell.frame.maxX
     }
@@ -294,8 +307,8 @@ public class PagingMenuView: UIScrollView {
         containerView.addSubview(cell)
         
         visibleCells.insert(cell, at: 0)
-        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
-        cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width, y: 0)
+        cell.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
+        cell.frame.origin = CGPoint(x: leftEdge - widthQueue[nextIndex], y: 0)
         return cell.frame.minX
     }
     

@@ -86,11 +86,11 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public var currentFocusedCell: PagingMenuViewCell? {
-        return menuView.indexForItem(at: focusView.center).flatMap(menuView.cellForItem)
+        return focusView.selectedIndex.flatMap(menuView.cellForItem)
     }
     
     public var currentFocusedIndex: Int? {
-        return menuView.indexForItem(at: focusView.center)
+        return focusView.selectedIndex
     }
     
     public func cellForItem(at index: Int) -> PagingMenuViewCell? {
@@ -178,10 +178,9 @@ public class PagingMenuViewController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let index = menuView.indexForItem(at: focusView.center)
         layoutHandler = { [weak self] in
             self?.menuView.invalidateLayout()
-            self?.scroll(index: index ?? 0, percent: 0, animated: false)
+            self?.scroll(index: self?.focusView.selectedIndex ?? 0, percent: 0, animated: false)
             self?.layoutHandler = nil
         }
     }
@@ -207,10 +206,9 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         
         focusView.selectedIndex = index
         
-        let offset: CGPoint
         let offsetX = itemFrame.midX - menuView.bounds.width / 2
         let maxOffsetX = menuView.contentSize.width - menuView.bounds.width
-        offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
+        let offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
         menuView.setContentOffset(offset, animated: true)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
