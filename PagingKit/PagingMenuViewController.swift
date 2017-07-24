@@ -165,13 +165,10 @@ public class PagingMenuViewController: UIViewController {
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
         delegate?.menuViewController(viewController: self, didSelect: index, previousPage: menuView.focusView.selectedIndex ?? 0)
-        
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.menuView.scroll(index: index, percent: 0)
-            }, completion: { [weak self] finish in
-                guard let _self = self, finish else { return }
-                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)
-        })
+    }
+    
+    public func pagingMenuView(pagingMenuView: PagingMenuView, focusViewDidEndTransition focusView: PagingMenuFocusView) {
+        delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
     }
 }
 
