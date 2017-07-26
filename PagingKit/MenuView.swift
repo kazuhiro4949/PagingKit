@@ -498,6 +498,9 @@ public class PagingMenuView: UIScrollView {
                 }
                 
                 self?.scroll(index: index, percent: 0)
+                
+                self?.focusView.setNeedsLayout()
+                self?.focusView.layoutIfNeeded()
                 }, completion: { [weak self] finish in
                     guard let _self = self, finish else { return }
                     _self.menuDelegate?.pagingMenuView(pagingMenuView: _self, focusViewDidEndTransition: _self.focusView)
