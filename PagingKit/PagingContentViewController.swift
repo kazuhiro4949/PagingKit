@@ -149,10 +149,11 @@ public class PagingContentViewController: UIViewController {
         
         if case nil = cachedViewControllers[page], let dataSource = dataSource {
             let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
-            scrollView.addSubview(vc.view)
+            vc.willMove(toParentViewController: self)
             addChildViewController(vc)
             vc.view.frame = scrollView.bounds
             vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
+            scrollView.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
             cachedViewControllers[page] = vc
         }
