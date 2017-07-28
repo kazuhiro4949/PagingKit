@@ -105,7 +105,7 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-        containerView.backgroundColor = .clear
+
         backgroundColor = .clear
         
         addSubview(containerView)

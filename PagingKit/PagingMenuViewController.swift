@@ -152,8 +152,6 @@ public class PagingMenuViewController: UIViewController {
 
         menuView.frame = view.bounds
         view.addSubview(menuView)
-        
-        view.backgroundColor = .clear
 
         focusView.frame = menuView.bounds
         menuView.addSubview(focusView)
