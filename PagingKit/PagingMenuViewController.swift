@@ -209,9 +209,9 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         let offsetX = itemFrame.midX - menuView.bounds.width / 2
         let maxOffsetX = menuView.contentSize.width - menuView.bounds.width
         offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
-        menuView.setContentOffset(offset, animated: true)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            self?.menuView.contentOffset = offset
             self?.focusView.frame = itemFrame
             self?.focusView.layoutIfNeeded()
             }, completion: { [weak self] finish in
