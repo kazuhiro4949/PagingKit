@@ -120,6 +120,9 @@ public class PagingContentViewController: UIViewController {
     
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+
+        scrollView.subviews.forEach { $0.removeFromSuperview() }
+        childViewControllers.forEach { $0.removeFromParentViewController() }
         
         let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         layoutCompletionHandler = { [weak self] in
