@@ -51,13 +51,13 @@ public class PagingContentViewController: UIViewController {
         
         UIView.animate(
             withDuration: 0,
-            animations: {
-                self.view.setNeedsLayout()
-                self.view.layoutIfNeeded()
+            animations: { [weak self] in
+                self?.view.setNeedsLayout()
+                self?.view.layoutIfNeeded()
             },
-            completion: { (finish) in
-                self.initialLoad(with: page)
-                self.scroll(to: page, animated: false)
+            completion: { [weak self] (finish) in
+                self?.initialLoad(with: page)
+                self?.scroll(to: page, animated: false)
             }
         )
     }
