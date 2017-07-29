@@ -44,19 +44,10 @@ public class PagingMenuViewController: UIViewController {
         return menuView.contentOffset.x / menuView.contentSize.width
     }
     
-    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
-        if animated {
-            UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-                self?.menuView.scroll(index: index, percent: percent)
-            }, completion: { [weak self] finish in
-                guard let _self = self, finish, percent == 0 else { return }
-                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)
-            })
-        } else {
-            menuView.scroll(index: index, percent: percent)
-            if percent == 0 {
-                delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
-            }
+    public func scroll(index: Int, percent: CGFloat = 0) {
+        menuView.scrollInfinity(index: index, percent: percent)
+        if percent == 0 {
+            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }
     }
     
@@ -101,14 +92,10 @@ public class PagingMenuViewController: UIViewController {
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
-                self?.menuView.reloadData()
+                self?.menuView.reloadData(with: index)
             },
-            completion: {  [weak self] (finish) in
-                if let index = index {
-                    guard let _self = self else { return }
-                    _self.scroll(index: index, percent: 0, animated: false)
-                    completionHandler?(finish)
-                }
+            completion: { (finish) in
+                completionHandler?(finish)
             }
         )
     }
@@ -156,7 +143,7 @@ public class PagingMenuViewController: UIViewController {
         
         layoutHandler = { [weak self] in
             self?.menuView.invalidateLayout()
-            self?.scroll(index: self?.menuView.focusView.selectedIndex ?? 0, percent: 0, animated: false)
+            self?.scroll(index: self?.menuView.focusView.selectedIndex ?? 0, percent: 0)
             self?.layoutHandler = nil
         }
     }

@@ -30,11 +30,16 @@ class TagViewController: UIViewController {
         super.viewDidLoad()
 
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.reloadData(startingOn: 4) { [weak self] _ in
-            let cell = self?.menuViewController.currentFocusedCell as! TagMenuCell
-            cell.focus(percent: 1)
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            guard let _self = self else { return }
+            _self.menuViewController?.reloadData(startingOn: 4) { [weak self] _ in
+                let cell = self?.menuViewController.currentFocusedCell as! TagMenuCell
+                cell.focus(percent: 1)
+            }
+            _self.contentViewController?.reloadData(with: 4)
         }
-        contentViewController?.reloadData(with: 4)
     }
 
     override func didReceiveMemoryWarning() {
@@ -109,6 +114,6 @@ extension TagViewController: PagingContentViewControllerDelegate {
         leftCell?.focus(percent: (1 - percent))
         rightCell?.focus(percent: percent)
 
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController?.scroll(index: index, percent: percent)
     }
 }

@@ -105,6 +105,6 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
             let cell = menuViewController.cellForItem(at: index + 1) as? OverlayMenuCell
             cell?.black(percent: (1 - percent) * 2)
         }
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController?.scroll(index: index, percent: percent)
     }
 }
