@@ -114,7 +114,9 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-
+        containerView.backgroundColor = .clear
+        backgroundColor = .clear
+        
         addSubview(containerView)
         
         focusView.selectedIndex = 0
@@ -124,6 +126,8 @@ public class PagingMenuView: UIScrollView {
         super.init(coder: aDecoder)
         containerView.frame = bounds
         containerView.center = center
+        containerView.backgroundColor = .clear
+        backgroundColor = .clear
         
         addSubview(containerView)
 
@@ -143,9 +147,10 @@ public class PagingMenuView: UIScrollView {
 //                from: max(0, visibleBounds.minX),
 //                to: min(contentSize.width, visibleBounds.maxX)
 //            )
+            let extraOffset = visibleBounds.width / 2
             tileCell(
-                from: max(0, visibleBounds.minX),
-                to: min(contentSize.width, visibleBounds.maxX)
+                from: max(0, visibleBounds.minX - extraOffset),
+                to: min(contentSize.width, visibleBounds.maxX + extraOffset)
             )
         }
     }
