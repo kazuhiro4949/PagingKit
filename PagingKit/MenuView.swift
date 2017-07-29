@@ -114,7 +114,6 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-        containerView.backgroundColor = .clear
         backgroundColor = .clear
         
         addSubview(containerView)
@@ -143,10 +142,6 @@ public class PagingMenuView: UIScrollView {
     
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
-//            tileCellInfinity(
-//                from: max(0, visibleBounds.minX),
-//                to: min(contentSize.width, visibleBounds.maxX)
-//            )
             let extraOffset = visibleBounds.width / 2
             tileCell(
                 from: max(0, visibleBounds.minX - extraOffset),
@@ -317,8 +312,10 @@ public class PagingMenuView: UIScrollView {
     }
     
     @discardableResult
-    private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
+    private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat? {
         let nextIndex = (index + 1) % numberOfItem
+        guard ((0..<numberOfItem) ~= nextIndex || isInfinity) else { return nil }
+        
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
         containerView.addSubview(cell)
@@ -336,13 +333,15 @@ public class PagingMenuView: UIScrollView {
         return cell.frame.maxX
     }
     
-    private func placeNewCellOnLeft(with leftEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
+    private func placeNewCellOnLeft(with leftEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat? {
         let nextIndex: Int
         if index == 0 {
             nextIndex = numberOfItem - 1
         } else {
             nextIndex = (index - 1) % numberOfItem
         }
+        guard ((0..<numberOfItem) ~= nextIndex || isInfinity) else { return nil }
+        
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
         
@@ -372,16 +371,14 @@ public class PagingMenuView: UIScrollView {
         
         var lastCell = visibleCells.last
         var rightEdge = lastCell?.frame.maxX
-        while let _lastCell = lastCell, let _rightEdge = rightEdge,
-            _rightEdge < maxX, (0..<numberOfItem) ~= _lastCell.index + 1 {
+        while let _lastCell = lastCell, let _rightEdge = rightEdge, _rightEdge < maxX {
                 rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource)
                 lastCell = visibleCells.last
         }
         
         var firstCell = visibleCells.first
         var leftEdge = firstCell?.frame.minX
-        while let _firstCell = firstCell, let _leftEdge = leftEdge,
-            _leftEdge > minX, (0..<numberOfItem) ~= _firstCell.index - 1 {
+        while let _firstCell = firstCell, let _leftEdge = leftEdge, _leftEdge > minX {
                 leftEdge = placeNewCellOnLeft(with: _leftEdge, index: _firstCell.index, dataSource: dataSource)
                 firstCell = visibleCells.first
         }
@@ -416,65 +413,6 @@ public class PagingMenuView: UIScrollView {
             }
         }
     }
-    
-    private func tileCellInfinity(from minX: CGFloat, to maxX: CGFloat) {
-        guard let dataSource = dataSource else {
-            return
-        }
-        
-        if visibleCells.isEmpty {
-            placeNewCellOnRight(with: minX, index: numberOfItem - 1, dataSource: dataSource)
-        }
-        
-        if var lastCell = visibleCells.last {
-            var rightEdge = lastCell.frame.maxX
-            while rightEdge < maxX {
-                rightEdge = placeNewCellOnRight(with: rightEdge, index: lastCell.index, dataSource: dataSource)
-                lastCell = visibleCells.last!
-            }
-        }
-        
-        if var firstCell = visibleCells.first {
-            var leftEdge = firstCell.frame.minX
-            while leftEdge > minX {
-                leftEdge = placeNewCellOnLeft(with: leftEdge, index: firstCell.index, dataSource: dataSource)
-                firstCell = visibleCells.first!
-            }
-        }
-        
-        var lastCell = visibleCells.last!
-        while lastCell.frame.minX > maxX {
-            lastCell.removeFromSuperview()
-            let recycleCell = visibleCells.removeLast()
-            
-            // enqueue
-            if let cells = queue[recycleCell.identifier] {
-                queue[recycleCell.identifier] = cells + [recycleCell]
-            } else {
-                queue[recycleCell.identifier] = [recycleCell]
-            }
-            
-            lastCell = visibleCells.last!
-        }
-        
-        
-        var firstCell = visibleCells.first!
-        while firstCell.frame.maxX < minX {
-            firstCell.removeFromSuperview()
-            let recycleCell = visibleCells.removeFirst()
-            
-            // enqueue
-            if let cells = queue[recycleCell.identifier] {
-                queue[recycleCell.identifier] = cells + [recycleCell]
-            } else {
-                queue[recycleCell.identifier] = [recycleCell]
-            }
-            
-            firstCell = visibleCells.first!
-        }
-    }
-    
-    
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }

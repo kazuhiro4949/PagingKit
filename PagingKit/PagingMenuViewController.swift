@@ -125,14 +125,14 @@ public class PagingMenuViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        menuView.isInfinity = true
+        
         menuView.menuDelegate = self
         menuView.dataSource = self
 
         menuView.frame = view.bounds
         menuView.focusView.frame = menuView.bounds
         view.addSubview(menuView)
-        
-        view.backgroundColor = .clear
     }
     
     override public func didReceiveMemoryWarning() {
