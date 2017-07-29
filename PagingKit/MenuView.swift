@@ -299,6 +299,10 @@ public class PagingMenuView: UIScrollView {
                 var center = containerView.convert(cell.center, to: self)
                 center.x += centerOffsetX - currentOffset.x
                 cell.center = convert(center, to: containerView)
+                
+                if focusView.selectedIndex == cell.index {
+                    focusView.center = convert(center, to: containerView)
+                }
             }
         }
     }
@@ -417,26 +421,27 @@ public class PagingMenuView: UIScrollView {
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }
         if let index = selectedCell?.index {
-            menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
-            
-            if  let selectedIndex = focusView.selectedIndex, focusView.superview == nil {
-                if selectedIndex < index {
-                    focusView.frame.origin.x = bounds.minX - focusView.bounds.width
-                } else if index < selectedIndex {
-                    focusView.frame.origin.x = bounds.maxX
-                }
-                addSubview(focusView)
-            }
-
+            prepareFocusViewIfNeeded(for: index)
             UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
                 self?.scroll(index: index, percent: 0)
-                
                 self?.focusView.setNeedsLayout()
                 self?.focusView.layoutIfNeeded()
                 }, completion: { [weak self] finish in
                     guard let _self = self, finish else { return }
                     _self.menuDelegate?.pagingMenuView(pagingMenuView: _self, focusViewDidEndTransition: _self.focusView)
             })
+            menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
+        }
+    }
+    
+    private func prepareFocusViewIfNeeded(for scrollIndex: Int) {
+        if  let selectedIndex = focusView.selectedIndex, focusView.superview == nil {
+            if selectedIndex < scrollIndex {
+                focusView.frame.origin.x = bounds.minX - focusView.bounds.width
+            } else if scrollIndex < selectedIndex {
+                focusView.frame.origin.x = bounds.maxX
+            }
+            addSubview(focusView)
         }
     }
 }
