@@ -48,12 +48,10 @@ public class PagingContentViewController: UIViewController {
     
     public func reloadData(with page: Int = 0) {
         initialLoad(with: page)
-        scroll(to: page, animated: false)
         
         layoutCompletionHandler = { [weak self] in
             guard let _self = self else { return }
-            let offsetX = _self.scrollView.bounds.width * CGFloat(page)
-            _self.scrollView.setContentOffset(CGPoint(x: offsetX, y: 0), animated: false)
+            _self.scroll(to: page, animated: false)
             _self.layoutCompletionHandler = nil
         }
         
