@@ -27,7 +27,9 @@ public protocol PagingContentViewControllerDataSource: class {
 
 public class PagingContentViewController: UIViewController {
     
-    fileprivate var cachedViewControllers = [UIViewController?]()
+    typealias Content = (index: Int, vc: UIViewController)
+    
+    fileprivate var visibleViewControllers = [Content]()
     
     public weak var delegate: PagingContentViewControllerDelegate?
     public weak var dataSource: PagingContentViewControllerDataSource?
@@ -56,22 +58,23 @@ public class PagingContentViewController: UIViewController {
                 self?.view.layoutIfNeeded()
             },
             completion: { [weak self] (finish) in
-                self?.initialLoad(with: page)
-                self?.scroll(to: page, animated: false)
+                guard let _self = self else { return }
+                _self.initialLoad(with: page)
+//                self?.scroll(to: page, animated: false)
             }
         )
     }
     
     public func scroll(to page: Int, animated: Bool) {
-        let offsetX = scrollView.bounds.width * CGFloat(page)
-        loadPagesIfNeeded(page: page)
-        if animated {
-            performSystemAnimation({ [weak self] in
-                self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-            })
-        } else {
-            scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-        }
+//        let offsetX = scrollView.bounds.width * CGFloat(page)
+//        loadPagesIfNeeded(page: page)
+//        if animated {
+//            performSystemAnimation({ [weak self] in
+//                self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+//            })
+//        } else {
+//            scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+//        }
     }
     
     fileprivate var numberOfPages: Int = 0
@@ -100,17 +103,26 @@ public class PagingContentViewController: UIViewController {
 
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        scrollView.contentSize = CGSize(
-            width: scrollView.bounds.size.width * CGFloat(numberOfPages),
-            height: scrollView.bounds.size.height
-        )
+        recenterIfNeeded()
         
-        cachedViewControllers.enumerated().forEach { (offset, vc) in
-            vc?.view.frame = scrollView.bounds
-            vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
-        }
+        tileChildViewControllers(from: 0, to: scrollView.contentSize.width)
         
         layoutCompletionHandler?()
+    }
+    
+    func recenterIfNeeded() {
+        let currentOffset = scrollView.contentOffset
+        let contentWidth = scrollView.contentSize.width
+        let centerOffsetX = scrollView.bounds.size.width * 2
+        let distanceFromCenter = currentOffset.x - centerOffsetX
+        
+        if fabs(distanceFromCenter) > scrollView.bounds.size.width {
+            scrollView.contentOffset.x = centerOffsetX
+            let shiftingOffsetX = distanceFromCenter > 0 ? -scrollView.bounds.size.width : scrollView.bounds.size.width
+            visibleViewControllers.forEach { (content) in
+                content.vc.view.center.x += shiftingOffsetX
+            }
+        }
     }
     
     override public func didReceiveMemoryWarning() {
@@ -139,26 +151,114 @@ public class PagingContentViewController: UIViewController {
     }
     
     fileprivate func initialLoad(with page: Int) {
+        removeAll()
         numberOfPages = dataSource?.numberOfItemForContentViewController(viewController: self) ?? 0
-        cachedViewControllers = Array(repeating: nil, count: numberOfPages)
-        
-        loadScrollView(with: page - 1)
-        loadScrollView(with: page)
-        loadScrollView(with: page + 1)
+        scrollView.contentSize = CGSize(
+            width: scrollView.bounds.size.width * CGFloat(min(5, numberOfPages)),
+            height: scrollView.bounds.size.height
+        )
+        scrollView.contentOffset = CGPoint(x: scrollView.bounds.width * 2, y: 0)
+        initialTilingChildViewController(with: page)
     }
     
-    fileprivate func loadScrollView(with page: Int) {
-        guard (0..<cachedViewControllers.count) ~= page else { return }
+    private func placeNewViewControllerOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingContentViewControllerDataSource) -> Content? {
+        let nextIndex = (index + 1) % numberOfPages
+        guard (0..<numberOfPages) ~= nextIndex else { return nil }
         
-        if case nil = cachedViewControllers[page], let dataSource = dataSource {
-            let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
-            vc.willMove(toParentViewController: self)
-            addChildViewController(vc)
-            vc.view.frame = scrollView.bounds
-            vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
-            scrollView.addSubview(vc.view)
-            vc.didMove(toParentViewController: self)
-            cachedViewControllers[page] = vc
+        let vc = dataSource.contentViewController(viewController: self, viewControllerAt: nextIndex)
+        let content = (index: nextIndex, vc: vc)
+        
+        addChildViewController(vc)
+        scrollView.addSubview(vc.view)
+        vc.didMove(toParentViewController: self)
+
+        visibleViewControllers.append(content)
+        
+        vc.view.frame.size = scrollView.bounds.size
+        vc.view.frame.origin =  CGPoint(x: rightEdge, y: 0)
+        return content
+    }
+    
+    private func placeNewViewControllerOnLeft(with leftEdge: CGFloat, index: Int, dataSource: PagingContentViewControllerDataSource) -> Content? {
+        let nextIndex: Int
+        if index == 0 {
+            nextIndex = numberOfPages - 1
+        } else {
+            nextIndex = (index - 1) % numberOfPages
+        }
+        guard (0..<numberOfPages) ~= nextIndex else { return nil }
+        
+        let vc = dataSource.contentViewController(viewController: self, viewControllerAt: nextIndex)
+        let content = (index: nextIndex, vc: vc)
+        
+        addChildViewController(vc)
+        scrollView.addSubview(vc.view)
+        vc.didMove(toParentViewController: self)
+        
+        visibleViewControllers.insert(content, at: 0)
+        
+        vc.view.frame.size = scrollView.bounds.size
+        vc.view.frame.origin =  CGPoint(x: leftEdge - scrollView.bounds.size.width, y: 0)
+        return content
+    }
+    
+    private func placeNewViewControllerOnCenter(index: Int, dataSource: PagingContentViewControllerDataSource) -> Content? {
+        guard (0..<numberOfPages) ~= index else { fatalError() }
+        
+        let vc = dataSource.contentViewController(viewController: self, viewControllerAt: index)
+        let content = (index: index, vc: vc)
+        
+        addChildViewController(vc)
+        scrollView.addSubview(vc.view)
+        vc.didMove(toParentViewController: self)
+        
+        vc.view.frame.size = scrollView.bounds.size
+        vc.view.center = CGPoint(x: scrollView.contentSize.width/2, y: scrollView.contentSize.height/2)
+        return content
+    }
+    
+    private func initialTilingChildViewController(with index: Int) {
+        guard let dataSource = dataSource, 0 < numberOfPages, visibleViewControllers.isEmpty else {
+            return
+        }
+        
+        guard let content = placeNewViewControllerOnCenter(index: index, dataSource: dataSource) else {
+            return
+        }
+        
+        visibleViewControllers = [content]
+    }
+    
+    private func tileChildViewControllers(from minX: CGFloat, to maxX: CGFloat) {
+        guard let dataSource = dataSource, 0 < numberOfPages, !visibleViewControllers.isEmpty else {
+            return
+        }
+        
+        var lastContent = visibleViewControllers.last
+        var rightEdge = lastContent?.vc.view.frame.maxX
+        while let _lastContent = lastContent, let _rightEdge = rightEdge, _rightEdge < maxX {
+            lastContent = placeNewViewControllerOnRight(with: _rightEdge, index: _lastContent.index, dataSource: dataSource)
+            rightEdge = lastContent?.vc.view.frame.maxX
+        }
+
+        var firstContent = visibleViewControllers.first
+        var leftEdge = firstContent?.vc.view.frame.minX
+        while let _firstContent = firstContent, let _leftEdge = leftEdge, _leftEdge > minX {
+            firstContent = placeNewViewControllerOnLeft(with: _leftEdge, index: _firstContent.index, dataSource: dataSource)
+            leftEdge = firstContent?.vc.view.frame.minX
+        }
+        
+        while let lastContent = visibleViewControllers.last.flatMap({$0}), lastContent.vc.view.frame.minX > maxX {
+            lastContent.vc.view.removeFromSuperview()
+            lastContent.vc.removeFromParentViewController()
+            visibleViewControllers.removeLast()
+
+        }
+        
+        while let firstContent = visibleViewControllers.first.flatMap({$0}), firstContent.vc.view.frame.maxX < minX {
+            firstContent.vc.view.removeFromSuperview()
+            firstContent.vc.removeFromParentViewController()
+            visibleViewControllers.removeFirst()
         }
     }
 }
@@ -178,25 +278,18 @@ extension PagingContentViewController: UIScrollViewDelegate {
             let normalizedPercent = min(max(0, percent), 1)
             delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
         }
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
-    
-    public func preLoadContentIfNeeded(with scrollingPercent: CGFloat) {
-        guard isEnabledPreloadContent else { return }
-        
-        if scrollingPercent > 0.5 {
-            loadPagesIfNeeded(page: currentPageIndex + 1)
-        } else{
-            loadPagesIfNeeded()
-        }
-    }
-    
+
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isExplicityScrolling {
             let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
-        loadPagesIfNeeded()
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -207,14 +300,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
-        loadPagesIfNeeded()
-    }
-    
-    fileprivate func loadPagesIfNeeded(page: Int? = nil) {
-        let loadingPage = page ?? currentPageIndex
-        loadScrollView(with: loadingPage - 1)
-        loadScrollView(with: loadingPage)
-        loadScrollView(with: loadingPage + 1)
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
     }
 }
 
