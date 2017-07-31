@@ -101,6 +101,10 @@ extension ArbitraryNumberViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController?.scroll(index: index, percent: percent)
     }
+    
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int) {
+        menuViewController?.scroll(index: index)
+    }
 }
 
 // MARK:- UITextFieldDelegate

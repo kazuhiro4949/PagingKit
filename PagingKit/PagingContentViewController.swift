@@ -11,6 +11,7 @@ import UIKit
 public protocol PagingContentViewControllerDelegate: class {
     func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int)
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat)
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int)
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
 }
 
@@ -35,6 +36,8 @@ public class PagingContentViewController: UIViewController {
     public weak var dataSource: PagingContentViewControllerDataSource?
 
     public var isEnabledPreloadContent = true
+    
+    public fileprivate(set) var pageIndex: Int = 0
     
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
@@ -265,6 +268,7 @@ public class PagingContentViewController: UIViewController {
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        scrollView.layer.removeAllAnimations()
         isExplicityScrolling = true
         let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
@@ -276,10 +280,28 @@ extension PagingContentViewController: UIScrollViewDelegate {
             let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
             let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
             let normalizedPercent = min(max(0, percent), 1)
-            delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
+            let content = visibleViewControllers.filter { $0.vc.view.frame.contains(scrollView.contentOffset) }.first!
+            print(content.index)
+            delegate?.contentViewController(viewController: self, didManualScrollOn: content.index, percent: normalizedPercent)
         }
         view.setNeedsLayout()
         view.layoutIfNeeded()
+    }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+        let velocity = scrollView.panGestureRecognizer.velocity(in: scrollView)
+        let leftPage = floor(scrollView.contentOffset.x / scrollView.bounds.width)
+        let page = (0 < velocity.x) ? leftPage : leftPage + 1
+        let offsetX = scrollView.bounds.width * page
+
+        let content = visibleViewControllers.filter { $0.vc.view.frame.contains(scrollView.contentOffset) }.first!
+        let absolutePage = (0 < velocity.x) ? content.index : content.index + 1
+        print(absolutePage)
+        delegate?.contentViewController(viewController: self, willEndManualScrollOn: Int(absolutePage))
+        performSystemAnimation({ [weak self] in
+            self?.scrollView.contentOffset.x = offsetX
+        })
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -288,8 +310,6 @@ extension PagingContentViewController: UIScrollViewDelegate {
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
     }
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -300,8 +320,6 @@ extension PagingContentViewController: UIScrollViewDelegate {
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
-        view.setNeedsLayout()
-        view.layoutIfNeeded()
     }
 }
 
@@ -309,7 +327,7 @@ private func performSystemAnimation(_ animations: @escaping () -> Void, completi
     UIView.perform(
         .delete,
         on: [],
-        options: UIViewAnimationOptions(rawValue: 0),
+        options: .allowUserInteraction,
         animations: animations,
         completion: completion
     )

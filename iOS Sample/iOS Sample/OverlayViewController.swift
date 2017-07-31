@@ -112,4 +112,8 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
         }
         menuViewController?.scroll(index: index, percent: percent)
     }
+    
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int) {
+        menuViewController?.scroll(index: index)
+    }
 }
