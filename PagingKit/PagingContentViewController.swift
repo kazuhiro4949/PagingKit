@@ -120,8 +120,6 @@ public class PagingContentViewController: UIViewController {
     var layoutCompletionHandler: (() -> Void)?
     
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-
         removeAll()
         
         let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
@@ -131,6 +129,8 @@ public class PagingContentViewController: UIViewController {
             _self.scroll(to: leftSidePageIndex, animated: false)
             _self.layoutCompletionHandler = nil
         }
+        
+        super.viewWillTransition(to: size, with: coordinator)
     }
     
     fileprivate func removeAll() {
