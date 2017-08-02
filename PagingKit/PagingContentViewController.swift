@@ -11,7 +11,7 @@ import UIKit
 public protocol PagingContentViewControllerDelegate: class {
     func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int)
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat)
-    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int)
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int, previousPage: Int)
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
 }
 
@@ -268,6 +268,9 @@ public class PagingContentViewController: UIViewController {
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.setNeedsLayout()
+        view.layoutIfNeeded()
+        
         scrollView.layer.removeAllAnimations()
         isExplicityScrolling = true
         let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
@@ -275,17 +278,16 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if isExplicityScrolling {
-            let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
-            let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
-            let normalizedPercent = min(max(0, percent), 1)
-            let content = visibleViewControllers.filter { $0.vc.view.frame.contains(scrollView.contentOffset) }.first!
-            print(content.index)
-            delegate?.contentViewController(viewController: self, didManualScrollOn: content.index, percent: normalizedPercent)
-        }
         view.setNeedsLayout()
         view.layoutIfNeeded()
+        if isExplicityScrolling {
+            let content = visibleViewControllers.filter { $0.vc.view.frame.contains(scrollView.contentOffset) }.first!
+            let leftSideContentOffset = content.vc.view.frame.origin.x
+            let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
+            let normalizedPercent = min(max(0, percent), 1)
+            print(content.index, percent, visibleViewControllers.map { ($0.index, $0.vc.view.frame.minX) })
+            delegate?.contentViewController(viewController: self, didManualScrollOn: content.index, percent: normalizedPercent)
+        }
     }
     
     public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
@@ -297,11 +299,16 @@ extension PagingContentViewController: UIScrollViewDelegate {
 
         let content = visibleViewControllers.filter { $0.vc.view.frame.contains(scrollView.contentOffset) }.first!
         let absolutePage = (0 < velocity.x) ? content.index : content.index + 1
-        print(absolutePage)
-        delegate?.contentViewController(viewController: self, willEndManualScrollOn: Int(absolutePage))
+        let absolutePrevPage = (0 < velocity.x) ? content.index + 1 : content.index
+        print(absolutePage, absolutePrevPage)
+        delegate?.contentViewController(viewController: self, willEndManualScrollOn: Int(absolutePage), previousPage: Int(absolutePrevPage))
         performSystemAnimation({ [weak self] in
             self?.scrollView.contentOffset.x = offsetX
-        })
+            }, completion: { [weak self] _ in
+                self?.view.setNeedsLayout()
+                self?.view.layoutIfNeeded()
+            }
+        )
     }
 
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -314,7 +321,6 @@ extension PagingContentViewController: UIScrollViewDelegate {
     
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
-        
         if isExplicityScrolling {
             let leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)

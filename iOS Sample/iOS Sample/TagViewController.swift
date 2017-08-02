@@ -108,21 +108,27 @@ extension TagViewController: PagingMenuViewControllerDelegate {
 
 extension TagViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-//        let leftCell = menuViewController.cellForItem(at: index) as? TagMenuCell
-//        let rightCell = menuViewController.cellForItem(at: index + 1) as? TagMenuCell
-//        
-//        leftCell?.focus(percent: (1 - percent))
-//        rightCell?.focus(percent: percent)
+        let leftCell = menuViewController.cellForItem(at: index) as? TagMenuCell
+        let rightCell = menuViewController.cellForItem(at: index + 1) as? TagMenuCell
+        
+        leftCell?.focus(percent: (1 - percent))
+        rightCell?.focus(percent: percent)
 
         menuViewController?.scroll(index: index, percent: percent)
     }
     
-    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int) {
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int, previousPage: Int)
+    {
+        let nextCell = menuViewController.cellForItem(at: index) as? TagMenuCell
+        let prevCell = menuViewController.cellForItem(at: previousPage) as? TagMenuCell
+        
+        nextCell?.focus(percent: 1, animated: true)
+        prevCell?.focus(percent: 0, animated: true)
+        
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.menuViewController?.scroll(index: index)
-        }, completion: { (_) in
-        
+            }, completion: { (_) in
+                
         })
-        
     }
 }
