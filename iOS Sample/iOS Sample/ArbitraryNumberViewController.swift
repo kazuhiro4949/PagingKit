@@ -98,8 +98,16 @@ extension ArbitraryNumberViewController: PagingMenuViewControllerDelegate {
 // MARK:- PagingContentViewControllerDelegate
 
 extension ArbitraryNumberViewController: PagingContentViewControllerDelegate {
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int, previousPage: Int) {
+        
+    }
+
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController?.scroll(index: index, percent: percent)
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int) {
+        menuViewController?.scroll(index: index)
     }
 }
 

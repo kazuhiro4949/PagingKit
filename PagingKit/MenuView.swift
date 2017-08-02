@@ -80,6 +80,12 @@ public protocol PagingMenuViewDelegate: class {
     ///   - pagingMenuView: The paging menu view requesting this information.
     ///   - index: The index that specifies the location of the item.
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
+    func pagingMenuView(pagingMenuView: PagingMenuView, focusViewDidEndTransition: PagingMenuFocusView)
+}
+
+extension PagingMenuViewDelegate {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
+    public func pagingMenuView(pagingMenuView: PagingMenuView, focusViewDidEndTransition focusView: PagingMenuFocusView) {}
 }
 
 
@@ -91,24 +97,28 @@ public class PagingMenuView: UIScrollView {
 
     fileprivate var queue = [String: [PagingMenuViewCell]]()
     fileprivate var nibs = [String: UINib]()
-    fileprivate var frameQueue = [CGRect]()
+    fileprivate var widthQueue = [CGFloat]()
     fileprivate var containerView = UIView()
     
+    public fileprivate(set) var focusView = PagingMenuFocusView(frame: .zero)
     
     /// The object that acts as the data source of the paging menu view.
     public weak var dataSource: PagingMenuViewDataSource?
     
     /// The object that acts as the delegate of the paging menu view.
     public weak var menuDelegate: PagingMenuViewDelegate?
+    
+    public var isInfinity = false
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-
         backgroundColor = .clear
         
         addSubview(containerView)
+        
+        focusView.selectedIndex = 0
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -119,18 +129,30 @@ public class PagingMenuView: UIScrollView {
         backgroundColor = .clear
         
         addSubview(containerView)
+
+        focusView.selectedIndex = 0
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-
+        
+        if isInfinity {
+            recenterIfNeeded()
+        }
+    
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
             let extraOffset = visibleBounds.width / 2
             tileCell(
+                with: focusView.selectedIndex ?? 0,
                 from: max(0, visibleBounds.minX - extraOffset),
                 to: min(contentSize.width, visibleBounds.maxX + extraOffset)
             )
+            
+//            tileCell(
+//                from: max(0, visibleBounds.minX - extraOffset),
+//                to: min(contentSize.width, visibleBounds.maxX + extraOffset)
+//            )
         }
     }
     
@@ -144,7 +166,17 @@ public class PagingMenuView: UIScrollView {
     /// - Parameter point: A point in the local coordinate system of the paging menu view (the paging menu view’s bounds).
     /// - Returns: An index path representing the item associated with point, or nil if the point is out of the bounds of any item.
     public func indexForItem(at point: CGPoint) -> Int? {
-        return frameQueue.enumerated().filter { $1.contains(point) }.flatMap{ $0.offset }.first
+        var currentOffsetX: CGFloat = 0
+        var resultIndex: Int? = nil
+        for (idx, width) in widthQueue.enumerated() {
+            let nextOffsetX = currentOffsetX+width
+            if (currentOffsetX..<nextOffsetX) ~= point.x {
+                resultIndex = idx
+                break
+            }
+            currentOffsetX = nextOffsetX
+        }
+        return resultIndex
     }
     
     
@@ -158,7 +190,7 @@ public class PagingMenuView: UIScrollView {
     
     
     /// Reloads the rows and sections of the table view.
-    public func reloadData() {
+    public func reloadData(with index: Int? = nil) {
         guard let dataSource = dataSource else {
             return
         }
@@ -170,6 +202,10 @@ public class PagingMenuView: UIScrollView {
         
         invalidateLayout()
         
+        if let _index = index {
+            focusView.selectedIndex = _index
+        }
+
         setNeedsLayout()
         layoutIfNeeded()
     }
@@ -212,16 +248,15 @@ public class PagingMenuView: UIScrollView {
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
     public func rectForItem(at index: Int) -> CGRect? {
-        guard index < frameQueue.count else {
-            let lastFrame = frameQueue.last
-            let rightEdge = lastFrame.flatMap { CGRect(x: $0.maxX, y: 0, width: 0, height: $0.height) }
-            return rightEdge
+        guard index < widthQueue.count else {
+            let rightEdge = widthQueue.reduce(CGFloat(0)) { (sum, width) in return sum + width  }
+            return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
         }
         
         let x = (0..<index).reduce(0) { (sum, idx) in
-            return sum + frameQueue[idx].width
+            return sum + widthQueue[idx]
         }
-        return CGRect(x: x, y: 0, width: frameQueue[index].width, height: bounds.height)
+        return CGRect(x: x, y: 0, width: widthQueue[index], height: bounds.height)
     }
     
     public func invalidateLayout() {
@@ -229,16 +264,50 @@ public class PagingMenuView: UIScrollView {
             return
         }
 
-        frameQueue = []
+        widthQueue = []
         var containerWidth: CGFloat = 0
         (0..<numberOfItem).forEach { (index) in
             let width = dataSource.pagingMenuView(pagingMenuView: self, widthForItemAt: index)
-            frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
+            widthQueue.append(width)
             containerWidth += width
         }
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
         align()
+    }
+    
+    public func scroll(index: Int, percent: CGFloat = 0) {
+        let rightIndex = index + 1
+        
+        guard let leftFrame = rectForItem(at: index),
+            let rightFrame = rectForItem(at: rightIndex) else { return }
+        
+        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
+        
+        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
+        let offsetX = centerPointX - bounds.width / 2
+        let maxOffsetX = max(0, contentSize.width - bounds.width)
+        let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
+
+        focusView.frame.size.width = width
+        focusView.center.x = centerPointX
+        contentOffset.x = normaizedOffsetX
+        focusView.selectedIndex = index
+        
+    }
+    
+    public func scrollInfinity(index: Int, percent: CGFloat = 0) {
+        let rightIndex = index + 1
+        
+        guard let cell = cellForItem(at: index), let rightCell = cellForItem(at: rightIndex) ?? cellForItem(at: 0) else { return }
+        let centerPointX = cell.center.x + (rightCell.frame.midX - cell.frame.midX) * percent
+        let width = cell.bounds.width + (rightCell.bounds.width - cell.bounds.width) * percent
+        let offsetX = centerPointX - bounds.width/2
+        
+        focusView.frame.size.width = width
+        focusView.center.x = centerPointX
+        contentOffset.x = offsetX
+        focusView.selectedIndex = index
     }
     
     private func recenterIfNeeded() {
@@ -247,55 +316,150 @@ public class PagingMenuView: UIScrollView {
         let centerOffsetX = (contentWidth - bounds.size.width) / 2
         let distanceFromCenter = fabs(currentOffset.x - centerOffsetX)
         
+        
         if distanceFromCenter > (contentWidth - bounds.size.width) / 4 {
             contentOffset = CGPoint(x: centerOffsetX, y: currentOffset.y)
+            let shiftingX = centerOffsetX - currentOffset.x
             
-            for cell in visibleCells {
-                var center = containerView.convert(cell.center, to: self)
-                center.x += centerOffsetX - currentOffset.x
-                cell.center = convert(center, to: containerView)
+            visibleCells.forEach { (cell) in
+                cell.center.x += shiftingX
+                
+                if focusView.selectedIndex == cell.index {
+                    focusView.center.x += shiftingX
+                }
             }
         }
     }
     
     private func align() {
         visibleCells.forEach { (cell) in
-            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
+            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widthQueue[idx] }
             cell.frame.origin = CGPoint(x: leftEdge, y: bounds.minY)
-            cell.frame.size = CGSize(width: frameQueue[cell.index].width, height: bounds.height)
+            cell.frame.size = CGSize(width: widthQueue[cell.index], height: bounds.height)
         }
     }
     
     @discardableResult
-    private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
+    private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat? {
         let nextIndex = (index + 1) % numberOfItem
+        guard ((0..<numberOfItem) ~= nextIndex || isInfinity) else { return nil }
+        
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
         containerView.addSubview(cell)
         
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
-        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
+        cell.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
+        
+        if focusView.selectedIndex == cell.index {
+            addSubview(focusView)
+            focusView.frame.origin = CGPoint(x: rightEdge, y: 0)
+            focusView.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
+        }
 
         return cell.frame.maxX
     }
     
-    private func placeNewCellOnLeft(with leftEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
+    private func placeNewCellOnLeft(with leftEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat? {
         let nextIndex: Int
         if index == 0 {
             nextIndex = numberOfItem - 1
         } else {
             nextIndex = (index - 1) % numberOfItem
         }
+        guard ((0..<numberOfItem) ~= nextIndex || isInfinity) else { return nil }
+        
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
         
         containerView.addSubview(cell)
         
         visibleCells.insert(cell, at: 0)
-        cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
-        cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width, y: 0)
+        cell.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
+        cell.frame.origin = CGPoint(x: leftEdge - widthQueue[nextIndex], y: 0)
+        
+        if focusView.selectedIndex == cell.index {
+            addSubview(focusView)
+            focusView.frame.size = CGSize(width: widthQueue[nextIndex], height: bounds.height)
+            focusView.frame.origin = CGPoint(x: leftEdge - widthQueue[nextIndex], y: 0)
+        }
+        
         return cell.frame.minX
+    }
+    
+    private func placeNewCellOnCenter(index: Int, dataSource: PagingMenuViewDataSource) -> PagingMenuViewCell? {
+        guard (0..<numberOfItem) ~= index else { return nil }
+        
+        let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: index)
+        cell.index = index
+        
+        containerView.addSubview(cell)
+        
+        cell.frame.size = CGSize(width: widthQueue[index], height: bounds.height)
+        cell.center = CGPoint(x: contentSize.width/2, y: contentSize.height/2)
+        
+        addSubview(focusView)
+        focusView.frame = cell.frame
+        return cell
+    }
+    
+    private func tileCell(with index: Int, from minX: CGFloat, to maxX: CGFloat) {
+        guard let dataSource = dataSource, 0 < numberOfItem else {
+            return
+        }
+
+        if visibleCells.isEmpty {
+            guard let cell = placeNewCellOnCenter(index: index, dataSource: dataSource) else {
+                return
+            }
+            
+            visibleCells.insert(cell, at: 0)
+        }
+        
+        var lastCell = visibleCells.last
+        var rightEdge = lastCell?.frame.maxX
+        while let _lastCell = lastCell, let _rightEdge = rightEdge, _rightEdge < maxX {
+            rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource)
+            lastCell = visibleCells.last
+        }
+        
+        var firstCell = visibleCells.first
+        var leftEdge = firstCell?.frame.minX
+        while let _firstCell = firstCell, let _leftEdge = leftEdge, _leftEdge > minX {
+            leftEdge = placeNewCellOnLeft(with: _leftEdge, index: _firstCell.index, dataSource: dataSource)
+            firstCell = visibleCells.first
+        }
+        
+        while let lastCell = visibleCells.last, lastCell.frame.minX > maxX {
+            lastCell.removeFromSuperview()
+            let recycleCell = visibleCells.removeLast()
+            
+            if let cells = queue[recycleCell.identifier] {
+                queue[recycleCell.identifier] = cells + [recycleCell]
+            } else {
+                queue[recycleCell.identifier] = [recycleCell]
+            }
+            
+            if lastCell.index == focusView.selectedIndex {
+                focusView.removeFromSuperview()
+            }
+        }
+        
+        while let firstCell = visibleCells.first, firstCell.frame.maxX < minX {
+            firstCell.removeFromSuperview()
+            let recycleCell = visibleCells.removeFirst()
+            
+            if let cells = queue[recycleCell.identifier] {
+                queue[recycleCell.identifier] = cells + [recycleCell]
+            } else {
+                queue[recycleCell.identifier] = [recycleCell]
+            }
+            
+            if firstCell.index == focusView.selectedIndex {
+                focusView.removeFromSuperview()
+            }
+        }
     }
     
     private func tileCell(from minX: CGFloat, to maxX: CGFloat) {
@@ -309,20 +473,17 @@ public class PagingMenuView: UIScrollView {
         
         var lastCell = visibleCells.last
         var rightEdge = lastCell?.frame.maxX
-        while let _lastCell = lastCell, let _rightEdge = rightEdge,
-            _rightEdge < maxX, (0..<numberOfItem) ~= _lastCell.index + 1 {
+        while let _lastCell = lastCell, let _rightEdge = rightEdge, _rightEdge < maxX {
                 rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource)
                 lastCell = visibleCells.last
         }
         
         var firstCell = visibleCells.first
         var leftEdge = firstCell?.frame.minX
-        while let _firstCell = firstCell, let _leftEdge = leftEdge,
-            _leftEdge > minX, (0..<numberOfItem) ~= _firstCell.index - 1 {
+        while let _firstCell = firstCell, let _leftEdge = leftEdge, _leftEdge > minX {
                 leftEdge = placeNewCellOnLeft(with: _leftEdge, index: _firstCell.index, dataSource: dataSource)
                 firstCell = visibleCells.first
         }
-        
         
         while let lastCell = visibleCells.last, lastCell.frame.minX > maxX {
             lastCell.removeFromSuperview()
@@ -332,6 +493,10 @@ public class PagingMenuView: UIScrollView {
                 queue[recycleCell.identifier] = cells + [recycleCell]
             } else {
                 queue[recycleCell.identifier] = [recycleCell]
+            }
+            
+            if lastCell.index == focusView.selectedIndex {
+                focusView.removeFromSuperview()
             }
         }
 
@@ -344,6 +509,10 @@ public class PagingMenuView: UIScrollView {
             } else {
                 queue[recycleCell.identifier] = [recycleCell]
             }
+
+            if firstCell.index == focusView.selectedIndex {
+                focusView.removeFromSuperview()
+            }
         }
     }
     
@@ -351,6 +520,27 @@ public class PagingMenuView: UIScrollView {
         let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }
         if let index = selectedCell?.index {
             menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
+
+            prepareFocusViewIfNeeded(for: index)
+            UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                self?.scrollInfinity(index: index)
+                self?.focusView.setNeedsLayout()
+                self?.focusView.layoutIfNeeded()
+                }, completion: { [weak self] finish in
+                    guard let _self = self, finish else { return }
+                    _self.menuDelegate?.pagingMenuView(pagingMenuView: _self, focusViewDidEndTransition: _self.focusView)
+            })
+        }
+    }
+    
+    private func prepareFocusViewIfNeeded(for scrollIndex: Int) {
+        if  let selectedIndex = focusView.selectedIndex, focusView.superview == nil {
+            if selectedIndex < scrollIndex {
+                focusView.frame.origin.x = bounds.minX - focusView.bounds.width
+            } else if scrollIndex < selectedIndex {
+                focusView.frame.origin.x = bounds.maxX
+            }
+            addSubview(focusView)
         }
     }
 }

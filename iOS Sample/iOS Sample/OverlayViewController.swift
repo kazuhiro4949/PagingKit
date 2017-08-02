@@ -26,11 +26,16 @@ class OverlayViewController: UIViewController {
 
         menuViewController?.register(nib: UINib(nibName: "OverlayMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "OverlayFocusView", bundle: nil), isBehindCell: true)
-        menuViewController?.reloadData(startingOn: 0, completionHandler: { [weak self] (_) in
-            let cell = self?.menuViewController.currentFocusedCell as? OverlayMenuCell
-            cell?.isHighlight = true
-        })
-        contentViewController?.reloadData(with: 0)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { [weak self] in
+            self?.menuViewController?.reloadData(startingOn: 4, completionHandler: { [weak self] (_) in
+                let cell = self?.menuViewController.currentFocusedCell as? OverlayMenuCell
+                cell?.isHighlight = true
+            })
+            self?.contentViewController?.reloadData(with: 4)
+        }
+        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -97,6 +102,10 @@ extension OverlayViewController: PagingMenuViewControllerDelegate {
 }
 
 extension OverlayViewController: PagingContentViewControllerDelegate {
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int, previousPage: Int) {
+        
+    }
+
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         if percent < 0.5 {
             let cell = menuViewController.cellForItem(at: index) as? OverlayMenuCell
@@ -105,6 +114,10 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
             let cell = menuViewController.cellForItem(at: index + 1) as? OverlayMenuCell
             cell?.black(percent: (1 - percent) * 2)
         }
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController?.scroll(index: index, percent: percent)
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, willEndManualScrollOn index: Int) {
+        menuViewController?.scroll(index: index)
     }
 }

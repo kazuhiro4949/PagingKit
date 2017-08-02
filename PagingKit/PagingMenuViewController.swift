@@ -39,45 +39,15 @@ public class PagingMenuFocusView: UIView {
 public class PagingMenuViewController: UIViewController {
     public weak var delegate: PagingMenuViewControllerDelegate?
     public weak var dataSource: PagingMenuViewControllerDataSource?
-    
-    fileprivate var focusView = PagingMenuFocusView(frame: .zero)
-    
-    public var focusPointerOffset: CGPoint {
-        return focusView.center
-    }
 
     public var percentOffset: CGFloat {
         return menuView.contentOffset.x / menuView.contentSize.width
     }
     
-    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
-        let rightIndex = index + 1
-
-        guard let leftFrame = menuView.rectForItem(at: index),
-            let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
-        
-        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
-        let height = (rightFrame.height - leftFrame.height) * percent + leftFrame.height
-        focusView.frame.size = CGSize(width: width, height: height)
-        
-        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
-        let offsetX = centerPointX - menuView.bounds.width / 2
-        let maxOffsetX = max(0, menuView.contentSize.width - menuView.bounds.width)
-        let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
-        
-        let centerPointY = leftFrame.midY + (rightFrame.midY - leftFrame.midY) * percent
-        let offsetY = centerPointY - menuView.bounds.height / 2
-        let maxOffsetY = max(0, menuView.contentSize.height - menuView.bounds.height)
-        let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
-        let offset = CGPoint(x: normaizedOffsetX, y:normaizedOffsetY)
-        
-        focusView.center = CGPoint(x: centerPointX, y: centerPointY)
-        
-        menuView.setContentOffset(offset, animated: animated)
-        focusView.selectedIndex = index
-        
-        if percent == 0 && !animated {
-            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
+    public func scroll(index: Int, percent: CGFloat = 0) {
+        menuView.scrollInfinity(index: index, percent: percent)
+        if percent == 0 {
+            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }
     }
     
@@ -86,11 +56,11 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public var currentFocusedCell: PagingMenuViewCell? {
-        return menuView.indexForItem(at: focusView.center).flatMap(menuView.cellForItem)
+        return menuView.focusView.selectedIndex.flatMap(menuView.cellForItem)
     }
     
     public var currentFocusedIndex: Int? {
-        return menuView.indexForItem(at: focusView.center)
+        return menuView.focusView.selectedIndex
     }
     
     public func cellForItem(at index: Int) -> PagingMenuViewCell? {
@@ -100,9 +70,9 @@ public class PagingMenuViewController: UIViewController {
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
         view.translatesAutoresizingMaskIntoConstraints = true
         view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth, .flexibleHeight]
-        view.frame = focusView.bounds
-        focusView.addSubview(view)
-        focusView.layer.zPosition = isBehindCell ? -1 : 0
+        view.frame = menuView.focusView.bounds
+        menuView.focusView.addSubview(view)
+        menuView.focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
     
     public func registerFocusView(nib: UINib, isBehindCell: Bool = false) {
@@ -122,14 +92,10 @@ public class PagingMenuViewController: UIViewController {
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
-                self?.menuView.reloadData()
+                self?.menuView.reloadData(with: index)
             },
-            completion: {  [weak self] (finish) in
-                if let index = index {
-                    guard let _self = self else { return }
-                    _self.scroll(index: index, percent: 0, animated: false)
-                    completionHandler?(finish)
-                }
+            completion: { (finish) in
+                completionHandler?(finish)
             }
         )
     }
@@ -146,15 +112,14 @@ public class PagingMenuViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        menuView.isInfinity = true
+        
         menuView.menuDelegate = self
-        menuView.delegate = self
         menuView.dataSource = self
 
         menuView.frame = view.bounds
+        menuView.focusView.frame = menuView.bounds
         view.addSubview(menuView)
-
-        focusView.frame = menuView.bounds
-        menuView.addSubview(focusView)
     }
     
     override public func didReceiveMemoryWarning() {
@@ -176,48 +141,21 @@ public class PagingMenuViewController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let index = menuView.indexForItem(at: focusView.center)
         layoutHandler = { [weak self] in
             self?.menuView.invalidateLayout()
-            self?.scroll(index: index ?? 0, percent: 0, animated: false)
+            self?.scroll(index: self?.menuView.focusView.selectedIndex ?? 0, percent: 0)
             self?.layoutHandler = nil
-        }
-    }
-}
-
-extension PagingMenuViewController: UIScrollViewDelegate {
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
-    }
-
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if !decelerate {
-            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
         }
     }
 }
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
-        guard let itemFrame = pagingMenuView.rectForItem(at: index) else { return }
-        
-        delegate?.menuViewController(viewController: self, didSelect: index, previousPage: focusView.selectedIndex ?? 0)
-        
-        focusView.selectedIndex = index
-        
-        let offset: CGPoint
-        let offsetX = itemFrame.midX - menuView.bounds.width / 2
-        let maxOffsetX = max(menuView.bounds.width, menuView.contentSize.width) - menuView.bounds.width
-        offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
-        
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.menuView.contentOffset = offset
-            self?.focusView.frame = itemFrame
-            self?.focusView.layoutIfNeeded()
-            }, completion: { [weak self] finish in
-                guard let _self = self, finish else { return }
-                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
-        })
+        delegate?.menuViewController(viewController: self, didSelect: index, previousPage: menuView.focusView.selectedIndex ?? 0)
+    }
+    
+    public func pagingMenuView(pagingMenuView: PagingMenuView, focusViewDidEndTransition focusView: PagingMenuFocusView) {
+        delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
     }
 }
 
