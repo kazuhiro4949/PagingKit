@@ -78,7 +78,7 @@ public class PagingContentViewController: UIViewController {
     
     fileprivate var isExplicityScrolling = false
     
-    fileprivate let scrollView: UIScrollView = {
+    public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.bounces = false
