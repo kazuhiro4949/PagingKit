@@ -248,6 +248,56 @@ extension ViewController: PagingContentViewControllerDataSource {
 
 <img width="487" alt="2017-08-25 17 54 30" src="https://user-images.githubusercontent.com/18320004/29706950-7e1b41a8-89be-11e7-8bb2-fc90afbe11f7.png">
 
+# 5. Syncronize Menu and Content view controllers
+## 1. set menu delegate
+```swift
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PagingMenuViewController {
+            menuViewController = vc
+            menuViewController.dataSource = self
+            menuViewController.delegate = self // <- set menu delegate
+        } else if let vc = segue.destination as? PagingContentViewController {
+            contentViewController = vc
+            contentViewController.dataSource = self
+        }
+    }
+}
+```
+
+```swift
+
+extension ViewController: PagingMenuViewControllerDelegate {
+    func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
+        contentViewController.scroll(to: page, animated: true)
+    }
+}
+```
+
+## 2. set content delegate
+```swift
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PagingMenuViewController {
+            menuViewController = vc
+            menuViewController.dataSource = self
+            menuViewController.delegate = self
+        } else if let vc = segue.destination as? PagingContentViewController {
+            contentViewController = vc
+            contentViewController.dataSource = self
+            contentViewController.delegate = self // <- set content delegate
+        }
+    }
+}
+```
+
+```swift
+extension ViewController: PagingContentViewControllerDelegate {
+    func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
+        menuViewController.scroll(index: index, percent: percent, animated: false)
+    }
+}
+```
+
+
 
 # Class Design
 # License
