@@ -95,6 +95,9 @@ public class PagingMenuView: UIScrollView {
     fileprivate var containerView = UIView()
     
     
+    /// space setting between cells
+    public var cellSpacing: CGFloat = 0
+    
     /// The object that acts as the data source of the paging menu view.
     public weak var dataSource: PagingMenuViewDataSource?
     
@@ -218,9 +221,10 @@ public class PagingMenuView: UIScrollView {
             return rightEdge
         }
         
-        let x = (0..<index).reduce(0) { (sum, idx) in
+        var x = (0..<index).reduce(0) { (sum, idx) in
             return sum + frameQueue[idx].width
         }
+        x += cellSpacing * CGFloat(index)
         return CGRect(x: x, y: 0, width: frameQueue[index].width, height: bounds.height)
     }
     
@@ -236,9 +240,18 @@ public class PagingMenuView: UIScrollView {
             frameQueue.append(CGRect(x: containerWidth, y: 0, width: width, height: bounds.height))
             containerWidth += width
         }
+        containerWidth += totalSpacing
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
         align()
+    }
+    
+    private var numberOfCellSpacing: CGFloat {
+        return max(CGFloat(numberOfItem - 1), 0)
+    }
+    
+    private var totalSpacing: CGFloat {
+        return cellSpacing * numberOfCellSpacing
     }
     
     private func recenterIfNeeded() {
@@ -260,7 +273,7 @@ public class PagingMenuView: UIScrollView {
     
     private func align() {
         visibleCells.forEach { (cell) in
-            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width }
+            let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + frameQueue[idx].width + cellSpacing }
             cell.frame.origin = CGPoint(x: leftEdge, y: bounds.minY)
             cell.frame.size = CGSize(width: frameQueue[cell.index].width, height: bounds.height)
         }
@@ -294,7 +307,7 @@ public class PagingMenuView: UIScrollView {
         
         visibleCells.insert(cell, at: 0)
         cell.frame.size = CGSize(width: frameQueue[nextIndex].width, height: bounds.height)
-        cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width, y: 0)
+        cell.frame.origin = CGPoint(x: leftEdge - frameQueue[nextIndex].width - cellSpacing, y: 0)
         return cell.frame.minX
     }
     
@@ -308,10 +321,10 @@ public class PagingMenuView: UIScrollView {
         }
         
         var lastCell = visibleCells.last
-        var rightEdge = lastCell?.frame.maxX
+        var rightEdge = lastCell.flatMap { $0.frame.maxX + cellSpacing }
         while let _lastCell = lastCell, let _rightEdge = rightEdge,
             _rightEdge < maxX, (0..<numberOfItem) ~= _lastCell.index + 1 {
-                rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource)
+                rightEdge = placeNewCellOnRight(with: _rightEdge, index: _lastCell.index, dataSource: dataSource) + cellSpacing
                 lastCell = visibleCells.last
         }
         

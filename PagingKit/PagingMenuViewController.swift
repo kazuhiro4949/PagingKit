@@ -50,6 +50,17 @@ public class PagingMenuViewController: UIViewController {
         return menuView.contentOffset.x / menuView.contentSize.width
     }
     
+    
+    /// space setting between cells
+    public var cellSpacing: CGFloat {
+        set {
+            menuView.cellSpacing = newValue
+        }
+        get {
+            return menuView.cellSpacing
+        }
+    }
+    
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
 
