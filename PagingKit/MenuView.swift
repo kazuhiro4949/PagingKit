@@ -361,7 +361,9 @@ public class PagingMenuView: UIScrollView {
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let selectedCell = touches.first.flatMap { $0.location(in: self) }.flatMap { hitTest($0, with: event) as? PagingMenuViewCell }
+        let selectedCell = touches.first.flatMap { $0.location(in: containerView) }.flatMap { point in
+            visibleCells.filter { cell in cell.frame.contains(point) }
+        }?.first
         if let index = selectedCell?.index {
             menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
