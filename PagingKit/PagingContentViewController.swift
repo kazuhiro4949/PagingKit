@@ -41,8 +41,13 @@ public class PagingContentViewController: UIViewController {
     public var pagingPercent: CGFloat {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
-    
+
     fileprivate var leftSidePageIndex = 0
+    
+    @available(*, deprecated)
+    public var currentPageIndex: Int {
+        return leftSidePageIndex
+    }
     
     public func reloadData(with page: Int = 0) {
         removeAll()
