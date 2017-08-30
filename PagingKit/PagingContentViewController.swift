@@ -86,8 +86,6 @@ public class PagingContentViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
         scrollView.bounces = false
-        scrollView.translatesAutoresizingMaskIntoConstraints = true
-        scrollView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin, .flexibleHeight, .flexibleWidth, .flexibleTopMargin, .flexibleLeftMargin]
         scrollView.backgroundColor = .clear
         return scrollView
     }()
@@ -96,6 +94,8 @@ public class PagingContentViewController: UIViewController {
         super.viewDidLoad()
         
         scrollView.frame = view.bounds
+        scrollView.translatesAutoresizingMaskIntoConstraints = true
+        scrollView.autoresizingMask = [.flexibleRightMargin, .flexibleBottomMargin, .flexibleHeight, .flexibleWidth, .flexibleTopMargin, .flexibleLeftMargin]
         scrollView.delegate = self
         view.addSubview(scrollView)
         

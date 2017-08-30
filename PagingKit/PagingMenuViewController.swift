@@ -149,8 +149,6 @@ public class PagingMenuViewController: UIViewController {
         let view = PagingMenuView(frame: .zero)
         view.backgroundColor = .clear
         view.showsHorizontalScrollIndicator = false
-        view.translatesAutoresizingMaskIntoConstraints = true
-        view.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         return view
     }()
     
@@ -162,6 +160,8 @@ public class PagingMenuViewController: UIViewController {
         menuView.dataSource = self
 
         menuView.frame = view.bounds
+        menuView.translatesAutoresizingMaskIntoConstraints = true
+        menuView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         view.addSubview(menuView)
 
         focusView.frame = menuView.bounds
