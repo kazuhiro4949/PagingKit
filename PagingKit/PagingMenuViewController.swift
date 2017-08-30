@@ -150,6 +150,7 @@ public class PagingMenuViewController: UIViewController {
         let view = PagingMenuView(frame: .zero)
         view.backgroundColor = .clear
         view.showsHorizontalScrollIndicator = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -161,7 +162,6 @@ public class PagingMenuViewController: UIViewController {
         menuView.dataSource = self
 
         view.addSubview(menuView)
-        menuView.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([.top, .bottom, .leading, .trailing].map {
             NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
         })
