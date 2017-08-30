@@ -210,7 +210,7 @@ extension PagingMenuViewController: UIScrollViewDelegate {
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
-        guard let itemFrame = pagingMenuView.rectForItem(at: index) else { return }
+        guard let itemFrame = pagingMenuView.rectForItem(at: index), focusView.selectedIndex != index else { return }
         
         delegate?.menuViewController(viewController: self, didSelect: index, previousPage: focusView.selectedIndex ?? 0)
         
