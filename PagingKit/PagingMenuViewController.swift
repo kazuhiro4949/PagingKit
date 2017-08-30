@@ -189,10 +189,9 @@ public class PagingMenuViewController: UIViewController {
     public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        let index = menuView.indexForItem(at: focusView.center)
         layoutHandler = { [weak self] in
             self?.menuView.invalidateLayout()
-            self?.scroll(index: index ?? 0, percent: 0, animated: false)
+            self?.scroll(index: self?.focusView.selectedIndex ?? 0, percent: 0, animated: false)
             self?.layoutHandler = nil
         }
     }
