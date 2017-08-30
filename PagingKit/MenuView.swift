@@ -147,7 +147,17 @@ public class PagingMenuView: UIScrollView {
     /// - Parameter point: A point in the local coordinate system of the paging menu view (the paging menu view’s bounds).
     /// - Returns: An index path representing the item associated with point, or nil if the point is out of the bounds of any item.
     public func indexForItem(at point: CGPoint) -> Int? {
-        return frameQueue.enumerated().filter { $1.contains(point) }.flatMap{ $0.offset }.first
+        var currentOffsetX: CGFloat = 0
+        var resultIndex: Int? = nil
+        for (idx, frame) in frameQueue.enumerated() {
+            let nextOffsetX = currentOffsetX + frame.width
+            if (currentOffsetX..<nextOffsetX) ~= point.x {
+                resultIndex = idx
+                break
+            }
+            currentOffsetX = nextOffsetX
+        }
+        return resultIndex
     }
     
     
@@ -217,7 +227,7 @@ public class PagingMenuView: UIScrollView {
     public func rectForItem(at index: Int) -> CGRect? {
         guard index < frameQueue.count else {
             let lastFrame = frameQueue.last
-            let rightEdge = lastFrame.flatMap { CGRect(x: $0.maxX, y: 0, width: 0, height: $0.height) }
+            let rightEdge = lastFrame.flatMap { CGRect(x: $0.maxX, y: 0, width: 0, height: bounds.height) }
             return rightEdge
         }
         

@@ -97,7 +97,7 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public var currentFocusedCell: PagingMenuViewCell? {
-        return menuView.indexForItem(at: focusView.center).flatMap(menuView.cellForItem)
+        return menuView.indexForItem(at: CGPoint(x: focusView.center.x, y: 0)).flatMap(menuView.cellForItem)
     }
     
     public var currentFocusedIndex: Int? {
@@ -109,10 +109,11 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
-        view.translatesAutoresizingMaskIntoConstraints = true
-        view.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleWidth, .flexibleHeight]
-        view.frame = focusView.bounds
         focusView.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        focusView.addConstraints([.top, .bottom, .leading, .trailing].map {
+            NSLayoutConstraint(item: view, attribute: $0, relatedBy: .equal, toItem: focusView, attribute: $0, multiplier: 1, constant: 0)
+        })
         focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
     
@@ -159,10 +160,11 @@ public class PagingMenuViewController: UIViewController {
         menuView.delegate = self
         menuView.dataSource = self
 
-        menuView.frame = view.bounds
-        menuView.translatesAutoresizingMaskIntoConstraints = true
-        menuView.autoresizingMask = [.flexibleWidth, .flexibleHeight, .flexibleTopMargin, .flexibleLeftMargin]
         view.addSubview(menuView)
+        menuView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraints([.top, .bottom, .leading, .trailing].map {
+            NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
+        })
 
         focusView.frame = menuView.bounds
         menuView.addSubview(focusView)
