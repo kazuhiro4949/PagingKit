@@ -111,6 +111,8 @@ public class PagingContentViewController: UIViewController {
             height: scrollView.bounds.size.height
         )
         
+        scrollView.contentOffset = CGPoint(x: scrollView.bounds.width * CGFloat(leftSidePageIndex), y: 0)
+        
         cachedViewControllers.enumerated().forEach { (offset, vc) in
             vc?.view.frame = scrollView.bounds
             vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
