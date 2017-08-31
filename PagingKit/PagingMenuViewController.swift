@@ -176,24 +176,8 @@ public class PagingMenuViewController: UIViewController {
     
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        layoutHandler?()
-    }
-    
-    public override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        layoutHandler = nil
-    }
-    
-    var layoutHandler: (() -> Void)?
-    
-    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        
-        layoutHandler = { [weak self] in
-            self?.menuView.invalidateLayout()
-            self?.scroll(index: self?.focusView.selectedIndex ?? 0, percent: 0, animated: false)
-            self?.layoutHandler = nil
-        }
+        menuView.invalidateLayout()
+        scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
     }
 }
 
