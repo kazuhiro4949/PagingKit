@@ -182,9 +182,13 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let _ = object as? UIView, keyPath == "frame" {
+        if let view = object as? UIView, view == self.view, keyPath == #keyPath(UIView.frame) {
             invalidateLayout()
         }
+    }
+    
+    deinit {
+        view.removeObserver(self, forKeyPath: #keyPath(UIView.frame))
     }
 }
 
