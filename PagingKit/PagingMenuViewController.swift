@@ -166,6 +166,8 @@ public class PagingMenuViewController: UIViewController {
             NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
         })
 
+        view.addObserver(self, forKeyPath: #keyPath(UIView.frame), options: [.old, .new], context: nil)
+        
         focusView.frame = menuView.bounds
         menuView.addSubview(focusView)
     }
@@ -174,10 +176,15 @@ public class PagingMenuViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override public func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    public func invalidateLayout() {
         menuView.invalidateLayout()
         scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let _ = object as? UIView, keyPath == "frame" {
+            invalidateLayout()
+        }
     }
 }
 
