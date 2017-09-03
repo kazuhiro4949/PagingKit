@@ -14,6 +14,7 @@
 		2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */; };
 		2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */; };
 		2B47E7401F10C08C00D67C04 /* PagingKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B47E73F1F10C08C00D67C04 /* PagingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */; };
 		2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4171F19F29800829D1A /* TagViewController.swift */; };
 		2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */; };
 		2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */; };
@@ -70,6 +71,7 @@
 		2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayFocusView.swift; sourceTree = "<group>"; };
 		2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayMenuCell.swift; sourceTree = "<group>"; };
 		2B47E73F1F10C08C00D67C04 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSizeViewController.swift; sourceTree = "<group>"; };
 		2BC1B4171F19F29800829D1A /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagMenuCell.swift; sourceTree = "<group>"; };
 		2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagMenuCell.xib; sourceTree = "<group>"; };
@@ -151,6 +153,14 @@
 			name = Overlay;
 			sourceTree = "<group>";
 		};
+		2B47F8781F5BF155001A7D2B /* DynamicSize */ = {
+			isa = PBXGroup;
+			children = (
+				2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */,
+			);
+			name = DynamicSize;
+			sourceTree = "<group>";
+		};
 		2BC1B4161F19E75A00829D1A /* Tag */ = {
 			isa = PBXGroup;
 			children = (
@@ -186,6 +196,7 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2B47F8781F5BF155001A7D2B /* DynamicSize */,
 				2B442C241F1DA90D00135238 /* ArbitraryNumber */,
 				2BC1B4161F19E75A00829D1A /* Tag */,
 				2B47E7421F10C13600D67C04 /* Overlay */,
@@ -375,6 +386,7 @@
 				2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */,
 				6E98277C1F0A91F400860828 /* ViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
+				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
 				2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */,
