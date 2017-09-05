@@ -117,25 +117,19 @@ public class PagingContentViewController: UIViewController {
             vc?.view.frame = scrollView.bounds
             vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
         }
-        
-        layoutCompletionHandler?()
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    var layoutCompletionHandler: (() -> Void)?
-    
+
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         removeAll()
-        
-        layoutCompletionHandler = { [weak self] in
+        initialLoad(with: leftSidePageIndex)
+        coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
-            _self.initialLoad(with: _self.leftSidePageIndex)
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
-            _self.layoutCompletionHandler = nil
-        }
+        }, completion: nil)
         
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -200,7 +194,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isExplicityScrolling {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController?(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
         loadPagesIfNeeded()
@@ -211,7 +205,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
         
         if isExplicityScrolling {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController?(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
         loadPagesIfNeeded()
