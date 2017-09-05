@@ -194,7 +194,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         if isExplicityScrolling {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController?(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
         loadPagesIfNeeded()
@@ -205,7 +205,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
         
         if isExplicityScrolling {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController?(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
         }
         isExplicityScrolling = false
         loadPagesIfNeeded()
