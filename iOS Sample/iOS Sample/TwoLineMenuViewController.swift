@@ -51,7 +51,7 @@ class TwoLineMenuViewController: UIViewController {
 extension TwoLineMenuViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TwoLineMenuCell
-        cell.imageView.image = dataSource[index].menu.isEnabledPoo ? #imageLiteral(resourceName: "dog") : nil
+        cell.imageView.image = dataSource[index].menu.isEnabledPoo ? #imageLiteral(resourceName: "Poo") : nil
         cell.imageView.isHidden = !dataSource[index].menu.isEnabledPoo
         cell.titleLabel.text = dataSource[index].menu.title
         cell.subTitleLabel.text = dataSource[index].menu.subTitle
