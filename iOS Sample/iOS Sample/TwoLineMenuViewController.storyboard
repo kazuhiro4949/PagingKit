@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="HLi-Yk-c9z">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Two Line Menu View Controller-->
+        <scene sceneID="GT1-Lz-tbV">
+            <objects>
+                <viewController id="HLi-Yk-c9z" customClass="TwoLineMenuViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="bKa-fB-s3h">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="76J-eo-ggA">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="gV0-q7-gbN"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="4UL-ea-uQF" kind="embed" id="G3v-xA-kpd"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dUc-Wj-OOc">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <segue destination="mTS-ff-f4w" kind="embed" id="f4f-Xb-6h9"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Qb0-mH-Yep" firstAttribute="bottom" secondItem="dUc-Wj-OOc" secondAttribute="bottom" id="4PB-2F-8gA"/>
+                            <constraint firstItem="Qb0-mH-Yep" firstAttribute="trailing" secondItem="dUc-Wj-OOc" secondAttribute="trailing" id="B3X-1R-xiH"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="top" secondItem="Qb0-mH-Yep" secondAttribute="top" id="G2Y-JE-3rb"/>
+                            <constraint firstItem="dUc-Wj-OOc" firstAttribute="leading" secondItem="Qb0-mH-Yep" secondAttribute="leading" id="RnY-Cs-lej"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="leading" secondItem="Qb0-mH-Yep" secondAttribute="leading" id="hbj-Za-Q7m"/>
+                            <constraint firstItem="dUc-Wj-OOc" firstAttribute="top" secondItem="76J-eo-ggA" secondAttribute="bottom" id="mnF-M8-TNd"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="trailing" secondItem="Qb0-mH-Yep" secondAttribute="trailing" id="xG2-Qx-cUU"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Qb0-mH-Yep"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Jtl-O4-O2z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="208.80000000000001" y="156.97151424287858"/>
+        </scene>
+        <!--Paging Menu View Controller-->
+        <scene sceneID="3MN-Fo-Yra">
+            <objects>
+                <viewController id="4UL-ea-uQF" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="is8-f5-1b3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dZo-tn-wsc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="209" y="616"/>
+        </scene>
+        <!--Paging Content View Controller-->
+        <scene sceneID="uFH-m8-42y">
+            <objects>
+                <viewController id="mTS-ff-f4w" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="88E-Sg-sUB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JZv-LN-d12" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="990" y="166"/>
+        </scene>
+    </scenes>
+</document>
