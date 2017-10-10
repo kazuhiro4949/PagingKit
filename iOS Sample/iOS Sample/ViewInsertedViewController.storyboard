@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ecb-Iq-Knz">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Inserted View Controller-->
+        <scene sceneID="SrP-eh-XDF">
+            <objects>
+                <viewController id="ecb-Iq-Knz" customClass="ViewInsertedViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="rDw-zx-vKg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MF4-qa-GRE">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="Net-KY-VXo"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="Pc4-tb-Nni" kind="embed" id="xCn-AR-9zo"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8sW-Gv-aD1">
+                                <rect key="frame" x="0.0" y="108" width="375" height="559"/>
+                                <connections>
+                                    <segue destination="tV9-CA-xV2" kind="embed" id="7KQ-rJ-z9E"/>
+                                </connections>
+                            </containerView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ymr-3K-O8z">
+                                <rect key="frame" x="0.0" y="64" width="375" height="44"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="XEZ-KZ-oNB">
+                                        <rect key="frame" x="8" y="8" width="359" height="28"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uLW-QA-Wmy" customClass="ViewInsertedButton" customModule="iOS_Sample" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="84" height="28"/>
+                                                <state key="normal" title="red">
+                                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="buttonDidTouchUpInside:" destination="ecb-Iq-Knz" eventType="touchUpInside" id="2Nt-Nt-Twj"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me3-6d-gAg" customClass="ViewInsertedButton" customModule="iOS_Sample" customModuleProvider="target">
+                                                <rect key="frame" x="92" y="0.0" width="83.5" height="28"/>
+                                                <state key="normal" title="blue"/>
+                                                <connections>
+                                                    <action selector="buttonDidTouchUpInside:" destination="ecb-Iq-Knz" eventType="touchUpInside" id="sHC-pw-ywo"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sOj-jD-2cF" customClass="ViewInsertedButton" customModule="iOS_Sample" customModuleProvider="target">
+                                                <rect key="frame" x="183.5" y="0.0" width="84" height="28"/>
+                                                <state key="normal" title="yellow">
+                                                    <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="buttonDidTouchUpInside:" destination="ecb-Iq-Knz" eventType="touchUpInside" id="q32-Vn-MYR"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POk-zd-1lw" customClass="ViewInsertedButton" customModule="iOS_Sample" customModuleProvider="target">
+                                                <rect key="frame" x="275.5" y="0.0" width="83.5" height="28"/>
+                                                <state key="normal" title="white">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="buttonDidTouchUpInside:" destination="ecb-Iq-Knz" eventType="touchUpInside" id="hbT-vg-0Th"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="XEZ-KZ-oNB" secondAttribute="trailing" constant="8" id="1au-xy-0UU"/>
+                                    <constraint firstAttribute="height" constant="44" id="LDo-Cf-Ppp"/>
+                                    <constraint firstItem="XEZ-KZ-oNB" firstAttribute="leading" secondItem="ymr-3K-O8z" secondAttribute="leading" constant="8" id="ogj-FN-rep"/>
+                                    <constraint firstAttribute="bottom" secondItem="XEZ-KZ-oNB" secondAttribute="bottom" constant="8" id="w7a-zK-dW7"/>
+                                    <constraint firstItem="XEZ-KZ-oNB" firstAttribute="top" secondItem="ymr-3K-O8z" secondAttribute="top" constant="8" id="wu3-ZR-6ZV"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MF4-qa-GRE" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="D8y-1c-iEc"/>
+                            <constraint firstItem="fY4-6h-avz" firstAttribute="bottom" secondItem="8sW-Gv-aD1" secondAttribute="bottom" id="MhJ-B2-sSI"/>
+                            <constraint firstItem="8sW-Gv-aD1" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="SoU-2z-EPa"/>
+                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="8sW-Gv-aD1" secondAttribute="trailing" id="TZc-2g-aV4"/>
+                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="MF4-qa-GRE" secondAttribute="trailing" id="YfK-Ga-f0p"/>
+                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="ymr-3K-O8z" secondAttribute="trailing" id="dj8-GZ-yQr"/>
+                            <constraint firstItem="ymr-3K-O8z" firstAttribute="top" secondItem="MF4-qa-GRE" secondAttribute="bottom" id="kdz-Ds-zMF"/>
+                            <constraint firstItem="ymr-3K-O8z" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="oDw-OW-Xid"/>
+                            <constraint firstItem="MF4-qa-GRE" firstAttribute="top" secondItem="fY4-6h-avz" secondAttribute="top" id="sp8-yY-UFa"/>
+                            <constraint firstItem="8sW-Gv-aD1" firstAttribute="top" secondItem="ymr-3K-O8z" secondAttribute="bottom" id="unp-Me-AlM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="fY4-6h-avz"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HIB-BP-rQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="197.59999999999999" y="92.203898050974516"/>
+        </scene>
+        <!--Paging Menu View Controller-->
+        <scene sceneID="Vdi-jn-y2k">
+            <objects>
+                <viewController id="Pc4-tb-Nni" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="a1c-7I-Wpn">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="QhX-TP-stR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="148" y="531"/>
+        </scene>
+        <!--Paging Content View Controller-->
+        <scene sceneID="3Rk-y1-o2G">
+            <objects>
+                <viewController id="tV9-CA-xV2" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="KVr-0d-fFf">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rkm-iu-yH1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="980" y="72"/>
+        </scene>
+    </scenes>
+</document>
