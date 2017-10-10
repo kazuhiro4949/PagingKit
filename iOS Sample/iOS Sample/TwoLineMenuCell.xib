@@ -4,7 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
+        <deployment version="2304" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -16,38 +16,55 @@
             <rect key="frame" x="0.0" y="0.0" width="294" height="89"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mha-gv-BEi">
-                    <rect key="frame" x="8" y="51" width="278" height="34"/>
+                <stackView opaque="NO" contentMode="scaleToFill" alignment="bottom" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="vun-Ni-HYQ">
+                    <rect key="frame" x="118" y="57" width="59.5" height="28"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Izh-i5-TCm">
-                            <rect key="frame" x="125" y="0.0" width="28.5" height="13.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPh-wF-h7m">
-                            <rect key="frame" x="118" y="13.5" width="42" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <nil key="textColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Poo" translatesAutoresizingMaskIntoConstraints="NO" id="NBU-fM-lX7">
+                            <rect key="frame" x="0.0" y="12" width="16" height="16"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="16" id="TnI-Ac-3D5"/>
+                                <constraint firstAttribute="width" constant="16" id="naT-UJ-uFb"/>
+                            </constraints>
+                        </imageView>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Mha-gv-BEi">
+                            <rect key="frame" x="24" y="0.0" width="35.5" height="28"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Izh-i5-TCm">
+                                    <rect key="frame" x="6" y="0.0" width="24" height="11"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WPh-wF-h7m">
+                                    <rect key="frame" x="0.0" y="11" width="35.5" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
                     </subviews>
                 </stackView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="Mha-gv-BEi" secondAttribute="trailing" constant="8" id="HAx-hp-InO"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="Mha-gv-BEi" secondAttribute="bottom" constant="4" id="PlW-YV-q8p"/>
-                <constraint firstItem="Mha-gv-BEi" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="8" id="X51-c6-13G"/>
-                <constraint firstItem="Mha-gv-BEi" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" constant="4" id="mHe-mc-k0u"/>
+                <constraint firstItem="vun-Ni-HYQ" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="7cj-A4-nS7"/>
+                <constraint firstItem="vun-Ni-HYQ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="4" id="BGY-w5-E2G"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vun-Ni-HYQ" secondAttribute="trailing" constant="4" id="EJV-su-sYQ"/>
+                <constraint firstItem="vun-Ni-HYQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="top" constant="4" id="adK-he-cDy"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="vun-Ni-HYQ" secondAttribute="bottom" constant="4" id="nMJ-2n-nP1"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
+                <outlet property="imageView" destination="NBU-fM-lX7" id="BMk-bw-Ek8"/>
                 <outlet property="subTitleLabel" destination="Izh-i5-TCm" id="E1p-Vl-jbe"/>
                 <outlet property="titleLabel" destination="WPh-wF-h7m" id="WGP-v6-ECs"/>
             </connections>
             <point key="canvasLocation" x="-7" y="-235.5"/>
         </view>
     </objects>
+    <resources>
+        <image name="Poo" width="37" height="37"/>
+    </resources>
 </document>

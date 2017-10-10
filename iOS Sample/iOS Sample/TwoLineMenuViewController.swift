@@ -15,7 +15,7 @@ class TwoLineMenuViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: (title: String, subTitle: String?), content: UIViewController)] = [(title: "Martinez", subTitle: nil), (title: "Alfred", subTitle: nil), (title: "Louis", subTitle: "owner"), (title: "Justin", subTitle: nil)].map {
+    let dataSource: [(menu: (title: String, subTitle: String?, isEnabledPoo: Bool), content: UIViewController)] = [(title: "Martinez", subTitle: nil, isEnabledPoo: true), (title: "Alfred", subTitle: nil, isEnabledPoo: false), (title: "Louis", subTitle: "owner", isEnabledPoo: false), (title: "Justin", subTitle: nil, isEnabledPoo: false)].map {
         let title = $0.title
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContentViewController") as! ContentViewController
         vc.number = title
@@ -51,6 +51,8 @@ class TwoLineMenuViewController: UIViewController {
 extension TwoLineMenuViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TwoLineMenuCell
+        cell.imageView.image = dataSource[index].menu.isEnabledPoo ? #imageLiteral(resourceName: "dog") : nil
+        cell.imageView.isHidden = !dataSource[index].menu.isEnabledPoo
         cell.titleLabel.text = dataSource[index].menu.title
         cell.subTitleLabel.text = dataSource[index].menu.subTitle
         return cell

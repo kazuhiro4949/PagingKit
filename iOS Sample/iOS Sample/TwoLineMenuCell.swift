@@ -12,5 +12,5 @@ import PagingKit
 class TwoLineMenuCell: PagingMenuViewCell {
     @IBOutlet weak var subTitleLabel: UILabel!
     @IBOutlet weak var titleLabel: UILabel!
-    
+    @IBOutlet weak var imageView: UIImageView!
 }
