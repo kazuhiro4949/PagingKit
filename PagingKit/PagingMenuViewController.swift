@@ -130,18 +130,17 @@ public class PagingMenuViewController: UIViewController {
         return menuView.dequeue(with: identifier)
     }
     
-    public func reloadData(startingOn index: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
+    public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
                 self?.menuView.reloadData()
             },
-            completion: {  [weak self] (finish) in
-                if let index = index {
-                    guard let _self = self else { return }
-                    _self.scroll(index: index, percent: 0, animated: false)
-                    completionHandler?(finish)
-                }
+            completion: {  [currentFocusedIndex = currentFocusedIndex, weak self] (finish) in
+                guard let _self = self else { return }
+                let scrollIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
+                _self.scroll(index: scrollIndex, percent: 0, animated: false)
+                completionHandler?(finish)
             }
         )
     }

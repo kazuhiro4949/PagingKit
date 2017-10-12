@@ -30,7 +30,7 @@ class DynamicSizeViewController: UIViewController {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
             guard let _self = self else { return }
-            _self.menuViewController?.reloadData(startingOn: _self.dataSource.count - 1)
+            _self.menuViewController?.reloadData(with: _self.dataSource.count - 1)
             _self.contentViewController?.reloadData(with: _self.dataSource.count - 1)
         }
         

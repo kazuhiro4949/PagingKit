@@ -30,7 +30,7 @@ class TagViewController: UIViewController {
         super.viewDidLoad()
 
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.reloadData(startingOn: 4) { [weak self] _ in
+        menuViewController?.reloadData(with: 4) { [weak self] _ in
             let cell = self?.menuViewController.currentFocusedCell as! TagMenuCell
             cell.focus(percent: 1)
         }
