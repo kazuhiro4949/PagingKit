@@ -66,7 +66,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         OverlayMenuCell.sizingCell.textLabel.text = dataSource[index].menu
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
-        let size = OverlayMenuCell.sizingCell.systemLayoutSizeFitting(referenceSize, withHorizontalFittingPriority: UILayoutPriorityDefaultLow, verticalFittingPriority: UILayoutPriorityDefaultHigh)
+        let size = OverlayMenuCell.sizingCell.systemLayoutSizeFitting(referenceSize, withHorizontalFittingPriority: UILayoutPriority.defaultLow, verticalFittingPriority: UILayoutPriority.defaultHigh)
         return size.width
     }
     
