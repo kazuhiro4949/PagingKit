@@ -145,6 +145,17 @@ public class PagingMenuViewController: UIViewController {
         )
     }
     
+    public func invalidateLayout() {
+        menuView.invalidateLayout()
+        scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let view = object as? UIView, view == self.view, keyPath == #keyPath(UIView.frame) {
+            invalidateLayout()
+        }
+    }
+
     fileprivate var menuView: PagingMenuView = {
         let view = PagingMenuView(frame: .zero)
         view.backgroundColor = .clear
@@ -174,18 +185,7 @@ public class PagingMenuViewController: UIViewController {
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    public func invalidateLayout() {
-        menuView.invalidateLayout()
-        scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
-    }
-    
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let view = object as? UIView, view == self.view, keyPath == #keyPath(UIView.frame) {
-            invalidateLayout()
-        }
-    }
-    
+
     deinit {
         view.removeObserver(self, forKeyPath: #keyPath(UIView.frame))
     }

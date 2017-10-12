@@ -28,6 +28,9 @@ public protocol PagingContentViewControllerDataSource: class {
 public class PagingContentViewController: UIViewController {
     
     fileprivate var cachedViewControllers = [UIViewController?]()
+    fileprivate var leftSidePageIndex = 0
+    fileprivate var numberOfPages: Int = 0
+    fileprivate var isExplicityScrolling = false
     
     public weak var delegate: PagingContentViewControllerDelegate?
     public weak var dataSource: PagingContentViewControllerDataSource?
@@ -41,8 +44,6 @@ public class PagingContentViewController: UIViewController {
     public var pagingPercent: CGFloat {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
-
-    fileprivate var leftSidePageIndex = 0
     
     @available(*, deprecated)
     public var currentPageIndex: Int {
@@ -77,10 +78,6 @@ public class PagingContentViewController: UIViewController {
             scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
         }
     }
-    
-    fileprivate var numberOfPages: Int = 0
-    
-    fileprivate var isExplicityScrolling = false
     
     public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
