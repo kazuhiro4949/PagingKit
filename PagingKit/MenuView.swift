@@ -93,7 +93,7 @@ public class PagingMenuView: UIScrollView {
     fileprivate var nibs = [String: UINib]()
     fileprivate var frameQueue = [CGRect]()
     fileprivate var containerView = UIView()
-    
+    fileprivate var touchBeganPoint: CGPoint?
     
     /// space setting between cells
     public var cellSpacing: CGFloat = 0
@@ -369,11 +369,19 @@ public class PagingMenuView: UIScrollView {
             }
         }
     }
+
+    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        touchBeganPoint = touches.first.flatMap { $0.location(in: containerView) }
+    }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let selectedCell = touches.first.flatMap { $0.location(in: containerView) }.flatMap { point in
-            visibleCells.filter { cell in cell.frame.contains(point) }
-        }?.first
+        super.touchesEnded(touches, with: event)
+        
+        guard let touchEndedPoint = touches.first.flatMap({ $0.location(in: containerView) }),
+            touchBeganPoint == touchEndedPoint else { return }
+        
+        let selectedCell = visibleCells.filter { cell in cell.frame.contains(touchEndedPoint) }.first
         if let index = selectedCell?.index {
             menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
