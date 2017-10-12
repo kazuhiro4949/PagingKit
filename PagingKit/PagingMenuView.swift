@@ -1,5 +1,5 @@
 //
-//  MenuView.swift
+//  PagingMenuView.swift
 //  PagingKit
 //
 //  Created by Kazuhiro Hayashi on 2017/07/11.
