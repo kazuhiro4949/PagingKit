@@ -25,7 +25,7 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 
 ## Customized menu design
 
-| tag like menu desing | text highlighted menu design |
+| tag like menu design | text highlighted menu design |
 |:------------:|:------------:|
 | ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) |
 
