@@ -97,11 +97,11 @@ public class PagingMenuViewController: UIViewController {
     }
     
     public var currentFocusedCell: PagingMenuViewCell? {
-        return menuView.indexForItem(at: CGPoint(x: focusView.center.x, y: 0)).flatMap(menuView.cellForItem)
+        return focusView.selectedIndex.flatMap(menuView.cellForItem)
     }
     
     public var currentFocusedIndex: Int? {
-        return menuView.indexForItem(at: focusView.center)
+        return focusView.selectedIndex
     }
     
     public func cellForItem(at index: Int) -> PagingMenuViewCell? {
@@ -167,7 +167,7 @@ public class PagingMenuViewController: UIViewController {
 
         view.addObserver(self, forKeyPath: #keyPath(UIView.frame), options: [.old, .new], context: nil)
         
-        focusView.frame = menuView.bounds
+        focusView.frame = .zero
         menuView.addSubview(focusView)
     }
     
