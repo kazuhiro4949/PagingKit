@@ -158,7 +158,7 @@
 					6EC140BA1F0940F40054B514 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = R33Y42SDDR;
-						LastSwiftMigration = 0830;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					6EC140C31F0940F40054B514 = {
@@ -353,7 +353,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -374,7 +375,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kazuhiro.hayashi.PagingKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
