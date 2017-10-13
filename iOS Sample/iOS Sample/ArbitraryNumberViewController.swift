@@ -114,7 +114,7 @@ extension ArbitraryNumberViewController: UITextFieldDelegate {
         
         if textField.tag == 0 {
             dataSource = (0..<number).map {
-                let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ContentViewController") as! ContentViewController
+                let vc = UIStoryboard(name: "ContentViewController", bundle: nil).instantiateInitialViewController() as! ContentViewController
                 vc.number = "\($0)"
                 return (menu: "\($0)", content: vc)
             }
