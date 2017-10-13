@@ -22,6 +22,9 @@
 		2B47E7401F10C08C00D67C04 /* PagingKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B47E73F1F10C08C00D67C04 /* PagingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */; };
 		2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */; };
+		2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */; };
+		2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */; };
+		2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */; };
 		2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4171F19F29800829D1A /* TagViewController.swift */; };
 		2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */; };
 		2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */; };
@@ -86,6 +89,9 @@
 		2B47E73F1F10C08C00D67C04 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSizeViewController.swift; sourceTree = "<group>"; };
 		2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentViewController.storyboard; sourceTree = "<group>"; };
+		2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentTableViewController.storyboard; sourceTree = "<group>"; };
+		2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewController.swift; sourceTree = "<group>"; };
+		2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
 		2BC1B4171F19F29800829D1A /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagMenuCell.swift; sourceTree = "<group>"; };
 		2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagMenuCell.xib; sourceTree = "<group>"; };
@@ -199,8 +205,11 @@
 			isa = PBXGroup;
 			children = (
 				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
-				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
 				2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */,
+				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
+				2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */,
+				2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */,
+				2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */,
 			);
 			name = Content;
 			sourceTree = "<group>";
@@ -407,6 +416,7 @@
 				6E9827BD1F0A947B00860828 /* MenuCell.xib in Resources */,
 				6E9827C31F0A98B500860828 /* FocusView.xib in Resources */,
 				2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */,
+				2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */,
 				2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */,
 				6E98277F1F0A91F400860828 /* Main.storyboard in Resources */,
 			);
@@ -439,10 +449,12 @@
 				6E98277C1F0A91F400860828 /* ViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
 				2B3C7CD11F8CF4FB00A43223 /* ViewInsertedViewController.swift in Sources */,
+				2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */,
 				2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */,
 				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
+				2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */,
 				2B3C7CC51F8CEB0100A43223 /* TwoLineMenuViewController.swift in Sources */,
 				2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */,
 				6E9827BC1F0A947B00860828 /* MenuCell.swift in Sources */,

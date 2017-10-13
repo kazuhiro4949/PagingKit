@@ -90,15 +90,15 @@
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1U5-cO-qes">
-                                <rect key="frame" x="0.0" y="108" width="414" height="628"/>
+                                <rect key="frame" x="0.0" y="109" width="414" height="627"/>
                                 <connections>
                                     <segue destination="qGV-r2-Oby" kind="embed" id="ny9-Ig-sj6"/>
                                 </connections>
                             </containerView>
                         </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="1U5-cO-qes" firstAttribute="top" secondItem="sd7-sa-ZYE" secondAttribute="bottom" id="0x9-wV-HP8"/>
+                            <constraint firstItem="1U5-cO-qes" firstAttribute="top" secondItem="sd7-sa-ZYE" secondAttribute="bottom" constant="0.5" id="0x9-wV-HP8"/>
                             <constraint firstItem="rOR-Ba-m4d" firstAttribute="trailing" secondItem="1U5-cO-qes" secondAttribute="trailing" id="7Rq-pd-FU8"/>
                             <constraint firstItem="sd7-sa-ZYE" firstAttribute="top" secondItem="rOR-Ba-m4d" secondAttribute="top" id="9Gz-8w-PBV"/>
                             <constraint firstItem="sd7-sa-ZYE" firstAttribute="leading" secondItem="rOR-Ba-m4d" secondAttribute="leading" id="bRt-ZF-u7A"/>
@@ -134,7 +134,7 @@
             <objects>
                 <viewController id="qGV-r2-Oby" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1n4-Yt-37G">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="628"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="627"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="zBS-Ku-bIg"/>
