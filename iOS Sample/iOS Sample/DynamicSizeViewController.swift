@@ -99,13 +99,13 @@ extension DynamicSizeViewController: PagingMenuViewControllerDataSource {
     }
     
     
-    func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int {
+    func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count
     }
 }
 
 extension DynamicSizeViewController: PagingContentViewControllerDataSource {
-    func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int {
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return dataSource.count
     }
     

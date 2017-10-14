@@ -54,7 +54,7 @@ public protocol PagingMenuViewControllerDataSource: class {
     ///
     /// - Parameter viewController: The menu view controller object requesting this information.
     /// - Returns: The number of items.
-    func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int
+    func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int
     
     /// Asks the data source for a cell to insert in a particular location of the menu view of menu view controller.
     ///
@@ -279,7 +279,7 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
 
 extension PagingMenuViewController: PagingMenuViewDataSource {
     public func numberOfItemForPagingMenuView() -> Int {
-        return dataSource?.numberOfItemForMenuViewController(viewController: self) ?? 0
+        return dataSource?.numberOfItemsForMenuViewController(viewController: self) ?? 0
     }
     
     public func pagingMenuView(pagingMenuView: PagingMenuView, widthForItemAt index: Int) -> CGFloat {

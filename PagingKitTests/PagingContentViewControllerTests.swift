@@ -50,10 +50,10 @@ class PagingContentViewControllerTests: XCTestCase {
 }
 
 class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSource {
-    let numberOfItemExpectation = XCTestExpectation(description: "call numberOfItemForContentViewController")
+    let numberOfItemExpectation = XCTestExpectation(description: "call numberOfItemsForContentViewController")
     let viewControllerExpectation = XCTestExpectation(description: "call viewController")
     
-    func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int {
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         numberOfItemExpectation.fulfill()
         return 2
     }
@@ -65,7 +65,7 @@ class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSo
 }
 
 class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSource {
-    func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int {
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return 5
     }
     

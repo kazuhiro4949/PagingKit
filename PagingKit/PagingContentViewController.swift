@@ -63,7 +63,7 @@ public protocol PagingContentViewControllerDataSource: class {
     ///
     /// - Parameter viewController: The content view controller object requesting this information.
     /// - Returns: The number of item.
-    func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int
     
     /// Asks the data source for a cell to insert in a particular location of the scroll view of content view controller.
     ///
@@ -186,7 +186,7 @@ public class PagingContentViewController: UIViewController {
     }
     
     fileprivate func initialLoad(with page: Int) {
-        numberOfPages = dataSource?.numberOfItemForContentViewController(viewController: self) ?? 0
+        numberOfPages = dataSource?.numberOfItemsForContentViewController(viewController: self) ?? 0
         cachedViewControllers = Array(repeating: nil, count: numberOfPages)
         
         loadScrollView(with: page - 1)
