@@ -33,8 +33,7 @@ class TwoLineMenuViewController: UIViewController {
     
     let dataSource: [(menu: (title: String, subTitle: String?, isEnabledPoo: Bool), content: UIViewController)] = [(title: "Martinez", subTitle: nil, isEnabledPoo: true), (title: "Alfred", subTitle: nil, isEnabledPoo: false), (title: "Louis", subTitle: "owner", isEnabledPoo: false), (title: "Justin", subTitle: nil, isEnabledPoo: false)].map {
         let title = $0.title
-        let vc = UIStoryboard(name: "ContentViewController", bundle: nil).instantiateInitialViewController() as! ContentViewController
-        vc.number = title
+        let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: $0, content: vc)
     }
     

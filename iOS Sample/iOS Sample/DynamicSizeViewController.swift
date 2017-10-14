@@ -33,8 +33,7 @@ class DynamicSizeViewController: UIViewController {
     
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
-        let vc = UIStoryboard(name: "ContentViewController", bundle: nil).instantiateInitialViewController() as! ContentViewController
-        vc.number = title
+        let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: title, content: vc)
     }
     

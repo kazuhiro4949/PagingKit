@@ -33,8 +33,8 @@ class ViewController: UIViewController {
     
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
-        let vc = UIStoryboard(name: "ContentViewController", bundle: nil).instantiateInitialViewController() as! ContentViewController
-        vc.number = title
+        let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
+//        vc.number = title
         return (menu: title, content: vc)
     }
 

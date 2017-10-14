@@ -24,7 +24,7 @@
 
 import UIKit
 
-class ContentTableViewController: UITableViewController {
+class ContentTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var data: [(emoji: String, name: String)] = [
         (emoji: "🐶", name: "Dog"),
@@ -67,15 +67,15 @@ class ContentTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! ContentTableViewCell
         cell.configure(data: data[indexPath.row])
         return cell
