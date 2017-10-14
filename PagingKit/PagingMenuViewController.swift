@@ -73,6 +73,7 @@ public protocol PagingMenuViewControllerDataSource: class {
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat
 }
 
+/// A view that focus menu corresponding to current page.
 public class PagingMenuFocusView: UIView {
     var selectedIndex: Int?
     
@@ -86,22 +87,26 @@ public class PagingMenuFocusView: UIView {
     }
 }
 
+/// A view controller that presents menu using cells arranged in a single column.
 public class PagingMenuViewController: UIViewController {
+    /// The object that acts as the delegate of the menu view controller.
     public weak var delegate: PagingMenuViewControllerDelegate?
+    /// The object that acts as the data source of the menu view controller.
     public weak var dataSource: PagingMenuViewControllerDataSource?
     
     fileprivate var focusView = PagingMenuFocusView(frame: .zero)
-    
+
+    /// The point at which the origin of the focus view is offset from the origin of the scroll view.
     public var focusPointerOffset: CGPoint {
         return focusView.center
     }
 
+    /// The rate at which the origin of the focus view is offset from the origin of the scroll view.
     public var percentOffset: CGFloat {
         return menuView.contentOffset.x / menuView.contentSize.width
     }
     
-    
-    /// space setting between cells
+    /// The spacing to use between menus.
     public var cellSpacing: CGFloat {
         set {
             menuView.cellSpacing = newValue
@@ -110,7 +115,13 @@ public class PagingMenuViewController: UIViewController {
             return menuView.cellSpacing
         }
     }
-    
+
+    /// Scrolls a specific index of the menu so that it is visible in the receiver.
+    ///
+    /// - Parameters:
+    ///   - index: A index defining an menu of the menu view.
+    ///   - percent: A rate that transit from the index.
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
 
@@ -141,23 +152,35 @@ public class PagingMenuViewController: UIViewController {
             delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
         }
     }
-    
+
+    /// Returns an array of visible cells currently displayed by the menu view.
     public var visibleCells: [PagingMenuViewCell] {
         return menuView.visibleCells
     }
-    
+
+    /// Returns the menu cell that the view controller is focusing.
     public var currentFocusedCell: PagingMenuViewCell? {
         return focusView.selectedIndex.flatMap(menuView.cellForItem)
     }
-    
+
+    /// Returns the index that the view controller is focusing.
     public var currentFocusedIndex: Int? {
         return focusView.selectedIndex
     }
-    
+
+    /// Returns the menu cell at the specified index.
+    ///
+    /// - Parameter index: The index locating the item in the menu view.
+    /// - Returns: An object representing a cell of the menu, or nil if the cell is not visible or index is out of range.
     public func cellForItem(at index: Int) -> PagingMenuViewCell? {
         return menuView.cellForItem(at: index)
     }
-    
+
+    /// Registers a view that a menu view controller uses to focus each menu.
+    ///
+    /// - Parameters:
+    ///   - view: A view object to use focus view.
+    ///   - isBehindCell: the focus view is placed behind the menus of menu view controller.
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
         focusView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -166,20 +189,41 @@ public class PagingMenuViewController: UIViewController {
         })
         focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
-    
+
+    /// Registers a nib that a menu view controller uses to focus each menu.
+    ///
+    /// - Parameters:
+    ///   - view: A nib object to use focus view.
+    ///   - isBehindCell: the focus view is placed behind the menus of menu view controller.
     public func registerFocusView(nib: UINib, isBehindCell: Bool = false) {
         let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
         registerFocusView(view: view, isBehindCell: isBehindCell)
     }
     
+    /// Registers a nib object containing a cell with the menu view controller under a specified identifier.
+    ///
+    /// - Parameters:
+    ///   - nib: A nib object that specifies the nib file to use to create the cell.
+    ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
     public func register(nib: UINib?, forCellWithReuseIdentifier identifier: String) {
         menuView.register(nib: nib, with: identifier)
     }
-    
+
+    /// Returns a reusable menu view cell object for the specified reuse identifier and adds it to the menu.
+    ///
+    /// - Parameters:
+    ///   - identifier: A string identifying the cell object to be reused. This parameter must not be nil.
+    ///   - index: The index specifying the location of the cell. The data source receives this information when it is asked for the cell and should just pass it along. This method uses the index to perform additional configuration based on the cell’s position in the menu view controller.
+    /// - Returns: A PagingMenuViewCell object with the associated reuse identifier. This method always returns a valid cell.
     public func dequeueReusableCell(withReuseIdentifier identifier: String, for index: Int) -> PagingMenuViewCell {
         return menuView.dequeue(with: identifier)
     }
-    
+
+    /// Reloads the items of the menu view controller.
+    ///
+    /// - Parameters:
+    ///   - preferredFocusIndex: A preferred index to focus after reloading.
+    ///   - completionHandler: The block to execute after the reloading finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         UIView.animate(
             withDuration: 0,
@@ -194,7 +238,8 @@ public class PagingMenuViewController: UIViewController {
             }
         )
     }
-    
+
+    /// Invalidates the current layout using the information in the provided context object.
     public func invalidateLayout() {
         menuView.invalidateLayout()
         scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
@@ -241,6 +286,8 @@ public class PagingMenuViewController: UIViewController {
     }
 }
 
+// MARK:- UIScrollViewDelegate
+
 extension PagingMenuViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
@@ -252,6 +299,8 @@ extension PagingMenuViewController: UIScrollViewDelegate {
         }
     }
 }
+
+// MARK:- PagingMenuViewDelegate
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
@@ -276,6 +325,8 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         })
     }
 }
+
+// MARK:- PagingMenuViewDataSource
 
 extension PagingMenuViewController: PagingMenuViewDataSource {
     public func numberOfItemForPagingMenuView() -> Int {

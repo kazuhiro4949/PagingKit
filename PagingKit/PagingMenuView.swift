@@ -102,7 +102,7 @@ public protocol PagingMenuViewDelegate: class {
 /// Displays menu lists of information and supports selection and paging of the information.
 public class PagingMenuView: UIScrollView {
 
-    /// The paging menu cells that are visible in the table view.
+    /// Returns an array of visible cells currently displayed by the menu view.
     public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
     fileprivate var queue = [String: [PagingMenuViewCell]]()
