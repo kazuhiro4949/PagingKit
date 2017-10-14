@@ -1,8 +1,14 @@
 # PagingKit
 PagingKit provides customisable menu & content UI.
 
-![Swift 3.0+](https://img.shields.io/badge/Swift-3.0+-orange.svg)
+[![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
+![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
+![Swift 3.2](https://img.shields.io/badge/Swift-3.2-orange.svg)
+[![License](https://img.shields.io/cocoapods/l/EditDistance.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
+[![Version](https://img.shields.io/cocoapods/v/EditDistance.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+
 
 ![paging_sample](https://user-images.githubusercontent.com/18320004/27948466-d94665b8-6334-11e7-8bd8-a5d28eddb797.gif)
 
