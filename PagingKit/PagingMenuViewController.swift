@@ -1,6 +1,6 @@
 //
 //  PagingMenuViewController.swift
-//  PagingViewController
+//  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
 //

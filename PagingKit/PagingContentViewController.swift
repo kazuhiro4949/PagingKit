@@ -1,6 +1,6 @@
 //
 //  PagingContentViewController.swift
-//  PagingViewController
+//  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
 //
@@ -24,9 +24,30 @@
 
 import UIKit
 
+
+/// this represents the display and behaviour of the cells.
 public protocol PagingContentViewControllerDelegate: class {
+    
+    /// Tells the delegate when the user is abount to start scroll the content within the receiver.
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller object that is about to scroll the content view.
+    ///   - index: The index where the view controller is about to scroll from.
     func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int)
+    
+    /// Tells the delegate when the user scrolls the content view within the receiver.
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller object in which the scrolling occurred.
+    ///   - index: The left side content index where view controller is showing now.
+    ///   - percent: The rate that the view controller is showing the right side content.
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat)
+    
+    /// Tells the delegate when the user finished to scroll the content within the receiver.
+    ///
+    /// - Parameters:
+    ///   - viewController: The view controller object in which the scrolling occurred.
+    ///   - index: The index where the view controller is showing.
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
 }
 
@@ -36,8 +57,22 @@ extension PagingContentViewControllerDelegate {
     public func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {}
 }
 
+
+/// The data source provides the paging content view controller object with the information it needs to construct and modify the contents.
 public protocol PagingContentViewControllerDataSource: class {
+    
+    /// Tells the data source to return the number of items in a paging scrollview of the view controller.
+    ///
+    /// - Parameter viewController: The content view controller object requesting this information.
+    /// - Returns: The number of items.
     func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int
+    
+    /// Asks the data source for a cell to insert in a particular location of the scroll view of content view controller.
+    ///
+    /// - Parameters:
+    ///   - viewController: A content view controller object requesting the cell.
+    ///   - index: An index locating a items in content view controller.
+    /// - Returns: An object inheriting from UIViewController that the content view controller can use for the specified item.
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController
 }
 
