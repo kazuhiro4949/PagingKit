@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  SimpleViewController.swift
 //  iOS Sample
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
@@ -25,7 +25,7 @@
 import UIKit
 import PagingKit
 
-class ViewController: UIViewController {
+class SimpleViewController: UIViewController {
     
     var menuViewController: PagingMenuViewController?
     var contentViewController: PagingContentViewController?
@@ -66,7 +66,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: PagingMenuViewControllerDataSource {
+extension SimpleViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
         cell.titleLabel.text = dataSource[index].menu
@@ -83,7 +83,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
     }
 }
 
-extension ViewController: PagingContentViewControllerDataSource {
+extension SimpleViewController: PagingContentViewControllerDataSource {
     func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return dataSource.count
     }
@@ -93,13 +93,13 @@ extension ViewController: PagingContentViewControllerDataSource {
     }
 }
 
-extension ViewController: PagingMenuViewControllerDelegate {
+extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController?.scroll(to: page, animated: true)
     }
 }
 
-extension ViewController: PagingContentViewControllerDelegate {
+extension SimpleViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }
