@@ -1,5 +1,5 @@
 # PagingKit
-PagingKit provides customisable menu & content UI.
+PagingKit provides customisable menu & content UI. It has more flexible layout and design than the other libraries.
 
 [![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 ![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
