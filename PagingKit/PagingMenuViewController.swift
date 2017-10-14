@@ -24,18 +24,52 @@
 
 import UIKit
 
+/// this represents the display and behaviour of the cells.
 public protocol PagingMenuViewControllerDelegate: class {
-    func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView)
+    
+    /// Tells the delegate when the menu finished to scroll focus view.
+    ///
+    /// - Parameters:
+    ///   - viewController: A menu view controller object that finished to scroll focus view.
+    ///   - focusView: the view that a menu view controller is using to focus current page of menu.
+    func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView)
+    
+    /// Tells the delegate that the specified page is now selected.
+    ///
+    /// - Parameters:
+    ///   - viewController: A menu view controller object informing the delegate about the new page selection.
+    ///   - page: An page number focusing the new selected menu in menu view controller.
+    ///   - previousPage: An page number previously focusing menu in menu view controller.
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int)
 }
 
 extension PagingMenuViewControllerDelegate {
-    public func menuViewController(viewController: PagingMenuViewController,  focusViewDidEndTransition focusView: PagingMenuFocusView) {}
+    public func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView) {}
 }
 
+/// The data source provides the paging menu view controller object with the information it needs to construct and modify the menus.
 public protocol PagingMenuViewControllerDataSource: class {
+    
+    /// Tells the data source to return the number of items in a menu view of the menu view controller.
+    ///
+    /// - Parameter viewController: The menu view controller object requesting this information.
+    /// - Returns: The number of items.
     func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int
+    
+    /// Asks the data source for a cell to insert in a particular location of the menu view of menu view controller.
+    ///
+    /// - Parameters:
+    ///   - viewController: A menu view controller object requesting the cell.
+    ///   - index: An index locating a items in menu view controller.
+    /// - Returns: An object inheriting from PagingMenuViewCell that the menu view controller can use for the specified item.
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell
+    
+    /// Asks the delegate for the width to use for a cell in a specified location.
+    ///
+    /// - Parameters:
+    ///   - viewController: The menu view controller object requesting this information.
+    ///   - index: An index  that locates a menu in menu view.
+    /// - Returns: A nonnegative floating-point value that specifies the width (in points) that cell should be.
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat
 }
 

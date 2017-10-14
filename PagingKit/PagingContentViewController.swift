@@ -24,7 +24,6 @@
 
 import UIKit
 
-
 /// this represents the display and behaviour of the cells.
 public protocol PagingContentViewControllerDelegate: class {
     
@@ -57,14 +56,13 @@ extension PagingContentViewControllerDelegate {
     public func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {}
 }
 
-
 /// The data source provides the paging content view controller object with the information it needs to construct and modify the contents.
 public protocol PagingContentViewControllerDataSource: class {
     
-    /// Tells the data source to return the number of items in a paging scrollview of the view controller.
+    /// Tells the data source to return the number of item in a paging scrollview of the view controller.
     ///
     /// - Parameter viewController: The content view controller object requesting this information.
-    /// - Returns: The number of items.
+    /// - Returns: The number of item.
     func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int
     
     /// Asks the data source for a cell to insert in a particular location of the scroll view of content view controller.
