@@ -88,18 +88,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MF4-qa-GRE" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="D8y-1c-iEc"/>
-                            <constraint firstItem="fY4-6h-avz" firstAttribute="bottom" secondItem="8sW-Gv-aD1" secondAttribute="bottom" id="MhJ-B2-sSI"/>
-                            <constraint firstItem="8sW-Gv-aD1" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="SoU-2z-EPa"/>
-                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="8sW-Gv-aD1" secondAttribute="trailing" id="TZc-2g-aV4"/>
-                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="MF4-qa-GRE" secondAttribute="trailing" id="YfK-Ga-f0p"/>
-                            <constraint firstItem="fY4-6h-avz" firstAttribute="trailing" secondItem="ymr-3K-O8z" secondAttribute="trailing" id="dj8-GZ-yQr"/>
+                            <constraint firstItem="MF4-qa-GRE" firstAttribute="leading" secondItem="kD0-rB-tyS" secondAttribute="leading" id="D8y-1c-iEc"/>
+                            <constraint firstItem="kD0-rB-tyS" firstAttribute="bottom" secondItem="8sW-Gv-aD1" secondAttribute="bottom" id="MhJ-B2-sSI"/>
+                            <constraint firstItem="8sW-Gv-aD1" firstAttribute="leading" secondItem="kD0-rB-tyS" secondAttribute="leading" id="SoU-2z-EPa"/>
+                            <constraint firstItem="kD0-rB-tyS" firstAttribute="trailing" secondItem="8sW-Gv-aD1" secondAttribute="trailing" id="TZc-2g-aV4"/>
+                            <constraint firstItem="kD0-rB-tyS" firstAttribute="trailing" secondItem="MF4-qa-GRE" secondAttribute="trailing" id="YfK-Ga-f0p"/>
+                            <constraint firstItem="kD0-rB-tyS" firstAttribute="trailing" secondItem="ymr-3K-O8z" secondAttribute="trailing" id="dj8-GZ-yQr"/>
                             <constraint firstItem="ymr-3K-O8z" firstAttribute="top" secondItem="MF4-qa-GRE" secondAttribute="bottom" id="kdz-Ds-zMF"/>
-                            <constraint firstItem="ymr-3K-O8z" firstAttribute="leading" secondItem="fY4-6h-avz" secondAttribute="leading" id="oDw-OW-Xid"/>
-                            <constraint firstItem="MF4-qa-GRE" firstAttribute="top" secondItem="fY4-6h-avz" secondAttribute="top" id="sp8-yY-UFa"/>
+                            <constraint firstItem="ymr-3K-O8z" firstAttribute="leading" secondItem="kD0-rB-tyS" secondAttribute="leading" id="oDw-OW-Xid"/>
+                            <constraint firstItem="MF4-qa-GRE" firstAttribute="top" secondItem="kD0-rB-tyS" secondAttribute="top" id="sp8-yY-UFa"/>
                             <constraint firstItem="8sW-Gv-aD1" firstAttribute="top" secondItem="ymr-3K-O8z" secondAttribute="bottom" id="unp-Me-AlM"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="fY4-6h-avz"/>
+                        <viewLayoutGuide key="safeArea" id="kD0-rB-tyS"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HIB-BP-rQa" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -114,6 +114,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="6nG-mW-3zc"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QhX-TP-stR" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -128,6 +129,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="559"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="UZc-EQ-w1V"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rkm-iu-yH1" userLabel="First Responder" sceneMemberID="firstResponder"/>

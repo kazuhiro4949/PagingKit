@@ -25,6 +25,7 @@
 		2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */; };
 		2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */; };
 		2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */; };
+		2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E31F92340100320900 /* TagViewController.storyboard */; };
 		2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4171F19F29800829D1A /* TagViewController.swift */; };
 		2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */; };
 		2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */; };
@@ -92,6 +93,7 @@
 		2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentTableViewController.storyboard; sourceTree = "<group>"; };
 		2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewController.swift; sourceTree = "<group>"; };
 		2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		2BBB70E31F92340100320900 /* TagViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = TagViewController.storyboard; path = ../TagViewController.storyboard; sourceTree = "<group>"; };
 		2BC1B4171F19F29800829D1A /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagMenuCell.swift; sourceTree = "<group>"; };
 		2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagMenuCell.xib; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		2BC1B4161F19E75A00829D1A /* Tag */ = {
 			isa = PBXGroup;
 			children = (
+				2BBB70E31F92340100320900 /* TagViewController.storyboard */,
 				2BC1B4171F19F29800829D1A /* TagViewController.swift */,
 				2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */,
 				2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */,
@@ -412,6 +415,7 @@
 				2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */,
 				2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */,
 				2B3C7CC71F8CEB0900A43223 /* TwoLineMenuViewController.storyboard in Resources */,
+				2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */,
 				6E9827811F0A91F400860828 /* Assets.xcassets in Resources */,
 				6E9827BD1F0A947B00860828 /* MenuCell.xib in Resources */,
 				6E9827C31F0A98B500860828 /* FocusView.xib in Resources */,

@@ -36,15 +36,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Qb0-mH-Yep" firstAttribute="bottom" secondItem="dUc-Wj-OOc" secondAttribute="bottom" id="4PB-2F-8gA"/>
-                            <constraint firstItem="Qb0-mH-Yep" firstAttribute="trailing" secondItem="dUc-Wj-OOc" secondAttribute="trailing" id="B3X-1R-xiH"/>
-                            <constraint firstItem="76J-eo-ggA" firstAttribute="top" secondItem="Qb0-mH-Yep" secondAttribute="top" id="G2Y-JE-3rb"/>
-                            <constraint firstItem="dUc-Wj-OOc" firstAttribute="leading" secondItem="Qb0-mH-Yep" secondAttribute="leading" id="RnY-Cs-lej"/>
-                            <constraint firstItem="76J-eo-ggA" firstAttribute="leading" secondItem="Qb0-mH-Yep" secondAttribute="leading" id="hbj-Za-Q7m"/>
+                            <constraint firstItem="kbt-R2-7gC" firstAttribute="bottom" secondItem="dUc-Wj-OOc" secondAttribute="bottom" id="4PB-2F-8gA"/>
+                            <constraint firstItem="kbt-R2-7gC" firstAttribute="trailing" secondItem="dUc-Wj-OOc" secondAttribute="trailing" id="B3X-1R-xiH"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="top" secondItem="kbt-R2-7gC" secondAttribute="top" id="G2Y-JE-3rb"/>
+                            <constraint firstItem="dUc-Wj-OOc" firstAttribute="leading" secondItem="kbt-R2-7gC" secondAttribute="leading" id="RnY-Cs-lej"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="leading" secondItem="kbt-R2-7gC" secondAttribute="leading" id="hbj-Za-Q7m"/>
                             <constraint firstItem="dUc-Wj-OOc" firstAttribute="top" secondItem="76J-eo-ggA" secondAttribute="bottom" id="mnF-M8-TNd"/>
-                            <constraint firstItem="76J-eo-ggA" firstAttribute="trailing" secondItem="Qb0-mH-Yep" secondAttribute="trailing" id="xG2-Qx-cUU"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="trailing" secondItem="kbt-R2-7gC" secondAttribute="trailing" id="xG2-Qx-cUU"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="Qb0-mH-Yep"/>
+                        <viewLayoutGuide key="safeArea" id="kbt-R2-7gC"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jtl-O4-O2z" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -59,6 +59,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="4ve-UE-hiO"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dZo-tn-wsc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -73,6 +74,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="F2q-aO-Fcc"/>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JZv-LN-d12" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -49,6 +49,7 @@ class TagViewController: UIViewController {
             let cell = self?.menuViewController.currentFocusedCell as! TagMenuCell
             cell.focus(percent: 1)
         }
+        contentViewController.isEnabledPreloadContent = true
         contentViewController?.reloadData(with: 4)
     }
 
