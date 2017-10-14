@@ -74,22 +74,28 @@ public protocol PagingContentViewControllerDataSource: class {
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController
 }
 
+/// A view controller that lets the user navigate between pages of content, where each page is managed by its own view controller object.
 public class PagingContentViewController: UIViewController {
     
     fileprivate var cachedViewControllers = [UIViewController?]()
     fileprivate var leftSidePageIndex = 0
     fileprivate var numberOfPages: Int = 0
     fileprivate var isExplicityScrolling = false
-    
+
+    /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
+    
+    /// The object that provides view controllers.
     public weak var dataSource: PagingContentViewControllerDataSource?
 
     public var isEnabledPreloadContent = true
-    
+
+    /// The ratio at which the origin of the content view is offset from the origin of the scroll view.
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
     }
 
+    /// The ratio at which the origin of the left side content is offset from the origin of the page.
     public var pagingPercent: CGFloat {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
@@ -99,6 +105,9 @@ public class PagingContentViewController: UIViewController {
         return leftSidePageIndex
     }
     
+    ///  Reloads the content of the view controller.
+    ///
+    /// - Parameter page: An index to show after reloading.
     public func reloadData(with page: Int = 0) {
         removeAll()
         
@@ -115,6 +124,11 @@ public class PagingContentViewController: UIViewController {
         )
     }
     
+    /// Scrolls a specific page of the contents so that it is visible in the receiver.
+    ///
+    /// - Parameters:
+    ///   - page: A index defining an content of the content view controller.
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(to page: Int, animated: Bool) {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         loadPagesIfNeeded(page: page)
@@ -128,6 +142,7 @@ public class PagingContentViewController: UIViewController {
         }
     }
     
+    /// Return scrollView that the content view controller uses to show the contents.
     public let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isPagingEnabled = true
@@ -210,6 +225,8 @@ public class PagingContentViewController: UIViewController {
     }
 }
 
+// MARK:- UIScrollViewDelegate
+
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         isExplicityScrolling = true
@@ -227,7 +244,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
         }
     }
     
-    public func preLoadContentIfNeeded(with scrollingPercent: CGFloat) {
+    public func preloadContentIfNeeded(with scrollingPercent: CGFloat) {
         guard isEnabledPreloadContent else { return }
         
         if scrollingPercent > 0.5 {
@@ -264,6 +281,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
         loadScrollView(with: loadingPage + 1)
     }
 }
+
+// MARK:- Private top-level function
 
 private func performSystemAnimation(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
     UIView.perform(

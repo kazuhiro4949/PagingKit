@@ -153,10 +153,8 @@ public class PagingMenuView: UIScrollView {
         }
     }
     
-    
     /// The number of items in the paging menu view.
     public var numberOfItem: Int = 0
-    
     
     /// Returns an index identifying the row and section at the given point.
     ///
@@ -176,7 +174,6 @@ public class PagingMenuView: UIScrollView {
         return resultIndex
     }
     
-    
     /// Returns the paging menu cell at the specified index .
     ///
     /// - Parameter index: The index locating the item in the paging menu view.
@@ -184,7 +181,6 @@ public class PagingMenuView: UIScrollView {
     public func cellForItem(at index: Int) -> PagingMenuViewCell? {
         return visibleCells.filter { $0.index == index }.first
     }
-    
     
     /// Reloads the rows and sections of the table view.
     public func reloadData() {
@@ -203,7 +199,6 @@ public class PagingMenuView: UIScrollView {
         layoutIfNeeded()
     }
     
-    
     /// Registers a nib object containing a cell with the paging menu view under a specified identifier.
     ///
     /// - Parameters:
@@ -212,8 +207,7 @@ public class PagingMenuView: UIScrollView {
     public func register(nib: UINib?, with identifier: String) {
         nibs[identifier] = nib
     }
-    
-    
+
     /// Returns a reusable paging menu view cell object for the specified reuse identifier and adds it to the menu.
     ///
     /// - Parameter identifier: A string identifying the cell object to be reused. This parameter must not be nil.
@@ -234,8 +228,7 @@ public class PagingMenuView: UIScrollView {
         
         fatalError()
     }
-    
-    
+
     /// Returns the drawing area for a row identified by index.
     ///
     /// - Parameter index: An index that identifies a item by its index.
