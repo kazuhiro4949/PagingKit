@@ -23,22 +23,40 @@
 //  THE SOFTWARE.
 
 import XCTest
+@testable import PagingKit
 
 class PagingMenuViewControllerTests: XCTestCase {
     
+    var dataSource: MenuViewControllerDataSourceSpy?
+    
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+        dataSource = nil
         super.tearDown()
     }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+
+    func testScrollBetweenVisibleCells() {
+        let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
+        let dataSource = MenuViewControllerDataSourceSpy()
+        dataSource.registerNib(to: menuViewController)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        dataSource.widthForItem = 100
+        menuViewController.dataSource = dataSource
+        menuViewController.loadViewIfNeeded()
+        menuViewController.reloadData()
+        
+        let indices = menuViewController.visibleCells.flatMap { $0.index }
+        let randamizedScrollOrder = (0..<10).map { _ in Int(arc4random_uniform(UInt32(indices.last ?? 0))) }
+        var resultOrder = [Int?]()
+        for i in randamizedScrollOrder {
+            menuViewController.scroll(index: i, animated: false)
+            resultOrder.append(menuViewController.currentFocusedCell?.index)
+        }
+        let actualScrollOrder = resultOrder.flatMap{ $0 }
+        XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     
     func testPerformanceExample() {
@@ -48,4 +66,26 @@ class PagingMenuViewControllerTests: XCTestCase {
         }
     }
     
+}
+
+class MenuViewControllerDataSourceSpy: NSObject, PagingMenuViewControllerDataSource  {
+    var data = [String]()
+    var widthForItem: CGFloat = 0
+    
+    func registerNib(to vc: PagingMenuViewController) {
+        let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
+        vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
+    }
+
+    func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
+        return data.count
+    }
+    
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+        return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
+    }
+    
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
+        return widthForItem
+    }
 }

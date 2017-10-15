@@ -95,6 +95,14 @@ public class PagingMenuViewController: UIViewController {
     public weak var dataSource: PagingMenuViewControllerDataSource?
     
     fileprivate var focusView = PagingMenuFocusView(frame: .zero)
+    
+    public let menuView: PagingMenuView = {
+        let view = PagingMenuView(frame: .zero)
+        view.backgroundColor = .clear
+        view.showsHorizontalScrollIndicator = false
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     /// The point at which the origin of the focus view is offset from the origin of the scroll view.
     public var focusPointerOffset: CGPoint {
@@ -129,23 +137,15 @@ public class PagingMenuViewController: UIViewController {
             let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
         
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
-        let height = (rightFrame.height - leftFrame.height) * percent + leftFrame.height
-        focusView.frame.size = CGSize(width: width, height: height)
+        focusView.frame.size = CGSize(width: width, height: menuView.bounds.height)
         
         let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
         let offsetX = centerPointX - menuView.bounds.width / 2
         let maxOffsetX = max(0, menuView.contentSize.width - menuView.bounds.width)
         let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
-        
-        let centerPointY = leftFrame.midY + (rightFrame.midY - leftFrame.midY) * percent
-        let offsetY = centerPointY - menuView.bounds.height / 2
-        let maxOffsetY = max(0, menuView.contentSize.height - menuView.bounds.height)
-        let normaizedOffsetY = min(max(0, offsetY), maxOffsetY)
-        let offset = CGPoint(x: normaizedOffsetX, y:normaizedOffsetY)
-        
-        focusView.center = CGPoint(x: centerPointX, y: centerPointY)
-        
-        menuView.setContentOffset(offset, animated: animated)
+        focusView.center = CGPoint(x: centerPointX, y: menuView.center.y)
+
+        menuView.setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
         focusView.selectedIndex = index
         
         if percent == 0 && !animated {
@@ -250,14 +250,6 @@ public class PagingMenuViewController: UIViewController {
             invalidateLayout()
         }
     }
-
-    fileprivate var menuView: PagingMenuView = {
-        let view = PagingMenuView(frame: .zero)
-        view.backgroundColor = .clear
-        view.showsHorizontalScrollIndicator = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
     
     override public func viewDidLoad() {
         super.viewDidLoad()
