@@ -10,9 +10,9 @@
 PagingKit provides customizable menu & content UI. It has more flexible layout and design than the other libraries.
 
 # What's this?
-There are many libaries providing "Paging UI" which has menu and content area.
-They are convinience but not customizable because your app have to make compatible with the library about layout and design.
-When It doesn't fit the libaries, you need to fork the library or find another one. 
+There are many libaries providing "Paging UI" which have menu and content area.
+They are convinience but not customizable because your app have to make compatible with the library about layout and view components.
+When your philosophy doesn't fit the libraries, you need to fork the library or find another one. 
 
 PagingKit has more flexible layout and design than the other libraries.
 You can construct "Menu" and "Content" UI, and they work together. That's all features this library provides.
