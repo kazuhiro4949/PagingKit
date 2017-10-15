@@ -1,4 +1,5 @@
-![pagingkitlogo](https://user-images.githubusercontent.com/18320004/31587842-b972f1e6-b223-11e7-8be9-91f37e52b45a.png)
+![img](https://user-images.githubusercontent.com/18320004/31583441-eb6ff894-b1d6-11e7-943a-675d6460919a.png)
+
 
 [![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 ![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
