@@ -42,8 +42,8 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 
 # Requirements
 + iOS 8.0+
-+ Xcode 8.1+
-+ Swift 3.0+
++ Xcode 9.0+
++ Swift 4.0 (3.2)
 
 # Installation
 ## Carthage
