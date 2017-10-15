@@ -34,7 +34,6 @@ class SimpleViewController: UIViewController {
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
-//        vc.number = title
         return (menu: title, content: vc)
     }
 

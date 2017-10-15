@@ -120,6 +120,38 @@ class PagingMenuViewTests: XCTestCase {
                        CGRect(x: 300, y: 0, width: 100, height: 44), "get correct rect")
     }
     
+    func testRectForItemToEdgeCase() {
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        pagingMenuView?.dataSource = dataSource
+        pagingMenuView?.reloadData()
+        
+        let rect = pagingMenuView?.rectForItem(at: 20)
+        XCTAssertEqual(rect,
+                       CGRect(x: 2000, y: 0, width: 0, height: 44), "get correct rect")
+    }
+    
+    func testRectForItems() {
+        guard let pagingMenuView = pagingMenuView else {
+            XCTFail("pagingMenuView is not nil")
+            return
+        }
+        
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        pagingMenuView.dataSource = dataSource
+        pagingMenuView.reloadData()
+        
+        let actualRects = (0..<dataSource.data.count).flatMap(pagingMenuView.rectForItem)
+        let expectedRects = Array(stride(from: 0, to: 2000, by: 100)).map { CGRect(x: $0, y: 0, width: 100, height: 44) }
+        XCTAssertEqual(actualRects,
+                       expectedRects, "get correct rect")
+    }
+    
     func testInvalidateLayout() {
         let dataSource = MenuViewDataSourceSpy()
         dataSource.widthForItem = 100
