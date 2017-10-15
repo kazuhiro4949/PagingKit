@@ -39,13 +39,12 @@ class PagingMenuViewControllerTests: XCTestCase {
     }
 
     func testScrollBetweenVisibleCells() {
-        let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
         let dataSource = MenuViewControllerDataSourceSpy()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
         dataSource.data = Array(repeating: "foo", count: 20)
         dataSource.widthForItem = 100
-        menuViewController.dataSource = dataSource
-        menuViewController.loadViewIfNeeded()
+        
         menuViewController.reloadData()
         
         let indices = menuViewController.visibleCells.flatMap { $0.index }
@@ -59,13 +58,94 @@ class PagingMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
+    func testSelectedIndexIsNillUntilFinishingReloadData() {
+        class MenuViewControllerDataMock: NSObject, PagingMenuViewControllerDataSource  {
+            var data = Array(repeating: "foo", count: 20)
+            var cellForItemHandler: ((PagingMenuViewController) -> Void)?
+            
+            func registerNib(to vc: PagingMenuViewController) {
+                let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
+                vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
+            }
+            
+            func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
+                return data.count
+            }
+            
+            func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+                cellForItemHandler?(viewController)
+                return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
+            }
+            
+            func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
+                return 100
+            }
         }
+        
+        let dataSource = MenuViewControllerDataMock()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        dataSource.registerNib(to: menuViewController)
+        var readDataCompletion = false
+        let expectation = XCTestExpectation(description: "finish load")
+        dataSource.cellForItemHandler = { (vc) in
+            if !readDataCompletion {
+                XCTAssertEqual(vc.currentFocusedIndex, nil, "PagingMenuViewController has no focused index befor reloadData finised")
+            }
+        }
+        menuViewController.reloadData(with: 3) { (_) in
+            readDataCompletion = true
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
     }
     
+    func testSelectedIndexIsNotNilAfterFinishingReloadData() {
+        class MenuViewControllerDataMock: NSObject, PagingMenuViewControllerDataSource  {
+            var data = Array(repeating: "foo", count: 20)
+            var cellForItemHandler: ((PagingMenuViewController) -> Void)?
+            
+            func registerNib(to vc: PagingMenuViewController) {
+                let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
+                vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
+            }
+            
+            func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
+                return data.count
+            }
+            
+            func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+                cellForItemHandler?(viewController)
+                return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
+            }
+            
+            func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
+                return 100
+            }
+        }
+        
+        let dataSource = MenuViewControllerDataMock()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        dataSource.registerNib(to: menuViewController)
+        var readDataCompletion = false
+        let expectation = XCTestExpectation(description: "finish load")
+        dataSource.cellForItemHandler = { (vc) in
+            if readDataCompletion {
+                XCTAssertEqual(vc.currentFocusedIndex, 3, "PagingMenuViewController has no focused index befor reloadData finised")
+            }
+        }
+        menuViewController.reloadData(with: 3) { (_) in
+            readDataCompletion = true
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
+    static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {
+        let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
+        menuViewController.dataSource = dataSource
+        menuViewController.loadViewIfNeeded()
+        return menuViewController
+    }
 }
 
 class MenuViewControllerDataSourceSpy: NSObject, PagingMenuViewControllerDataSource  {

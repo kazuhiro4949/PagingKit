@@ -244,7 +244,9 @@ public class PagingMenuViewController: UIViewController {
     /// Invalidates the current layout using the information in the provided context object.
     public func invalidateLayout() {
         menuView.invalidateLayout()
-        scroll(index: focusView.selectedIndex ?? 0, percent: 0, animated: false)
+        if let selectedIndex = focusView.selectedIndex {
+            scroll(index: selectedIndex, percent: 0, animated: false)
+        }
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
