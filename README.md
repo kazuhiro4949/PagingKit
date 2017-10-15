@@ -83,19 +83,19 @@ Import PagingKit
 
 # Usage
 
-There are some sample projects in this library.
+There are some samples in this library.
 
 https://github.com/kazuhiro4949/PagingKit/tree/master/iOS%20Sample/iOS%20Sample
 
-You can put PagingKit into your project as the samples do.
+You can fit PagingKit into your project as the samples do. Check out this repository and open the workspace.
 
 PagingKit has two essential classes.
 - PagingMenuViewController
 - PagingContentViewController
 
-PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on paging view.
+PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on a scrollview.
 
-If you wanna make a new view controller that contains PagingKit, refer the 4 steps.
+If you will make a new UI which contains PagingKit, refer the following 4 steps.
 
 - 1. Add PagingMenuViewController & PagingContentViewController
 - 2. Assign them to properties
