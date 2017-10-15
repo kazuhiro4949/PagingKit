@@ -114,7 +114,7 @@ $(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
 ```
 + Write Import statement on your source file
 ```
-Import PagingKit
+import PagingKit
 ```
 
 # Usage
