@@ -93,9 +93,11 @@ public class PagingMenuViewController: UIViewController {
     public weak var delegate: PagingMenuViewControllerDelegate?
     /// The object that acts as the data source of the menu view controller.
     public weak var dataSource: PagingMenuViewControllerDataSource?
-    
-    fileprivate var focusView = PagingMenuFocusView(frame: .zero)
-    
+
+    /// The object that acts as the indicator to focus current menu.
+    public let focusView = PagingMenuFocusView(frame: .zero)
+
+    /// The object to show data and tap interaction.
     public let menuView: PagingMenuView = {
         let view = PagingMenuView(frame: .zero)
         view.backgroundColor = .clear
