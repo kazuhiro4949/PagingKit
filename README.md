@@ -46,6 +46,42 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 + Swift 4.0 (3.2)
 
 # Installation
+
+### CocoaPods
++ Install CocoaPods
+```
+> gem install cocoapods
+> pod setup
+```
++ Create Podfile
+```
+> pod init
+```
++ Edit Podfile
+```ruby
+target 'YourProject' do
+  use_frameworks!
+
+  pod "PagingKit" # add
+
+  target 'YourProject' do
+    inherit! :search_paths
+  end
+
+  target 'YourProject' do
+    inherit! :search_paths
+  end
+
+end
+```
+
++ Install
+
+```
+> pod install
+```
+open .xcworkspace
+
 ## Carthage
 + Install Carthage from Homebrew
 ```
