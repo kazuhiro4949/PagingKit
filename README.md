@@ -37,7 +37,7 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 
 
 # Feature
-- [x] easy to costruct Paging UI many media Apps have
+- [x] easy to construct Paging UI
 - [x] customizable layout and design
 - [x] UIKit like API
 
