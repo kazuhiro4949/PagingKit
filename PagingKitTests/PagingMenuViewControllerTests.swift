@@ -140,11 +140,26 @@ class PagingMenuViewControllerTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
-    func testRegisterFocusView() {
+    func testRegisterFocusViewWithXib() {
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: MenuViewControllerDataSourceSpy())
         menuViewController.registerFocusView(nib: UINib(nibName: "PagingMenuFocusView", bundle: Bundle(for: type(of: self))))
-        XCTAssertEqual(menuViewController.focusView.subviews.count, 1, "register custom focus view")
-        XCTAssertTrue(menuViewController.focusView.subviews.first is PagingMenuFocusView, "register custom focus view")
+        XCTAssertEqual(menuViewController.focusView.subviews.count, 1, "registered custom focus view")
+        XCTAssertTrue(menuViewController.focusView.subviews.first is PagingMenuFocusView, "registered custom focus view")
+    }
+    
+    func testRegisterFocusViewWithObj() {
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: MenuViewControllerDataSourceSpy())
+        menuViewController.registerFocusView(view: PagingMenuFocusView())
+        XCTAssertEqual(menuViewController.focusView.subviews.count, 1, "registered custom focus view")
+        XCTAssertTrue(menuViewController.focusView.subviews.first is PagingMenuFocusView, "registered custom focus view")
+    }
+    
+    func testRegisterFocusViewWithZposition() {
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: MenuViewControllerDataSourceSpy())
+        menuViewController.registerFocusView(nib: UINib(nibName: "PagingMenuFocusView", bundle: Bundle(for: type(of: self))), isBehindCell: true)
+        XCTAssertEqual(menuViewController.focusView.subviews.count, 1, "registered custom focus view")
+        XCTAssertTrue(menuViewController.focusView.subviews.first is PagingMenuFocusView, "registered custom focus view")
+        XCTAssertEqual(menuViewController.focusView.layer.zPosition, -1, "registered custom focus view with -1 zPosition")
     }
     
     static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {
