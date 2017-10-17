@@ -59,30 +59,7 @@ class PagingMenuViewControllerTests: XCTestCase {
     }
     
     func testSelectedIndexIsNillUntilFinishingReloadData() {
-        class MenuViewControllerDataMock: NSObject, PagingMenuViewControllerDataSource  {
-            var data = Array(repeating: "foo", count: 20)
-            var cellForItemHandler: ((PagingMenuViewController) -> Void)?
-            
-            func registerNib(to vc: PagingMenuViewController) {
-                let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
-                vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
-            }
-            
-            func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
-                return data.count
-            }
-            
-            func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
-                cellForItemHandler?(viewController)
-                return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
-            }
-            
-            func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-                return 100
-            }
-        }
-        
-        let dataSource = MenuViewControllerDataMock()
+        let dataSource = MenuViewControllerDataSourceMock()
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
         var readDataCompletion = false
