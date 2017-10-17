@@ -14,7 +14,6 @@
 		2B4F03491F8FB9950015FCC8 /* PagingContentViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */; };
 		2B668C5F1F1395BE008A0694 /* PagingMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */; };
 		6EC140C51F0940F40054B514 /* PagingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC140BB1F0940F40054B514 /* PagingKit.framework */; };
-		6EC140CA1F0940F40054B514 /* PagingKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140C91F0940F40054B514 /* PagingKitTests.swift */; };
 		6EC140CC1F0940F40054B514 /* PagingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC140BE1F0940F40054B514 /* PagingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */; };
 		6EC140D81F09410F0054B514 /* PagingContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140D61F09410F0054B514 /* PagingContentViewController.swift */; };
@@ -41,7 +40,6 @@
 		6EC140BE1F0940F40054B514 /* PagingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingKit.h; sourceTree = "<group>"; };
 		6EC140BF1F0940F40054B514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EC140C41F0940F40054B514 /* PagingKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		6EC140C91F0940F40054B514 /* PagingKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingKitTests.swift; sourceTree = "<group>"; };
 		6EC140CB1F0940F40054B514 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingMenuViewController.swift; sourceTree = "<group>"; };
 		6EC140D61F09410F0054B514 /* PagingContentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PagingContentViewController.swift; sourceTree = "<group>"; };
@@ -99,7 +97,6 @@
 		6EC140C81F0940F40054B514 /* PagingKitTests */ = {
 			isa = PBXGroup;
 			children = (
-				6EC140C91F0940F40054B514 /* PagingKitTests.swift */,
 				2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */,
 				2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */,
 				2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */,
@@ -235,7 +232,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B4F03491F8FB9950015FCC8 /* PagingContentViewControllerTests.swift in Sources */,
-				6EC140CA1F0940F40054B514 /* PagingKitTests.swift in Sources */,
 				2B4F03431F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift in Sources */,
 				2B4F03451F8FA0760015FCC8 /* PagingMenuViewTests.swift in Sources */,
 			);
