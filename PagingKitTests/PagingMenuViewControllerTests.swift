@@ -100,30 +100,7 @@ class PagingMenuViewControllerTests: XCTestCase {
     }
     
     func testSelectedIndexIsNotNilAfterFinishingReloadData() {
-        class MenuViewControllerDataMock: NSObject, PagingMenuViewControllerDataSource  {
-            var data = Array(repeating: "foo", count: 20)
-            var cellForItemHandler: ((PagingMenuViewController) -> Void)?
-            
-            func registerNib(to vc: PagingMenuViewController) {
-                let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
-                vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
-            }
-            
-            func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
-                return data.count
-            }
-            
-            func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
-                cellForItemHandler?(viewController)
-                return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
-            }
-            
-            func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-                return 100
-            }
-        }
-        
-        let dataSource = MenuViewControllerDataMock()
+        let dataSource = MenuViewControllerDataSourceMock()
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
         var readDataCompletion = false
@@ -162,6 +139,33 @@ class PagingMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(menuViewController.focusView.layer.zPosition, -1, "registered custom focus view with -1 zPosition")
     }
     
+    func testInvalidateLayout() {
+        let expection = XCTestExpectation(description: "waiting for reloading")
+        let dataSource = MenuViewControllerDataSourceMock()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        dataSource.registerNib(to: menuViewController)
+        
+        menuViewController.loadViewIfNeeded()
+        menuViewController.view.frame = CGRect(x: 0, y: 0, width: 320, height: 44)
+        menuViewController.reloadData(with: 0) { _ in
+            let resizedLength: CGFloat = 20
+            dataSource.widthForItem = resizedLength
+            menuViewController.view.frame.size.height = resizedLength
+            menuViewController.invalidateLayout()
+            let cellFrames = menuViewController.visibleCells.map { $0.frame }
+            let expectedCellFrames = (0..<cellFrames.count).reduce([CGRect]()) { (sum, rect) in
+                let lastRect = sum.last ?? .zero
+                let nextRect = CGRect(x: lastRect.maxX, y: 0, width: resizedLength, height: resizedLength)
+                return sum + [nextRect]
+            }
+            XCTAssertEqual(cellFrames, expectedCellFrames, "dataSource has resized cells")
+            XCTAssertEqual(resizedLength, menuViewController.menuView.contentSize.height, "dataSource has resized cells")
+            expection.fulfill()
+        }
+        
+        wait(for: [expection], timeout: 1.0)
+    }
+    
     static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {
         let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
         menuViewController.dataSource = dataSource
@@ -184,6 +188,30 @@ class MenuViewControllerDataSourceSpy: NSObject, PagingMenuViewControllerDataSou
     }
     
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+        return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
+    }
+    
+    func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
+        return widthForItem
+    }
+}
+
+class MenuViewControllerDataSourceMock: NSObject, PagingMenuViewControllerDataSource  {
+    var data = Array(repeating: "foo", count: 20)
+    var widthForItem: CGFloat = 100
+    var cellForItemHandler: ((PagingMenuViewController) -> Void)?
+    
+    func registerNib(to vc: PagingMenuViewController) {
+        let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
+        vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
+    }
+    
+    func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
+        return data.count
+    }
+    
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+        cellForItemHandler?(viewController)
         return viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)
     }
     
