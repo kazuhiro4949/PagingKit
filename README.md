@@ -1,4 +1,5 @@
-<img src="https://user-images.githubusercontent.com/18320004/31583441-eb6ff894-b1d6-11e7-943a-675d6460919a.png" height=140>
+![img](https://user-images.githubusercontent.com/18320004/31583441-eb6ff894-b1d6-11e7-943a-675d6460919a.png)
+
 
 [![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 ![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
@@ -10,9 +11,9 @@
 PagingKit provides customizable menu & content UI. It has more flexible layout and design than the other libraries.
 
 # What's this?
-There are many libaries providing "Paging UI" which has menu and content area.
-They are convinience but not customizable because your app have to make compatible with the library about layout and design.
-When It doesn't fit the libaries, you need to fork the library or find another one. 
+There are many libraries providing "Paging UI" which have menu and content area.
+They are convinience but not customizable because your app have to make compatible with the libraries about layout and view components.
+When your philosophy doesn't fit the libraries, you need to fork them or find another one. 
 
 PagingKit has more flexible layout and design than the other libraries.
 You can construct "Menu" and "Content" UI, and they work together. That's all features this library provides.
@@ -36,16 +37,52 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 
 
 # Feature
-- [x] easy to costruct Paging UI many media Apps have
+- [x] easy to construct Paging UI
 - [x] customizable layout and design
 - [x] UIKit like API
 
 # Requirements
 + iOS 8.0+
-+ Xcode 8.1+
-+ Swift 3.0+
++ Xcode 9.0+
++ Swift 4.0 (3.2)
 
 # Installation
+
+### CocoaPods
++ Install CocoaPods
+```
+> gem install cocoapods
+> pod setup
+```
++ Create Podfile
+```
+> pod init
+```
++ Edit Podfile
+```ruby
+target 'YourProject' do
+  use_frameworks!
+
+  pod "PagingKit" # add
+
+  target 'YourProject' do
+    inherit! :search_paths
+  end
+
+  target 'YourProject' do
+    inherit! :search_paths
+  end
+
+end
+```
+
++ Install
+
+```
+> pod install
+```
+open .xcworkspace
+
 ## Carthage
 + Install Carthage from Homebrew
 ```
@@ -78,24 +115,24 @@ $(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
 ```
 + Write Import statement on your source file
 ```
-Import PagingKit
+import PagingKit
 ```
 
 # Usage
 
-There are some sample projects in this library.
+There are some samples in this library.
 
 https://github.com/kazuhiro4949/PagingKit/tree/master/iOS%20Sample/iOS%20Sample
 
-You can put PagingKit into your project as the samples do.
+You can fit PagingKit into your project as the samples do. Check out this repository and open the workspace.
 
 PagingKit has two essential classes.
 - PagingMenuViewController
 - PagingContentViewController
 
-PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on paging view.
+PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on a scrollview.
 
-If you wanna make a new view controller that contains PagingKit, refer the 4 steps.
+If you will make a new UI which contains PagingKit, refer the following 4 steps.
 
 - 1. Add PagingMenuViewController & PagingContentViewController
 - 2. Assign them to properties
@@ -232,7 +269,7 @@ Return number of menus, menu widthes and menu assigned cells.
 }
 
 extension ViewController: PagingMenuViewControllerDataSource {
-    func numberOfItemForMenuViewController(viewController: PagingMenuViewController) -> Int {
+    func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count
     }
     
@@ -266,7 +303,7 @@ Return number of contents and content assigned cells.
 }
 
 extension ViewController: PagingContentViewControllerDataSource {
-    func numberOfItemForContentViewController(viewController: PagingContentViewController) -> Int {
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return dataSource.count
     }
     
