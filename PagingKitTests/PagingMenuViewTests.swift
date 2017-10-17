@@ -160,11 +160,19 @@ class PagingMenuViewTests: XCTestCase {
         pagingMenuView?.dataSource = dataSource
         pagingMenuView?.reloadData()
         
-        dataSource.widthForItem = 20
+        let resizedWidth: CGFloat = 20
+        dataSource.widthForItem = resizedWidth
         pagingMenuView?.invalidateLayout()
         
         XCTAssertEqual(pagingMenuView?.contentSize.width, 400, "success to change content layout")
         
+        guard let widths = pagingMenuView?.visibleCells.map({ $0.bounds.width }) else {
+            XCTFail("pagingMenuView needs to have visible cells")
+            return
+        }
+        
+        let expectedWidths = widths.map { _ in resizedWidth }
+        XCTAssertEqual(widths, expectedWidths, "dataSource has resized cells")
     }
 }
 
