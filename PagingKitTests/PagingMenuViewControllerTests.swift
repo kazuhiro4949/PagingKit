@@ -140,6 +140,13 @@ class PagingMenuViewControllerTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
     }
     
+    func testRegisterFocusView() {
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: MenuViewControllerDataSourceSpy())
+        menuViewController.registerFocusView(nib: UINib(nibName: "PagingMenuFocusView", bundle: Bundle(for: type(of: self))))
+        XCTAssertEqual(menuViewController.focusView.subviews.count, 1, "register custom focus view")
+        XCTAssertTrue(menuViewController.focusView.subviews.first is PagingMenuFocusView, "register custom focus view")
+    }
+    
     static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {
         let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
         menuViewController.dataSource = dataSource

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B463D261F958C0D00F241E1 /* PagingMenuFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */; };
 		2B4F03431F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */; };
 		2B4F03451F8FA0760015FCC8 /* PagingMenuViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */; };
 		2B4F03471F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F03461F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PagingMenuFocusView.xib; sourceTree = "<group>"; };
 		2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingMenuViewTests.swift; sourceTree = "<group>"; };
 		2B4F03461F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PagingMenuViewCellStub.xib; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */,
 				2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */,
 				2B4F03461F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib */,
+				2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */,
 				6EC140CB1F0940F40054B514 /* Info.plist */,
 			);
 			path = PagingKitTests;
@@ -210,6 +213,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2B4F03471F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib in Resources */,
+				2B463D261F958C0D00F241E1 /* PagingMenuFocusView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
