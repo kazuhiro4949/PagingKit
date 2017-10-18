@@ -7,7 +7,6 @@
 [![License](https://img.shields.io/cocoapods/l/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Version](https://img.shields.io/cocoapods/v/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Build Status](https://www.bitrise.io/app/379f18aee0f4a759/status.svg?token=bA10yjS1flU0aal7TULGfQ)](https://www.bitrise.io/app/379f18aee0f4a759)
 
 PagingKit provides customizable menu & content UI. It has more flexible layout and design than the other libraries.
 
@@ -393,6 +392,14 @@ extension ViewController: PagingContentViewControllerDelegate {
 That's it.
 
 # Class Design
+There are some design philosophy in this library.
+
+- The behavior needs to be specified by the library.
+- The layout should be left to developers.
+- Arrangement of the internal components must be left to developers.
+
+Because of that, PagingKit has responsiblity for the behavior. But it doesn't specify a structure of the components.
+
 # License
 
 Copyright (c) 2017 Kazuhiro Hayashi
