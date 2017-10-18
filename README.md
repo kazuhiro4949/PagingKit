@@ -392,13 +392,18 @@ extension ViewController: PagingContentViewControllerDelegate {
 That's it.
 
 # Class Design
-There are some design philosophy in this library.
+There are some design policy in this library.
 
 - The behavior needs to be specified by the library.
 - The layout should be left to developers.
 - Arrangement of the internal components must be left to developers.
+- Favour composition over inheritance.
 
 Because of that, PagingKit has responsiblity for the behavior. But it doesn't specify a structure of the components.
+PagingKit favours composition over inheritance. This figure describes overview of class diagram.
+
+
+![project](https://user-images.githubusercontent.com/18320004/31725275-e77fa07e-b45e-11e7-83de-0ce621159526.png)
 
 # License
 
