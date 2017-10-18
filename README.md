@@ -403,7 +403,7 @@ Because of that, PagingKit has responsiblity for the behavior. But it doesn't sp
 PagingKit favours composition over inheritance. This figure describes overview of class diagram.
 
 
-![project](https://user-images.githubusercontent.com/18320004/31724932-066433ca-b45e-11e7-8aaa-9ea664aea8a6.png)
+![project](https://user-images.githubusercontent.com/18320004/31725275-e77fa07e-b45e-11e7-83de-0ce621159526.png)
 
 # License
 
