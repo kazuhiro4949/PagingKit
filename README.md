@@ -400,8 +400,9 @@ There are some design policy in this library.
 - Favour composition over inheritance.
 
 Because of that, PagingKit has responsiblity for the behavior. But it doesn't specify a structure of the components.
-
 PagingKit favours composition over inheritance. This figure describes overview of class diagram.
+
+
 ![project](https://user-images.githubusercontent.com/18320004/31724932-066433ca-b45e-11e7-8aaa-9ea664aea8a6.png)
 
 # License
