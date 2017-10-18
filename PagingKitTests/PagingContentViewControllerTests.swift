@@ -47,6 +47,20 @@ class PagingContentViewControllerTests: XCTestCase {
         wait(for: [dataSource.numberOfItemExpectation, dataSource.viewControllerExpectation], timeout: 1)
         self.dataSource = dataSource
     }
+    
+    func testReloadData() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3, completion: { [weak self] in
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 960, y: 0), "expected offset")
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 1)
+        self.dataSource = dataSource
+    }
 }
 
 class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSource {
@@ -65,11 +79,15 @@ class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSo
 }
 
 class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSource {
+    let vcs: [UIViewController] = Array(repeating: UIViewController(), count: 5)
+    
     func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
-        return 5
+        return vcs.count
     }
     
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
-        return UIViewController()
+        let vc = vcs[index]
+        vc.view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        return vc
     }
 }

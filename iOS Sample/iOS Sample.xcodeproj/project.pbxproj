@@ -25,6 +25,7 @@
 		2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */; };
 		2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */; };
 		2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */; };
+		2B873AE31F974B3900F02D27 /* ModalViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B873AE21F974B3900F02D27 /* ModalViewController.storyboard */; };
 		2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E31F92340100320900 /* TagViewController.storyboard */; };
 		2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E51F92349600320900 /* ArbitraryNumberViewController.storyboard */; };
 		2BBB70E81F9234C100320900 /* DynamicSizeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E71F9234C100320900 /* DynamicSizeViewController.storyboard */; };
@@ -97,6 +98,7 @@
 		2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentTableViewController.storyboard; sourceTree = "<group>"; };
 		2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewController.swift; sourceTree = "<group>"; };
 		2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		2B873AE21F974B3900F02D27 /* ModalViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ModalViewController.storyboard; sourceTree = "<group>"; };
 		2BBB70E31F92340100320900 /* TagViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = TagViewController.storyboard; path = ../TagViewController.storyboard; sourceTree = "<group>"; };
 		2BBB70E51F92349600320900 /* ArbitraryNumberViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ArbitraryNumberViewController.storyboard; sourceTree = "<group>"; };
 		2BBB70E71F9234C100320900 /* DynamicSizeViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DynamicSizeViewController.storyboard; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			children = (
 				6E9827BE1F0A958900860828 /* ContentViewController.swift */,
 				2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */,
+				2B873AE21F974B3900F02D27 /* ModalViewController.storyboard */,
 				2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */,
 				2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */,
 				2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */,
@@ -421,6 +424,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B873AE31F974B3900F02D27 /* ModalViewController.storyboard in Resources */,
 				2B3C7CCB1F8CEF2200A43223 /* TwoLineMenuCell.xib in Resources */,
 				6E9827841F0A91F400860828 /* LaunchScreen.storyboard in Resources */,
 				2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */,
@@ -581,7 +585,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -632,7 +636,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

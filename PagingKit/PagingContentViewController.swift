@@ -108,9 +108,9 @@ public class PagingContentViewController: UIViewController {
     ///  Reloads the content of the view controller.
     ///
     /// - Parameter page: An index to show after reloading.
-    public func reloadData(with page: Int = 0) {
+    public func reloadData(with page: Int = 0, completion: (() -> Void)? = nil) {
         removeAll()
-        
+        initialLoad(with: page)
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
@@ -118,8 +118,8 @@ public class PagingContentViewController: UIViewController {
                 self?.view.layoutIfNeeded()
             },
             completion: { [weak self] (finish) in
-                self?.initialLoad(with: page)
                 self?.scroll(to: page, animated: false)
+                completion?()
             }
         )
     }
