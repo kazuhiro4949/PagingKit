@@ -61,6 +61,40 @@ class PagingContentViewControllerTests: XCTestCase {
         wait(for: [expectation], timeout: 1)
         self.dataSource = dataSource
     }
+    
+    func testScrollAfterReloadData() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 0, completion: { [weak self] in
+            self?.pagingContentViewController?.scroll(to: 4, animated: false)
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 1280, y: 0), "expected offset")
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 1)
+        self.dataSource = dataSource
+    }
+    
+    func testContentOffsetRatioInScrolling() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 0, completion: { [weak self] in
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0, "At first, scrollview is index 0")
+            self?.pagingContentViewController?.scroll(to: 4, animated: false)
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 1, "Next, scrollview is index 4")
+            self?.pagingContentViewController?.scroll(to: 2, animated: false)
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.5, "Then, scrollview is index 2")
+            self?.pagingContentViewController?.scroll(to: 1, animated: false)
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.25, "After all, scrollview is index 1")
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 1)
+        self.dataSource = dataSource
+    }
 }
 
 class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSource {
