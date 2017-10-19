@@ -83,13 +83,33 @@ class PagingContentViewControllerTests: XCTestCase {
         pagingContentViewController?.dataSource = dataSource
         pagingContentViewController?.loadViewIfNeeded()
         pagingContentViewController?.reloadData(with: 0, completion: { [weak self] in
-            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0, "At first, scrollview is index 0")
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0, "At first, scrollview is in index 0")
             self?.pagingContentViewController?.scroll(to: 4, animated: false)
-            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 1, "Next, scrollview is index 4")
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 1, "Next, scrollview is in index 4")
             self?.pagingContentViewController?.scroll(to: 2, animated: false)
-            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.5, "Then, scrollview is index 2")
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.5, "Then, scrollview is in index 2")
             self?.pagingContentViewController?.scroll(to: 1, animated: false)
-            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.25, "After all, scrollview is index 1")
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.25, "After all, scrollview is in index 1")
+            expectation.fulfill()
+        })
+        wait(for: [expectation], timeout: 1)
+        self.dataSource = dataSource
+    }
+    
+    func testViewDidLayoutSubviews() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 2, completion: { [weak self] in
+            self?.pagingContentViewController?.view.frame = CGRect(x: 0, y: 0, width: 667, height: 320)
+            self?.pagingContentViewController?.view.setNeedsLayout()
+            self?.pagingContentViewController?.view.layoutIfNeeded()
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 667 * 5, height: 320), "correct ")
+            XCTAssertEqual(self?.pagingContentViewController?.contentOffsetRatio, 0.5, "correct content offset")
+            let actualSubviewSizes = self?.pagingContentViewController?.scrollView.subviews.map { $0.bounds.size } ?? []
+            let expectedSubviewSizes = self?.pagingContentViewController?.scrollView.subviews.map { _ in CGSize(width: 667, height: 320) } ?? []
+            XCTAssertEqual(actualSubviewSizes, expectedSubviewSizes, "correct content sizes")
             expectation.fulfill()
         })
         wait(for: [expectation], timeout: 1)
