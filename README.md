@@ -195,7 +195,7 @@ It is the container view controller that has two conten view controllers.
 
 # 3. Create menu UI
 
-Next, you needs to prepare menu element.
+Next, you needs to prepare the menu elements.
 
 ## 1. Inherite PagingMenuViewCell and create custom cell
 
@@ -238,7 +238,7 @@ class ViewController: UIViewController {
 
 # 4. display data
 
-Then, implement the data sources to display contents. They are a similar interfaces to UITableViewDataSource.
+Then, implement the data sources to display contents. They are a similar to UITableViewDataSource.
 
 ## 1. prepare data
 
@@ -255,7 +255,7 @@ class ViewController: UIViewController {
 
 ## 2. set menu data source
 
-Return number of menus, menu widthes and menu assigned cells.
+Return number of menus, menu widthes and PagingMenuViewCell objects.
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -287,8 +287,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
 
 ## 3. configure content data source
 
-Return number of contents and content assigned cells.
-
+Return the number of contents and view controllers.
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -315,7 +314,7 @@ extension ViewController: PagingContentViewControllerDataSource {
 
 ## 4. load UI
 
-Call UITableView.reloadData() methods with starting point.
+Call reloadData() methods with starting point.
 
 ```swift
     override func viewDidLoad() {
@@ -333,11 +332,9 @@ Build and display data source.
 
 # 5. Synchronize Menu and Content view controllers
 
-Last, synchronize user interactions on Menu and Content.
+Last, synchronize user interactions between Menu and Content.
 
 ## 1. set menu delegate
-
-Implement menu delegate to handle the event. It is a similar interfaces to UITableViewDelegate. You need to scroll method of content view controller on the delegate method.
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -353,6 +350,8 @@ Implement menu delegate to handle the event. It is a similar interfaces to UITab
 }
 ```
 
+Implement menu delegate to handle the event. It is a similar to UITableViewDelegate. You need to implement scroll method of PagingContentViewController in the delegate method.
+
 ```swift
 
 extension ViewController: PagingMenuViewControllerDelegate {
@@ -363,8 +362,6 @@ extension ViewController: PagingMenuViewControllerDelegate {
 ```
 
 ## 2. set content delegate
-
-Implement content delegate to handle the event. It is a similar interfaces to UIScrollViewDelegate. You need to scroll method of content view controller on the delegate method. Percent parameter is based on the left to right distance.
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -380,6 +377,8 @@ Implement content delegate to handle the event. It is a similar interfaces to UI
     }
 }
 ```
+
+Implement content delegate to handle the event. It is similar to UIScrollViewDelegate You need to implement scroll method of PagingMenuViewController in the delegate method. "parameter" is the ratio from the origin of current index.
 
 ```swift
 extension ViewController: PagingContentViewControllerDelegate {
