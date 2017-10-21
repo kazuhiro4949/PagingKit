@@ -34,4 +34,13 @@ class MenuCell: PagingMenuViewCell {
         // Initialization code
     }
 
+    override var isSelected: Bool {
+        didSet {
+            if isSelected {
+                titleLabel.textColor = #colorLiteral(red: 0.9137254902, green: 0.3490196078, blue: 0.3137254902, alpha: 1)
+            } else {
+                titleLabel.textColor = .black
+            }
+        }
+    }
 }
