@@ -95,8 +95,8 @@ extension SimpleViewController: PagingContentViewControllerDataSource {
 
 extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
+        viewController.visibleCells.forEach { $0.isSelected = false }
         viewController.cellForItem(at: page)?.isSelected = true
-        viewController.cellForItem(at: previousPage)?.isSelected = false
         contentViewController?.scroll(to: page, animated: true)
     }
 }
