@@ -43,9 +43,7 @@ class SimpleViewController: UIViewController {
         menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
         
-        menuViewController?.reloadData() { [weak self] (_) in
-            self?.menuViewController?.cellForItem(at: 0)?.isSelected = true
-        }
+        menuViewController?.reloadData()
         contentViewController?.reloadData()
 
     }

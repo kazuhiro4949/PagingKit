@@ -227,14 +227,16 @@ public class PagingMenuViewController: UIViewController {
     ///   - preferredFocusIndex: A preferred index to focus after reloading.
     ///   - completionHandler: The block to execute after the reloading finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
+        let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
+        focusView.selectedIndex = selectedIndex
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
                 self?.menuView.reloadData()
             },
-            completion: {  [currentFocusedIndex = currentFocusedIndex, weak self] (finish) in
+            completion: {  [weak self] (finish) in
                 guard let _self = self else { return }
-                let scrollIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
+                let scrollIndex = selectedIndex
                 _self.scroll(index: scrollIndex, percent: 0, animated: false)
                 completionHandler?(finish)
             }
