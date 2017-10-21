@@ -35,6 +35,7 @@ open class PagingMenuViewCell: UIView {
      The selection state of the cell.
      
      It is not managed by this class and paging menu view now.
+     You can use this property as an utility to manage selected state.
      */
     open var isSelected: Bool = false
     
