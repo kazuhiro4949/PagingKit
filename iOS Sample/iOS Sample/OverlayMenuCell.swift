@@ -47,7 +47,7 @@ class OverlayMenuCell: PagingMenuViewCell {
     
     func highlightWithAnimation(isHighlight: Bool) {
         UIView.transition(with: textLabel, duration: 0.4, options: .transitionCrossDissolve, animations: {
-            self.textLabel.textColor = isHighlight ? .black : .white
+            self.textLabel.textColor = isHighlight ? .white : .black
         }, completion: { (_) in
         
         })

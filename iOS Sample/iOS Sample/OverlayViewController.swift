@@ -103,8 +103,8 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        viewController.visibleCells.flatMap { $0 as? OverlayMenuCell }.forEach { $0.highlightWithAnimation(isHighlight: false)}
-        let selectedCell = menuViewController.cellForItem(at: previousPage) as? OverlayMenuCell
+        viewController.visibleCells.flatMap { $0 as? OverlayMenuCell }.forEach { $0.highlightWithAnimation(isHighlight: false) }
+        let selectedCell = menuViewController.cellForItem(at: page) as? OverlayMenuCell
         selectedCell?.highlightWithAnimation(isHighlight: true)
         contentViewController?.scroll(to: page, animated: true)
     }
