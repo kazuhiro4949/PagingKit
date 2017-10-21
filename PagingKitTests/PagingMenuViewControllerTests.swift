@@ -58,7 +58,7 @@ class PagingMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     
-    func testSelectedIndexIsNillUntilFinishingReloadData() {
+    func testSelectedIndexIsNotNilDuringReloadData() {
         let dataSource = MenuViewControllerDataSourceMock()
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
@@ -66,7 +66,7 @@ class PagingMenuViewControllerTests: XCTestCase {
         let expectation = XCTestExpectation(description: "finish load")
         dataSource.cellForItemHandler = { (vc) in
             if !readDataCompletion {
-                XCTAssertEqual(vc.currentFocusedIndex, nil, "PagingMenuViewController has no focused index befor reloadData finised")
+                XCTAssertEqual(vc.currentFocusedIndex, 3, "PagingMenuViewController has focused index befor reloadData finised")
             }
         }
         menuViewController.reloadData(with: 3) { (_) in
