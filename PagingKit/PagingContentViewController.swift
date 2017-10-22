@@ -134,6 +134,7 @@ public class PagingContentViewController: UIViewController {
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
         if animated {
+            stopScrolling()
             performSystemAnimation({ [weak self] in
                 self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
             })
@@ -281,6 +282,11 @@ extension PagingContentViewController: UIScrollViewDelegate {
         loadScrollView(with: loadingPage - 1)
         loadScrollView(with: loadingPage)
         loadScrollView(with: loadingPage + 1)
+    }
+    
+    fileprivate func stopScrolling() {
+        isExplicityScrolling = false
+        scrollView.setContentOffset(scrollView.contentOffset, animated: false)
     }
 }
 
