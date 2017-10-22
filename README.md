@@ -18,7 +18,7 @@ When your philosophy doesn't fit the libraries, you need to fork them or find an
 
 PagingKit has more flexible layout and design than the other libraries.
 You can construct "Menu" and "Content" UI, and they work together. That's all features this library provides.
-You can fit layout and design of Pagingin UI to your apps as you like.
+You can fit any design to your apps as you like.
 
 ![paging_sample](https://user-images.githubusercontent.com/18320004/31575892-35860ae2-b12b-11e7-9525-1825c69b094f.gif)
 
