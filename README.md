@@ -23,17 +23,18 @@ You can fit layout and design of Pagingin UI to your apps as you like.
 ![paging_sample](https://user-images.githubusercontent.com/18320004/31575892-35860ae2-b12b-11e7-9525-1825c69b094f.gif)
 
 ## Customized layout 
+You can align views as you like.
 
-| changing position of Menu and Content | placing a view between Menu and Content |
+| changing position | placing a view between content and menu |
 |:------------:|:------------:|
-| ![paging_sample3](https://user-images.githubusercontent.com/18320004/27946963-fc4d0ee6-632e-11e7-9bcb-1cf171ffdc88.gif) | ![paging_sample2](https://user-images.githubusercontent.com/18320004/27946966-fe94c216-632e-11e7-96db-d8e0ec9acecb.gif) |
-
+| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) |
 
 ## Customized menu design
+You can customize menu as you like.
 
-| tag like menu design | text highlighted menu design | underscore design|
+| tag like menu | text highlighted menu | underscore menu |
 |:------------:|:------------:|:------------:|
-| ![tag](https://user-images.githubusercontent.com/18320004/28256285-bbf663b8-6afb-11e7-9779-7d9716dbb87a.gif) | ![overlay](https://user-images.githubusercontent.com/18320004/28256286-bd274f40-6afb-11e7-8662-7fea65b608f3.gif) | ![paging_sample](https://user-images.githubusercontent.com/18320004/27948466-d94665b8-6334-11e7-8bd8-a5d28eddb797.gif) |
+| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | ![sample_2](https://user-images.githubusercontent.com/18320004/31857534-d7b294de-b71b-11e7-923c-f79fe9335b1f.gif) | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) |
 
 
 
