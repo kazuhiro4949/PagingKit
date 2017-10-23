@@ -314,7 +314,7 @@ public class PagingMenuView: UIScrollView {
     }
 
     private func insetsHorizontally() {
-        let insetRect = UIEdgeInsetsInsetRect(containerView.frame, contentSafeAreaInsets)
+        let insetRect = UIEdgeInsetsInsetRect(bounds, contentSafeAreaInsets)
         containerView.bounds.size.height = insetRect.height
         containerView.frame.origin.y = insetRect.minY
     }
