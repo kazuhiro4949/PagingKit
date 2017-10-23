@@ -159,10 +159,6 @@ public class PagingMenuViewController: UIViewController {
     public var visibleCells: [PagingMenuViewCell] {
         return menuView.visibleCells
     }
-    
-    public var contentSafeAreaInsets: UIEdgeInsets {
-        return menuView.contentSafeAreaInsets
-    }
 
     /// Returns the menu cell that the view controller is focusing.
     public var currentFocusedCell: PagingMenuViewCell? {
