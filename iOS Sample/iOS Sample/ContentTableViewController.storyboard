@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-cs-lEJ">
-                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="3Em-GE-Xap" customClass="ContentTableViewCell" customModule="iOS_Sample" customModuleProvider="target">
@@ -64,10 +64,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="NVr-cB-pAu" secondAttribute="leading" id="QGq-Uq-xEo"/>
-                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="top" secondItem="NVr-cB-pAu" secondAttribute="top" id="RuW-3o-nJr"/>
-                            <constraint firstItem="NVr-cB-pAu" firstAttribute="bottom" secondItem="z6u-cs-lEJ" secondAttribute="bottom" id="kE5-vo-XbZ"/>
-                            <constraint firstItem="NVr-cB-pAu" firstAttribute="trailing" secondItem="z6u-cs-lEJ" secondAttribute="trailing" id="prB-PZ-XkU"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="top" secondItem="Vff-7w-Wn7" secondAttribute="top" id="T00-Ho-niF"/>
+                            <constraint firstAttribute="trailing" secondItem="z6u-cs-lEJ" secondAttribute="trailing" id="dhJ-1k-WOn"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="Vff-7w-Wn7" secondAttribute="leading" id="f82-P5-fVP"/>
+                            <constraint firstAttribute="bottom" secondItem="z6u-cs-lEJ" secondAttribute="bottom" id="xOJ-9c-G8b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NVr-cB-pAu"/>
                     </view>
