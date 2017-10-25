@@ -158,6 +158,9 @@ public class PagingContentViewController: UIViewController {
     override public func viewDidLoad() {
         super.viewDidLoad()
         
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        }
         scrollView.frame = view.bounds
         scrollView.delegate = self
         view.addSubview(scrollView)
@@ -217,7 +220,12 @@ public class PagingContentViewController: UIViewController {
         
         if case nil = cachedViewControllers[page], let dataSource = dataSource {
             let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
-            vc.willMove(toParentViewController: self)
+//            if #available(iOS 11.0, *) {
+//                let newSafeAreaInsets = scrollView.safeAreaInsets
+//                print(newSafeAreaInsets)
+//                print(vc.view.safeAreaInsets)
+//                vc.additionalSafeAreaInsets = newSafeAreaInsets
+//            }
             addChildViewController(vc)
             vc.view.frame = scrollView.bounds
             vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
