@@ -220,12 +220,6 @@ public class PagingContentViewController: UIViewController {
         
         if case nil = cachedViewControllers[page], let dataSource = dataSource {
             let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
-//            if #available(iOS 11.0, *) {
-//                let newSafeAreaInsets = scrollView.safeAreaInsets
-//                print(newSafeAreaInsets)
-//                print(vc.view.safeAreaInsets)
-//                vc.additionalSafeAreaInsets = newSafeAreaInsets
-//            }
             addChildViewController(vc)
             vc.view.frame = scrollView.bounds
             vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
