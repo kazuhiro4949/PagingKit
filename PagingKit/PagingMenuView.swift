@@ -279,12 +279,20 @@ public class PagingMenuView: UIScrollView {
         return cellSpacing * numberOfCellSpacing
     }
     
-    private var contentSafeAreaInsets: UIEdgeInsets {
+    var contentSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
             return safeAreaInsets
         } else {
             return .zero
         }
+    }
+    
+    var maxContentOffsetX: CGFloat {
+        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
+    }
+    
+    var minContentOffsetX: CGFloat {
+        return -contentSafeAreaInsets.left
     }
     
     private func recenterIfNeeded() {
