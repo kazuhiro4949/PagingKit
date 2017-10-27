@@ -34,14 +34,14 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="hJC-fA-cuM" firstAttribute="trailing" secondItem="j6k-2C-0jT" secondAttribute="trailing" id="0zI-X3-jpI"/>
+                            <constraint firstAttribute="trailing" secondItem="j6k-2C-0jT" secondAttribute="trailing" id="0zI-X3-jpI"/>
                             <constraint firstItem="9zI-w9-2ZY" firstAttribute="height" secondItem="j6k-2C-0jT" secondAttribute="height" multiplier="4:1" id="F6d-8c-j13"/>
-                            <constraint firstItem="j6k-2C-0jT" firstAttribute="top" secondItem="hJC-fA-cuM" secondAttribute="top" id="HaB-si-G0v"/>
+                            <constraint firstItem="j6k-2C-0jT" firstAttribute="top" secondItem="Pir-er-ItZ" secondAttribute="top" constant="20" id="HaB-si-G0v"/>
                             <constraint firstItem="9zI-w9-2ZY" firstAttribute="top" secondItem="j6k-2C-0jT" secondAttribute="bottom" id="Wck-sg-Xng"/>
                             <constraint firstItem="hJC-fA-cuM" firstAttribute="trailing" secondItem="9zI-w9-2ZY" secondAttribute="trailing" id="bt7-ak-0PF"/>
                             <constraint firstItem="hJC-fA-cuM" firstAttribute="bottom" secondItem="9zI-w9-2ZY" secondAttribute="bottom" id="jmR-II-gjR"/>
-                            <constraint firstItem="9zI-w9-2ZY" firstAttribute="leading" secondItem="hJC-fA-cuM" secondAttribute="leading" id="mK1-BE-x2w"/>
-                            <constraint firstItem="j6k-2C-0jT" firstAttribute="leading" secondItem="hJC-fA-cuM" secondAttribute="leading" id="tZf-OZ-KTA"/>
+                            <constraint firstItem="9zI-w9-2ZY" firstAttribute="leading" secondItem="Pir-er-ItZ" secondAttribute="leading" id="mK1-BE-x2w"/>
+                            <constraint firstItem="j6k-2C-0jT" firstAttribute="leading" secondItem="Pir-er-ItZ" secondAttribute="leading" id="tZf-OZ-KTA"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="hJC-fA-cuM"/>
                     </view>
