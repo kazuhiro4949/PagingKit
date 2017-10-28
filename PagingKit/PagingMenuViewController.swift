@@ -90,6 +90,11 @@ public class PagingMenuViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    /// The object that acts as the indicator to focus current menu.
+    public var focusView: PagingMenuFocusView {
+        return menuView.focusView
+    }
 
     /// The point at which the origin of the focus view is offset from the origin of the scroll view.
     public var focusPointerOffset: CGPoint {
@@ -118,22 +123,7 @@ public class PagingMenuViewController: UIViewController {
     ///   - percent: A rate that transit from the index.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
-        let rightIndex = index + 1
-
-        guard let leftFrame = menuView.rectForItem(at: index),
-            let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
-        
-        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
-        menuView.focusView.frame.size = CGSize(width: width, height: menuView.bounds.height)
-        
-        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
-        let offsetX = centerPointX - menuView.bounds.width / 2
-        let normaizedOffsetX = min(max(menuView.minContentOffsetX, offsetX), menuView.maxContentOffsetX)
-        menuView.focusView.center = CGPoint(x: centerPointX, y: menuView.center.y)
-
-        menuView.setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
-        menuView.focusView.selectedIndex = index
-        
+        menuView.scroll(index: index, percent: percent, animated: animated)
         if percent == 0 && !animated {
             delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }

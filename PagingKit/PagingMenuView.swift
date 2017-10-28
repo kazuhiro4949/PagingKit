@@ -295,9 +295,38 @@ public class PagingMenuView: UIScrollView {
             contentSize.height = newFrame.height
             containerView.frame.size.height = newFrame.height
             align()
+            if let selectedIndex = focusView.selectedIndex {
+                scroll(index: selectedIndex, animated: false, baseBounds: newFrame)
+            }
         }
     }
     
+    /// Scrolls a specific index of the menu so that it is visible in the receiver.
+    ///
+    /// - Parameters:
+    ///   - index: A index defining an menu of the menu view.
+    ///   - percent: A rate that transit from the index.
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
+    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true, baseBounds: CGRect? = nil) {
+        let rightIndex = index + 1
+        let bounds = baseBounds ?? self.bounds
+        let centerY = baseBounds?.midY ?? self.center.y
+        
+        guard let leftFrame = rectForItem(at: index),
+            let rightFrame = rectForItem(at: rightIndex) else { return }
+        
+        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
+        focusView.frame.size = CGSize(width: width, height: bounds.height)
+        
+        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
+        let offsetX = centerPointX - bounds.width / 2
+        let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
+        focusView.center = CGPoint(x: centerPointX, y: centerY)
+        
+        setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
+        focusView.selectedIndex = index
+    }
+
     private var numberOfCellSpacing: CGFloat {
         return max(CGFloat(numberOfItem - 1), 0)
     }
