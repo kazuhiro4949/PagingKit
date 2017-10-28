@@ -32,9 +32,9 @@ You can align views as you like.
 ## Customized menu design
 You can customize menu as you like.
 
-| tag like menu | text highlighted menu | underscore menu |
-|:------------:|:------------:|:------------:|
-| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | ![sample_2](https://user-images.githubusercontent.com/18320004/31857534-d7b294de-b71b-11e7-923c-f79fe9335b1f.gif) | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) |
+| tag like menu | text highlighted menu | underscore menu | App Store app like indicator |
+|:------------:|:------------:|:------------:|:------------:|
+| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | ![sample_2](https://user-images.githubusercontent.com/18320004/31857534-d7b294de-b71b-11e7-923c-f79fe9335b1f.gif) | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) | ![indicator](https://user-images.githubusercontent.com/18320004/32133872-73d0b036-bc1b-11e7-820c-6fdb8d8c1488.gif) |
 
 
 
