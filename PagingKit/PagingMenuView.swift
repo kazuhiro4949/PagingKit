@@ -313,18 +313,11 @@ public class PagingMenuView: UIScrollView {
     }
     
     private func align() {
-        insetsHorizontally()
         visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widths[idx] + cellSpacing }
             cell.frame.origin = CGPoint(x: leftEdge, y: 0)
             cell.frame.size = CGSize(width: widths[cell.index], height: containerView.bounds.height)
         }
-    }
-
-    private func insetsHorizontally() {
-        let contentBounds = UIEdgeInsetsInsetRect(bounds, contentSafeAreaInsets)
-        containerView.bounds.size.height = contentBounds.height
-        containerView.frame.origin.y = contentBounds.minY
     }
     
     @discardableResult

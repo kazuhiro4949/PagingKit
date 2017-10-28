@@ -6,7 +6,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
-        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -41,7 +40,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="236-r1-hpQ" secondAttribute="trailing" id="3nH-Xh-n7D"/>
-                            <constraint firstItem="3AP-Ol-FLg" firstAttribute="top" secondItem="236-r1-hpQ" secondAttribute="bottom" id="60a-ci-KWY"/>
+                            <constraint firstAttribute="bottom" secondItem="236-r1-hpQ" secondAttribute="bottom" id="60a-ci-KWY"/>
                             <constraint firstItem="ZGo-T6-YLu" firstAttribute="leading" secondItem="CV3-LY-L7X" secondAttribute="leading" id="9cS-j5-Zmy"/>
                             <constraint firstItem="ZGo-T6-YLu" firstAttribute="top" secondItem="kjM-0W-VIs" secondAttribute="bottom" id="Pum-lz-Z31"/>
                             <constraint firstItem="236-r1-hpQ" firstAttribute="leading" secondItem="CV3-LY-L7X" secondAttribute="leading" id="Tu9-Gz-OdW"/>
