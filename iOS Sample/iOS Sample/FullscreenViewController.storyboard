@@ -91,10 +91,10 @@
                             <constraint firstItem="ibE-pA-owW" firstAttribute="top" secondItem="1SG-lo-xMo" secondAttribute="top" id="0LI-55-txy"/>
                             <constraint firstAttribute="trailing" secondItem="ibE-pA-owW" secondAttribute="trailing" id="Eur-o2-QR6"/>
                             <constraint firstItem="XN4-tC-snX" firstAttribute="bottom" secondItem="cor-Sc-jci" secondAttribute="bottom" constant="16" id="HCR-bo-t0B"/>
-                            <constraint firstItem="2rv-lc-7W1" firstAttribute="leading" secondItem="XN4-tC-snX" secondAttribute="leading" id="JoQ-xV-avV"/>
-                            <constraint firstItem="XN4-tC-snX" firstAttribute="bottom" secondItem="2rv-lc-7W1" secondAttribute="bottom" id="KIM-FC-uVk"/>
+                            <constraint firstItem="2rv-lc-7W1" firstAttribute="leading" secondItem="1SG-lo-xMo" secondAttribute="leading" id="JoQ-xV-avV"/>
+                            <constraint firstAttribute="bottom" secondItem="2rv-lc-7W1" secondAttribute="bottom" id="KIM-FC-uVk"/>
                             <constraint firstItem="ibE-pA-owW" firstAttribute="leading" secondItem="1SG-lo-xMo" secondAttribute="leading" id="atu-6f-6UC"/>
-                            <constraint firstItem="XN4-tC-snX" firstAttribute="trailing" secondItem="2rv-lc-7W1" secondAttribute="trailing" id="dK5-wZ-PRb"/>
+                            <constraint firstAttribute="trailing" secondItem="2rv-lc-7W1" secondAttribute="trailing" id="dK5-wZ-PRb"/>
                             <constraint firstItem="cor-Sc-jci" firstAttribute="leading" secondItem="XN4-tC-snX" secondAttribute="leading" constant="16" id="tYT-YQ-PEz"/>
                             <constraint firstItem="2rv-lc-7W1" firstAttribute="top" secondItem="ibE-pA-owW" secondAttribute="bottom" id="y4u-GI-SwU"/>
                         </constraints>
