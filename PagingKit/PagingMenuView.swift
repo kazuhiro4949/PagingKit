@@ -54,6 +54,19 @@ open class PagingMenuViewCell: UIView {
     public internal(set) var index: Int!
 }
 
+/// A view that focus menu corresponding to current page.
+public class PagingMenuFocusView: UIView {
+    var selectedIndex: Int?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .clear
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
 
 /**
  An object that adopts the PagingMenuViewDataSource protocol is responsible for providing the data and views required by a paging menu view. 
@@ -99,10 +112,11 @@ public protocol PagingMenuViewDelegate: class {
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
 }
 
-
 /// Displays menu lists of information and supports selection and paging of the information.
 public class PagingMenuView: UIScrollView {
-
+    /// The object that acts as the indicator to focus current menu.
+    public let focusView = PagingMenuFocusView(frame: .zero)
+    
     /// Returns an array of visible cells currently displayed by the menu view.
     public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
@@ -129,6 +143,8 @@ public class PagingMenuView: UIScrollView {
         addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
         
         addSubview(containerView)
+        focusView.frame = .zero
+        addSubview(focusView)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -140,6 +156,8 @@ public class PagingMenuView: UIScrollView {
         addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
 
         addSubview(containerView)
+        focusView.frame = .zero
+        addSubview(focusView)
     }
     
     public override func layoutSubviews() {

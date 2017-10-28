@@ -73,29 +73,12 @@ public protocol PagingMenuViewControllerDataSource: class {
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat
 }
 
-/// A view that focus menu corresponding to current page.
-public class PagingMenuFocusView: UIView {
-    var selectedIndex: Int?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .clear
-    }
-    
-    required public init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-}
-
 /// A view controller that presents menu using cells arranged in a single column.
 public class PagingMenuViewController: UIViewController {
     /// The object that acts as the delegate of the menu view controller.
     public weak var delegate: PagingMenuViewControllerDelegate?
     /// The object that acts as the data source of the menu view controller.
     public weak var dataSource: PagingMenuViewControllerDataSource?
-
-    /// The object that acts as the indicator to focus current menu.
-    public let focusView = PagingMenuFocusView(frame: .zero)
     
     private var fireInvalidateLayout: (() -> Void)?
 
@@ -110,7 +93,7 @@ public class PagingMenuViewController: UIViewController {
 
     /// The point at which the origin of the focus view is offset from the origin of the scroll view.
     public var focusPointerOffset: CGPoint {
-        return focusView.center
+        return menuView.focusView.center
     }
 
     /// The rate at which the origin of the focus view is offset from the origin of the scroll view.
@@ -141,18 +124,18 @@ public class PagingMenuViewController: UIViewController {
             let rightFrame = menuView.rectForItem(at: rightIndex) else { return }
         
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
-        focusView.frame.size = CGSize(width: width, height: menuView.bounds.height)
+        menuView.focusView.frame.size = CGSize(width: width, height: menuView.bounds.height)
         
         let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
         let offsetX = centerPointX - menuView.bounds.width / 2
         let normaizedOffsetX = min(max(menuView.minContentOffsetX, offsetX), menuView.maxContentOffsetX)
-        focusView.center = CGPoint(x: centerPointX, y: menuView.center.y)
+        menuView.focusView.center = CGPoint(x: centerPointX, y: menuView.center.y)
 
         menuView.setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
-        focusView.selectedIndex = index
+        menuView.focusView.selectedIndex = index
         
         if percent == 0 && !animated {
-            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
+            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }
     }
 
@@ -163,12 +146,12 @@ public class PagingMenuViewController: UIViewController {
 
     /// Returns the menu cell that the view controller is focusing.
     public var currentFocusedCell: PagingMenuViewCell? {
-        return focusView.selectedIndex.flatMap(menuView.cellForItem)
+        return menuView.focusView.selectedIndex.flatMap(menuView.cellForItem)
     }
 
     /// Returns the index that the view controller is focusing.
     public var currentFocusedIndex: Int? {
-        return focusView.selectedIndex
+        return menuView.focusView.selectedIndex
     }
 
     /// Returns the menu cell at the specified index.
@@ -185,12 +168,12 @@ public class PagingMenuViewController: UIViewController {
     ///   - view: A view object to use focus view.
     ///   - isBehindCell: the focus view is placed behind the menus of menu view controller.
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
-        focusView.addSubview(view)
+        menuView.focusView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        focusView.addConstraints([.top, .bottom, .leading, .trailing].map {
-            NSLayoutConstraint(item: view, attribute: $0, relatedBy: .equal, toItem: focusView, attribute: $0, multiplier: 1, constant: 0)
+        menuView.focusView.addConstraints([.top, .bottom, .leading, .trailing].map {
+            NSLayoutConstraint(item: view, attribute: $0, relatedBy: .equal, toItem: menuView.focusView, attribute: $0, multiplier: 1, constant: 0)
         })
-        focusView.layer.zPosition = isBehindCell ? -1 : 0
+        menuView.focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
 
     /// Registers a nib that a menu view controller uses to focus each menu.
@@ -229,7 +212,7 @@ public class PagingMenuViewController: UIViewController {
     ///   - completionHandler: The block to execute after the reloading finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
-        focusView.selectedIndex = selectedIndex
+        menuView.focusView.selectedIndex = selectedIndex
         UIView.animate(
             withDuration: 0,
             animations: { [weak self] in
@@ -253,7 +236,7 @@ public class PagingMenuViewController: UIViewController {
     
     private func invalidateMenuViewLayout() {
         menuView.invalidateLayout()
-        if let selectedIndex = focusView.selectedIndex {
+        if let selectedIndex = menuView.focusView.selectedIndex {
             scroll(index: selectedIndex, percent: 0, animated: false)
         }
     }
@@ -269,9 +252,7 @@ public class PagingMenuViewController: UIViewController {
         view.addConstraints([.top, .bottom, .leading, .trailing].map {
             NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
         })
-        
-        focusView.frame = .zero
-        menuView.addSubview(focusView)
+
         fireInvalidateLayout = invalidateMenuViewLayout
     }
     
@@ -295,12 +276,12 @@ public class PagingMenuViewController: UIViewController {
 
 extension PagingMenuViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
+        delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
     }
 
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if !decelerate {
-            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: focusView)
+            delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }
     }
 }
@@ -309,11 +290,11 @@ extension PagingMenuViewController: UIScrollViewDelegate {
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
-        guard let itemFrame = pagingMenuView.rectForItem(at: index), focusView.selectedIndex != index else { return }
+        guard let itemFrame = pagingMenuView.rectForItem(at: index), menuView.focusView.selectedIndex != index else { return }
         
-        delegate?.menuViewController(viewController: self, didSelect: index, previousPage: focusView.selectedIndex ?? 0)
+        delegate?.menuViewController(viewController: self, didSelect: index, previousPage: menuView.focusView.selectedIndex ?? 0)
         
-        focusView.selectedIndex = index
+        menuView.focusView.selectedIndex = index
         
         let offset: CGPoint
         let offsetX = itemFrame.midX - menuView.bounds.width / 2
@@ -321,11 +302,11 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.menuView.contentOffset = offset
-            self?.focusView.frame = itemFrame
-            self?.focusView.layoutIfNeeded()
+            self?.menuView.focusView.frame = itemFrame
+            self?.menuView.focusView.layoutIfNeeded()
             }, completion: { [weak self] finish in
                 guard let _self = self, finish else { return }
-                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.focusView)
+                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)
         })
     }
 }
