@@ -143,8 +143,7 @@ public class PagingMenuViewController: UIViewController {
         
         let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
         let offsetX = centerPointX - menuView.bounds.width / 2
-        let maxOffsetX = max(0, menuView.contentSize.width - menuView.bounds.width)
-        let normaizedOffsetX = min(max(0, offsetX), maxOffsetX)
+        let normaizedOffsetX = min(max(menuView.minContentOffsetX, offsetX), menuView.maxContentOffsetX)
         focusView.center = CGPoint(x: centerPointX, y: menuView.center.y)
 
         menuView.setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
@@ -312,8 +311,7 @@ extension PagingMenuViewController: PagingMenuViewDelegate {
         
         let offset: CGPoint
         let offsetX = itemFrame.midX - menuView.bounds.width / 2
-        let maxOffsetX = max(menuView.bounds.width, menuView.contentSize.width) - menuView.bounds.width
-        offset = CGPoint(x: min(max(0, offsetX), maxOffsetX), y: 0)
+        offset = CGPoint(x: min(max(menuView.minContentOffsetX, offsetX), menuView.maxContentOffsetX), y: 0)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.menuView.contentOffset = offset

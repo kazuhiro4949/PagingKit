@@ -273,6 +273,22 @@ public class PagingMenuView: UIScrollView {
         return cellSpacing * numberOfCellSpacing
     }
     
+    var contentSafeAreaInsets: UIEdgeInsets {
+        if #available(iOS 11.0, *) {
+            return safeAreaInsets
+        } else {
+            return .zero
+        }
+    }
+    
+    var maxContentOffsetX: CGFloat {
+        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
+    }
+    
+    var minContentOffsetX: CGFloat {
+        return -contentSafeAreaInsets.left
+    }
+    
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
@@ -294,7 +310,7 @@ public class PagingMenuView: UIScrollView {
         visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widths[idx] + cellSpacing }
             cell.frame.origin = CGPoint(x: leftEdge, y: 0)
-            cell.frame.size = CGSize(width: widths[cell.index], height: bounds.height)
+            cell.frame.size = CGSize(width: widths[cell.index], height: containerView.bounds.height)
         }
     }
     
@@ -307,7 +323,7 @@ public class PagingMenuView: UIScrollView {
         
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
-        cell.frame.size = CGSize(width: widths[nextIndex], height: bounds.height)
+        cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
 
         return cell.frame.maxX
     }
@@ -325,7 +341,7 @@ public class PagingMenuView: UIScrollView {
         containerView.addSubview(cell)
         
         visibleCells.insert(cell, at: 0)
-        cell.frame.size = CGSize(width: widths[nextIndex], height: bounds.height)
+        cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
         cell.frame.origin = CGPoint(x: leftEdge - widths[nextIndex] - cellSpacing, y: 0)
         return cell.frame.minX
     }

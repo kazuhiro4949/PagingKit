@@ -74,10 +74,9 @@ extension TwoLineMenuViewController: PagingMenuViewControllerDataSource {
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        return UIScreen.main.bounds.width / CGFloat(dataSource.count)
+        return viewController.view.bounds.width / CGFloat(dataSource.count)
     }
-    
-    
+
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
         return dataSource.count
     }
