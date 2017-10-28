@@ -185,6 +185,15 @@ public class PagingMenuViewController: UIViewController {
         menuView.register(nib: nib, with: identifier)
     }
 
+    /// Registers a nib object containing a cell with the menu view controller under a specified identifier.
+    ///
+    /// - Parameters:
+    ///   - nib: A nib object that specifies the nib file to use to create the cell.
+    ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
+    public func register(type: PagingMenuViewCell.Type, forCellWithReuseIdentifier identifier: String) {
+        menuView.register(type: type, with: identifier)
+    }
+
     /// Returns a reusable menu view cell object for the specified reuse identifier and adds it to the menu.
     ///
     /// - Parameters:

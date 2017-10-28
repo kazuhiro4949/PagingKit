@@ -114,6 +114,11 @@ public protocol PagingMenuViewDelegate: class {
 
 /// Displays menu lists of information and supports selection and paging of the information.
 public class PagingMenuView: UIScrollView {
+    enum RegisteredCell {
+        case nib(nib: UINib)
+        case type(type: PagingMenuViewCell.Type)
+    }
+    
     /// The object that acts as the indicator to focus current menu.
     public let focusView = PagingMenuFocusView(frame: .zero)
     
@@ -121,7 +126,7 @@ public class PagingMenuView: UIScrollView {
     public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
     fileprivate var queue = [String: [PagingMenuViewCell]]()
-    fileprivate var nibs = [String: UINib]()
+    fileprivate var nibs = [String: RegisteredCell]()
     fileprivate var widths = [CGFloat]()
     fileprivate var containerView = UIView()
     fileprivate var touchBeganPoint: CGPoint?
@@ -231,7 +236,16 @@ public class PagingMenuView: UIScrollView {
     ///   - nib: A nib object that specifies the nib file to use to create the cell.
     ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
     public func register(nib: UINib?, with identifier: String) {
-        nibs[identifier] = nib
+        nibs[identifier] = nib.flatMap { .nib(nib: $0) }
+    }
+    
+    /// Registers a nib object containing a cell with the paging menu view under a specified identifier.
+    ///
+    /// - Parameters:
+    ///   - nib: A nib object that specifies the nib file to use to create the cell.
+    ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
+    public func register(type: PagingMenuViewCell.Type, with identifier: String) {
+        nibs[identifier] = .type(type: type)
     }
 
     /// Returns a reusable paging menu view cell object for the specified reuse identifier and adds it to the menu.
@@ -246,13 +260,18 @@ public class PagingMenuView: UIScrollView {
             return cell
         }
         
-        if let nib = nibs[identifier] {
+        switch nibs[identifier] {
+        case .nib(let nib)?:
             let cell = nib.instantiate(withOwner: self, options: nil).first as! PagingMenuViewCell
             cell.identifier = identifier
             return cell
+        case .type(let type)?:
+            let cell = type.init()
+            cell.identifier = identifier
+            return cell
+        default:
+            fatalError()
         }
-        
-        fatalError()
     }
 
     /// Returns the drawing area for a row identified by index.

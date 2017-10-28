@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rJA-wK-E05">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Photo View Controller-->
+        <scene sceneID="BzY-Ig-Unt">
+            <objects>
+                <viewController id="rJA-wK-E05" customClass="PhotoViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="LcS-MF-x4k">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="YDD-Jd-ubB">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="YDD-Jd-ubB" secondAttribute="trailing" id="7in-DS-gJh"/>
+                            <constraint firstItem="YDD-Jd-ubB" firstAttribute="leading" secondItem="LcS-MF-x4k" secondAttribute="leading" id="O6x-Vu-5jy"/>
+                            <constraint firstItem="YDD-Jd-ubB" firstAttribute="top" secondItem="LcS-MF-x4k" secondAttribute="top" id="ZjJ-Js-zF0"/>
+                            <constraint firstAttribute="bottom" secondItem="YDD-Jd-ubB" secondAttribute="bottom" id="kjB-Kq-Lug"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PnJ-Cm-FPy"/>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="YDD-Jd-ubB" id="vHL-oI-I0h"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BaZ-BE-jOg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="268" y="287"/>
+        </scene>
+    </scenes>
+</document>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="45x-4o-dEt">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Indicator View Controller-->
+        <scene sceneID="nQB-aL-hBj">
+            <objects>
+                <viewController id="45x-4o-dEt" customClass="IndicatorViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="w4f-Y8-dbX">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTu-qJ-VOW">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <connections>
+                                    <segue destination="rSU-Td-NWZ" kind="embed" id="9YZ-zb-Fjx"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L4p-tx-urA">
+                                <rect key="frame" x="16" y="645" width="343" height="2"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="i5a-rW-YCJ"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.maskToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <segue destination="uiV-SR-kC1" kind="embed" id="Ifr-kZ-wrx"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="pTu-qJ-VOW" firstAttribute="leading" secondItem="w4f-Y8-dbX" secondAttribute="leading" id="3nI-h4-dE3"/>
+                            <constraint firstItem="CF0-Jw-iXm" firstAttribute="trailing" secondItem="L4p-tx-urA" secondAttribute="trailing" constant="16" id="99p-8B-CBD"/>
+                            <constraint firstItem="CF0-Jw-iXm" firstAttribute="bottom" secondItem="L4p-tx-urA" secondAttribute="bottom" constant="20" id="qLS-yv-2D7"/>
+                            <constraint firstItem="pTu-qJ-VOW" firstAttribute="top" secondItem="w4f-Y8-dbX" secondAttribute="top" id="rsP-Ii-Iv9"/>
+                            <constraint firstItem="L4p-tx-urA" firstAttribute="leading" secondItem="CF0-Jw-iXm" secondAttribute="leading" constant="16" id="xG5-Jm-wgs"/>
+                            <constraint firstAttribute="bottom" secondItem="pTu-qJ-VOW" secondAttribute="bottom" id="xfE-cu-AYQ"/>
+                            <constraint firstAttribute="trailing" secondItem="pTu-qJ-VOW" secondAttribute="trailing" id="yIc-zQ-IH3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="CF0-Jw-iXm"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FmM-AV-kmM" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-33" y="-74"/>
+        </scene>
+        <!--Paging Content View Controller-->
+        <scene sceneID="VTZ-DJ-4rb">
+            <objects>
+                <viewController id="rSU-Td-NWZ" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="XAL-3x-E9k">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FFr-ta-D6k" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="948" y="-74"/>
+        </scene>
+        <!--Paging Menu View Controller-->
+        <scene sceneID="UGP-84-6rJ">
+            <objects>
+                <viewController id="uiV-SR-kC1" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="foE-xt-ytd">
+                        <rect key="frame" x="0.0" y="0.0" width="343" height="2"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Fw2-wK-9Dl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-34" y="370"/>
+        </scene>
+    </scenes>
+</document>

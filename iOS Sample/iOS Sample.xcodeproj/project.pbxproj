@@ -14,6 +14,11 @@
 		2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B3C7CCE1F8CF44700A43223 /* ViewInsertedViewController.storyboard */; };
 		2B3C7CD11F8CF4FB00A43223 /* ViewInsertedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C7CD01F8CF4FB00A43223 /* ViewInsertedViewController.swift */; };
 		2B442C261F1DA97D00135238 /* ArbitraryNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B442C251F1DA97D00135238 /* ArbitraryNumberViewController.swift */; };
+		2B4541931FA48E7800A9B253 /* IndicatorViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4541921FA48E7800A9B253 /* IndicatorViewController.storyboard */; };
+		2B4541951FA48E8D00A9B253 /* IndicatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4541941FA48E8D00A9B253 /* IndicatorViewController.swift */; };
+		2B4541991FA48FFC00A9B253 /* IndicatorFocusMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B4541981FA48FFC00A9B253 /* IndicatorFocusMenuView.xib */; };
+		2B45419B1FA490B600A9B253 /* PhotoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B45419A1FA490B600A9B253 /* PhotoViewController.storyboard */; };
+		2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B45419C1FA490BE00A9B253 /* PhotoViewController.swift */; };
 		2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */; };
 		2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E72D1F10957100D67C04 /* OverlayViewController.swift */; };
 		2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */; };
@@ -89,6 +94,11 @@
 		2B3C7CCE1F8CF44700A43223 /* ViewInsertedViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ViewInsertedViewController.storyboard; sourceTree = "<group>"; };
 		2B3C7CD01F8CF4FB00A43223 /* ViewInsertedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewInsertedViewController.swift; sourceTree = "<group>"; };
 		2B442C251F1DA97D00135238 /* ArbitraryNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArbitraryNumberViewController.swift; sourceTree = "<group>"; };
+		2B4541921FA48E7800A9B253 /* IndicatorViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = IndicatorViewController.storyboard; sourceTree = "<group>"; };
+		2B4541941FA48E8D00A9B253 /* IndicatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorViewController.swift; sourceTree = "<group>"; };
+		2B4541981FA48FFC00A9B253 /* IndicatorFocusMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndicatorFocusMenuView.xib; sourceTree = "<group>"; };
+		2B45419A1FA490B600A9B253 /* PhotoViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PhotoViewController.storyboard; sourceTree = "<group>"; };
+		2B45419C1FA490BE00A9B253 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayMenuCell.xib; sourceTree = "<group>"; };
 		2B47E72D1F10957100D67C04 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
 		2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayFocusView.xib; sourceTree = "<group>"; };
@@ -187,6 +197,16 @@
 			name = ArbitraryNumber;
 			sourceTree = "<group>";
 		};
+		2B4541911FA48E6600A9B253 /* Indicator */ = {
+			isa = PBXGroup;
+			children = (
+				2B4541921FA48E7800A9B253 /* IndicatorViewController.storyboard */,
+				2B4541941FA48E8D00A9B253 /* IndicatorViewController.swift */,
+				2B4541981FA48FFC00A9B253 /* IndicatorFocusMenuView.xib */,
+			);
+			name = Indicator;
+			sourceTree = "<group>";
+		};
 		2B47E7411F10C12400D67C04 /* Simple */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +251,8 @@
 				2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */,
 				2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */,
 				2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */,
+				2B45419A1FA490B600A9B253 /* PhotoViewController.storyboard */,
+				2B45419C1FA490BE00A9B253 /* PhotoViewController.swift */,
 			);
 			name = Content;
 			sourceTree = "<group>";
@@ -282,6 +304,7 @@
 			children = (
 				6E98277D1F0A91F400860828 /* Main.storyboard */,
 				6E9827791F0A91F400860828 /* AppDelegate.swift */,
+				2B4541911FA48E6600A9B253 /* Indicator */,
 				2BE47F061FA41AAF0057A786 /* Fullscreen */,
 				2B47F8781F5BF155001A7D2B /* DynamicSize */,
 				2B442C241F1DA90D00135238 /* ArbitraryNumber */,
@@ -449,6 +472,7 @@
 				2B3C7CC71F8CEB0900A43223 /* TwoLineMenuViewController.storyboard in Resources */,
 				2BBB70EA1F9234E900320900 /* OverlayViewController.storyboard in Resources */,
 				2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */,
+				2B45419B1FA490B600A9B253 /* PhotoViewController.storyboard in Resources */,
 				6E9827811F0A91F400860828 /* Assets.xcassets in Resources */,
 				6E9827BD1F0A947B00860828 /* MenuCell.xib in Resources */,
 				2BBB70E81F9234C100320900 /* DynamicSizeViewController.storyboard in Resources */,
@@ -457,6 +481,8 @@
 				2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */,
 				2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */,
 				6E98277F1F0A91F400860828 /* Main.storyboard in Resources */,
+				2B4541991FA48FFC00A9B253 /* IndicatorFocusMenuView.xib in Resources */,
+				2B4541931FA48E7800A9B253 /* IndicatorViewController.storyboard in Resources */,
 				2BBB70EC1F92351200320900 /* SimpleViewController.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,12 +511,14 @@
 				6E9827BF1F0A958900860828 /* ContentViewController.swift in Sources */,
 				2BE47F0A1FA41B090057A786 /* FullscreenViewController.swift in Sources */,
 				2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */,
+				2B4541951FA48E8D00A9B253 /* IndicatorViewController.swift in Sources */,
 				2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */,
 				6E98277C1F0A91F400860828 /* SimpleViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
 				2B3C7CD11F8CF4FB00A43223 /* ViewInsertedViewController.swift in Sources */,
 				2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */,
 				2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */,
+				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
 				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
