@@ -292,12 +292,7 @@ public class PagingMenuView: UIScrollView {
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(UIView.bounds), let newFrame = change?[.newKey] as? CGRect, let oldFrame = change?[.oldKey] as? CGRect, newFrame.height != oldFrame.height {
-            contentSize.height = newFrame.height
-            containerView.frame.size.height = newFrame.height
-            align()
-            if let selectedIndex = focusView.selectedIndex {
-                scroll(index: selectedIndex, animated: false, baseBounds: newFrame)
-            }
+            adjustComponentHeights(from: newFrame.height)
         }
     }
     
@@ -307,10 +302,9 @@ public class PagingMenuView: UIScrollView {
     ///   - index: A index defining an menu of the menu view.
     ///   - percent: A rate that transit from the index.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
-    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true, baseBounds: CGRect? = nil) {
+    ///   - baseBounds: a rect base boounds to calculate position and size
+    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
-        let bounds = baseBounds ?? self.bounds
-        let centerY = baseBounds?.midY ?? self.center.y
         
         guard let leftFrame = rectForItem(at: index),
             let rightFrame = rectForItem(at: rightIndex) else { return }
@@ -321,7 +315,7 @@ public class PagingMenuView: UIScrollView {
         let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
         let offsetX = centerPointX - bounds.width / 2
         let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
-        focusView.center = CGPoint(x: centerPointX, y: centerY)
+        focusView.center = CGPoint(x: centerPointX, y: center.y)
         
         setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
         focusView.selectedIndex = index
@@ -374,6 +368,13 @@ public class PagingMenuView: UIScrollView {
             cell.frame.origin = CGPoint(x: leftEdge, y: 0)
             cell.frame.size = CGSize(width: widths[cell.index], height: containerView.bounds.height)
         }
+    }
+    
+    private func adjustComponentHeights(from newHeight: CGFloat) {
+        contentSize.height = newHeight
+        containerView.frame.size.height = newHeight
+        visibleCells.forEach { $0.frame.size.height = newHeight }
+        focusView.frame.size.height = newHeight
     }
     
     @discardableResult
