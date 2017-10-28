@@ -36,12 +36,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="CAE-W1-Phz" firstAttribute="trailing" secondItem="UFx-uA-H3W" secondAttribute="trailing" id="2K7-Iw-Lux"/>
-                            <constraint firstItem="CAE-W1-Phz" firstAttribute="trailing" secondItem="JU9-0f-zGi" secondAttribute="trailing" id="2nY-A4-Hdy"/>
+                            <constraint firstAttribute="trailing" secondItem="UFx-uA-H3W" secondAttribute="trailing" id="2K7-Iw-Lux"/>
+                            <constraint firstAttribute="trailing" secondItem="JU9-0f-zGi" secondAttribute="trailing" id="2nY-A4-Hdy"/>
                             <constraint firstItem="JU9-0f-zGi" firstAttribute="top" secondItem="UFx-uA-H3W" secondAttribute="bottom" id="BMf-Mt-nWC"/>
-                            <constraint firstItem="JU9-0f-zGi" firstAttribute="leading" secondItem="CAE-W1-Phz" secondAttribute="leading" id="Ti5-6q-qQa"/>
-                            <constraint firstItem="CAE-W1-Phz" firstAttribute="bottom" secondItem="JU9-0f-zGi" secondAttribute="bottom" id="YDT-yP-Kqb"/>
-                            <constraint firstItem="UFx-uA-H3W" firstAttribute="leading" secondItem="CAE-W1-Phz" secondAttribute="leading" id="uZc-Uo-RT8"/>
+                            <constraint firstItem="JU9-0f-zGi" firstAttribute="leading" secondItem="hgl-ic-oJD" secondAttribute="leading" id="Ti5-6q-qQa"/>
+                            <constraint firstAttribute="bottom" secondItem="JU9-0f-zGi" secondAttribute="bottom" id="YDT-yP-Kqb"/>
+                            <constraint firstItem="UFx-uA-H3W" firstAttribute="leading" secondItem="hgl-ic-oJD" secondAttribute="leading" id="uZc-Uo-RT8"/>
                             <constraint firstItem="UFx-uA-H3W" firstAttribute="top" secondItem="CAE-W1-Phz" secondAttribute="top" id="w64-GO-vfx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="CAE-W1-Phz"/>

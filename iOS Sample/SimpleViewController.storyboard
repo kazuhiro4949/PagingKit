@@ -46,12 +46,12 @@
                             <constraint firstAttribute="trailing" secondItem="1U5-cO-qes" secondAttribute="trailing" id="7Rq-pd-FU8"/>
                             <constraint firstItem="sd7-sa-ZYE" firstAttribute="top" secondItem="ln9-Ob-0fC" secondAttribute="top" id="9Gz-8w-PBV"/>
                             <constraint firstAttribute="trailing" secondItem="ilx-bp-zrZ" secondAttribute="trailing" id="KnY-Tu-jtd"/>
-                            <constraint firstItem="sd7-sa-ZYE" firstAttribute="leading" secondItem="ln9-Ob-0fC" secondAttribute="leading" id="bRt-ZF-u7A"/>
+                            <constraint firstItem="sd7-sa-ZYE" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="bRt-ZF-u7A"/>
                             <constraint firstItem="ilx-bp-zrZ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="gOj-np-d1i"/>
                             <constraint firstItem="1U5-cO-qes" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hwh-7X-cTI"/>
                             <constraint firstAttribute="bottom" secondItem="1U5-cO-qes" secondAttribute="bottom" id="qxs-ck-6Xo"/>
                             <constraint firstItem="1U5-cO-qes" firstAttribute="top" secondItem="ilx-bp-zrZ" secondAttribute="bottom" id="tG6-5E-NIl"/>
-                            <constraint firstItem="ln9-Ob-0fC" firstAttribute="trailing" secondItem="sd7-sa-ZYE" secondAttribute="trailing" id="v30-ds-ILz"/>
+                            <constraint firstAttribute="trailing" secondItem="sd7-sa-ZYE" secondAttribute="trailing" id="v30-ds-ILz"/>
                             <constraint firstItem="ilx-bp-zrZ" firstAttribute="top" secondItem="sd7-sa-ZYE" secondAttribute="bottom" id="xT5-ec-2WP"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ln9-Ob-0fC"/>

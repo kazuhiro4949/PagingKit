@@ -36,13 +36,13 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="WJa-YB-ADk" firstAttribute="trailing" secondItem="CJF-Nb-7Rm" secondAttribute="trailing" id="ILx-ZY-02K"/>
-                            <constraint firstItem="WJa-YB-ADk" firstAttribute="trailing" secondItem="SVc-WQ-ni8" secondAttribute="trailing" id="Qmf-pR-0WD"/>
+                            <constraint firstAttribute="trailing" secondItem="CJF-Nb-7Rm" secondAttribute="trailing" id="ILx-ZY-02K"/>
+                            <constraint firstAttribute="trailing" secondItem="SVc-WQ-ni8" secondAttribute="trailing" id="Qmf-pR-0WD"/>
                             <constraint firstItem="SVc-WQ-ni8" firstAttribute="top" secondItem="WJa-YB-ADk" secondAttribute="top" id="YsZ-Yr-Dne"/>
                             <constraint firstItem="CJF-Nb-7Rm" firstAttribute="top" secondItem="SVc-WQ-ni8" secondAttribute="bottom" id="eNh-Tb-LoX"/>
-                            <constraint firstItem="SVc-WQ-ni8" firstAttribute="leading" secondItem="WJa-YB-ADk" secondAttribute="leading" id="epO-Y2-57y"/>
-                            <constraint firstItem="WJa-YB-ADk" firstAttribute="bottom" secondItem="CJF-Nb-7Rm" secondAttribute="bottom" id="lUd-CC-m1x"/>
-                            <constraint firstItem="CJF-Nb-7Rm" firstAttribute="leading" secondItem="WJa-YB-ADk" secondAttribute="leading" id="rVs-zI-eut"/>
+                            <constraint firstItem="SVc-WQ-ni8" firstAttribute="leading" secondItem="zXq-TJ-hW5" secondAttribute="leading" id="epO-Y2-57y"/>
+                            <constraint firstAttribute="bottom" secondItem="CJF-Nb-7Rm" secondAttribute="bottom" id="lUd-CC-m1x"/>
+                            <constraint firstItem="CJF-Nb-7Rm" firstAttribute="leading" secondItem="zXq-TJ-hW5" secondAttribute="leading" id="rVs-zI-eut"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="WJa-YB-ADk"/>
                     </view>
