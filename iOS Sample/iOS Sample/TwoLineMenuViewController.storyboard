@@ -40,9 +40,9 @@
                             <constraint firstAttribute="trailing" secondItem="dUc-Wj-OOc" secondAttribute="trailing" id="B3X-1R-xiH"/>
                             <constraint firstItem="76J-eo-ggA" firstAttribute="top" secondItem="kbt-R2-7gC" secondAttribute="top" id="G2Y-JE-3rb"/>
                             <constraint firstItem="dUc-Wj-OOc" firstAttribute="leading" secondItem="bKa-fB-s3h" secondAttribute="leading" id="RnY-Cs-lej"/>
-                            <constraint firstItem="76J-eo-ggA" firstAttribute="leading" secondItem="bKa-fB-s3h" secondAttribute="leading" id="hbj-Za-Q7m"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="leading" secondItem="kbt-R2-7gC" secondAttribute="leading" id="hbj-Za-Q7m"/>
                             <constraint firstItem="dUc-Wj-OOc" firstAttribute="top" secondItem="76J-eo-ggA" secondAttribute="bottom" id="mnF-M8-TNd"/>
-                            <constraint firstItem="76J-eo-ggA" firstAttribute="trailing" secondItem="bKa-fB-s3h" secondAttribute="trailing" id="xG2-Qx-cUU"/>
+                            <constraint firstItem="76J-eo-ggA" firstAttribute="trailing" secondItem="kbt-R2-7gC" secondAttribute="trailing" id="xG2-Qx-cUU"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kbt-R2-7gC"/>
                     </view>

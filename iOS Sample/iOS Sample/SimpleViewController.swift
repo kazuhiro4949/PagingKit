@@ -74,7 +74,7 @@ extension SimpleViewController: PagingMenuViewControllerDataSource {
     }
 
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        return UIEdgeInsetsInsetRect(UIScreen.main.bounds, insets).width / CGFloat(dataSource.count)
+        return viewController.view.bounds.width / CGFloat(dataSource.count)
     }
 
     var insets: UIEdgeInsets {
