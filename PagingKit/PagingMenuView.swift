@@ -153,12 +153,6 @@ public class PagingMenuView: UIScrollView {
             )
         }
     }
-
-    @available(iOS 11.0, *)
-    public override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        align()
-    }
     
     /// The number of items in the paging menu view.
     public var numberOfItem: Int = 0
