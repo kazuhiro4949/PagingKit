@@ -54,6 +54,19 @@ open class PagingMenuViewCell: UIView {
     public internal(set) var index: Int!
 }
 
+/// A view that focus menu corresponding to current page.
+public class PagingMenuFocusView: UIView {
+    var selectedIndex: Int?
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .clear
+    }
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
 
 /**
  An object that adopts the PagingMenuViewDataSource protocol is responsible for providing the data and views required by a paging menu view. 
@@ -99,10 +112,11 @@ public protocol PagingMenuViewDelegate: class {
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
 }
 
-
 /// Displays menu lists of information and supports selection and paging of the information.
 public class PagingMenuView: UIScrollView {
-
+    /// The object that acts as the indicator to focus current menu.
+    public let focusView = PagingMenuFocusView(frame: .zero)
+    
     /// Returns an array of visible cells currently displayed by the menu view.
     public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
@@ -125,10 +139,12 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-
         backgroundColor = .clear
+        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
         
         addSubview(containerView)
+        focusView.frame = .zero
+        addSubview(focusView)
     }
     
     public required init?(coder aDecoder: NSCoder) {
@@ -137,13 +153,16 @@ public class PagingMenuView: UIScrollView {
         containerView.center = center
         containerView.backgroundColor = .clear
         backgroundColor = .clear
-        
+        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
+
         addSubview(containerView)
+        focusView.frame = .zero
+        addSubview(focusView)
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
             let extraOffset = visibleBounds.width / 2
@@ -152,6 +171,12 @@ public class PagingMenuView: UIScrollView {
                 to: min(contentSize.width, visibleBounds.maxX + extraOffset)
             )
         }
+    }
+
+    @available(iOS 11.0, *)
+    public override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        align()
     }
     
     /// The number of items in the paging menu view.
@@ -265,6 +290,43 @@ public class PagingMenuView: UIScrollView {
         align()
     }
     
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(UIView.bounds), let newFrame = change?[.newKey] as? CGRect, let oldFrame = change?[.oldKey] as? CGRect, newFrame.height != oldFrame.height {
+            contentSize.height = newFrame.height
+            containerView.frame.size.height = newFrame.height
+            align()
+            if let selectedIndex = focusView.selectedIndex {
+                scroll(index: selectedIndex, animated: false, baseBounds: newFrame)
+            }
+        }
+    }
+    
+    /// Scrolls a specific index of the menu so that it is visible in the receiver.
+    ///
+    /// - Parameters:
+    ///   - index: A index defining an menu of the menu view.
+    ///   - percent: A rate that transit from the index.
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
+    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true, baseBounds: CGRect? = nil) {
+        let rightIndex = index + 1
+        let bounds = baseBounds ?? self.bounds
+        let centerY = baseBounds?.midY ?? self.center.y
+        
+        guard let leftFrame = rectForItem(at: index),
+            let rightFrame = rectForItem(at: rightIndex) else { return }
+        
+        let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
+        focusView.frame.size = CGSize(width: width, height: bounds.height)
+        
+        let centerPointX = leftFrame.midX + (rightFrame.midX - leftFrame.midX) * percent
+        let offsetX = centerPointX - bounds.width / 2
+        let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
+        focusView.center = CGPoint(x: centerPointX, y: centerY)
+        
+        setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
+        focusView.selectedIndex = index
+    }
+
     private var numberOfCellSpacing: CGFloat {
         return max(CGFloat(numberOfItem - 1), 0)
     }
@@ -410,5 +472,9 @@ public class PagingMenuView: UIScrollView {
         if let index = selectedCell?.index {
             menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: #keyPath(UIView.bounds))
     }
 }
