@@ -125,8 +125,8 @@ public class PagingMenuView: UIScrollView {
         super.init(frame: frame)
         containerView.frame = bounds
         containerView.center = center
-
         backgroundColor = .clear
+        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
         
         addSubview(containerView)
     }
@@ -137,13 +137,14 @@ public class PagingMenuView: UIScrollView {
         containerView.center = center
         containerView.backgroundColor = .clear
         backgroundColor = .clear
-        
+        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
+
         addSubview(containerView)
     }
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         if numberOfItem != 0 {
             let visibleBounds = convert(bounds, to: containerView)
             let extraOffset = visibleBounds.width / 2
@@ -152,6 +153,12 @@ public class PagingMenuView: UIScrollView {
                 to: min(contentSize.width, visibleBounds.maxX + extraOffset)
             )
         }
+    }
+
+    @available(iOS 11.0, *)
+    public override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        align()
     }
     
     /// The number of items in the paging menu view.
@@ -263,6 +270,14 @@ public class PagingMenuView: UIScrollView {
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
         align()
+    }
+    
+    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(UIView.bounds), let newFrame = change?[.newKey] as? CGRect, let oldFrame = change?[.oldKey] as? CGRect, newFrame.height != oldFrame.height {
+            contentSize.height = newFrame.height
+            containerView.frame.size.height = newFrame.height
+            align()
+        }
     }
     
     private var numberOfCellSpacing: CGFloat {
@@ -410,5 +425,9 @@ public class PagingMenuView: UIScrollView {
         if let index = selectedCell?.index {
             menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
         }
+    }
+    
+    deinit {
+        removeObserver(self, forKeyPath: #keyPath(UIView.bounds))
     }
 }

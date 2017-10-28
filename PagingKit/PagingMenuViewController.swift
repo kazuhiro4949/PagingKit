@@ -96,10 +96,12 @@ public class PagingMenuViewController: UIViewController {
 
     /// The object that acts as the indicator to focus current menu.
     public let focusView = PagingMenuFocusView(frame: .zero)
+    
+    private var fireInvalidateLayout: (() -> Void)?
 
     /// The object to show data and tap interaction.
     public let menuView: PagingMenuView = {
-        let view = PagingMenuView(frame: .zero)
+        let view = PagingMenuView(frame: CGRect(x: 1, y: 1, width: 1, height: 1))
         view.backgroundColor = .clear
         view.showsHorizontalScrollIndicator = false
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -246,15 +248,13 @@ public class PagingMenuViewController: UIViewController {
     public func invalidateLayout() {
         view.setNeedsLayout()
         view.layoutIfNeeded()
+        invalidateMenuViewLayout()
+    }
+    
+    private func invalidateMenuViewLayout() {
         menuView.invalidateLayout()
         if let selectedIndex = focusView.selectedIndex {
             scroll(index: selectedIndex, percent: 0, animated: false)
-        }
-    }
-    
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if let view = object as? UIView, view == self.view, keyPath == #keyPath(UIView.frame) {
-            invalidateLayout()
         }
     }
     
@@ -269,19 +269,25 @@ public class PagingMenuViewController: UIViewController {
         view.addConstraints([.top, .bottom, .leading, .trailing].map {
             NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
         })
-
-        view.addObserver(self, forKeyPath: #keyPath(UIView.frame), options: [.old, .new], context: nil)
         
         focusView.frame = .zero
         menuView.addSubview(focusView)
+        fireInvalidateLayout = invalidateMenuViewLayout
+    }
+    
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        fireInvalidateLayout?()
+        fireInvalidateLayout = nil
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
-    deinit {
-        view.removeObserver(self, forKeyPath: #keyPath(UIView.frame))
+    
+    public override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        fireInvalidateLayout = invalidateMenuViewLayout
     }
 }
 
