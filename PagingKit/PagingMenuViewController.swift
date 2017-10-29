@@ -289,24 +289,13 @@ extension PagingMenuViewController: UIScrollViewDelegate {
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
-        guard let itemFrame = pagingMenuView.rectForItem(at: index), menuView.focusView.selectedIndex != index else { return }
+        guard menuView.focusView.selectedIndex != index else { return }
         
         delegate?.menuViewController(viewController: self, didSelect: index, previousPage: menuView.focusView.selectedIndex ?? 0)
-        
-        menuView.focusView.selectedIndex = index
-        
-        let offset: CGPoint
-        let offsetX = itemFrame.midX - menuView.bounds.width / 2
-        offset = CGPoint(x: min(max(menuView.minContentOffsetX, offsetX), menuView.maxContentOffsetX), y: 0)
-        
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.menuView.contentOffset = offset
-            self?.menuView.focusView.frame = itemFrame
-            self?.menuView.focusView.layoutIfNeeded()
-            }, completion: { [weak self] finish in
-                guard let _self = self, finish else { return }
-                _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)
-        })
+        menuView.scroll(index: index) { [weak self] (finish) in
+            guard let _self = self, finish else { return }
+            _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)
+        }
     }
 }
 
@@ -326,5 +315,3 @@ extension PagingMenuViewController: PagingMenuViewDataSource {
         return dataSource!.menuViewController(viewController: self, cellForItemAt: index)
     }
 }
-
-

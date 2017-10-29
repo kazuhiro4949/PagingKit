@@ -119,6 +119,8 @@ public class PagingMenuView: UIScrollView {
         case type(type: PagingMenuViewCell.Type)
     }
     
+    //MARK:- Public
+    
     /// The object that acts as the indicator to focus current menu.
     public let focusView = PagingMenuFocusView(frame: .zero)
     
@@ -142,48 +144,18 @@ public class PagingMenuView: UIScrollView {
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
-        containerView.frame = bounds
-        containerView.center = center
-        backgroundColor = .clear
-        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
-        
-        addSubview(containerView)
-        focusView.frame = .zero
-        addSubview(focusView)
+        configureContainerView()
+        configureFocusView()
+        configureView()
     }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        containerView.frame = bounds
-        containerView.center = center
-        containerView.backgroundColor = .clear
-        backgroundColor = .clear
-        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
-
-        addSubview(containerView)
-        focusView.frame = .zero
-        addSubview(focusView)
-    }
-    
-    public override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        if numberOfItem != 0 {
-            let visibleBounds = convert(bounds, to: containerView)
-            let extraOffset = visibleBounds.width / 2
-            tileCell(
-                from: max(0, visibleBounds.minX - extraOffset),
-                to: min(contentSize.width, visibleBounds.maxX + extraOffset)
-            )
-        }
+        configureContainerView()
+        configureFocusView()
+        configureView()
     }
 
-    @available(iOS 11.0, *)
-    public override func safeAreaInsetsDidChange() {
-        super.safeAreaInsetsDidChange()
-        align()
-    }
-    
     /// The number of items in the paging menu view.
     public var numberOfItem: Int = 0
     
@@ -278,7 +250,7 @@ public class PagingMenuView: UIScrollView {
     ///
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
-    public func rectForItem(at index: Int) -> CGRect? {
+    public func rectForItem(at index: Int) -> CGRect {
         guard index < widths.count else {
             let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
             return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
@@ -324,9 +296,8 @@ public class PagingMenuView: UIScrollView {
     ///   - baseBounds: a rect base boounds to calculate position and size
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
         let rightIndex = index + 1
-        
-        guard let leftFrame = rectForItem(at: index),
-            let rightFrame = rectForItem(at: rightIndex) else { return }
+        let leftFrame = rectForItem(at: index)
+        let rightFrame = rectForItem(at: rightIndex)
         
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
         focusView.frame.size = CGSize(width: width, height: bounds.height)
@@ -339,6 +310,63 @@ public class PagingMenuView: UIScrollView {
         setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
         focusView.selectedIndex = index
     }
+    
+    /// Scrolls a specific index of the menu so that it is visible in the receiver and calls handler when finishing scroll.
+    ///
+    /// - Parameters:
+    ///   - index: A index defining an menu of the menu view.
+    ///   - completeHandler: handler called after completion
+    public func scroll(index: Int, completeHandler: @escaping (Bool) -> Void) {
+        let itemFrame = rectForItem(at: index)
+        focusView.selectedIndex = index
+        
+        let offsetX = itemFrame.midX - bounds.width / 2
+        let offset = CGPoint(x: min(max(minContentOffsetX, offsetX), maxContentOffsetX), y: 0)
+        
+        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            self?.contentOffset = offset
+            self?.focusView.frame = itemFrame
+            self?.focusView.layoutIfNeeded()
+            }, completion: { (finish) in
+                completeHandler(finish)
+        })
+    }
+    
+    // MARK:- Internal
+
+    var contentSafeAreaInsets: UIEdgeInsets {
+        if #available(iOS 11.0, *) {
+            return safeAreaInsets
+        } else {
+            return .zero
+        }
+    }
+
+    var maxContentOffsetX: CGFloat {
+        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
+    }
+    
+    var minContentOffsetX: CGFloat {
+        return -contentSafeAreaInsets.left
+    }
+
+    // MARK:- Private
+    
+    private func configureContainerView() {
+        containerView.frame = bounds
+        containerView.center = center
+        addSubview(containerView)
+    }
+    
+    private func configureFocusView() {
+        focusView.frame = .zero
+        addSubview(focusView)
+    }
+    
+    private func configureView() {
+        backgroundColor = .clear
+        addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
+    }
 
     private var numberOfCellSpacing: CGFloat {
         return max(CGFloat(numberOfItem - 1), 0)
@@ -347,23 +375,7 @@ public class PagingMenuView: UIScrollView {
     private var totalSpacing: CGFloat {
         return cellSpacing * numberOfCellSpacing
     }
-    
-    var contentSafeAreaInsets: UIEdgeInsets {
-        if #available(iOS 11.0, *) {
-            return safeAreaInsets
-        } else {
-            return .zero
-        }
-    }
-    
-    var maxContentOffsetX: CGFloat {
-        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
-    }
-    
-    var minContentOffsetX: CGFloat {
-        return -contentSafeAreaInsets.left
-    }
-    
+
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
@@ -476,7 +488,28 @@ public class PagingMenuView: UIScrollView {
             }
         }
     }
-
+    
+    //MARK:- Life Cycle
+    
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        if numberOfItem != 0 {
+            let visibleBounds = convert(bounds, to: containerView)
+            let extraOffset = visibleBounds.width / 2
+            tileCell(
+                from: max(0, visibleBounds.minX - extraOffset),
+                to: min(contentSize.width, visibleBounds.maxX + extraOffset)
+            )
+        }
+    }
+    
+    @available(iOS 11.0, *)
+    public override func safeAreaInsetsDidChange() {
+        super.safeAreaInsetsDidChange()
+        align()
+    }
+    
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         touchBeganPoint = touches.first.flatMap { $0.location(in: containerView) }
