@@ -131,7 +131,7 @@ public class PagingMenuView: UIScrollView {
     fileprivate var registeredCells = [String: RegisteredCell]()
     fileprivate var widths = [CGFloat]()
     fileprivate var containerView = UIView()
-    fileprivate var touchBeganPoint: CGPoint?
+    fileprivate var touchingIndex: Int?
     
     /// space setting between cells
     public var cellSpacing: CGFloat = 0
@@ -510,24 +510,36 @@ public class PagingMenuView: UIScrollView {
         align()
     }
     
+    deinit {
+        removeObserver(self, forKeyPath: #keyPath(UIView.bounds))
+    }
+}
+
+//MARK:- Touch Event
+extension PagingMenuView {
     public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        touchBeganPoint = touches.first.flatMap { $0.location(in: containerView) }
+        guard let touchPoint = touches.first.flatMap({ $0.location(in: containerView) }) else { return }
+        touchingIndex = visibleCells.filter { cell in cell.frame.contains(touchPoint) }.first?.index
     }
     
     public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
+        defer {
+            touchingIndex = nil
+        }
         
-        guard let touchEndedPoint = touches.first.flatMap({ $0.location(in: containerView) }),
-            touchBeganPoint == touchEndedPoint else { return }
+        guard let touchingIndex = self.touchingIndex,
+            let touchPoint = touches.first.flatMap({ $0.location(in: containerView) }),
+            let touchEndedIndex = visibleCells.filter({ $0.frame.contains(touchPoint) }).first?.index else { return }
         
-        let selectedCell = visibleCells.filter { cell in cell.frame.contains(touchEndedPoint) }.first
-        if let index = selectedCell?.index {
-            menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: index)
+        if touchingIndex == touchEndedIndex {
+            menuDelegate?.pagingMenuView(pagingMenuView: self, didSelectItemAt: touchingIndex)
         }
     }
     
-    deinit {
-        removeObserver(self, forKeyPath: #keyPath(UIView.bounds))
+    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
+        touchingIndex = nil
     }
 }
