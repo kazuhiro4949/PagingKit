@@ -31,7 +31,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - viewController: The view controller object that is about to scroll the content view.
-    ///   - index: The index where the view controller is about to scroll from.
+    ///   - index: The left side content index where the view controller is about to scroll from.
     func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int)
     
     /// Tells the delegate when the user scrolls the content view within the receiver.
@@ -46,7 +46,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
-    ///   - index: The index where the view controller is showing.
+    ///   - index: The left side index where the view controller is showing.
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
 
     
@@ -54,7 +54,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
-    ///   - index: The index where the view controller is showing.
+    ///   - index: The index where the paging will begin.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool)
     
@@ -62,7 +62,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
-    ///   - index: The index where the view controller is showing.
+    ///   - index: The index where the paging will stop.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool)
     
@@ -70,7 +70,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
-    ///   - index: The index where the view controller is showing.
+    ///   - index: The index where the paging stopped.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool)
 }
@@ -327,9 +327,9 @@ public class PagingContentViewController: UIViewController {
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        explicitPaging = ExplicitPaging(oneTimeHandler: { [weak self] in
+        explicitPaging = ExplicitPaging(oneTimeHandler: { [weak self, leftSidePageIndex = leftSidePageIndex] in
             guard let _self = self else { return }
-            _self.delegate?.contentViewController(viewController: _self, willBeginPagingAt: _self.leftSidePageIndex, animated: false)
+            _self.delegate?.contentViewController(viewController: _self, willBeginPagingAt: leftSidePageIndex, animated: false)
             _self.explicitPaging?.start()
         })
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
