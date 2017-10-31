@@ -160,9 +160,7 @@ public class PagingMenuViewController: UIViewController {
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
         menuView.focusView.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
-        menuView.focusView.addConstraints([.top, .bottom, .leading, .trailing].map {
-            NSLayoutConstraint(item: view, attribute: $0, relatedBy: .equal, toItem: menuView.focusView, attribute: $0, multiplier: 1, constant: 0)
-        })
+        menuView.focusView.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: view, to: menuView.focusView))
         menuView.focusView.layer.zPosition = isBehindCell ? -1 : 0
     }
 
@@ -248,9 +246,7 @@ public class PagingMenuViewController: UIViewController {
         menuView.dataSource = self
 
         view.addSubview(menuView)
-        view.addConstraints([.top, .bottom, .leading, .trailing].map {
-            NSLayoutConstraint(item: menuView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
-        })
+        view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: menuView, to: view))
 
         fireInvalidateLayout = invalidateMenuViewLayout
     }

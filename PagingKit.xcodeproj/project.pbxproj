@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B283F051FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */; };
 		2B463D261F958C0D00F241E1 /* PagingMenuFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */; };
 		2B4F03431F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */; };
 		2B4F03451F8FA0760015FCC8 /* PagingMenuViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+NSLayoutConstraint.swift"; sourceTree = "<group>"; };
 		2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PagingMenuFocusView.xib; sourceTree = "<group>"; };
 		2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingMenuViewControllerTests.swift; sourceTree = "<group>"; };
 		2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingMenuViewTests.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
 				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
 				2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */,
+				2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */,
 			);
 			path = PagingKit;
 			sourceTree = "<group>";
@@ -224,6 +227,7 @@
 				6EC140D81F09410F0054B514 /* PagingContentViewController.swift in Sources */,
 				2B668C5F1F1395BE008A0694 /* PagingMenuView.swift in Sources */,
 				6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */,
+				2B283F051FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
