@@ -244,10 +244,7 @@ public class PagingContentViewController: UIViewController {
         scrollView.frame = view.bounds
         scrollView.delegate = self
         view.addSubview(scrollView)
-        view.addConstraints([.top, .bottom, .leading, .trailing].map {
-            NSLayoutConstraint(item: scrollView, attribute: $0, relatedBy: .equal, toItem: view, attribute: $0, multiplier: 1, constant: 0)
-        })
-        
+        view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: scrollView, to: view))
         view.backgroundColor = .clear
     }
 
