@@ -115,5 +115,16 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
         menuViewController?.cellForItem(at: index + 1)?.isSelected = isRightCellSelected
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }
+    
+    func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool) {
+        print(#function, index)
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool) {
+        print(#function, index)
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {
+        print(#function, index)
+    }
 }
-
