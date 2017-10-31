@@ -352,11 +352,13 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let explicitPaging = explicitPaging, explicitPaging.isPaging {
+        if let explicitPaging = explicitPaging {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
-            delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: true)
+            if explicitPaging.isPaging {
+                delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: true)
+            }
         }
         explicitPaging = nil
     }
@@ -364,12 +366,14 @@ extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         guard !decelerate else { return }
         
-        if let explicitPaging = explicitPaging, explicitPaging.isPaging {
+        if let explicitPaging = explicitPaging {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
-            delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: false)
-            delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: false)
+            if explicitPaging.isPaging {
+                delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: false)
+                delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: false)
+            }
         }
         explicitPaging = nil
     }
