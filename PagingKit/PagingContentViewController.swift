@@ -48,34 +48,31 @@ public protocol PagingContentViewControllerDelegate: class {
     ///   - viewController: The view controller object in which the scrolling occurred.
     ///   - index: The index where the view controller is showing.
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
+
     
-    /// Tells the delegate when a content will be shown by the scroll view.
+    /// Tells the delegate when the view controller is trying to start paging the content.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
     ///   - index: The index where the view controller is showing.
-    func contentViewController(viewController: PagingContentViewController, willShow index: Int, animated: Bool)
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
+    func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool)
     
-    /// Tells the delegate when a content was shown by the scroll view.
+    /// Tells the delegate when the view controller is trying to finish paging the content.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
     ///   - index: The index where the view controller is showing.
-    func contentViewController(viewController: PagingContentViewController, didShow index: Int, animated: Bool)
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
+    func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool)
     
-    /// Tells the delegate when a content will be hidden by the scroll view.
+    /// Tells the delegate when the view controller was finished to paging the content.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
     ///   - index: The index where the view controller is showing.
-    func contentViewController(viewController: PagingContentViewController, willHide index: Int, animated: Bool)
-    
-    /// Tells the delegate when a content was hidden by scroll view.
-    ///
-    /// - Parameters:
-    ///   - viewController: The view controller object in which the scrolling occurred.
-    ///   - index: The index where the view controller is showing.
-    func contentViewController(viewController: PagingContentViewController, didHide index: Int, animated: Bool)
+    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
+    func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool)
 }
 
 extension PagingContentViewControllerDelegate {
@@ -83,10 +80,9 @@ extension PagingContentViewControllerDelegate {
     public func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {}
     public func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {}
 
-    public func contentViewController(viewController: PagingContentViewController, willShow index: Int, animated: Bool) {}
-    public func contentViewController(viewController: PagingContentViewController, didShow index: Int, animated: Bool) {}
-    public func contentViewController(viewController: PagingContentViewController, willHide index: Int, animated: Bool) {}
-    public func contentViewController(viewController: PagingContentViewController, didHide index: Int, animated: Bool) {}
+    public func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool) {}
+    public func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {}
+    public func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool) {}
 }
 
 /// The data source provides the paging content view controller object with the information it needs to construct and modify the contents.
@@ -109,15 +105,33 @@ public protocol PagingContentViewControllerDataSource: class {
 
 /// A view controller that lets the user navigate between pages of content, where each page is managed by its own view controller object.
 public class PagingContentViewController: UIViewController {
-    fileprivate struct PagingState {
-        let beginIndex: Int
-        let endIndex: Int
+    fileprivate class ExplicitPaging {
+        private var oneTimeHandler: (() -> Void)?
+        private(set) var isPaging: Bool
+        
+        init(oneTimeHandler: (() -> Void)?) {
+            self.oneTimeHandler = oneTimeHandler
+            isPaging = false
+        }
+        
+        func start() {
+            isPaging = true
+        }
+        
+        func fireOnetimeHandlerIfNeeded() {
+            oneTimeHandler?()
+            oneTimeHandler = nil
+        }
+        
+        func stop() {
+            isPaging = false
+        }
     }
     
     fileprivate var cachedViewControllers = [UIViewController?]()
     fileprivate var leftSidePageIndex = 0
     fileprivate var numberOfPages: Int = 0
-    fileprivate var isExplicityScrolling = false
+    fileprivate var explicitPaging: ExplicitPaging?
 
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
@@ -137,9 +151,11 @@ public class PagingContentViewController: UIViewController {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
     }
     
-    @available(*, deprecated)
+    /// The index at which the view controller is showing.
     public var currentPageIndex: Int {
-        return leftSidePageIndex
+        let scrollToRightSide = (pagingPercent > 0.5)
+        let rightSidePageIndex = min(cachedViewControllers.endIndex, leftSidePageIndex + 1)
+        return scrollToRightSide ? rightSidePageIndex : leftSidePageIndex
     }
     
     ///  Reloads the content of the view controller.
@@ -167,17 +183,15 @@ public class PagingContentViewController: UIViewController {
     ///   - page: A index defining an content of the content view controller.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(to page: Int, animated: Bool) {
-        let pagingState = PagingState(beginIndex: leftSidePageIndex, endIndex: page)
+        delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
         
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
         
-        delegate?.contentViewController(viewController: self, willHide: pagingState.beginIndex, animated: animated)
-        delegate?.contentViewController(viewController: self, willShow: pagingState.endIndex, animated: animated)
+        delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
         scroll(to: page, animated: animated) { [weak self] (finished) in
             guard let _self = self, finished else { return }
-            _self.delegate?.contentViewController(viewController: _self, didHide: pagingState.beginIndex, animated: animated)
-            _self.delegate?.contentViewController(viewController: _self, didShow: pagingState.endIndex, animated: animated)
+            _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
         }
     }
     
@@ -185,11 +199,14 @@ public class PagingContentViewController: UIViewController {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         if animated {
             stopScrolling()
-            performSystemAnimation({ [weak self] in
-                self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-                }, completion: { (finished) in
+            performSystemAnimation(
+                { [weak self] in
+                    self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+                },
+                completion: { (finished) in
                     completion(finished)
-            })
+                }
+            )
         } else {
             scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
             completion(true)
@@ -207,6 +224,16 @@ public class PagingContentViewController: UIViewController {
         scrollView.backgroundColor = .clear
         return scrollView
     }()
+    
+    public func preloadContentIfNeeded(with scrollingPercent: CGFloat) {
+        guard isEnabledPreloadContent else { return }
+        
+        if scrollingPercent > 0.5 {
+            loadPagesIfNeeded(page: leftSidePageIndex + 1)
+        } else{
+            loadPagesIfNeeded()
+        }
+    }
     
     override public func viewDidLoad() {
         super.viewDidLoad()
@@ -281,58 +308,6 @@ public class PagingContentViewController: UIViewController {
             cachedViewControllers[page] = vc
         }
     }
-}
-
-// MARK:- UIScrollViewDelegate
-
-extension PagingContentViewController: UIScrollViewDelegate {
-    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        isExplicityScrolling = true
-        leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-        delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
-    }
-    
-    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if isExplicityScrolling {
-            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            let leftSideContentOffset = CGFloat(leftSidePageIndex) * scrollView.bounds.width
-            let percent = (scrollView.contentOffset.x - leftSideContentOffset) / scrollView.bounds.width
-            let normalizedPercent = min(max(0, percent), 1)
-            delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
-        }
-    }
-    
-    public func preloadContentIfNeeded(with scrollingPercent: CGFloat) {
-        guard isEnabledPreloadContent else { return }
-        
-        if scrollingPercent > 0.5 {
-            loadPagesIfNeeded(page: leftSidePageIndex + 1)
-        } else{
-            loadPagesIfNeeded()
-        }
-    }
-    
-    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if isExplicityScrolling {
-            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
-        }
-        isExplicityScrolling = false
-        loadPagesIfNeeded()
-        delegate?.contentViewController(viewController: self, didShow: leftSidePageIndex, animated: true)
-    }
-    
-    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        guard !decelerate else { return }
-        
-        if isExplicityScrolling {
-            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
-        }
-        isExplicityScrolling = false
-        loadPagesIfNeeded()
-        delegate?.contentViewController(viewController: self, didShow: leftSidePageIndex, animated: false)
-    }
     
     fileprivate func loadPagesIfNeeded(page: Int? = nil) {
         let loadingPage = page ?? leftSidePageIndex
@@ -342,9 +317,61 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     fileprivate func stopScrolling() {
-        isExplicityScrolling = false
+        explicitPaging = nil
         scrollView.layer.removeAllAnimations()
         scrollView.setContentOffset(scrollView.contentOffset, animated: false)
+    }
+}
+
+// MARK:- UIScrollViewDelegate
+
+extension PagingContentViewController: UIScrollViewDelegate {
+    public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        explicitPaging = ExplicitPaging(oneTimeHandler: { [weak self] in
+            guard let _self = self else { return }
+            _self.delegate?.contentViewController(viewController: _self, willBeginPagingAt: _self.leftSidePageIndex, animated: false)
+            _self.explicitPaging?.start()
+        })
+        leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+        delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
+    }
+    
+    public func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if let explicitPaging = explicitPaging {
+            explicitPaging.fireOnetimeHandlerIfNeeded()
+            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+            let normalizedPercent = min(max(0, pagingPercent), 1)
+            delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
+        }
+    }
+    
+    public func scrollViewWillBeginDecelerating(_ scrollView: UIScrollView) {
+        if let explicitPaging = explicitPaging, explicitPaging.isPaging {
+            delegate?.contentViewController(viewController: self, willFinishPagingAt: currentPageIndex, animated: true)
+        }
+    }
+    
+    public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let explicitPaging = explicitPaging, explicitPaging.isPaging {
+            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+            loadPagesIfNeeded()
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: true)
+        }
+        explicitPaging = nil
+    }
+    
+    public func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        guard !decelerate else { return }
+        
+        if let explicitPaging = explicitPaging, explicitPaging.isPaging {
+            leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
+            loadPagesIfNeeded()
+            delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
+            delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: false)
+            delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: false)
+        }
+        explicitPaging = nil
     }
 }
 
