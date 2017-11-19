@@ -27,10 +27,15 @@ import UIKit
 class ContentTableViewCell: UITableViewCell {
     @IBOutlet weak var emojiLabel: UILabel!
     @IBOutlet weak var nameLabel: UILabel!
+
+    var additionalSafeAreaInsets: UIEdgeInsets = .zero
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

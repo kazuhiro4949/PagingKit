@@ -31,7 +31,7 @@ class DynamicSizeViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+    let dataSource: [(menu: String, content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: title, content: vc)
@@ -44,6 +44,13 @@ class DynamicSizeViewController: UIViewController {
         menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
         menuViewController?.reloadData()
         contentViewController?.reloadData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
+        }
     }
     
     override func didReceiveMemoryWarning() {

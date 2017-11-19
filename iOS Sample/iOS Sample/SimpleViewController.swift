@@ -31,7 +31,7 @@ class SimpleViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
+    let dataSource: [(menu: String, content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: title, content: vc)
@@ -46,6 +46,13 @@ class SimpleViewController: UIViewController {
         menuViewController?.reloadData()
         contentViewController?.reloadData()
 
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if #available(iOS 11.0, *) {
+            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
+        }
     }
 
     override func didReceiveMemoryWarning() {
