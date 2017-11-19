@@ -122,7 +122,6 @@ class PagingMenuViewControllerTests: XCTestCase {
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
         
-        menuViewController.loadViewIfNeeded()
         menuViewController.view.frame = CGRect(x: 0, y: 0, width: 320, height: 44)
         menuViewController.reloadData(with: 0) { _ in
             let resizedLength: CGFloat = 20
@@ -141,6 +140,11 @@ class PagingMenuViewControllerTests: XCTestCase {
         }
         
         wait(for: [expection], timeout: 1.0)
+    }
+    
+    func testLoadView() {
+        let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
+        menuViewController.loadViewIfNeeded()
     }
     
     static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {

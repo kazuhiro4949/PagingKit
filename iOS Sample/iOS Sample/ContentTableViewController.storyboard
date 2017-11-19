@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbn-3f-Ane">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbn-3f-Ane">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -25,7 +25,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="3Em-GE-Xap" customClass="ContentTableViewCell" customModule="iOS_Sample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3Em-GE-Xap" id="222-Vs-rDE">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Em-GE-Xap" id="222-Vs-rDE">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -64,13 +64,17 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="Vff-7w-Wn7" secondAttribute="leading" id="7wg-ED-6Yk"/>
                             <constraint firstItem="z6u-cs-lEJ" firstAttribute="top" secondItem="Vff-7w-Wn7" secondAttribute="top" id="T00-Ho-niF"/>
                             <constraint firstAttribute="trailing" secondItem="z6u-cs-lEJ" secondAttribute="trailing" id="dhJ-1k-WOn"/>
-                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="Vff-7w-Wn7" secondAttribute="leading" id="f82-P5-fVP"/>
                             <constraint firstAttribute="bottom" secondItem="z6u-cs-lEJ" secondAttribute="bottom" id="xOJ-9c-G8b"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NVr-cB-pAu"/>
                     </view>
+                    <connections>
+                        <outlet property="leadingLayouConstraint" destination="7wg-ED-6Yk" id="N9g-24-Yd9"/>
+                        <outlet property="tableView" destination="z6u-cs-lEJ" id="2g4-SZ-1jg"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5Oh-J2-0eB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
