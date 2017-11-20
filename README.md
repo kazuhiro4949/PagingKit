@@ -323,8 +323,8 @@ Call reloadData() methods with starting point.
         super.viewDidLoad()
         //...
         //...
-        menuViewController.reloadData(startingOn: 0)
-        contentViewController.reloadData(with: 0)
+        menuViewController.reloadData()
+        contentViewController.reloadData()
     }
 ```
 
