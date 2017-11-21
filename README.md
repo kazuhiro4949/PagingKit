@@ -145,23 +145,23 @@ If you will make a new UI which contains PagingKit, refer the following 4 steps.
 # 1. Add PagingMenuViewController & PagingContentViewController
 First, add PagingMenuViewController & PagingContentViewController on container view with Stroyboard.
 
-## 1. Put container view on Storyboard
-Put container view on stroyboard for each the view controllers.
+## 1. Put container views on Storyboard
+Put container views on stroyboard for each the view controllers.
 
 <img width="1417" alt="2017-08-25 16 33 51" src="https://user-images.githubusercontent.com/18320004/29704102-491f0e72-89b3-11e7-9d69-7988969ef18e.png">
 
 ## 2. Change class names
 
-Set PagingMenuViewController to custom class setting.
+input PagingMenuViewController on custom class setting.
 <img width="1418" alt="2017-08-25 16 36 36" src="https://user-images.githubusercontent.com/18320004/29704183-a59ab390-89b3-11e7-9e72-e98ee1e9abc0.png">
 
-Set PagingContentViewController to custom class setting.
+input PagingContentViewController on custom class setting.
 
 <img width="1415" alt="2017-08-25 16 36 54" src="https://user-images.githubusercontent.com/18320004/29704184-a669f344-89b3-11e7-91b6-90669fa2190f.png">
 
 # 2. Assign them to properties
 
-Assign them to the container view controller on code.
+Assign them on code of the container view controller.
 
 ## 1. Declare properties for the view controllers 
 Declare properties in container view controller.
@@ -173,7 +173,7 @@ class ViewController: UIViewController {
 ```
 
 ## 2. override prepare(segue:sender:) and assign the view controllers
-Assigin view controllers to each the property in prepare(segue:sender:) method.
+Assigin view controllers to each the property on ```prepare(segue:sender:)```.
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
