@@ -380,7 +380,7 @@ extension ViewController: PagingMenuViewControllerDelegate {
 }
 ```
 
-Implement content delegate to handle the event. It is similar to UIScrollViewDelegate You need to implement scroll method of PagingMenuViewController in the delegate method. "parameter" is the ratio from the origin of current index.
+Implement content delegate to handle the event. It is similar to UIScrollViewDelegate. You need to implement the scroll event of PagingMenuViewController. "percent" is a ratio from the origin of the left-side index.
 
 ```swift
 extension ViewController: PagingContentViewControllerDelegate {
