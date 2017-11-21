@@ -189,11 +189,11 @@ Assigin view controllers to each the property on ```prepare(segue:sender:)```.
 Change menu color.
 <img width="1097" alt="2017-08-25 17 47 58" src="https://user-images.githubusercontent.com/18320004/29706662-922732ac-89bd-11e7-8969-bd6fbe394a8a.png">
 
-Build and check current result.
+Build and check the current state.
 
 <img width="487" alt="2017-08-25 17 47 29" src="https://user-images.githubusercontent.com/18320004/29706651-84749258-89bd-11e7-9239-6919a0175a17.png">
 
-It is the container view controller that has two conten view controllers.
+It shows a container view controller that has PagingMenuViewController and PagingContentViewController.
 
 # 3. Create menu UI
 
