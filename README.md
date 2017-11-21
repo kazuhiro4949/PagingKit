@@ -201,7 +201,7 @@ Next, you needs to prepare the menu elements.
 
 ## 1. Inherite PagingMenuViewCell and create custom cell
 
-PagingKit has PagingMenuViewCell. PagingMenuViewController uses it to construct menu element.
+PagingKit has PagingMenuViewCell. PagingMenuViewController uses it to construct each menu element.
 
 ```swift
 import UIKit
@@ -217,7 +217,7 @@ class MenuCell: PagingMenuViewCell {
 
 ## 2. Inherite PagingFocusView and create custom view
 
-PagingKit has PagingFocusView. PagingMenuViewController uses it to show current focusted menu.
+PagingKit has PagingFocusView. PagingMenuViewController uses it to point the current focusted menu.
 
 <img width="1420" alt="2017-08-25 16 59 07" src="https://user-images.githubusercontent.com/18320004/29704919-bd3d8f06-89b6-11e7-88dc-c8546979dbde.png">
 
