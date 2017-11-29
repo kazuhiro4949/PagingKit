@@ -25,17 +25,7 @@
 import UIKit
 
 class ContentTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var leadingLayouConstraint: NSLayoutConstraint!
 
-    var leadingInset: CGFloat = 0 {
-        didSet {
-            leadingLayouConstraint?.constant = leadingInset
-            view.setNeedsLayout()
-            view.layoutIfNeeded()
-        }
-    }
-    
     var data: [(emoji: String, name: String)] = [
         (emoji: "🐶", name: "Dog"),
         (emoji: "🐱", name: "Cat"),
@@ -62,16 +52,12 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if #available(iOS 11.0, *) {
-            tableView.insetsContentViewsToSafeArea = false
-            tableView.insetsLayoutMarginsFromSafeArea = false
-        }
-    }
-    
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        leadingLayouConstraint.constant = leadingInset
+
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,6 +66,7 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     // MARK: - Table view data source
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -93,4 +80,6 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
         cell.configure(data: data[indexPath.row])
         return cell
     }
+
+
 }

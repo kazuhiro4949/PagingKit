@@ -29,7 +29,7 @@ class ArbitraryNumberViewController: UIViewController {
     var contentViewController: PagingContentViewController!
     var menuViewController: PagingMenuViewController!
     
-    var dataSource = [(menu: String, content: ContentTableViewController)]()
+    var dataSource = [(menu: String, content: UIViewController)]()
     
     var startPosition = 0
     var isSegmentedMenu = false

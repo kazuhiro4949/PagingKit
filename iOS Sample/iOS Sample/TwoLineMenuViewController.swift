@@ -31,7 +31,7 @@ class TwoLineMenuViewController: UIViewController {
     var contentViewController: PagingContentViewController?
     
     
-    let dataSource: [(menu: (title: String, subTitle: String?, isEnabledPoo: Bool), content: ContentTableViewController)] = [(title: "Martinez", subTitle: nil, isEnabledPoo: true), (title: "Alfred", subTitle: nil, isEnabledPoo: false), (title: "Louis", subTitle: "owner", isEnabledPoo: false), (title: "Justin", subTitle: nil, isEnabledPoo: false)].map {
+    let dataSource: [(menu: (title: String, subTitle: String?, isEnabledPoo: Bool), content: UIViewController)] = [(title: "Martinez", subTitle: nil, isEnabledPoo: true), (title: "Alfred", subTitle: nil, isEnabledPoo: false), (title: "Louis", subTitle: "owner", isEnabledPoo: false), (title: "Justin", subTitle: nil, isEnabledPoo: false)].map {
         let title = $0.title
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: $0, content: vc)
@@ -48,13 +48,6 @@ class TwoLineMenuViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
-            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

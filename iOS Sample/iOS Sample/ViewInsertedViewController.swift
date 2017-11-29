@@ -39,7 +39,7 @@ class ViewInsertedViewController: UIViewController {
     var menuViewController: PagingMenuViewController?
     var contentViewController: PagingContentViewController?
     
-    let dataSource: [(menu: String, content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
+    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: title, content: vc)
@@ -56,13 +56,6 @@ class ViewInsertedViewController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
-            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
-        }
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
