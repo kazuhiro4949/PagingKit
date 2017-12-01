@@ -27,7 +27,7 @@ import PagingKit
 
 class OverlayViewController: UIViewController {
     
-    let dataSource: [(menu: String, content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         return (menu: title, content: vc)
@@ -46,13 +46,6 @@ class OverlayViewController: UIViewController {
             cell?.isHighlight = true
         })
         contentViewController?.reloadData(with: 0)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
-            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
-        }
     }
 
     override func didReceiveMemoryWarning() {

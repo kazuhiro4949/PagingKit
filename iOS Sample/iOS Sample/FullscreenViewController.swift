@@ -13,7 +13,7 @@ class FullscreenViewController: UIViewController {
     var contentViewController: PagingContentViewController!
     var menuViewController: PagingMenuViewController!
     
-    let dataSource: [(menu: (title: String, color: UIColor), content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+    let dataSource: [(menu: (title: String, color: UIColor), content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         let color = UIColor(
@@ -31,13 +31,6 @@ class FullscreenViewController: UIViewController {
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.reloadData(with: 4)
         contentViewController?.reloadData(with: 4)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
-            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
-        }
     }
     
     override func didReceiveMemoryWarning() {

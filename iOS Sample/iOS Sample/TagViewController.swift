@@ -29,7 +29,7 @@ class TagViewController: UIViewController {
     var contentViewController: PagingContentViewController!
     var menuViewController: PagingMenuViewController!
     
-    let dataSource: [(menu: (title: String, color: UIColor), content: ContentTableViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
+    let dataSource: [(menu: (title: String, color: UIColor), content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
         let color = UIColor(
@@ -49,17 +49,6 @@ class TagViewController: UIViewController {
         contentViewController?.reloadData(with: 4)
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        if #available(iOS 11.0, *) {
-            dataSource.forEach { $1.leadingInset = view.safeAreaInsets.left }
-        }
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -84,8 +73,7 @@ extension TagViewController: PagingContentViewControllerDataSource {
     }
     
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
-        let content = dataSource[index].content
-        return content
+        return dataSource[index].content
     }
 }
 
@@ -121,10 +109,6 @@ extension TagViewController: PagingMenuViewControllerDelegate {
 
         
         contentViewController?.scroll(to: page, animated: true)
-    }
-    
-    func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView) {
-        
     }
 }
 
