@@ -26,6 +26,8 @@ import UIKit
 
 class ContentTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
+    @IBOutlet weak var tableView: UITableView!
+
     var data: [(emoji: String, name: String)] = [
         (emoji: "🐶", name: "Dog"),
         (emoji: "🐱", name: "Cat"),
@@ -52,12 +54,6 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
     }
 
     override func didReceiveMemoryWarning() {
@@ -82,4 +78,10 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
     }
 
 
+    @available(iOS 11.0, *)
+    override func viewSafeAreaInsetsDidChange() {
+        tableView.layoutMargins.left = view.superview.flatMap { $0.safeAreaInsets.left + 16 } ?? 0
+        tableView.separatorInset.left = tableView.layoutMargins.left
+        super.viewSafeAreaInsetsDidChange()
+    }
 }
