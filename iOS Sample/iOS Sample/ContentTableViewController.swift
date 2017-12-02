@@ -80,9 +80,26 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
 
     @available(iOS 11.0, *)
     override func viewSafeAreaInsetsDidChange() {
-        // To support safe area, all tableViews aligned on scrollView (superview) needs to be set margin for the cell's contentView and separator.
-        tableView.layoutMargins.left = view.superview.flatMap { $0.safeAreaInsets.left + 16 } ?? 0
-        tableView.separatorInset.left = tableView.layoutMargins.left
         super.viewSafeAreaInsetsDidChange()
+        guard let tableViewLayoutMargin = tableViewLayoutMargin else { return }
+        
+        tableView.layoutMargins = tableViewLayoutMargin
+        tableView.separatorInset = tableViewLayoutMargin
+    }
+
+    /// To support safe area, all tableViews aligned on scrollView (superview) needs to be set margin for the cell's contentView and separator.
+    @available(iOS 11.0, *)
+    private var tableViewLayoutMargin: UIEdgeInsets? {
+        guard let superview = view.superview else {
+            return nil
+        }
+        
+        let defaultTableContentInsetLeft: CGFloat = 16
+        return UIEdgeInsets(
+            top: 0,
+            left: superview.safeAreaInsets.left + defaultTableContentInsetLeft,
+            bottom: 0,
+            right: 0
+        )
     }
 }
