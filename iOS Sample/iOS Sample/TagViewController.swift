@@ -29,6 +29,8 @@ class TagViewController: UIViewController {
     var contentViewController: PagingContentViewController!
     var menuViewController: PagingMenuViewController!
     
+    @IBOutlet weak var plusButton: UIButton!
+    
     let dataSource: [(menu: (title: String, color: UIColor), content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"].map {
         let title = $0
         let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
@@ -44,6 +46,16 @@ class TagViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // add shadow to button
+        do {
+            plusButton.layer.shadowColor = UIColor.gray.cgColor
+            plusButton.layer.shadowOpacity = 0.5
+            plusButton.layer.shadowOffset = CGSize(width: 0.5, height: 0)
+            plusButton.layer.shouldRasterize = true
+            plusButton.layer.rasterizationScale = UIScreen.main.scale
+            plusButton.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
+        }
+        
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.reloadData(with: 4)
         contentViewController?.reloadData(with: 4)
