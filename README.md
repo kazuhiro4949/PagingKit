@@ -25,9 +25,9 @@ You can fit any design to your apps as you like.
 ## Customized layout 
 You can align views as you like.
 
-| changing position | placing a view between content and menu |
-|:------------:|:------------:|
-| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) |
+| changing position | placing a view between content and menu | add button on right-side |
+|:------------:|:------------:|:------------:|
+| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) | ![sample6](https://user-images.githubusercontent.com/18320004/33793722-f9806f46-dcff-11e7-9909-a9f87e9ef4a0.gif) |
 
 ## Customized menu design
 You can customize menu as you like.
