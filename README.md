@@ -42,6 +42,7 @@ You can customize menu as you like.
 - [x] easy to construct Paging UI
 - [x] customizable layout and design
 - [x] UIKit like API
+- [x] iPhone, iPad and iPhone　X Support
 
 # Requirements
 + iOS 8.0+
