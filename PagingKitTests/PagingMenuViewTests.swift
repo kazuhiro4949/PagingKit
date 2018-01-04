@@ -174,6 +174,86 @@ class PagingMenuViewTests: XCTestCase {
         let expectedWidths = widths.map { _ in resizedWidth }
         XCTAssertEqual(widths, expectedWidths, "dataSource has resized cells")
     }
+    
+    func testFocusViewFrameWhenZeroInsets() {
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        pagingMenuView?.dataSource = dataSource
+        pagingMenuView?.reloadData()
+        
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 0")
+            pagingMenuView?.scroll(index: 0, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 0, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 19")
+            pagingMenuView?.scroll(index: 19, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 1900, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 2)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 9")
+            pagingMenuView?.scroll(index: 9, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 900, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 2)
+        }
+    }
+    
+    func testFocusViewFrameWhenNonZeroInsets() {
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        pagingMenuView?.dataSource = dataSource
+        pagingMenuView?.reloadData()
+        pagingMenuView?.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+
+        do {
+            let expectation = XCTestExpectation(description: "index: 0")
+            pagingMenuView?.scroll(index: 0, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 0, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 19")
+            pagingMenuView?.scroll(index: 19, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 1900, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 2)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 9")
+            pagingMenuView?.scroll(index: 9, completeHandler: { [weak self] _ in
+                let frame = CGRect(x: 900, y: 0, width: 100, height: 44)
+                XCTAssertEqual(self?.pagingMenuView?.focusView.frame, frame, "success to change content layout")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 2)
+        }
+    }
 }
 
 class MenuViewDataSourceSpy: NSObject, PagingMenuViewDataSource  {
