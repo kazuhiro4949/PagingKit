@@ -360,7 +360,7 @@ public class PagingMenuView: UIScrollView {
     
     private func configureFocusView() {
         focusView.frame = .zero
-        addSubview(focusView)
+        containerView.addSubview(focusView)
     }
     
     private func configureView() {
