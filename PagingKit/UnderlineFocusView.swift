@@ -25,26 +25,32 @@
 import UIKit
 
 public class UnderlineFocusView: UIView {
-    let view = UIView()
-    let underlineLayer = CALayer()
     public var underlineColor = UIColor.pk.focusRed
     public var underlineHeight = CGFloat(4)
     
+    private let underlineView = UIView()
+    
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        underlineLayer.backgroundColor = underlineColor.cgColor
-        layer.addSublayer(underlineLayer)
+        setup()
     }
     
     override public init(frame: CGRect) {
         super.init(frame: frame)
-        underlineLayer.backgroundColor = underlineColor.cgColor
-        layer.addSublayer(underlineLayer)
+        setup()
     }
-    
-    override public func layoutSubviews() {
-        super.layoutSubviews()
-        let underlineFrame = layer.bounds.divided(atDistance: underlineHeight, from: .maxYEdge).slice
-        underlineLayer.frame = underlineFrame
+
+    private func setup() {
+        addSubview(underlineView)
+        underlineView.translatesAutoresizingMaskIntoConstraints = false
+        addConstraint(NSLayoutConstraint(
+            item: underlineView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: 4))
+        let constraints = [.bottom, .leading, .trailing].anchor(from: underlineView, to: self)
+        addConstraints(constraints)
+        underlineView.backgroundColor = underlineColor
     }
 }
