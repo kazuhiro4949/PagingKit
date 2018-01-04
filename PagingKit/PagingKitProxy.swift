@@ -24,26 +24,37 @@
 
 import UIKit
 
+/**
+ Use `PagingKitProxy` proxy as customization point for constrained protocol extensions.
+ based on: https://github.com/ReactiveX/RxSwift/issues/826
+ */
 public struct PagingKitProxy<Base: Any> {
+    /// Base object to extend.
     let base: Base
     
+    /// Creates extensions with base object.
+    ///
+    /// - parameter base: Base object.
     public init(_ base: Base) {
         self.base = base
     }
 }
 
 public extension NSObjectProtocol {
+    /// PagingKitProxy extensions for class.
     public static var pk: PagingKitProxy<Self.Type> {
         return PagingKitProxy(self)
     }
     
+    /// PagingKitProxy extensions for instance.
     public var pk: PagingKitProxy<Self> {
         return PagingKitProxy(self)
     }
 }
 
 extension PagingKitProxy where Base == UIColor.Type {
-    var focusRed: UIColor {
+    /// color theme to show focusing
+    public var focusRed: UIColor {
         return UIColor(
             red: 0.9137254902,
             green: 0.3490196078,
