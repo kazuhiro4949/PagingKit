@@ -22,26 +22,29 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import Foundation
+import UIKit
 
-extension Array where Element == NSLayoutAttribute {
-    /// anchor same attributes between fromView and toView
-    /// convert to "view1.attr1 = view2.attr2 * multiplier + constant"
-    /// - Parameters:
-    ///   - from: view1
-    ///   - to: view2
-    /// - Returns: NSLayoutAttributes
-    func anchor(from fromView: UIView, to toView: UIView) -> [NSLayoutConstraint] {
-        return map {
-            NSLayoutConstraint(
-                item: fromView,
-                attribute: $0,
-                relatedBy: .equal,
-                toItem: toView,
-                attribute: $0,
-                multiplier: 1,
-                constant: 0
-            )
-        }
+public class UnderlineFocusView: UIView {
+    let view = UIView()
+    let underlineLayer = CALayer()
+    public var underlineColor = UIColor.pk.focusRed
+    public var underlineHeight = CGFloat(4)
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        underlineLayer.backgroundColor = underlineColor.cgColor
+        layer.addSublayer(underlineLayer)
+    }
+    
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        underlineLayer.backgroundColor = underlineColor.cgColor
+        layer.addSublayer(underlineLayer)
+    }
+    
+    override public func layoutSubviews() {
+        super.layoutSubviews()
+        let underlineFrame = layer.bounds.divided(atDistance: underlineHeight, from: .maxYEdge).slice
+        underlineLayer.frame = underlineFrame
     }
 }
