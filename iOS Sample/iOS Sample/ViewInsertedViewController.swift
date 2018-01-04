@@ -48,8 +48,8 @@ class ViewInsertedViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
+        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController?.registerFocusView(view: UnderlineFocusView())
         menuViewController?.reloadData()
         contentViewController?.reloadData()
     }
@@ -78,7 +78,7 @@ class ViewInsertedViewController: UIViewController {
 
 extension ViewInsertedViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
-        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
+        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TitleLabelMenuViewCell
         cell.titleLabel.text = dataSource[index].menu
         return cell
     }
