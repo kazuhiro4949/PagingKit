@@ -392,6 +392,17 @@ extension ViewController: PagingContentViewControllerDelegate {
 
 That's it.
 
+# Code Snippets
+There are some snippets to save your time. 
+
+- https://github.com/kazuhiro4949/PagingKit/tree/master/tools/CodeSnippets
+
+Install them on ```~/Library/Developer/Xcode/UserData/CodeSnippets/``` and restart Xcode. You can see the snippets on the right pane.
+
+![1 -04-2018 16-33-59](https://user-images.githubusercontent.com/18320004/34553858-1e8a4876-f16d-11e7-97e1-605fa68896fd.gif)
+
+
+
 # Class Design
 There are some design policy in this library.
 
@@ -401,7 +412,6 @@ There are some design policy in this library.
 
 Because of that, PagingKit has responsiblity for the behavior. But it doesn't specify a structure of the components.
 PagingKit favours composition over inheritance. This figure describes overview of the class diagram.
-
 
 ![project](https://user-images.githubusercontent.com/18320004/31725275-e77fa07e-b45e-11e7-83de-0ce621159526.png)
 
