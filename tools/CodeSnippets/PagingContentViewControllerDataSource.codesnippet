@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDECodeSnippetCompletionScopes</key>
+	<array>
+		<string>All</string>
+	</array>
+	<key>IDECodeSnippetContents</key>
+	<string>extension &lt;# placeholder_text/code #&gt;: PagingContentViewControllerDataSource {
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -&gt; Int {
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -&gt; UIViewController {
+    }
+}</string>
+	<key>IDECodeSnippetIdentifier</key>
+	<string>0CCDCD70-C0DB-4785-A132-53E76A9E523A</string>
+	<key>IDECodeSnippetLanguage</key>
+	<string>Xcode.SourceCodeLanguage.Generic</string>
+	<key>IDECodeSnippetTitle</key>
+	<string>PagingKit PagingContentViewControllerDataSource</string>
+	<key>IDECodeSnippetUserSnippet</key>
+	<true/>
+	<key>IDECodeSnippetVersion</key>
+	<integer>0</integer>
+</dict>
+</plist>
