@@ -24,8 +24,14 @@
 
 import UIKit
 
+/// Basic style of focus view
+/// - underline height
+/// - underline color
 public class UnderlineFocusView: UIView {
+    
+    /// The color of underline
     public var underlineColor = UIColor.pk.focusRed
+    /// The color of underline
     public var underlineHeight = CGFloat(4)
     
     private let underlineView = UIView()

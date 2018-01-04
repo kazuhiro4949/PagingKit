@@ -24,8 +24,15 @@
 
 import UIKit
 
+
+/// Basic style of cell
+/// - center text
+/// - emphasize text to focus color
 public class TitleLabelMenuViewCell: PagingMenuViewCell {
+
+    ///  The text color when selecred
     public var focusColor = UIColor.pk.focusRed
+    /// The normal text color.
     public var normalColor = UIColor.black
     
     public let titleLabel = { () -> UILabel in
