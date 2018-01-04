@@ -1,5 +1,5 @@
 //
-//  Array+NSLayoutConstraint.swift
+//  PagingKitProxy.swift
 //  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
@@ -22,26 +22,44 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //  THE SOFTWARE.
 
-import Foundation
+import UIKit
 
-extension Array where Element == NSLayoutAttribute {
-    /// anchor same attributes between fromView and toView
-    /// convert to "view1.attr1 = view2.attr2 * multiplier + constant"
-    /// - Parameters:
-    ///   - from: view1
-    ///   - to: view2
-    /// - Returns: NSLayoutAttributes
-    func anchor(from fromView: UIView, to toView: UIView) -> [NSLayoutConstraint] {
-        return map {
-            NSLayoutConstraint(
-                item: fromView,
-                attribute: $0,
-                relatedBy: .equal,
-                toItem: toView,
-                attribute: $0,
-                multiplier: 1,
-                constant: 0
-            )
-        }
+/**
+ Use `PagingKitProxy` proxy as customization point for constrained protocol extensions.
+ based on: https://github.com/ReactiveX/RxSwift/issues/826
+ */
+public struct PagingKitProxy<Base: Any> {
+    /// Base object to extend.
+    let base: Base
+    
+    /// Creates extensions with base object.
+    ///
+    /// - parameter base: Base object.
+    public init(_ base: Base) {
+        self.base = base
+    }
+}
+
+public extension NSObjectProtocol {
+    /// PagingKitProxy extensions for class.
+    public static var pk: PagingKitProxy<Self.Type> {
+        return PagingKitProxy(self)
+    }
+    
+    /// PagingKitProxy extensions for instance.
+    public var pk: PagingKitProxy<Self> {
+        return PagingKitProxy(self)
+    }
+}
+
+extension PagingKitProxy where Base == UIColor.Type {
+    /// color theme to show focusing
+    public var focusRed: UIColor {
+        return UIColor(
+            red: 0.9137254902,
+            green: 0.3490196078,
+            blue: 0.3137254902,
+            alpha: 1
+        )
     }
 }

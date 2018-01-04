@@ -29,6 +29,8 @@ class ArbitraryNumberViewController: UIViewController {
     var contentViewController: PagingContentViewController!
     var menuViewController: PagingMenuViewController!
     
+    private static var sizingCell = TitleLabelMenuViewCell(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+    
     var dataSource = [(menu: String, content: UIViewController)]()
     
     var startPosition = 0
@@ -40,8 +42,8 @@ class ArbitraryNumberViewController: UIViewController {
         let alertController = makeAlertController()
         present(alertController, animated: true, completion: nil)
         
-        menuViewController?.register(nib: UINib(nibName: "MenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
+        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController?.registerFocusView(view: UnderlineFocusView())
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,7 +70,7 @@ class ArbitraryNumberViewController: UIViewController {
 
 extension ArbitraryNumberViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
-        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! MenuCell
+        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TitleLabelMenuViewCell
         cell.titleLabel.text = dataSource[index].menu
         return cell
     }
@@ -77,10 +79,10 @@ extension ArbitraryNumberViewController: PagingMenuViewControllerDataSource {
         if isSegmentedMenu {
             return UIScreen.main.bounds.width / CGFloat(dataSource.count)
         } else {
-            MenuCell.sizingCell.titleLabel.text = dataSource[index].menu
+            ArbitraryNumberViewController.sizingCell.titleLabel.text = dataSource[index].menu
             var referenceSize = UILayoutFittingCompressedSize
             referenceSize.height = viewController.view.bounds.height
-            let size = MenuCell.sizingCell.systemLayoutSizeFitting(referenceSize)
+            let size = ArbitraryNumberViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
             return size.width
         }
     }

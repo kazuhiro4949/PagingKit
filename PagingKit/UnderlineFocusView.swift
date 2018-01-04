@@ -1,6 +1,6 @@
 //
-//  MenuCell.swift
-//  fdaipfdahofdah
+//  UnderlineFocusView.swift
+//  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
 //
@@ -23,24 +23,40 @@
 //  THE SOFTWARE.
 
 import UIKit
-import PagingKit
 
-class MenuCell: PagingMenuViewCell {
-    static let sizingCell = UINib(nibName: "MenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! MenuCell
-
-    @IBOutlet weak var titleLabel: UILabel!
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+/// Basic style of focus view
+/// - underline height
+/// - underline color
+public class UnderlineFocusView: UIView {
+    
+    /// The color of underline
+    public var underlineColor = UIColor.pk.focusRed
+    /// The color of underline
+    public var underlineHeight = CGFloat(4)
+    
+    private let underlineView = UIView()
+    
+    required public init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+    
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
     }
 
-    override var isSelected: Bool {
-        didSet {
-            if isSelected {
-                titleLabel.textColor = #colorLiteral(red: 0.9137254902, green: 0.3490196078, blue: 0.3137254902, alpha: 1)
-            } else {
-                titleLabel.textColor = .black
-            }
-        }
+    private func setup() {
+        addSubview(underlineView)
+        underlineView.translatesAutoresizingMaskIntoConstraints = false
+        addConstraint(NSLayoutConstraint(
+            item: underlineView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: 4))
+        let constraints = [.bottom, .leading, .trailing].anchor(from: underlineView, to: self)
+        addConstraints(constraints)
+        underlineView.backgroundColor = underlineColor
     }
 }
