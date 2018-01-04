@@ -1,5 +1,5 @@
 //
-//  PagingContentViewController.swift
+//  TitleLabelMenuViewCell.swift
 //  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi

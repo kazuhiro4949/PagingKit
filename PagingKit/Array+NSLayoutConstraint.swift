@@ -1,5 +1,5 @@
 //
-//  PagingMenuView.swift
+//  Array+NSLayoutConstraint.swift
 //  PagingKit
 //
 //  Copyright (c) 2017 Kazuhiro Hayashi
