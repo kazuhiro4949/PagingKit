@@ -413,7 +413,7 @@ public class PagingMenuView: UIScrollView {
         let nextIndex = (index + 1) % numberOfItem
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
-        containerView.addSubview(cell)
+        containerView.insertSubview(cell, at: 0)
         
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
@@ -432,7 +432,7 @@ public class PagingMenuView: UIScrollView {
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
         cell.index = nextIndex
         
-        containerView.addSubview(cell)
+        containerView.insertSubview(cell, at: 0)
         
         visibleCells.insert(cell, at: 0)
         cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
