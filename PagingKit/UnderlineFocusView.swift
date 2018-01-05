@@ -54,7 +54,7 @@ public class UnderlineFocusView: UIView {
             attribute: .height,
             relatedBy: .equal,
             toItem: nil,
-            attribute: .height, multiplier: 1, constant: 4))
+            attribute: .height, multiplier: 1, constant: underlineHeight))
         let constraints = [.bottom, .leading, .trailing].anchor(from: underlineView, to: self)
         addConstraints(constraints)
         underlineView.backgroundColor = underlineColor
