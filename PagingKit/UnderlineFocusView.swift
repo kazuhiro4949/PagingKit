@@ -32,16 +32,35 @@ public class UnderlineFocusView: UIView {
     /// The color of underline
     public var underlineColor = UIColor.pk.focusRed
     /// The color of underline
-    public var underlineHeight = CGFloat(4)
+    public var underlineHeight = CGFloat(4) {
+        didSet {
+            heightConstraint.constant = underlineHeight
+        }
+    }
     
+    private let heightConstraint: NSLayoutConstraint
     private let underlineView = UIView()
     
     required public init?(coder aDecoder: NSCoder) {
+        heightConstraint = NSLayoutConstraint(
+            item: underlineView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: underlineHeight
+        )
         super.init(coder: aDecoder)
         setup()
     }
     
     override public init(frame: CGRect) {
+        heightConstraint = NSLayoutConstraint(
+            item: underlineView,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: underlineHeight
+        )
         super.init(frame: frame)
         setup()
     }
@@ -49,12 +68,7 @@ public class UnderlineFocusView: UIView {
     private func setup() {
         addSubview(underlineView)
         underlineView.translatesAutoresizingMaskIntoConstraints = false
-        addConstraint(NSLayoutConstraint(
-            item: underlineView,
-            attribute: .height,
-            relatedBy: .equal,
-            toItem: nil,
-            attribute: .height, multiplier: 1, constant: underlineHeight))
+        addConstraint(heightConstraint)
         let constraints = [.bottom, .leading, .trailing].anchor(from: underlineView, to: self)
         addConstraints(constraints)
         underlineView.backgroundColor = underlineColor
