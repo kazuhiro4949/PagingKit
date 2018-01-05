@@ -254,6 +254,59 @@ class PagingMenuViewTests: XCTestCase {
             wait(for: [expectation], timeout: 2)
         }
     }
+    
+    func testFocusViewIsInFrontOfPagingMenuViewCells() {
+        guard let pagingMenuView = pagingMenuView else {
+            XCTFail()
+            return
+        }
+        
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        pagingMenuView.dataSource = dataSource
+        pagingMenuView.reloadData()
+        pagingMenuView.contentInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 0")
+            pagingMenuView.scroll(index: 0, completeHandler: { _ in
+                guard let focusViewIndex = pagingMenuView.containerView.subviews.index(of: pagingMenuView.focusView) else {
+                    XCTFail()
+                    return
+                }
+                
+                let cellIndice = pagingMenuView
+                    .visibleCells
+                    .flatMap(pagingMenuView.containerView.subviews.index(of:))
+                
+                let aboveIndices = cellIndice.filter { Int($0) > Int(focusViewIndex) }
+                XCTAssertEqual(aboveIndices.count, 0, "focus view is in front of cell")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 19")
+            pagingMenuView.scroll(index: 19, completeHandler: { _ in
+                guard let focusViewIndex = pagingMenuView.containerView.subviews.index(of: pagingMenuView.focusView) else {
+                    XCTFail()
+                    return
+                }
+                
+                let cellIndice = pagingMenuView
+                    .visibleCells
+                    .flatMap(pagingMenuView.containerView.subviews.index(of:))
+                
+                let aboveIndices = cellIndice.filter { Int($0) > Int(focusViewIndex) }
+                XCTAssertEqual(aboveIndices.count, 0, "focus view is in front of cell")
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+    }
 }
 
 class MenuViewDataSourceSpy: NSObject, PagingMenuViewDataSource  {
