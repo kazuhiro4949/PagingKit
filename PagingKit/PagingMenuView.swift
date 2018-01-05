@@ -130,7 +130,7 @@ public class PagingMenuView: UIScrollView {
     fileprivate var queue = [String: [PagingMenuViewCell]]()
     fileprivate var registeredCells = [String: RegisteredCell]()
     fileprivate var widths = [CGFloat]()
-    fileprivate var containerView = UIView()
+    fileprivate(set) var containerView = UIView()
     fileprivate var touchingIndex: Int?
     
     /// space setting between cells
