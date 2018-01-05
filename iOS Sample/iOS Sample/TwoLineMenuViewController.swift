@@ -41,7 +41,7 @@ class TwoLineMenuViewController: UIViewController {
         super.viewDidLoad()
         
         menuViewController?.register(nib: UINib(nibName: "TwoLineMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(nib: UINib(nibName: "FocusView", bundle: nil))
+        menuViewController?.registerFocusView(view: UnderlineFocusView())
         menuViewController?.reloadData()
         contentViewController?.reloadData()
     }
