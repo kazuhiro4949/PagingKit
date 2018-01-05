@@ -35,6 +35,7 @@ public class UnderlineFocusView: UIView {
             underlineView.backgroundColor = underlineColor
         }
     }
+
     /// The color of underline
     public var underlineHeight = CGFloat(4) {
         didSet {
