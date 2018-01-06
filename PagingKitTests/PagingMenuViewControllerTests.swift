@@ -58,7 +58,7 @@ class PagingMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     
-    func testEnabledToHookCompletionAfterReloadData() {
+    func testHookCompletionHandlerAfterReloadData() {
         let dataSource = MenuViewControllerDataSourceMock()
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
