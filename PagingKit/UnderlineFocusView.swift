@@ -30,7 +30,12 @@ import UIKit
 public class UnderlineFocusView: UIView {
     
     /// The color of underline
-    public var underlineColor = UIColor.pk.focusRed
+    public var underlineColor = UIColor.pk.focusRed {
+        didSet {
+            underlineView.backgroundColor = underlineColor
+        }
+    }
+
     /// The color of underline
     public var underlineHeight = CGFloat(4) {
         didSet {

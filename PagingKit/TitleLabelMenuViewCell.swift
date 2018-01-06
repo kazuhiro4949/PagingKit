@@ -31,9 +31,22 @@ import UIKit
 public class TitleLabelMenuViewCell: PagingMenuViewCell {
 
     ///  The text color when selecred
-    public var focusColor = UIColor.pk.focusRed
+    public var focusColor = UIColor.pk.focusRed {
+        didSet {
+            if isSelected {
+                titleLabel.textColor = focusColor
+            }
+        }
+    }
+    
     /// The normal text color.
-    public var normalColor = UIColor.black
+    public var normalColor = UIColor.black {
+        didSet {
+            if !isSelected {
+                titleLabel.textColor = normalColor
+            }
+        }
+    }
     
     public let titleLabel = { () -> UILabel in
         let label = UILabel()
