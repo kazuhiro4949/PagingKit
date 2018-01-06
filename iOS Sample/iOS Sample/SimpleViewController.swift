@@ -30,6 +30,7 @@ class SimpleViewController: UIViewController {
     var menuViewController: PagingMenuViewController?
     var contentViewController: PagingContentViewController?
     
+    var focusView: FocusView! // holds focusview
     
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
@@ -40,10 +41,13 @@ class SimpleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(view: UnderlineFocusView())
-            
-        menuViewController?.reloadData()
+        menuViewController?.register(nib: UINib(nibName: "LabelCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
+        focusView = UINib(nibName: "FocusView", bundle: nil).instantiate(withOwner: self, options: nil).first as! FocusView
+        menuViewController?.registerFocusView(view: focusView)
+        
+        menuViewController?.reloadData(with: 0) { [weak self] _ in
+            self?.adjustfocusViewWidth(index: 0, percent: 0)
+        }
         contentViewController?.reloadData()
 
     }
@@ -67,7 +71,7 @@ class SimpleViewController: UIViewController {
 
 extension SimpleViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
-        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TitleLabelMenuViewCell
+        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! LabelCell
         cell.isSelected = (viewController.currentFocusedIndex == index)
         cell.titleLabel.text = dataSource[index].menu
         return cell
@@ -104,6 +108,7 @@ extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         viewController.visibleCells.forEach { $0.isSelected = false }
         viewController.cellForItem(at: page)?.isSelected = true
+        adjustfocusViewWidth(index: page, percent: 0)
         contentViewController?.scroll(to: page, animated: true)
     }
 }
@@ -114,6 +119,33 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
         menuViewController?.cellForItem(at: index)?.isSelected = !isRightCellSelected
         menuViewController?.cellForItem(at: index + 1)?.isSelected = isRightCellSelected
         menuViewController?.scroll(index: index, percent: percent, animated: false)
+        
+        adjustfocusViewWidth(index: index, percent: percent)
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {
+
+    }
+    
+    
+    /// adjust focusView width
+    ///
+    /// - Parameters:
+    ///   - index: current focused left index
+    ///   - percent: percent of left to right
+    func adjustfocusViewWidth(index: Int, percent: CGFloat) {
+        guard let leftCell = menuViewController?.cellForItem(at: index) as? LabelCell else {
+            return // needs to have left cell
+        }
+        
+        guard let rightCell = menuViewController?.cellForItem(at: index + 1) as? LabelCell else {
+            focusView.underlineWidthConstraint.constant = leftCell.titleLabel.bounds.width
+            return // If the argument to cellForItem(at:) is last index, rightCell is nil
+        }
+
+        // calculate the difference
+        let diff = (rightCell.titleLabel.bounds.width - leftCell.titleLabel.bounds.width) * percent
+        focusView.underlineWidthConstraint.constant = leftCell.titleLabel.bounds.width + diff
     }
 }
 

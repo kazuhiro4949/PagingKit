@@ -36,6 +36,10 @@
 		2BBB70E81F9234C100320900 /* DynamicSizeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E71F9234C100320900 /* DynamicSizeViewController.storyboard */; };
 		2BBB70EA1F9234E900320900 /* OverlayViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70E91F9234E900320900 /* OverlayViewController.storyboard */; };
 		2BBB70EC1F92351200320900 /* SimpleViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BBB70EB1F92351200320900 /* SimpleViewController.storyboard */; };
+		2BC16AC12000C2D300CB884A /* LabelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16ABD2000C2D200CB884A /* LabelCell.swift */; };
+		2BC16AC22000C2D300CB884A /* FocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC16ABE2000C2D200CB884A /* FocusView.xib */; };
+		2BC16AC32000C2D300CB884A /* LabelCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC16ABF2000C2D300CB884A /* LabelCell.xib */; };
+		2BC16AC42000C2D300CB884A /* FocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16AC02000C2D300CB884A /* FocusView.swift */; };
 		2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4171F19F29800829D1A /* TagViewController.swift */; };
 		2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */; };
 		2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */; };
@@ -113,6 +117,10 @@
 		2BBB70E71F9234C100320900 /* DynamicSizeViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = DynamicSizeViewController.storyboard; sourceTree = "<group>"; };
 		2BBB70E91F9234E900320900 /* OverlayViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = OverlayViewController.storyboard; sourceTree = "<group>"; };
 		2BBB70EB1F92351200320900 /* SimpleViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SimpleViewController.storyboard; path = ../SimpleViewController.storyboard; sourceTree = "<group>"; };
+		2BC16ABD2000C2D200CB884A /* LabelCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCell.swift; sourceTree = "<group>"; };
+		2BC16ABE2000C2D200CB884A /* FocusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FocusView.xib; sourceTree = "<group>"; };
+		2BC16ABF2000C2D300CB884A /* LabelCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LabelCell.xib; sourceTree = "<group>"; };
+		2BC16AC02000C2D300CB884A /* FocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusView.swift; sourceTree = "<group>"; };
 		2BC1B4171F19F29800829D1A /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagMenuCell.swift; sourceTree = "<group>"; };
 		2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagMenuCell.xib; sourceTree = "<group>"; };
@@ -206,6 +214,10 @@
 			children = (
 				6E98277B1F0A91F400860828 /* SimpleViewController.swift */,
 				2BBB70EB1F92351200320900 /* SimpleViewController.storyboard */,
+				2BC16AC02000C2D300CB884A /* FocusView.swift */,
+				2BC16ABE2000C2D200CB884A /* FocusView.xib */,
+				2BC16ABD2000C2D200CB884A /* LabelCell.swift */,
+				2BC16ABF2000C2D300CB884A /* LabelCell.xib */,
 			);
 			name = Simple;
 			sourceTree = "<group>";
@@ -461,6 +473,7 @@
 				2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */,
 				2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */,
 				2B3C7CC71F8CEB0900A43223 /* TwoLineMenuViewController.storyboard in Resources */,
+				2BC16AC22000C2D300CB884A /* FocusView.xib in Resources */,
 				2BBB70EA1F9234E900320900 /* OverlayViewController.storyboard in Resources */,
 				2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */,
 				2B45419B1FA490B600A9B253 /* PhotoViewController.storyboard in Resources */,
@@ -473,6 +486,7 @@
 				2B4541991FA48FFC00A9B253 /* IndicatorFocusMenuView.xib in Resources */,
 				2B4541931FA48E7800A9B253 /* IndicatorViewController.storyboard in Resources */,
 				2BBB70EC1F92351200320900 /* SimpleViewController.storyboard in Resources */,
+				2BC16AC32000C2D300CB884A /* LabelCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +519,7 @@
 				6E98277C1F0A91F400860828 /* SimpleViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
 				2B3C7CD11F8CF4FB00A43223 /* ViewInsertedViewController.swift in Sources */,
+				2BC16AC42000C2D300CB884A /* FocusView.swift in Sources */,
 				2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */,
 				2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */,
 				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
@@ -515,6 +530,7 @@
 				2B3C7CC51F8CEB0100A43223 /* TwoLineMenuViewController.swift in Sources */,
 				2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */,
 				2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */,
+				2BC16AC12000C2D300CB884A /* LabelCell.swift in Sources */,
 				2B442C261F1DA97D00135238 /* ArbitraryNumberViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
