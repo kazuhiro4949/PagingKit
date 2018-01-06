@@ -53,7 +53,7 @@ class TagViewController: UIViewController {
             plusButton.layer.shadowOffset = CGSize(width: 0.5, height: 0)
             plusButton.layer.shouldRasterize = true
             plusButton.layer.rasterizationScale = UIScreen.main.scale
-            plusButton.layer.shadowPath = UIBezierPath(rect: view.bounds).cgPath
+            plusButton.layer.shadowPath = UIBezierPath(rect: plusButton.bounds).cgPath
         }
         
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
