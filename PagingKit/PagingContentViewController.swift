@@ -165,7 +165,7 @@ public class PagingContentViewController: UIViewController {
         removeAll()
         initialLoad(with: page)
         UIView.animate(
-            withDuration: 0,
+            withDuration: TimeInterval.leastNonzeroMagnitude,
             animations: { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()
