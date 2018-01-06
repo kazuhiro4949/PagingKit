@@ -58,6 +58,25 @@ class PagingMenuViewControllerTests: XCTestCase {
         XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     
+    func testHookCompletionHandlerAfterReloadData() {
+        let dataSource = MenuViewControllerDataSourceMock()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        dataSource.registerNib(to: menuViewController)
+        
+        let expectation = XCTestExpectation(description: "finish load")
+        menuViewController.reloadData(with: 15) { [menuViewController = menuViewController] (_) in
+            let minX = menuViewController.menuView.rectForItem(at: 15).midX
+            let expectedContentOffsetX = minX - floor(menuViewController.menuView.bounds.width / 2)
+            XCTAssertEqual(
+                menuViewController.menuView.contentOffset,
+                CGPoint(x: expectedContentOffsetX, y: 0),
+                "PagingMenuViewController has completely finished reloading"
+            )
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+    }
+    
     func testSelectedIndexIsNotNilDuringReloadData() {
         let dataSource = MenuViewControllerDataSourceMock()
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)

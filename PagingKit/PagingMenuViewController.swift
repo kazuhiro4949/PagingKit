@@ -133,8 +133,13 @@ public class PagingMenuViewController: UIViewController {
     ///   - percent: A rate that transit from the index.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
-        menuView.scroll(index: index, percent: percent, animated: animated)
-        if percent == 0 && !animated {
+        if animated {
+            menuView.scroll(index: index, completeHandler: { _ in })
+            return
+        }
+
+        menuView.scroll(index: index, percent: percent)
+        if percent == 0 {
             delegate?.menuViewController(viewController: self, focusViewDidEndTransition: menuView.focusView)
         }
     }
@@ -220,16 +225,19 @@ public class PagingMenuViewController: UIViewController {
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
         menuView.focusView.selectedIndex = selectedIndex
-        UIView.animate(
-            withDuration: 0,
-            animations: { [weak self] in
+        catchLayoutCompletion(
+            layout: { [weak self] in
                 self?.menuView.reloadData()
             },
             completion: {  [weak self] (finish) in
-                guard let _self = self else { return }
-                let scrollIndex = selectedIndex
-                _self.scroll(index: scrollIndex, percent: 0, animated: false)
-                completionHandler?(finish)
+                catchLayoutCompletion(
+                    layout: { [weak self] in
+                        self?.scroll(index: selectedIndex, percent: 0, animated: false)
+                    },
+                    completion: { (finish) in
+                        completionHandler?(finish)
+                    }
+                )
             }
         )
     }
@@ -319,5 +327,19 @@ extension PagingMenuViewController: PagingMenuViewDataSource {
 
     public func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuViewCell {
         return dataSource!.menuViewController(viewController: self, cellForItemAt: index)
+    }
+}
+
+
+/// call this function to catch completion handler of layoutIfNeeded()
+///
+/// - Parameters:
+///   - layout: method which has layoutIfNeeded()
+///   - completion: completion handler of layoutIfNeeded()
+func catchLayoutCompletion(layout: @escaping () -> Void, completion: @escaping (Bool) -> Void) {
+    UIView.animate(withDuration: 0, animations: {
+        layout()
+    }) { (finish) in
+        completion(finish)
     }
 }
