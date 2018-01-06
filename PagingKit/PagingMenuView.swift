@@ -292,9 +292,7 @@ public class PagingMenuView: UIScrollView {
     /// - Parameters:
     ///   - index: A index defining an menu of the menu view.
     ///   - percent: A rate that transit from the index.
-    ///   - animated: true if the scrolling should be animated, false if it should be immediate.
-    ///   - baseBounds: a rect base boounds to calculate position and size
-    public func scroll(index: Int, percent: CGFloat = 0, animated: Bool = true) {
+    public func scroll(index: Int, percent: CGFloat = 0) {
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
@@ -307,7 +305,7 @@ public class PagingMenuView: UIScrollView {
         let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
         focusView.center = CGPoint(x: centerPointX, y: center.y)
         
-        setContentOffset(CGPoint(x: normaizedOffsetX, y:0), animated: animated)
+        contentOffset = CGPoint(x: normaizedOffsetX, y:0)
         focusView.selectedIndex = index
     }
     
