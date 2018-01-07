@@ -170,14 +170,9 @@ public class PagingContentViewController: UIViewController {
                 self?.view.layoutIfNeeded()
             },
             completion: { [weak self] _ in
-                UIView.pk.catchLayoutCompletion(
-                    layout: { [weak self] in
-                        self?.scroll(to: page, animated: false)
-                    },
-                    completion: {  _ in
-                        completion?()
-                    }
-                )
+                self?.scroll(to: page, animated: false) { _ in
+                    completion?()
+                }
             }
         )
     }
@@ -187,20 +182,21 @@ public class PagingContentViewController: UIViewController {
     /// - Parameters:
     ///   - page: A index defining an content of the content view controller.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
-    public func scroll(to page: Int, animated: Bool) {
+    public func scroll(to page: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
         
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
         
         delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
-        scroll(to: page, animated: animated) { [weak self] (finished) in
+        move(to: page, animated: animated) { [weak self] (finished) in
             guard let _self = self, finished else { return }
+            completion?(finished)
             _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
         }
     }
     
-    private func scroll(to page: Int, animated: Bool, completion: @escaping (Bool) -> Void) {
+    private func move(to page: Int, animated: Bool, completion: @escaping (Bool) -> Void) {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         if animated {
             stopScrolling()
