@@ -77,6 +77,61 @@ class PagingContentViewControllerTests: XCTestCase {
         self.dataSource = dataSource
     }
     
+    func testHookCompletionHandlerAfterReloadData() {
+        guard let pagingContentViewController = pagingContentViewController else {
+            XCTFail()
+            return
+        }
+
+        let dataSource = PagingContentVcDataSourceSpy(count: 100)
+        pagingContentViewController.dataSource = dataSource
+        pagingContentViewController.loadViewIfNeeded()
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 4")
+            pagingContentViewController.reloadData(with: 50, completion: {
+                let expectedOffsetX = pagingContentViewController.scrollView.bounds.width * 50
+                XCTAssertEqual(
+                    pagingContentViewController.scrollView.contentOffset,
+                    CGPoint(x: expectedOffsetX, y: 0),
+                    "PagingContentViewController has completely finished reloading"
+                )
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 2")
+            pagingContentViewController.reloadData(with: 98, completion: {
+                let expectedOffsetX = pagingContentViewController.scrollView.bounds.width * 98
+                XCTAssertEqual(
+                    pagingContentViewController.scrollView.contentOffset,
+                    CGPoint(x: expectedOffsetX, y: 0),
+                    "PagingContentViewController has completely finished reloading"
+                )
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+        
+        do {
+            let expectation = XCTestExpectation(description: "index: 5")
+            pagingContentViewController.reloadData(with: 40, completion: {
+                let expectedOffsetX = pagingContentViewController.scrollView.bounds.width * 40
+                XCTAssertEqual(
+                    pagingContentViewController.scrollView.contentOffset,
+                    CGPoint(x: expectedOffsetX, y: 0),
+                    "PagingContentViewController has completely finished reloading"
+                )
+                expectation.fulfill()
+            })
+            wait(for: [expectation], timeout: 1)
+        }
+
+        self.dataSource = dataSource
+    }
+    
     func testContentOffsetRatioInScrolling() {
         let expectation = XCTestExpectation(description: "finish reloadData")
         let dataSource = PagingContentVcDataSourceSpy()
@@ -133,7 +188,12 @@ class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSo
 }
 
 class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSource {
-    let vcs: [UIViewController] = Array(repeating: UIViewController(), count: 5)
+    init(count: Int = 5) {
+        vcs = Array(repeating: UIViewController(), count: count)
+        super.init()
+    }
+    
+    let vcs: [UIViewController]
     
     func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
         return vcs.count

@@ -63,3 +63,34 @@ extension PagingKitProxy where Base == UIColor.Type {
         )
     }
 }
+
+extension PagingKitProxy where Base == UIView.Type {
+    /// call this function to catch completion handler of layoutIfNeeded()
+    ///
+    /// - Parameters:
+    ///   - layout: method which has layoutIfNeeded()
+    ///   - completion: completion handler of layoutIfNeeded()
+    func catchLayoutCompletion(layout: @escaping () -> Void, completion: @escaping (Bool) -> Void) {
+        UIView.animate(withDuration: 0, animations: {
+            layout()
+        }) { (finish) in
+            completion(finish)
+        }
+    }
+    
+    
+    /// perform system like animation
+    ///
+    /// - Parameters:
+    ///   - animations: animation Handler
+    ///   - completion: completion Handler
+    func performSystemAnimation(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
+        UIView.perform(
+            .delete,
+            on: [],
+            options: UIViewAnimationOptions(rawValue: 0),
+            animations: animations,
+            completion: completion
+        )
+    }
+}

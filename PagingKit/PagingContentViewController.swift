@@ -164,15 +164,15 @@ public class PagingContentViewController: UIViewController {
     public func reloadData(with page: Int = 0, completion: (() -> Void)? = nil) {
         removeAll()
         initialLoad(with: page)
-        UIView.animate(
-            withDuration: 0,
-            animations: { [weak self] in
+        UIView.pk.catchLayoutCompletion(
+            layout: { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()
             },
-            completion: { [weak self] (finish) in
-                self?.scroll(to: page, animated: false)
-                completion?()
+            completion: { [weak self] _ in
+                self?.scroll(to: page, animated: false) { _ in
+                    completion?()
+                }
             }
         )
     }
@@ -182,24 +182,25 @@ public class PagingContentViewController: UIViewController {
     /// - Parameters:
     ///   - page: A index defining an content of the content view controller.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
-    public func scroll(to page: Int, animated: Bool) {
+    public func scroll(to page: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
         
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
         
         delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
-        scroll(to: page, animated: animated) { [weak self] (finished) in
+        move(to: page, animated: animated) { [weak self] (finished) in
             guard let _self = self, finished else { return }
+            completion?(finished)
             _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
         }
     }
     
-    private func scroll(to page: Int, animated: Bool, completion: @escaping (Bool) -> Void) {
+    private func move(to page: Int, animated: Bool, completion: @escaping (Bool) -> Void) {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         if animated {
             stopScrolling()
-            performSystemAnimation(
+            UIView.pk.performSystemAnimation(
                 { [weak self] in
                     self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
                 },
@@ -208,8 +209,14 @@ public class PagingContentViewController: UIViewController {
                 }
             )
         } else {
-            scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-            completion(true)
+            UIView.pk.catchLayoutCompletion(
+                layout: { [weak self] in
+                    self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+                },
+                completion: { _ in
+                    completion(true)
+                }
+            )
         }
     }
     
@@ -374,16 +381,4 @@ extension PagingContentViewController: UIScrollViewDelegate {
         }
         explicitPaging = nil
     }
-}
-
-// MARK:- Private top-level function
-
-private func performSystemAnimation(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-    UIView.perform(
-        .delete,
-        on: [],
-        options: UIViewAnimationOptions(rawValue: 0),
-        animations: animations,
-        completion: completion
-    )
 }

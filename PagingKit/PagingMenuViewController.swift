@@ -225,12 +225,12 @@ public class PagingMenuViewController: UIViewController {
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
         menuView.focusView.selectedIndex = selectedIndex
-        catchLayoutCompletion(
+        UIView.pk.catchLayoutCompletion(
             layout: { [weak self] in
                 self?.menuView.reloadData()
             },
             completion: {  [weak self] (finish) in
-                catchLayoutCompletion(
+                UIView.pk.catchLayoutCompletion(
                     layout: { [weak self] in
                         self?.scroll(index: selectedIndex, percent: 0, animated: false)
                     },
@@ -327,19 +327,5 @@ extension PagingMenuViewController: PagingMenuViewDataSource {
 
     public func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuViewCell {
         return dataSource!.menuViewController(viewController: self, cellForItemAt: index)
-    }
-}
-
-
-/// call this function to catch completion handler of layoutIfNeeded()
-///
-/// - Parameters:
-///   - layout: method which has layoutIfNeeded()
-///   - completion: completion handler of layoutIfNeeded()
-func catchLayoutCompletion(layout: @escaping () -> Void, completion: @escaping (Bool) -> Void) {
-    UIView.animate(withDuration: 0, animations: {
-        layout()
-    }) { (finish) in
-        completion(finish)
     }
 }
