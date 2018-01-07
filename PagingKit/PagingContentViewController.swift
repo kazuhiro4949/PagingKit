@@ -164,15 +164,20 @@ public class PagingContentViewController: UIViewController {
     public func reloadData(with page: Int = 0, completion: (() -> Void)? = nil) {
         removeAll()
         initialLoad(with: page)
-        UIView.animate(
-            withDuration: 0,
-            animations: { [weak self] in
+        UIView.pk.catchLayoutCompletion(
+            layout: { [weak self] in
                 self?.view.setNeedsLayout()
                 self?.view.layoutIfNeeded()
             },
-            completion: { [weak self] (finish) in
-                self?.scroll(to: page, animated: false)
-                completion?()
+            completion: { [weak self] _ in
+                UIView.pk.catchLayoutCompletion(
+                    layout: { [weak self] in
+                        self?.scroll(to: page, animated: false)
+                    },
+                    completion: {  _ in
+                        completion?()
+                    }
+                )
             }
         )
     }
@@ -199,7 +204,7 @@ public class PagingContentViewController: UIViewController {
         let offsetX = scrollView.bounds.width * CGFloat(page)
         if animated {
             stopScrolling()
-            performSystemAnimation(
+            UIView.pk.performSystemAnimation(
                 { [weak self] in
                     self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
                 },
@@ -208,8 +213,14 @@ public class PagingContentViewController: UIViewController {
                 }
             )
         } else {
-            scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
-            completion(true)
+            UIView.pk.catchLayoutCompletion(
+                layout: { [weak self] in
+                    self?.scrollView.contentOffset = CGPoint(x: offsetX, y: 0)
+                },
+                completion: { _ in
+                    completion(true)
+                }
+            )
         }
     }
     
@@ -374,16 +385,4 @@ extension PagingContentViewController: UIScrollViewDelegate {
         }
         explicitPaging = nil
     }
-}
-
-// MARK:- Private top-level function
-
-private func performSystemAnimation(_ animations: @escaping () -> Void, completion: ((Bool) -> Void)? = nil) {
-    UIView.perform(
-        .delete,
-        on: [],
-        options: UIViewAnimationOptions(rawValue: 0),
-        animations: animations,
-        completion: completion
-    )
 }
