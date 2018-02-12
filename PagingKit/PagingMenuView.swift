@@ -114,6 +114,12 @@ public protocol PagingMenuViewDelegate: class {
 
 /// Displays menu lists of information and supports selection and paging of the information.
 public class PagingMenuView: UIScrollView {
+    public enum Alignment {
+        case center
+        case left
+        case right
+    }
+    
     enum RegisteredCell {
         case nib(nib: UINib)
         case type(type: PagingMenuViewCell.Type)
@@ -132,6 +138,8 @@ public class PagingMenuView: UIScrollView {
     fileprivate var widths = [CGFloat]()
     fileprivate(set) var containerView = UIView()
     fileprivate var touchingIndex: Int?
+    
+    public var cellAlignment: Alignment = .left
     
     /// space setting between cells
     public var cellSpacing: CGFloat = 0
@@ -278,6 +286,18 @@ public class PagingMenuView: UIScrollView {
         containerWidth += totalSpacing
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
+
+        // TODO:- extract method
+        let width = max(contentSize.width, bounds.width)
+        switch cellAlignment {
+        case .center:
+            containerView.center = CGPoint(x: width/2, y: bounds.height/2)
+        case .left:
+            containerView.frame.origin = .zero
+        case .right:
+            containerView.frame.origin = CGPoint(x: width - containerView.frame.width, y: 0)
+        }
+        
         align()
     }
     

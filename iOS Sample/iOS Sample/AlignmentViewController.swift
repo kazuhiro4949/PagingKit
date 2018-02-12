@@ -29,23 +29,23 @@ class AlignmentViewController: UIViewController {
     
     var menuViewController: PagingMenuViewController?
     var contentViewController: PagingContentViewController?
-    
-    static var sizingCell = TitleLabelMenuViewCell(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
-    
-    
-    let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis"].map {
-        let title = $0
-        let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
-        return (menu: title, content: vc)
+
+    var isOverBounds = false
+    var dataSource = [(menu: String, content: UIViewController)]() {
+        didSet {
+            menuViewController?.reloadData()
+            contentViewController?.reloadData()
+        }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        menuViewController?.menuView.cellAlignment = .center
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
-        menuViewController?.reloadData()
-        contentViewController?.reloadData()
+
+        dataSource = makeDataSource(isOverBounds: isOverBounds)
     }
     
     override func didReceiveMemoryWarning() {
@@ -63,20 +63,26 @@ class AlignmentViewController: UIViewController {
             contentViewController?.dataSource = self
         }
     }
-    
-    @IBAction func updateSizeButtonDidTap(_ sender: UIBarButtonItem) {
-        let size = UIScreen.main.bounds.size
-        let width =  size.width * CGFloat(arc4random_uniform(100)) / 100
-        let height = size.height * CGFloat(arc4random_uniform(100)) / 100
-        
-        let updateSize = height <= 108 ? .zero : CGSize(width: width, height: height)
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.view.frame.size = updateSize
-            self?.view.setNeedsLayout()
-            self?.view.layoutIfNeeded()
-            }, completion: { (finish) in })
+    @IBAction func switchMenuButtonDidTap(sender: UIBarButtonItem) {
+        isOverBounds = !isOverBounds
+        dataSource = makeDataSource(isOverBounds: isOverBounds)
+
     }
-    
+
+    private func makeDataSource(isOverBounds: Bool) -> [(menu: String, content: UIViewController)] {
+        let menu: [String]
+        if isOverBounds {
+            menu = ["Martinez", "Alfred", "Louis"]
+        } else {
+            menu = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"]
+        }
+        
+        return menu.map {
+            let title = $0
+            let vc = UIStoryboard(name: "ContentTableViewController", bundle: nil).instantiateInitialViewController() as! ContentTableViewController
+            return (menu: title, content: vc)
+        }
+    }
 }
 
 extension AlignmentViewController: PagingMenuViewControllerDataSource {
@@ -87,11 +93,7 @@ extension AlignmentViewController: PagingMenuViewControllerDataSource {
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        DynamicSizeViewController.sizingCell.titleLabel.text = dataSource[index].menu
-        var referenceSize = UILayoutFittingCompressedSize
-        referenceSize.height = viewController.view.bounds.height
-        let size = DynamicSizeViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
-        return size.width
+        return 90
     }
     
     

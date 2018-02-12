@@ -67,7 +67,13 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8da-By-Cc9"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Title" id="Abb-6L-wai"/>
+                    <navigationItem key="navigationItem" title="Title" id="Abb-6L-wai">
+                        <barButtonItem key="rightBarButtonItem" title="switch menu" id="Ir3-EZ-Afp">
+                            <connections>
+                                <action selector="switchMenuButtonDidTapWithSender:" destination="ez9-BC-cUY" id="ksd-Dx-FO1"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B5h-qq-Lck" sceneMemberID="firstResponder"/>
