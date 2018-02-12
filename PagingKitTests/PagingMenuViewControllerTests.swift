@@ -162,6 +162,23 @@ class PagingMenuViewControllerTests: XCTestCase {
         wait(for: [expection], timeout: 1.0)
     }
     
+    func testChangeMenuCellWidthAfterReload() {
+        let dataSource = MenuViewControllerDataSourceMock()
+        let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        dataSource.registerNib(to: menuViewController)
+        
+        let expectation = XCTestExpectation(description: "finish load")
+        menuViewController.reloadData(with: 0) { [menuViewController = menuViewController] (_) in
+            let newCellWidth: CGFloat = 200
+            dataSource.widthForItem = newCellWidth
+            menuViewController.reloadData(with: 0) { [menuViewController = menuViewController] (_) in
+                XCTAssertEqual(menuViewController.focusView.bounds.width, 200, "focusView.frame.width is equal to cell width")
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 2)
+    }
+    
     static func makeViewController(with dataSource: PagingMenuViewControllerDataSource) -> PagingMenuViewController {
         let menuViewController = PagingMenuViewController(nibName: nil, bundle: nil)
         menuViewController.dataSource = dataSource
