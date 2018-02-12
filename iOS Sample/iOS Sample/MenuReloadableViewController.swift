@@ -1,5 +1,5 @@
 //
-//  DynamicSizeViewController.swift
+//  MenuReloadableViewController.swift
 //  iOS Sample
 //
 //  Copyright (c) 2018 Kazuhiro Hayashi
@@ -96,10 +96,10 @@ extension MenuReloadableViewController: PagingMenuViewControllerDataSource {
     }
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        DynamicSizeViewController.sizingCell.titleLabel.text = dataSource[index].menu
+        MenuReloadableViewController.sizingCell.titleLabel.text = dataSource[index].menu
         var referenceSize = UILayoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
-        let size = DynamicSizeViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
+        let size = MenuReloadableViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
         return size.width
     }
     
