@@ -50,11 +50,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="iaw-IK-bLM" firstAttribute="leading" secondItem="8da-By-Cc9" secondAttribute="leading" id="0Ff-dO-qsS"/>
+                            <constraint firstItem="iaw-IK-bLM" firstAttribute="leading" secondItem="dS5-co-XHW" secondAttribute="leading" id="0Ff-dO-qsS"/>
                             <constraint firstItem="v05-kp-e9S" firstAttribute="top" secondItem="k58-SD-asE" secondAttribute="bottom" id="8rt-bu-c7Q"/>
                             <constraint firstItem="iaw-IK-bLM" firstAttribute="top" secondItem="8da-By-Cc9" secondAttribute="top" id="HYc-Ne-QRo"/>
-                            <constraint firstItem="aeD-gy-srt" firstAttribute="top" secondItem="iaw-IK-bLM" secondAttribute="bottom" id="IR6-E2-9YM"/>
-                            <constraint firstItem="8da-By-Cc9" firstAttribute="trailing" secondItem="iaw-IK-bLM" secondAttribute="trailing" id="JmD-pn-iuZ"/>
+                            <constraint firstItem="k58-SD-asE" firstAttribute="trailing" secondItem="dS5-co-XHW" secondAttribute="trailing" id="JmD-pn-iuZ"/>
                             <constraint firstAttribute="trailing" secondItem="k58-SD-asE" secondAttribute="trailing" id="L9k-Q6-cL2"/>
                             <constraint firstItem="k58-SD-asE" firstAttribute="leading" secondItem="dS5-co-XHW" secondAttribute="leading" id="San-Pn-RqV"/>
                             <constraint firstAttribute="trailing" secondItem="aeD-gy-srt" secondAttribute="trailing" id="Tb7-zr-U4O"/>
@@ -64,6 +63,7 @@
                             <constraint firstAttribute="bottom" secondItem="v05-kp-e9S" secondAttribute="bottom" id="s2D-tz-t2w"/>
                             <constraint firstItem="k58-SD-asE" firstAttribute="top" secondItem="iaw-IK-bLM" secondAttribute="bottom" id="suO-e4-pmS"/>
                             <constraint firstAttribute="trailing" secondItem="v05-kp-e9S" secondAttribute="trailing" id="uCS-se-QDn"/>
+                            <constraint firstAttribute="trailing" secondItem="iaw-IK-bLM" secondAttribute="trailing" id="ud0-W0-bLW"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8da-By-Cc9"/>
                     </view>

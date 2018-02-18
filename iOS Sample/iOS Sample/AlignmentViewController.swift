@@ -26,26 +26,24 @@ import UIKit
 import PagingKit
 
 class AlignmentViewController: UIViewController {
-    
-    var menuViewController: PagingMenuViewController?
-    var contentViewController: PagingContentViewController?
+    var menuViewController: PagingMenuViewController!
+    var contentViewController: PagingContentViewController!
 
-    var isOverBounds = false
     var dataSource = [(menu: String, content: UIViewController)]() {
         didSet {
-            menuViewController?.reloadData()
-            contentViewController?.reloadData()
+            menuViewController.reloadData()
+            contentViewController.reloadData()
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuViewController?.menuView.cellAlignment = .center
-        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(view: UnderlineFocusView())
+        menuViewController.menuView.cellAlignment = .left
+        menuViewController.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController.registerFocusView(view: UnderlineFocusView())
 
-        dataSource = makeDataSource(isOverBounds: isOverBounds)
+        dataSource = makeDataSource()
     }
     
     override func didReceiveMemoryWarning() {
@@ -55,27 +53,28 @@ class AlignmentViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? PagingMenuViewController {
             menuViewController = vc
-            menuViewController?.dataSource = self
-            menuViewController?.delegate = self
+            menuViewController.dataSource = self
+            menuViewController.delegate = self
         } else if let vc = segue.destination as? PagingContentViewController {
             contentViewController = vc
-            contentViewController?.delegate = self
-            contentViewController?.dataSource = self
+            contentViewController.delegate = self
+            contentViewController.dataSource = self
         }
     }
     @IBAction func switchMenuButtonDidTap(sender: UIBarButtonItem) {
-        isOverBounds = !isOverBounds
-        dataSource = makeDataSource(isOverBounds: isOverBounds)
-
+        switch menuViewController.menuView.cellAlignment {
+        case .left:
+            menuViewController.menuView.cellAlignment = .center
+        case .center:
+            menuViewController.menuView.cellAlignment = .right
+        case .right:
+            menuViewController.menuView.cellAlignment = .left
+        }
+        menuViewController.reloadData()
     }
 
-    private func makeDataSource(isOverBounds: Bool) -> [(menu: String, content: UIViewController)] {
-        let menu: [String]
-        if isOverBounds {
-            menu = ["Martinez", "Alfred", "Louis"]
-        } else {
-            menu = ["Martinez", "Alfred", "Louis", "Justin", "Tim", "Deborah", "Michael", "Choi", "Hamilton", "Decker", "Johnson", "George"]
-        }
+    private func makeDataSource() -> [(menu: String, content: UIViewController)] {
+        let menu = ["Martinez", "Alfred", "Louis"]
         
         return menu.map {
             let title = $0
@@ -114,13 +113,13 @@ extension AlignmentViewController: PagingContentViewControllerDataSource {
 
 extension AlignmentViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        contentViewController?.scroll(to: page, animated: true)
+        contentViewController.scroll(to: page, animated: true)
     }
 }
 
 extension AlignmentViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController.scroll(index: index, percent: percent, animated: false)
     }
 }
 
