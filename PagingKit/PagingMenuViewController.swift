@@ -106,6 +106,16 @@ public class PagingMenuViewController: UIViewController {
         return menuView.contentOffset.x / menuView.contentSize.width
     }
     
+    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells. (default: .left)
+    public var cellAlignment: PagingMenuView.Alignment {
+        set {
+            menuView.cellAlignment = newValue
+        }
+        get {
+            return menuView.cellAlignment
+        }
+    }
+    
     /// The spacing to use between menus.
     public var cellSpacing: CGFloat {
         set {

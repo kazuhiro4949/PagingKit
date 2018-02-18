@@ -119,7 +119,7 @@ public class PagingMenuView: UIScrollView {
         case type(type: PagingMenuViewCell.Type)
     }
     
-    /// If contentSize.width is not over safe area, paging menu view applys this value the each cells.
+    /// If contentSize.width is not over safe area, paging menu view applys this value to each the cells.
     ///
     /// - center: centering each PagingMenuViewCell object.
     /// - left: aligning each PagingMenuViewCell object on the left side.
@@ -145,7 +145,7 @@ public class PagingMenuView: UIScrollView {
     fileprivate var touchingIndex: Int?
     
     
-    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment the each cells. (default: .left)
+    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells. (default: .left)
     public var cellAlignment: Alignment = .left
     
     /// space setting between cells
@@ -504,7 +504,7 @@ public class PagingMenuView: UIScrollView {
         }
     }
 
-    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment the each cells.
+    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells.
     private func adjustAlignmentIfNeeded() {
         let safedViewWidth = bounds.width - contentSafeAreaInsets.horizontal
         let hasScrollableArea = safedViewWidth < contentSize.width
