@@ -119,7 +119,7 @@ public class PagingMenuView: UIScrollView {
         case type(type: PagingMenuViewCell.Type)
     }
     
-    /// If contentSize.width is not over safe area, paging menu view applys this value to each the cells.
+    /// If contentSize.width is not over safe area, paging menu view applys this value to each thecells.
     ///
     /// - center: centering each PagingMenuViewCell object.
     /// - left: aligning each PagingMenuViewCell object on the left side.
@@ -294,8 +294,8 @@ public class PagingMenuView: UIScrollView {
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
 
-        adjustAlignmentIfNeeded()
-        align()
+        alignContainerViewIfNeeded()
+        alignEachVisibleCell()
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -408,7 +408,7 @@ public class PagingMenuView: UIScrollView {
         }
     }
     
-    private func align() {
+    private func alignEachVisibleCell() {
         visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widths[idx] + cellSpacing }
             cell.frame.origin = CGPoint(x: leftEdge, y: 0)
@@ -505,7 +505,7 @@ public class PagingMenuView: UIScrollView {
     }
 
     /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells.
-    private func adjustAlignmentIfNeeded() {
+    private func alignContainerViewIfNeeded() {
         let safedViewWidth = bounds.width - contentSafeAreaInsets.horizontal
         let hasScrollableArea = safedViewWidth < contentSize.width
         
@@ -544,7 +544,7 @@ public class PagingMenuView: UIScrollView {
     @available(iOS 11.0, *)
     public override func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
-        align()
+        alignEachVisibleCell()
     }
     
     deinit {
