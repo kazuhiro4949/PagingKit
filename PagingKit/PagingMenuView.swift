@@ -119,6 +119,17 @@ public class PagingMenuView: UIScrollView {
         case type(type: PagingMenuViewCell.Type)
     }
     
+    /// If contentSize.width is not over safe area, paging menu view applys this value to each thecells.
+    ///
+    /// - center: centering each PagingMenuViewCell object.
+    /// - left: aligning each PagingMenuViewCell object on the left side.
+    /// - right: aligning each PagingMenuViewCell object on the right side.
+    public enum Alignment {
+        case center
+        case left
+        case right
+    }
+
     //MARK:- Public
     
     /// The object that acts as the indicator to focus current menu.
@@ -132,6 +143,10 @@ public class PagingMenuView: UIScrollView {
     fileprivate var widths = [CGFloat]()
     fileprivate(set) var containerView = UIView()
     fileprivate var touchingIndex: Int?
+    
+    
+    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells. (default: .left)
+    public var cellAlignment: Alignment = .left
     
     /// space setting between cells
     public var cellSpacing: CGFloat = 0
@@ -278,7 +293,9 @@ public class PagingMenuView: UIScrollView {
         containerWidth += totalSpacing
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
-        align()
+
+        alignContainerViewIfNeeded()
+        alignEachVisibleCell()
     }
     
     public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -391,7 +408,7 @@ public class PagingMenuView: UIScrollView {
         }
     }
     
-    private func align() {
+    private func alignEachVisibleCell() {
         visibleCells.forEach { (cell) in
             let leftEdge = (0..<cell.index).reduce(CGFloat(0)) { (sum, idx) in sum + widths[idx] + cellSpacing }
             cell.frame.origin = CGPoint(x: leftEdge, y: 0)
@@ -486,6 +503,28 @@ public class PagingMenuView: UIScrollView {
             }
         }
     }
+
+    /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells.
+    private func alignContainerViewIfNeeded() {
+        let safedViewWidth = bounds.width - contentSafeAreaInsets.horizontal
+        let hasScrollableArea = safedViewWidth < contentSize.width
+        
+        guard !hasScrollableArea else {
+            return
+        }
+        
+        containerView.frame.origin.x = {
+            let maxSafedOffset = safedViewWidth - containerView.frame.width
+            switch cellAlignment {
+            case .center:
+                return maxSafedOffset/2
+            case .left:
+                return 0
+            case .right:
+                return maxSafedOffset
+            }
+        }()
+    }
     
     //MARK:- Life Cycle
     
@@ -505,7 +544,7 @@ public class PagingMenuView: UIScrollView {
     @available(iOS 11.0, *)
     public override func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
-        align()
+        alignEachVisibleCell()
     }
     
     deinit {
@@ -539,5 +578,14 @@ extension PagingMenuView {
     public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         touchingIndex = nil
+    }
+}
+
+// MARK: - UIEdgeInsets
+
+private extension UIEdgeInsets {
+    /// only horizontal insets
+    var horizontal: CGFloat {
+        return left + right
     }
 }

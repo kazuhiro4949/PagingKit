@@ -307,6 +307,56 @@ class PagingMenuViewTests: XCTestCase {
             wait(for: [expectation], timeout: 1)
         }
     }
+    
+    func testCellAlignment() {
+        guard let pagingMenuView = pagingMenuView else {
+            XCTFail("pagingMenuView is not nil")
+            return
+        }
+        
+        do {
+            let dataSource = MenuViewDataSourceSpy()
+            dataSource.widthForItem = 50
+            dataSource.registerNib(to: pagingMenuView)
+            dataSource.data = Array(repeating: "foo", count: 3)
+            pagingMenuView.dataSource = dataSource
+            
+            pagingMenuView.reloadData()
+            XCTAssertEqual(
+                pagingMenuView.containerView.frame.origin.x,
+                0,
+                "aligning on the left side")
+            
+            pagingMenuView.cellAlignment = .right
+            pagingMenuView.reloadData()
+            XCTAssertEqual(
+                pagingMenuView.containerView.frame.origin.x,
+                pagingMenuView.bounds.width - pagingMenuView.containerView.bounds.width,
+                "aligning on the right side")
+            
+            pagingMenuView.cellAlignment = .center
+            pagingMenuView.reloadData()
+            XCTAssertEqual(
+                pagingMenuView.containerView.frame.origin.x,
+                (pagingMenuView.bounds.width - pagingMenuView.containerView.bounds.width) / 2,
+                "centering")
+        }
+
+        do {
+            let dataSource = MenuViewDataSourceSpy()
+            dataSource.widthForItem = 100
+            dataSource.registerNib(to: pagingMenuView)
+            dataSource.data = Array(repeating: "foo", count: 20)
+            pagingMenuView.dataSource = dataSource
+            pagingMenuView.cellAlignment = .center
+            pagingMenuView.reloadData()
+            XCTAssertEqual(
+                pagingMenuView.containerView.frame.origin.x,
+                0,
+                "not applying cellAlignment")
+        }
+
+    }
 }
 
 class MenuViewDataSourceSpy: NSObject, PagingMenuViewDataSource  {
