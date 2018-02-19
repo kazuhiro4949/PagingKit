@@ -394,7 +394,7 @@ extension ViewController: PagingContentViewControllerDelegate {
 That's it.
 
 # Tips
-## embeded UI components
+## Build-in UI components
 ```TitleLabelMenuViewCell``` and ```UnderlineFocusView``` are build-in UI components. You don't need to make custom PagingMenuViewCell and PagingFoucsView, when your App require simple UI. 
 
 [SimpleViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/SimpleViewController.swift) in this repository helps you to understand usege. 
