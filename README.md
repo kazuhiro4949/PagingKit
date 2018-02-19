@@ -399,7 +399,7 @@ That's it.
 
 [SimpleViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/SimpleViewController.swift) in this repository helps you to understand usege. 
 
-# Code Snippets
+## Code Snippets
 There are some snippets to save your time. 
 
 - https://github.com/kazuhiro4949/PagingKit/tree/master/tools/CodeSnippets
