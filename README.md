@@ -121,7 +121,7 @@ $(SRCROOT)/Carthage/Build/iOS/PagingKit.framework
 import PagingKit
 ```
 
-# Usage
+# Getting Started
 
 There are some samples in this library.
 
@@ -143,15 +143,15 @@ If you will make a new UI which contains PagingKit, refer the following 4 steps.
 - 4. display data
 - 5. Synchronize Menu and Content view controllers
 
-# 1. Add PagingMenuViewController & PagingContentViewController
+## 1. Add PagingMenuViewController & PagingContentViewController
 First, add PagingMenuViewController & PagingContentViewController on container view with Stroyboard.
 
-## 1. Put container views on Storyboard
+### 1. Put container views on Storyboard
 Put container views on stroyboard for each the view controllers.
 
 <img width="1417" alt="2017-08-25 16 33 51" src="https://user-images.githubusercontent.com/18320004/29704102-491f0e72-89b3-11e7-9d69-7988969ef18e.png">
 
-## 2. Change class names
+### 2. Change class names
 
 input PagingMenuViewController on custom class setting.
 <img width="1418" alt="2017-08-25 16 36 36" src="https://user-images.githubusercontent.com/18320004/29704183-a59ab390-89b3-11e7-9e72-e98ee1e9abc0.png">
@@ -160,11 +160,11 @@ input PagingContentViewController on custom class setting.
 
 <img width="1415" alt="2017-08-25 16 36 54" src="https://user-images.githubusercontent.com/18320004/29704184-a669f344-89b3-11e7-91b6-90669fa2190f.png">
 
-# 2. Assign them to properties
+## 2. Assign them to properties
 
 Assign them on code of the container view controller.
 
-## 1. Declare properties for the view controllers 
+### 1. Declare properties for the view controllers 
 Declare properties in container view controller.
 ```swift
 class ViewController: UIViewController {
@@ -173,7 +173,7 @@ class ViewController: UIViewController {
     var contentViewController: PagingContentViewController!
 ```
 
-## 2. override prepare(segue:sender:) and assign the view controllers
+### 2. override prepare(segue:sender:) and assign the view controllers
 Assigin view controllers to each the property on ```prepare(segue:sender:)```.
 
 ```swift
@@ -186,7 +186,7 @@ Assigin view controllers to each the property on ```prepare(segue:sender:)```.
     }
 ```
 
-## 3. Build App
+### 3. Build App
 Change menu color.
 <img width="1097" alt="2017-08-25 17 47 58" src="https://user-images.githubusercontent.com/18320004/29706662-922732ac-89bd-11e7-8969-bd6fbe394a8a.png">
 
@@ -196,11 +196,11 @@ Build and check the current state.
 
 It shows a container view controller that has PagingMenuViewController and PagingContentViewController.
 
-# 3. Create menu UI
+## 3. Create menu UI
 
 Next, you needs to prepare the menu elements.
 
-## 1. Inherite PagingMenuViewCell and create custom cell
+### 1. Inherite PagingMenuViewCell and create custom cell
 
 PagingKit has PagingMenuViewCell. PagingMenuViewController uses it to construct each menu element.
 
@@ -216,14 +216,14 @@ class MenuCell: PagingMenuViewCell {
 <img width="1414" alt="2017-08-25 16 56 56" src="https://user-images.githubusercontent.com/18320004/29704850-7b877cd4-89b6-11e7-98c9-48eb94646291.png">
 
 
-## 2. Inherite PagingFocusView and create custom view
+### 2. Inherite PagingFocusView and create custom view
 
 PagingKit has PagingFocusView. PagingMenuViewController uses it to point the current focusted menu.
 
 <img width="1420" alt="2017-08-25 16 59 07" src="https://user-images.githubusercontent.com/18320004/29704919-bd3d8f06-89b6-11e7-88dc-c8546979dbde.png">
 
 
-## 3. register the above views to PagingMenuViewController
+### 3. register the above views to PagingMenuViewController
 
 ```swift
 class ViewController: UIViewController {
@@ -239,11 +239,11 @@ class ViewController: UIViewController {
     }
 ```
 
-# 4. display data
+## 4. display data
 
 Then, implement the data sources to display contents. They are a similar to UITableViewDataSource.
 
-## 1. prepare data
+### 1. prepare data
 
 ```swift
 class ViewController: UIViewController {
@@ -256,7 +256,7 @@ class ViewController: UIViewController {
     var dataSource = [(menuTitle: "test1", vc: viewController(.red)), (menuTitle: "test2", vc: viewController(.blue)), (menuTitle: "test3", vc: viewController(.yellow))]
 ```
 
-## 2. set menu data source
+### 2. set menu data source
 
 Return number of menus, menu widthes and PagingMenuViewCell objects.
 
@@ -288,7 +288,7 @@ extension ViewController: PagingMenuViewControllerDataSource {
 }
 ```
 
-## 3. configure content data source
+### 3. configure content data source
 
 Return the number of contents and view controllers.
 
@@ -315,7 +315,7 @@ extension ViewController: PagingContentViewControllerDataSource {
 }
 ```
 
-## 4. load UI
+### 4. load UI
 
 Call reloadData() methods with starting point.
 
@@ -333,11 +333,11 @@ Build and display data source.
 
 <img width="487" alt="2017-08-25 17 54 30" src="https://user-images.githubusercontent.com/18320004/29706950-7e1b41a8-89be-11e7-8bb2-fc90afbe11f7.png">
 
-# 5. Synchronize Menu and Content view controllers
+## 5. Synchronize Menu and Content view controllers
 
 Last, synchronize user interactions between Menu and Content.
 
-## 1. set menu delegate
+### 1. set menu delegate
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -364,7 +364,7 @@ extension ViewController: PagingMenuViewControllerDelegate {
 }
 ```
 
-## 2. set content delegate
+### 2. set content delegate
 
 ```swift
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
