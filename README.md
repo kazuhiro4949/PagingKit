@@ -399,6 +399,17 @@ That's it.
 
 [SimpleViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/SimpleViewController.swift) in this repository helps you to understand usege. 
 
+## Cell Alignment
+```PagingMenuViewController``` has an utility method to align cellls. 
+
+https://github.com/kazuhiro4949/PagingKit/blob/master/PagingKit/PagingMenuViewController.swift#L110
+
+If you want to align cells on the center, the following code will help you.
+
+```swift
+pagingMenuViewController.cellAligenment = .center
+```
+
 ## Code Snippets
 There are some snippets to save your time. 
 
