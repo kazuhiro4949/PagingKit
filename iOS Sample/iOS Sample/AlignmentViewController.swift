@@ -71,10 +71,7 @@ class AlignmentViewController: UIViewController {
             menuViewController.menuView.cellAlignment = .left
         }
         
-        menuViewController.view.alpha = 0
-        menuViewController.reloadData(with: nil) { [weak self] (finish) in
-            self?.menuViewController.view.alpha = 1
-        }
+        menuViewController.reloadData()
     }
 
     private func makeDataSource() -> [(menu: String, content: UIViewController)] {

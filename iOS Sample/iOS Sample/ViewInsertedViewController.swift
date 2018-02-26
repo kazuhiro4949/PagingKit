@@ -45,17 +45,26 @@ class ViewInsertedViewController: UIViewController {
         return (menu: title, content: vc)
     }
     
+    lazy var firstLoad: (() -> Void)? = { [weak self, menuViewController, contentViewController] in
+        menuViewController?.reloadData()
+        contentViewController?.reloadData()
+        self?.firstLoad = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
-        menuViewController?.reloadData()
-        contentViewController?.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        firstLoad?()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

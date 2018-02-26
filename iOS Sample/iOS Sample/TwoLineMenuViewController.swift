@@ -37,13 +37,23 @@ class TwoLineMenuViewController: UIViewController {
         return (menu: $0, content: vc)
     }
     
+    
+    lazy var firstLoad: (() -> Void)? = { [weak self, menuViewController, contentViewController] in
+        menuViewController?.reloadData()
+        contentViewController?.reloadData()
+        self?.firstLoad = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         menuViewController?.register(nib: UINib(nibName: "TwoLineMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
-        menuViewController?.reloadData()
-        contentViewController?.reloadData()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        firstLoad?()
     }
 
     override func didReceiveMemoryWarning() {
