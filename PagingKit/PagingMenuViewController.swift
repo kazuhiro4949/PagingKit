@@ -235,6 +235,7 @@ public class PagingMenuViewController: UIViewController {
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
         menuView.focusView.selectedIndex = selectedIndex
+        menuView.contentOffset = .zero
         UIView.pk.catchLayoutCompletion(
             layout: { [weak self] in
                 self?.menuView.reloadData()
