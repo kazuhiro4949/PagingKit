@@ -40,7 +40,7 @@ class DynamicWidthViewController: UIViewController {
     
     @IBAction func rightBarButtonDidTap(_ sender: UIBarButtonItem) {
         cellWidth = Int(arc4random_uniform(200))
-        menuViewController?.reloadData(with: 10, completionHandler: nil)
+        menuViewController?.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
