@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="d70-OM-VfP">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Dynamic Width View Controller-->
+        <scene sceneID="iwD-lT-ERy">
+            <objects>
+                <viewController id="d70-OM-VfP" customClass="DynamicWidthViewController" customModule="iOS_Sample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="I6X-xq-DYN">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="39j-zf-mu2">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="lU1-Yp-ADb"/>
+                                </constraints>
+                                <connections>
+                                    <segue destination="GHk-UF-k87" kind="embed" id="Y1S-m8-ZZB"/>
+                                </connections>
+                            </containerView>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="je1-yp-ido">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <segue destination="0k5-jQ-BKi" kind="embed" id="Hwk-oB-2W2"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="je1-yp-ido" firstAttribute="top" secondItem="39j-zf-mu2" secondAttribute="bottom" id="5DA-pU-Kve"/>
+                            <constraint firstItem="39j-zf-mu2" firstAttribute="top" secondItem="PNa-nc-3Cu" secondAttribute="top" id="79e-FP-fcm"/>
+                            <constraint firstItem="39j-zf-mu2" firstAttribute="leading" secondItem="I6X-xq-DYN" secondAttribute="leading" id="IuT-9Y-Qc3"/>
+                            <constraint firstItem="je1-yp-ido" firstAttribute="leading" secondItem="I6X-xq-DYN" secondAttribute="leading" id="aqs-WG-DkP"/>
+                            <constraint firstAttribute="trailing" secondItem="je1-yp-ido" secondAttribute="trailing" id="fe7-CZ-jrS"/>
+                            <constraint firstAttribute="bottom" secondItem="je1-yp-ido" secondAttribute="bottom" id="gXX-ko-fgI"/>
+                            <constraint firstAttribute="trailing" secondItem="39j-zf-mu2" secondAttribute="trailing" id="w9v-Vu-oiM"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="PNa-nc-3Cu"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="fan-YH-yf7">
+                        <barButtonItem key="rightBarButtonItem" title="Width Change" id="2cT-ee-zPW">
+                            <connections>
+                                <action selector="rightBarButtonDidTap:" destination="d70-OM-VfP" id="l3k-ST-ymV"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iqk-Sm-OSE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1706.4000000000001" y="-1579.1604197901052"/>
+        </scene>
+        <!--Paging Menu View Controller-->
+        <scene sceneID="Abg-KQ-8Ke">
+            <objects>
+                <viewController id="GHk-UF-k87" customClass="PagingMenuViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8tT-h1-N3X">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="xhh-2X-Zmq"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nzs-Wg-QuL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2571" y="-1802"/>
+        </scene>
+        <!--Paging Content View Controller-->
+        <scene sceneID="3bb-b3-8SU">
+            <objects>
+                <viewController id="0k5-jQ-BKi" customClass="PagingContentViewController" customModule="PagingKit" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="BNZ-74-x4z">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <viewLayoutGuide key="safeArea" id="kmL-5D-n29"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lm0-AE-SYt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2654" y="-1406"/>
+        </scene>
+    </scenes>
+</document>

@@ -235,21 +235,18 @@ public class PagingMenuViewController: UIViewController {
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
         menuView.focusView.selectedIndex = selectedIndex
-        UIView.pk.catchLayoutCompletion(
-            layout: { [weak self] in
-                self?.menuView.reloadData()
-            },
-            completion: {  [weak self] (finish) in
-                UIView.pk.catchLayoutCompletion(
-                    layout: { [weak self] in
-                        self?.scroll(index: selectedIndex, percent: 0, animated: false)
-                    },
-                    completion: { (finish) in
-                        completionHandler?(finish)
-                    }
-                )
-            }
-        )
+        menuView.contentOffset = .zero
+        menuView.reloadData()
+        fireInvalidateLayout = { [weak self] in
+            UIView.pk.catchLayoutCompletion(
+                layout: { [weak self] in
+                    self?.scroll(index: selectedIndex, percent: 0, animated: false)
+                },
+                completion: { (finish) in
+                    completionHandler?(finish)
+                }
+            )
+        }
     }
 
     /// Invalidates the current layout using the information in the provided context object.
