@@ -355,7 +355,44 @@ class PagingMenuViewTests: XCTestCase {
                 0,
                 "not applying cellAlignment")
         }
-
+    }
+    
+    func testSelectedCell() {
+        guard let pagingMenuView = pagingMenuView else {
+            XCTFail("pagingMenuView is not nil")
+            return
+        }
+        
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 50
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = Array(repeating: "foo", count: 10)
+        pagingMenuView.dataSource = dataSource
+        
+        pagingMenuView.reloadData()
+        pagingMenuView.scroll(index: 0)
+        XCTAssertEqual(
+            pagingMenuView.visibleCells.filter({ $0.isSelected }).first?.index,
+            0,
+            "updated isSelected on index 0")
+        
+        pagingMenuView.scroll(index: 5)
+        XCTAssertEqual(
+            pagingMenuView.visibleCells.filter({ $0.isSelected }).first?.index,
+            5,
+            "updated isSelected on index 5")
+        
+        pagingMenuView.scroll(index: 3, percent: 0.4)
+        XCTAssertEqual(
+            pagingMenuView.visibleCells.filter({ $0.isSelected }).first?.index,
+            3,
+            "updated isSelected on index 3")
+        
+        pagingMenuView.scroll(index: 3, percent: 0.6)
+        XCTAssertEqual(
+            pagingMenuView.visibleCells.filter({ $0.isSelected }).first?.index,
+            4,
+            "updated isSelected on index 4")
     }
 }
 

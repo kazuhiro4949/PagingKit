@@ -323,7 +323,7 @@ public class PagingMenuView: UIScrollView {
         focusView.center = CGPoint(x: centerPointX, y: center.y)
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
-        focusView.selectedIndex = index
+        focusView.selectedIndex = visibleCells.selectCell(to: focusView.center)
     }
     
     /// Scrolls a specific index of the menu so that it is visible in the receiver and calls handler when finishing scroll.
@@ -333,18 +333,17 @@ public class PagingMenuView: UIScrollView {
     ///   - completeHandler: handler called after completion
     public func scroll(index: Int, completeHandler: @escaping (Bool) -> Void) {
         let itemFrame = rectForItem(at: index)
-        focusView.selectedIndex = index
         
         let offsetX = itemFrame.midX - bounds.width / 2
         let offset = CGPoint(x: min(max(minContentOffsetX, offsetX), maxContentOffsetX), y: 0)
+        
+        focusView.selectedIndex = visibleCells.selectCell(to: itemFrame.center)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
             self?.focusView.frame = itemFrame
             self?.focusView.layoutIfNeeded()
-            }, completion: { (finish) in
-                completeHandler(finish)
-        })
+        }, completion:completeHandler)
     }
     
     // MARK:- Internal
@@ -587,5 +586,28 @@ private extension UIEdgeInsets {
     /// only horizontal insets
     var horizontal: CGFloat {
         return left + right
+    }
+}
+
+// MARK:- CGRect
+
+private extension CGRect {
+    var center: CGPoint {
+        return CGPoint(x: midX, y: midY)
+    }
+}
+
+// MARK:- Array
+
+private extension Array where Element == PagingMenuViewCell {
+    func resetSelected() {
+        forEach { $0.isSelected = false }
+    }
+    
+    func selectCell(to point: CGPoint) -> Int? {
+        resetSelected()
+        let selectedCell = filter { $0.frame.contains(point) }.first
+        selectedCell?.isSelected = true
+        return selectedCell?.index
     }
 }
