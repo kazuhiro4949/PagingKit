@@ -75,7 +75,6 @@ class SimpleViewController: UIViewController {
 extension SimpleViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TitleLabelMenuViewCell
-        cell.isSelected = (viewController.currentFocusedIndex == index)
         cell.titleLabel.text = dataSource[index].menu
         return cell
     }
