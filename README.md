@@ -399,6 +399,23 @@ That's it.
 
 [SimpleViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/SimpleViewController.swift) in this repository helps you to understand usege. 
 
+## Focused Cell Style
+```PagingMenuViewCell``` has ```isSelected``` property. ```PagingMenuView``` updates the property if the focusing cell is changed. You can change the style　ｂｙ overriding the property.
+
+```swift
+class CustomCell: PagingMenuViewCell {
+    override public var isSelected: Bool {
+        didSet {
+            if isSelected {
+                titleLabel.textColor = focusColor
+            } else {
+                titleLabel.textColor = normalColor
+            }
+        }
+    }
+}
+```
+
 ## Cell Alignment
 ```PagingMenuViewController``` has an utility method to align cellls. 
 
