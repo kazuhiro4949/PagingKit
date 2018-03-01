@@ -109,17 +109,12 @@ extension SimpleViewController: PagingContentViewControllerDataSource {
 
 extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        viewController.visibleCells.forEach { $0.isSelected = false }
-        viewController.cellForItem(at: page)?.isSelected = true
         contentViewController?.scroll(to: page, animated: true)
     }
 }
 
 extension SimpleViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        let isRightCellSelected = percent > 0.5
-        menuViewController?.cellForItem(at: index)?.isSelected = !isRightCellSelected
-        menuViewController?.cellForItem(at: index + 1)?.isSelected = isRightCellSelected
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }
 }
