@@ -125,16 +125,6 @@ public class PagingMenuViewController: UIViewController {
             return menuView.cellSpacing
         }
     }
-    
-    /// The content inset to add padding
-    public var contentInset: UIEdgeInsets {
-        set {
-            menuView.contentInset = newValue
-        }
-        get {
-            return menuView.contentInset
-        }
-    }
 
     /// Scrolls a specific index of the menu so that it is visible in the receiver.
     ///

@@ -378,6 +378,9 @@ public class PagingMenuView: UIScrollView {
     }
     
     private func configureView() {
+        if #available(iOS 11.0, *) {
+            contentInsetAdjustmentBehavior = .never
+        }
         backgroundColor = .clear
         addObserver(self, forKeyPath: #keyPath(UIView.bounds), options: [.old, .new], context: nil)
     }
