@@ -294,7 +294,6 @@ public class PagingMenuView: UIScrollView {
         contentSize = CGSize(width: containerWidth, height: bounds.height)
         containerView.frame = CGRect(origin: .zero, size: contentSize)
 
-        alignContainerViewIfNeeded()
         alignEachVisibleCell()
     }
     
@@ -508,11 +507,7 @@ public class PagingMenuView: UIScrollView {
         let safedViewWidth = bounds.width - contentSafeAreaInsets.horizontal
         let hasScrollableArea = safedViewWidth < contentSize.width
         
-        guard !hasScrollableArea else {
-            return
-        }
-        
-        containerView.frame.origin.x = {
+        let expectedOriginX: CGFloat = {
             let maxSafedOffset = safedViewWidth - containerView.frame.width
             switch cellAlignment {
             case .center:
@@ -523,6 +518,12 @@ public class PagingMenuView: UIScrollView {
                 return maxSafedOffset
             }
         }()
+        
+        guard !hasScrollableArea && expectedOriginX != containerView.frame.origin.x else {
+            return
+        }
+
+        containerView.frame.origin.x = expectedOriginX
     }
     
     //MARK:- Life Cycle
@@ -538,6 +539,8 @@ public class PagingMenuView: UIScrollView {
                 to: min(contentSize.width, visibleBounds.maxX + extraOffset)
             )
         }
+        
+        alignContainerViewIfNeeded()
     }
     
     @available(iOS 11.0, *)
