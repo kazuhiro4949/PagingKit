@@ -39,7 +39,7 @@ class AlignmentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuViewController.cellAlignment = .left
+        menuViewController.cellAlignment = .center
         menuViewController.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController.registerFocusView(view: UnderlineFocusView())
 
