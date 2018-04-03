@@ -337,7 +337,7 @@ public class PagingMenuView: UIScrollView {
         focusView.center = CGPoint(x: centerPointX, y: center.y)
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
-        focusView.selectedIndex = visibleCells.selectCell(to: focusView.center)
+        focusView.selectedIndex = indexForItem(at: focusView.center)
     }
     
     /// Scrolls a specific index of the menu so that it is visible in the receiver and calls handler when finishing scroll.
@@ -351,7 +351,7 @@ public class PagingMenuView: UIScrollView {
         let offsetX = itemFrame.midX - bounds.width / 2
         let offset = CGPoint(x: min(max(minContentOffsetX, offsetX), maxContentOffsetX), y: 0)
         
-        focusView.selectedIndex = visibleCells.selectCell(to: itemFrame.center)
+        focusView.selectedIndex = indexForItem(at: itemFrame.center)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
