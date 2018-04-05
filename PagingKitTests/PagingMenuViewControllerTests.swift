@@ -28,6 +28,7 @@ import XCTest
 class PagingMenuViewControllerTests: XCTestCase {
     
     var dataSource: MenuViewControllerDataSourceSpy?
+    var menuViewController: PagingMenuViewController?
     
     override func setUp() {
         super.setUp()
@@ -35,7 +36,91 @@ class PagingMenuViewControllerTests: XCTestCase {
     
     override func tearDown() {
         dataSource = nil
+        menuViewController = nil
         super.tearDown()
+    }
+    
+    func testRloadDataWithNoIndex() {
+        let dataSource = MenuViewControllerDataSourceSpy()
+        menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        menuViewController?.view.frame = CGRect(x: 0, y: 0, width: 460, height: 44)
+        dataSource.registerNib(to: menuViewController)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        dataSource.widthForItem = 100
+        
+        let expectation = XCTestExpectation(description: "timeout")
+        menuViewController?.reloadData() { [weak menuViewController] _ in
+            XCTAssertEqual(menuViewController?.menuView.contentSize, CGSize(width: 2000, height: 44), "expected scrvollView layout")
+            XCTAssertEqual(menuViewController?.menuView.contentOffset, CGPoint(x: 0, y: 0), "expected offset")
+            expectation.fulfill()
+        }
+        menuViewController?.view.setNeedsLayout()
+        menuViewController?.view.layoutIfNeeded()
+        wait(for: [expectation], timeout: 2)
+    }
+    
+    func testRloadDataWithIndex() {
+        let dataSource = MenuViewControllerDataSourceSpy()
+        menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        menuViewController?.view.frame = CGRect(x: 0, y: 0, width: 460, height: 44)
+        dataSource.registerNib(to: menuViewController)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        dataSource.widthForItem = 100
+        
+        let expectation = XCTestExpectation(description: "timeout")
+        menuViewController?.reloadData(with: 1) { [weak menuViewController] _ in
+            XCTAssertEqual(menuViewController?.currentFocusedIndex, 1, "expected index")
+            expectation.fulfill()
+        }
+        menuViewController?.view.setNeedsLayout()
+        menuViewController?.view.layoutIfNeeded()
+        wait(for: [expectation], timeout: 2)
+    }
+    
+    func testRloadDataWithIndexAndNoIndex() {
+        let dataSource = MenuViewControllerDataSourceSpy()
+
+        menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        menuViewController?.view.frame = CGRect(x: 0, y: 0, width: 460, height: 44)
+        dataSource.registerNib(to: menuViewController)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        dataSource.widthForItem = 100
+        
+        let expectation = XCTestExpectation(description: "timeout")
+        menuViewController?.reloadData(with: 1) { [weak menuViewController] _ in
+            menuViewController?.reloadData() { [weak menuViewController] _ in
+                XCTAssertEqual(menuViewController?.currentFocusedIndex, 1, "expected index")
+                expectation.fulfill()
+            }
+            menuViewController?.view.setNeedsLayout()
+            menuViewController?.view.layoutIfNeeded()
+        }
+        menuViewController?.view.setNeedsLayout()
+        menuViewController?.view.layoutIfNeeded()
+        wait(for: [expectation], timeout: 2)
+    }
+    
+    func testRloadDataWithIndexAndIndexAgain() {
+        let dataSource = MenuViewControllerDataSourceSpy()
+        
+        menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
+        menuViewController?.view.frame = CGRect(x: 0, y: 0, width: 460, height: 44)
+        dataSource.registerNib(to: menuViewController)
+        dataSource.data = Array(repeating: "foo", count: 20)
+        dataSource.widthForItem = 100
+        
+        let expectation = XCTestExpectation(description: "timeout")
+        menuViewController?.reloadData(with: 1) { [weak menuViewController] _ in
+            menuViewController?.reloadData(with: 3) { [weak menuViewController] _ in
+                XCTAssertEqual(menuViewController?.currentFocusedIndex, 3, "expected index")
+                expectation.fulfill()
+            }
+            menuViewController?.view.setNeedsLayout()
+            menuViewController?.view.layoutIfNeeded()
+        }
+        menuViewController?.view.setNeedsLayout()
+        menuViewController?.view.layoutIfNeeded()
+        wait(for: [expectation], timeout: 2)
     }
 
     func testScrollBetweenVisibleCells() {
@@ -202,9 +287,9 @@ class MenuViewControllerDataSourceSpy: NSObject, PagingMenuViewControllerDataSou
     var data = [String]()
     var widthForItem: CGFloat = 0
     
-    func registerNib(to vc: PagingMenuViewController) {
+    func registerNib(to vc: PagingMenuViewController?) {
         let nib = UINib(nibName: "PagingMenuViewCellStub", bundle: Bundle(for: type(of: self)))
-        vc.register(nib: nib, forCellWithReuseIdentifier: "identifier")
+        vc?.register(nib: nib, forCellWithReuseIdentifier: "identifier")
     }
 
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
