@@ -48,19 +48,68 @@ class PagingContentViewControllerTests: XCTestCase {
         self.dataSource = dataSource
     }
     
-    func testReloadData() {
+    func testReloadDataWithNoIndex() {
         let expectation = XCTestExpectation(description: "finish reloadData")
         let dataSource = PagingContentVcDataSourceSpy()
         pagingContentViewController?.dataSource = dataSource
         pagingContentViewController?.loadViewIfNeeded()
-        pagingContentViewController?.reloadData(with: 3, completion: { [weak self] in
+        pagingContentViewController?.reloadData() { [weak self] in
             XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
-            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 960, y: 0), "expected offset")
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 0, y: 0), "expected offset")
             expectation.fulfill()
-        })
+        }
         wait(for: [expectation], timeout: 1)
         self.dataSource = dataSource
     }
+    
+    func testReloadDataWithIndex() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [weak self] in
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
+            XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 960, y: 0), "expected offset")
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 1)
+        self.dataSource = dataSource
+    }
+    
+    func testReloadDataWithIndexAndNoIndex() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 4) { [weak self] in
+            self?.pagingContentViewController?.reloadData() { [weak self] in
+                XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
+                XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 1280, y: 0), "expected offset")
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 2)
+        self.dataSource = dataSource
+    }
+    
+    
+    func testReloadDataWithIndexAndIndexAgain() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 4) { [weak self] in
+            self?.pagingContentViewController?.reloadData(with: 3) { [weak self] in
+                XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentSize, CGSize(width: 1600, height: 667), "expected scrvollView layout")
+                XCTAssertEqual(self?.pagingContentViewController?.scrollView.contentOffset, CGPoint(x: 960, y: 0), "expected offset")
+                expectation.fulfill()
+            }
+        }
+        wait(for: [expectation], timeout: 2)
+        self.dataSource = dataSource
+    }
+    
+    
     
     func testScrollAfterReloadData() {
         let expectation = XCTestExpectation(description: "finish reloadData")
