@@ -164,6 +164,7 @@ public class PagingContentViewController: UIViewController {
     public func reloadData(with page: Int? = nil, completion: (() -> Void)? = nil) {
         removeAll()
         let preferredPage = page ?? leftSidePageIndex
+        leftSidePageIndex = preferredPage
         initialLoad(with: preferredPage)
         UIView.pk.catchLayoutCompletion(
             layout: { [weak self] in
