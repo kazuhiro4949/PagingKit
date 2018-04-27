@@ -48,7 +48,7 @@ public protocol PagingContentViewControllerDelegate: class {
     ///   - viewController: The view controller object in which the scrolling occurred.
     ///   - index: The left side index where the view controller is showing.
     func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int)
-
+    
     
     /// Tells the delegate when the view controller is trying to start paging the content.
     ///
@@ -79,7 +79,7 @@ extension PagingContentViewControllerDelegate {
     public func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int) {}
     public func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {}
     public func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {}
-
+    
     public func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool) {}
     public func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {}
     public func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool) {}
@@ -132,20 +132,23 @@ public class PagingContentViewController: UIViewController {
     fileprivate var leftSidePageIndex = 0
     fileprivate var numberOfPages: Int = 0
     fileprivate var explicitPaging: ExplicitPaging?
-
+    
+    /// Set the marginWidth that make the item of scrollView cardly
+    public var marginWidth:CGFloat = 0
+    
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
     
     /// The object that provides view controllers.
     public weak var dataSource: PagingContentViewControllerDataSource?
-
+    
     public var isEnabledPreloadContent = true
-
+    
     /// The ratio at which the origin of the content view is offset from the origin of the scroll view.
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
     }
-
+    
     /// The ratio at which the origin of the left side content is offset from the origin of the page.
     public var pagingPercent: CGFloat {
         return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
@@ -208,7 +211,7 @@ public class PagingContentViewController: UIViewController {
                 },
                 completion: { (finished) in
                     completion(finished)
-                }
+            }
             )
         } else {
             UIView.pk.catchLayoutCompletion(
@@ -217,7 +220,7 @@ public class PagingContentViewController: UIViewController {
                 },
                 completion: { _ in
                     completion(true)
-                }
+            }
             )
         }
     }
@@ -252,11 +255,54 @@ public class PagingContentViewController: UIViewController {
         }
         scrollView.frame = view.bounds
         scrollView.delegate = self
+        var tapView:UIView!
+        tapView = UIView(frame: scrollView.frame)
+        tapView.isUserInteractionEnabled = true
+        tapView.addGestureRecognizer(scrollView.panGestureRecognizer)
+        scrollView.clipsToBounds =  false;
         view.addSubview(scrollView)
-        view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: scrollView, to: view))
+        view.addSubview(tapView)
+        let leftConstraint = NSLayoutConstraint(item: view,
+                                                attribute: .leading,
+                                                relatedBy: .equal,
+                                                toItem: scrollView,
+                                                attribute: .leading,
+                                                multiplier: 1,
+                                                constant: -marginWidth)
+        let rightConstraint = NSLayoutConstraint(item: view,
+                                                 attribute: .trailing,
+                                                 relatedBy: .equal,
+                                                 toItem: scrollView,
+                                                 attribute: .trailing,
+                                                 multiplier: 1,
+                                                 constant: marginWidth/2)
+        let topConstraint = NSLayoutConstraint(item: view,
+                                               attribute: .top,
+                                               relatedBy: .equal,
+                                               toItem: scrollView,
+                                               attribute: .top,
+                                               multiplier: 1,
+                                               constant: 0.0)
+        let bottomConstraint = NSLayoutConstraint(item: view,
+                                                  attribute: .bottom,
+                                                  relatedBy: .equal,
+                                                  toItem: scrollView,
+                                                  attribute: .bottom,
+                                                  multiplier: 1,
+                                                  constant: 0.0)
+        view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: tapView, to: view))
+        view.addConstraints([topConstraint,bottomConstraint,leftConstraint,rightConstraint])
         view.backgroundColor = .clear
     }
-
+    func layoutItems() {
+        let pageWidth = view.bounds.width - marginWidth * 2
+        cachedViewControllers.enumerated().forEach { (offset, vc) in
+            let pageOffset = (pageWidth + marginWidth/2) * CGFloat(offset)
+            vc?.view.frame.size.width = pageWidth;
+            vc?.view.frame.origin.x = pageOffset;
+            vc?.view.frame.size.height = scrollView.frame.height;
+        }
+    }
     override public func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.contentSize = CGSize(
@@ -266,23 +312,20 @@ public class PagingContentViewController: UIViewController {
         
         scrollView.contentOffset = CGPoint(x: scrollView.bounds.width * CGFloat(leftSidePageIndex), y: 0)
         
-        cachedViewControllers.enumerated().forEach { (offset, vc) in
-            vc?.view.frame = scrollView.bounds
-            vc?.view.frame.origin.x = scrollView.bounds.width * CGFloat(offset)
-        }
+        layoutItems()
     }
     
     override public func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-
+    
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         removeAll()
         initialLoad(with: leftSidePageIndex)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
-        }, completion: nil)
+            }, completion: nil)
         
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -307,12 +350,11 @@ public class PagingContentViewController: UIViewController {
         if case nil = cachedViewControllers[page], let dataSource = dataSource {
             let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
             addChildViewController(vc)
-            vc.view.frame = scrollView.bounds
-            vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
             scrollView.addSubview(vc.view)
             vc.didMove(toParentViewController: self)
             cachedViewControllers[page] = vc
         }
+        layoutItems()
     }
     
     fileprivate func loadPagesIfNeeded(page: Int? = nil) {
