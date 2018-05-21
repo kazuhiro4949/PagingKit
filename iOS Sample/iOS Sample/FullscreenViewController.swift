@@ -91,7 +91,7 @@ extension FullscreenViewController: PagingMenuViewControllerDataSource {
 
 extension FullscreenViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        viewController.visibleCells.flatMap { $0 as? TagMenuCell }.forEach { $0.focus(percent: 0, animated: true) }
+        viewController.visibleCells.compactMap { $0 as? TagMenuCell }.forEach { $0.focus(percent: 0, animated: true) }
         let nextCell = viewController.cellForItem(at: page) as? TagMenuCell
         nextCell?.focus(percent: 1, animated: true)
         

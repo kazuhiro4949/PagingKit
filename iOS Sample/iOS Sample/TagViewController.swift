@@ -60,6 +60,12 @@ class TagViewController: UIViewController {
         menuViewController?.reloadData(with: 4)
         contentViewController?.reloadData(with: 4)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        menuViewController?.reloadData()
+        contentViewController?.reloadData()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -115,7 +121,7 @@ extension TagViewController: PagingMenuViewControllerDataSource {
 
 extension TagViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        viewController.visibleCells.flatMap { $0 as? TagMenuCell }.forEach { $0.focus(percent: 0, animated: true) }
+        viewController.visibleCells.compactMap { $0 as? TagMenuCell }.forEach { $0.focus(percent: 0, animated: true) }
         let nextCell = viewController.cellForItem(at: page) as? TagMenuCell
         nextCell?.focus(percent: 1, animated: true)
 
