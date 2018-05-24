@@ -159,8 +159,6 @@ class PagingMenuViewControllerTests: XCTestCase {
             )
             expectation.fulfill()
         }
-        menuViewController.view.setNeedsLayout()
-        menuViewController.view.layoutIfNeeded()
         wait(for: [expectation], timeout: 1)
     }
     
@@ -179,8 +177,6 @@ class PagingMenuViewControllerTests: XCTestCase {
             readDataCompletion = true
             expectation.fulfill()
         }
-        menuViewController.view.setNeedsLayout()
-        menuViewController.view.layoutIfNeeded()
         wait(for: [expectation], timeout: 1)
     }
     
@@ -199,8 +195,6 @@ class PagingMenuViewControllerTests: XCTestCase {
             readDataCompletion = true
             expectation.fulfill()
         }
-        menuViewController.view.setNeedsLayout()
-        menuViewController.view.layoutIfNeeded()
         wait(for: [expectation], timeout: 1)
     }
     
@@ -249,8 +243,6 @@ class PagingMenuViewControllerTests: XCTestCase {
             XCTAssertEqual(resizedLength, menuViewController.menuView.contentSize.height, "dataSource has resized cells")
             expection.fulfill()
         }
-        menuViewController.view.setNeedsLayout()
-        menuViewController.view.layoutIfNeeded()
         wait(for: [expection], timeout: 1.0)
     }
     
@@ -267,11 +259,7 @@ class PagingMenuViewControllerTests: XCTestCase {
                 XCTAssertEqual(menuViewController.focusView.bounds.width, 200, "focusView.frame.width is equal to cell width")
                 expectation.fulfill()
             }
-            menuViewController.view.setNeedsLayout()
-            menuViewController.view.layoutIfNeeded()
         }
-        menuViewController.view.setNeedsLayout()
-        menuViewController.view.layoutIfNeeded()
         wait(for: [expectation], timeout: 2)
     }
     
