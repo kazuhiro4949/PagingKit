@@ -237,15 +237,17 @@ public class PagingMenuViewController: UIViewController {
         menuView.focusView.selectedIndex = selectedIndex
         menuView.contentOffset = .zero
         fireInvalidateLayout = { [weak self] in
-            UIView.pk.catchLayoutCompletion(
-                layout: { [weak self] in
-                    self?.menuView.reloadData()
-                    self?.scroll(index: selectedIndex, percent: 0, animated: false)
-                },
-                completion: { (finish) in
-                    completionHandler?(finish)
-                }
-            )
+            UIView.pk.catchLayoutCompletion(layout: { [weak self] in
+                self?.menuView.reloadData()
+            }, completion: { [weak self] (finish) in
+                UIView.pk.catchLayoutCompletion(
+                    layout: { [weak self] in
+                        self?.scroll(index: selectedIndex, percent: 0, animated: false)
+                    },
+                    completion: { (finish) in
+                        completionHandler?(finish)
+                })
+            })
         }
         view.setNeedsLayout()
         view.layoutIfNeeded()
