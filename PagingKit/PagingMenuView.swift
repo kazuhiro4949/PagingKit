@@ -338,7 +338,10 @@ public class PagingMenuView: UIScrollView {
         focusView.selectedIndex = leftFrame.contains(focusView.center) ? index : rightIndex
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
-        visibleCells.selectCell(with: focusView.center)
+        
+        if let index = focusView.selectedIndex {
+            visibleCells.selectCell(with: index)
+        }
     }
     
     /// Scrolls a specific index of the menu so that it is visible in the receiver and calls handler when finishing scroll.
@@ -353,7 +356,7 @@ public class PagingMenuView: UIScrollView {
         let offset = CGPoint(x: min(max(minContentOffsetX, offsetX), maxContentOffsetX), y: 0)
 
         focusView.selectedIndex = index
-        visibleCells.selectCell(with: itemFrame.center)
+        visibleCells.selectCell(with: index)
         
         UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
@@ -456,6 +459,7 @@ public class PagingMenuView: UIScrollView {
     private func placeNewCellOnRight(with rightEdge: CGFloat, index: Int, dataSource: PagingMenuViewDataSource) -> CGFloat {
         let nextIndex = (index + 1) % numberOfItem
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
+        cell.isSelected = (focusView.selectedIndex == nextIndex)
         cell.index = nextIndex
         containerView.insertSubview(cell, at: 0)
         
@@ -474,6 +478,7 @@ public class PagingMenuView: UIScrollView {
             nextIndex = (index - 1) % numberOfItem
         }
         let cell = dataSource.pagingMenuView(pagingMenuView: self, cellForItemAt: nextIndex)
+        cell.isSelected = (focusView.selectedIndex == nextIndex)
         cell.index = nextIndex
         
         containerView.insertSubview(cell, at: 0)
@@ -625,9 +630,9 @@ private extension Array where Element == PagingMenuViewCell {
     }
     
     @discardableResult
-    func selectCell(with point: CGPoint) -> Int? {
+    func selectCell(with index: Int) -> Int? {
         resetSelected()
-        let selectedCell = filter { $0.frame.contains(point) }.first
+        let selectedCell = filter { $0.index == index }.first
         selectedCell?.isSelected = true
         return selectedCell?.index
     }
