@@ -48,7 +48,6 @@ class SimpleViewController: UIViewController {
         
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
-
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()

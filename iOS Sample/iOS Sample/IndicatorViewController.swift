@@ -26,20 +26,28 @@ class IndicatorViewController: UIViewController {
         }()
     ]
     
+    lazy var firstLoad: (() -> Void)? = { [weak self, menuViewController, contentViewController] in
+        menuViewController?.reloadData()
+        contentViewController?.reloadData()
+        self?.firstLoad = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         menuViewController?.registerFocusView(nib: UINib(nibName: "IndicatorFocusMenuView", bundle: nil))
         menuViewController?.register(type: PagingMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
-        
-        menuViewController?.reloadData()
-        contentViewController?.reloadData()
         // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        firstLoad?()
     }
     
 
