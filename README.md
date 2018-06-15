@@ -427,7 +427,7 @@ If you want to align cells on the center, the following code will help you.
 pagingMenuViewController.cellAligenment = .center
 ```
 
-## Underline to have the same width as each title labbel
+## Underline to have the same width as each title label
 
 There is no feature to adjust the underline width in PagingKit.
 But you can adjust by yourself on your view controller. 
