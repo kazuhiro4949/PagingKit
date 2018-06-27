@@ -369,6 +369,7 @@ public class PagingMenuView: UIScrollView {
 
     var contentSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
+            guard UIApplication.shared.delegate?.window??.responds(to: #selector(getter: safeAreaInsets)) ?? false else { return .zero }
             return safeAreaInsets
         } else {
             return .zero
@@ -567,6 +568,7 @@ public class PagingMenuView: UIScrollView {
     
     @available(iOS 11.0, *)
     public override func safeAreaInsetsDidChange() {
+        guard UIApplication.shared.delegate?.window??.responds(to: #selector(safeAreaInsetsDidChange)) ?? false else { return }
         super.safeAreaInsetsDidChange()
         alignEachVisibleCell()
     }
