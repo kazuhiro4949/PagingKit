@@ -248,7 +248,9 @@ public class PagingContentViewController: UIViewController {
         super.viewDidLoad()
         
         if #available(iOS 11.0, *) {
-            scrollView.contentInsetAdjustmentBehavior = .never
+            if scrollView.responds(to: #selector(setter: UIScrollView.contentInsetAdjustmentBehavior)) {
+                scrollView.contentInsetAdjustmentBehavior = .never
+            }
         }
         scrollView.frame = view.bounds
         scrollView.delegate = self
