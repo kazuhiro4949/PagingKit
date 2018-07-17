@@ -497,7 +497,7 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
 
 PagingContentViewController uses UIScrollView to scroll the contents.
 
-You can disable pan gesture as follows.
+You can disable the pan gesture as follows.
 
 ```swift
 override func viewDidLoad() {
