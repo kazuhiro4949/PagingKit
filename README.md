@@ -493,7 +493,7 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
 
 <img width="200" alt="2018-06-15 22 21 35" src="https://user-images.githubusercontent.com/18320004/41470870-e369f890-70ec-11e8-8065-f8b26352ef77.gif">
 
-## Controlling content’s scroll
+## Controlling PagingContentViewController's scroll
 
 PagingContentViewController uses UIScrollView to scroll the contents.
 
