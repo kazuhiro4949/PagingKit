@@ -493,6 +493,32 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
 
 <img width="200" alt="2018-06-15 22 21 35" src="https://user-images.githubusercontent.com/18320004/41470870-e369f890-70ec-11e8-8065-f8b26352ef77.gif">
 
+## Controlling content’s scroll
+
+PagingContentViewController uses UIScrollView to scroll the contents.
+
+You can disable pan gesture as follows.
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    // contentViewController is a PagingContentViewController's object.
+    // ...
+    pagingContentView.scrollView.isScrollEnabled = false
+}
+```
+
+Set false to “delaysContentTouches” in the scroll view when you have some controls (e.g. UISlider) in your contents.
+
+```swift
+override func viewDidLoad() {
+    super.viewDidLoad()
+    // contentViewController is a PagingContentViewController's object.
+    // ...
+    contentViewController.scrollView.delaysContentTouches = false
+}
+```
+
 ## Code Snippets
 There are some snippets to save your time. 
 
