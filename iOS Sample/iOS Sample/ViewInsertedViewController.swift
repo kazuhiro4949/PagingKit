@@ -108,7 +108,7 @@ extension ViewInsertedViewController: PagingContentViewControllerDataSource {
     }
     
     func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
-        return dataSource[Index].content
+        return dataSource[index].content
     }
 }
 
