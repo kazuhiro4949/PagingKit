@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# Xcode
+xcuserdata/
+*.moved-aside
+*.xcuserstate
+*.xcworkspace/xcshareddata/
