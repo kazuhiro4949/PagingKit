@@ -113,7 +113,7 @@ extension MenuReloadableViewController: PagingContentViewControllerDataSource {
         return dataSource.count
     }
     
-    func contentViewController(viewController: PagingContentViewController, viewControllerAt Index: Int) -> UIViewController {
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
         return dataSource[Index].content
     }
 }
