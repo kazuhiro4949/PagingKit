@@ -97,8 +97,8 @@ extension TwoLineMenuViewController: PagingContentViewControllerDataSource {
         return dataSource.count
     }
     
-    func contentViewController(viewController: PagingContentViewController, viewControllerAt Index: Int) -> UIViewController {
-        return dataSource[Index].content
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
+        return dataSource[index].content
     }
 }
 
