@@ -45,6 +45,8 @@
 		2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4171F19F29800829D1A /* TagViewController.swift */; };
 		2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */; };
 		2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */; };
+		2BC7828A2127ED11009999F6 /* InitializingWithoutStoryboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC782892127ED11009999F6 /* InitializingWithoutStoryboardViewController.swift */; };
+		2BC7828C2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC7828B2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard */; };
 		2BE47F081FA41AF40057A786 /* FullscreenViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BE47F071FA41AF40057A786 /* FullscreenViewController.storyboard */; };
 		2BE47F0A1FA41B090057A786 /* FullscreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE47F091FA41B090057A786 /* FullscreenViewController.swift */; };
 		2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */; };
@@ -128,6 +130,8 @@
 		2BC1B4171F19F29800829D1A /* TagViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagViewController.swift; sourceTree = "<group>"; };
 		2BC1B4191F19F4CB00829D1A /* TagMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TagMenuCell.swift; sourceTree = "<group>"; };
 		2BC1B41B1F19F4DF00829D1A /* TagMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TagMenuCell.xib; sourceTree = "<group>"; };
+		2BC782892127ED11009999F6 /* InitializingWithoutStoryboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializingWithoutStoryboardViewController.swift; sourceTree = "<group>"; };
+		2BC7828B2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InitializingWithoutStoryboardViewController.storyboard; sourceTree = "<group>"; };
 		2BE47F071FA41AF40057A786 /* FullscreenViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FullscreenViewController.storyboard; sourceTree = "<group>"; };
 		2BE47F091FA41B090057A786 /* FullscreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenViewController.swift; sourceTree = "<group>"; };
 		2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
@@ -298,6 +302,15 @@
 			name = Tag;
 			sourceTree = "<group>";
 		};
+		2BC782882127ECEE009999F6 /* InitializingWithoutStoryboard */ = {
+			isa = PBXGroup;
+			children = (
+				2BC782892127ED11009999F6 /* InitializingWithoutStoryboardViewController.swift */,
+				2BC7828B2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard */,
+			);
+			name = InitializingWithoutStoryboard;
+			sourceTree = "<group>";
+		};
 		2BE47F061FA41AAF0057A786 /* Fullscreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +345,7 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2BC782882127ECEE009999F6 /* InitializingWithoutStoryboard */,
 				2B40528F20425C6C0017F90E /* DynamicWidth */,
 				2B95EA06203164890054F23E /* Alignment */,
 				6E98277D1F0A91F400860828 /* Main.storyboard */,
@@ -500,6 +514,7 @@
 				2B873AE31F974B3900F02D27 /* ModalViewController.storyboard in Resources */,
 				2B3C7CCB1F8CEF2200A43223 /* TwoLineMenuCell.xib in Resources */,
 				6E9827841F0A91F400860828 /* LaunchScreen.storyboard in Resources */,
+				2BC7828C2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard in Resources */,
 				2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */,
 				2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */,
 				2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */,
@@ -553,6 +568,7 @@
 				2B40529320425C8D0017F90E /* DynamicWidthViewController.swift in Sources */,
 				6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */,
 				2B3C7CD11F8CF4FB00A43223 /* ViewInsertedViewController.swift in Sources */,
+				2BC7828A2127ED11009999F6 /* InitializingWithoutStoryboardViewController.swift in Sources */,
 				2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */,
 				2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */,
 				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
