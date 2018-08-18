@@ -7,6 +7,10 @@
 ## Creating your custom UI components
 PagingKit expects you to create a menu cell and foucs view. You can create and register them like UITableViewCell.
 
+1. Inherite PagingMenuViewCell and create custom cell
+2. Inherite PagingFocusView and create custom view
+3. Register the above views to PagingMenuViewController
+
 Read [this section](https://github.com/kazuhiro4949/PagingKit#3-create-menu-ui) or some sample code.
 
 - [TagMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/TagMenuCell.swift)
