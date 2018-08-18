@@ -13,8 +13,8 @@ PagingKit expects you to create a menu cell and foucs view. You can create and r
 
 Read [this section](https://github.com/kazuhiro4949/PagingKit#3-create-menu-ui) or some sample code.
 
-- [TagMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/TagMenuCell.swift)
-- [OverlayMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayMenuCell.swift) and [OverlayFocusView](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayFocusView.swift)
+- [TagMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/TagMenuCell.swift) and [TagMenuViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/TagViewController.swift)
+- [OverlayMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayMenuCell.swift),  [OverlayFocusView](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayFocusView.swift) and [OverlayViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayViewController.swift)
 
 ## Focused Cell Style
 ```PagingMenuViewCell``` has ```isSelected``` property. ```PagingMenuView``` updates the property if the focusing cell is changed. You can change the style　ｂｙ overriding the property.
