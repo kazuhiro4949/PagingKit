@@ -4,6 +4,14 @@
 
 [SimpleViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/SimpleViewController.swift) in this repository helps you to understand usege. 
 
+## Creating your custom UI components
+PagingKit expects you create a menu cell and foucs view. You can create and register them like UITableViewCell.
+
+Read [this section](https://github.com/kazuhiro4949/PagingKit#3-create-menu-ui) or some sample code.
+
+- [TagMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/TagMenuCell.swift)
+- [OverlayMenuCell](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayMenuCell.swift) and [OverlayFocusView](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayFocusView.swift)
+
 ## Focused Cell Style
 ```PagingMenuViewCell``` has ```isSelected``` property. ```PagingMenuView``` updates the property if the focusing cell is changed. You can change the style　ｂｙ overriding the property.
 
