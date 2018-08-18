@@ -10,6 +10,7 @@ import UIKit
 import PagingKit
 
 class InitializingWithoutStoryboardViewController: UIViewController {
+    // initializes on code
     let contentViewController = PagingContentViewController()
     let menuViewController = PagingMenuViewController()
     
@@ -34,11 +35,15 @@ class InitializingWithoutStoryboardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         do {
+            // needs to set this because it initialize menu vc on code.
             menuViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            // add content vc on this vc.
             addChildViewController(menuViewController)
             view.addSubview(menuViewController.view)
             menuViewController.didMove(toParentViewController: self)
             
+            // set autolayout 
             if #available(iOS 11.0, *) {
                 view.addConstraints([
                     view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: menuViewController.view.topAnchor),
@@ -54,16 +59,21 @@ class InitializingWithoutStoryboardViewController: UIViewController {
                 fatalError("works only ios 11.0~")
             }
             
+            // set delegate and datasource
             menuViewController.delegate = self
             menuViewController.dataSource = self
         }
         
         do {
+            // needs to set this because it initialize content vc on code.
             contentViewController.view.translatesAutoresizingMaskIntoConstraints = false
+            
+            // add content vc on this vc.
             addChildViewController(contentViewController)
             view.addSubview(contentViewController.view)
             contentViewController.didMove(toParentViewController: self)
             
+            // set autolayout 
             if #available(iOS 11.0, *) {
                 view.addConstraints([
                     view.safeAreaLayoutGuide.leftAnchor.constraint(equalTo: contentViewController.view.leftAnchor),
@@ -80,7 +90,7 @@ class InitializingWithoutStoryboardViewController: UIViewController {
                 fatalError("works only ios 11.0~")
             }
 
-            
+            // set delegate and datasource
             contentViewController.delegate = self
             contentViewController.dataSource = self
         }
