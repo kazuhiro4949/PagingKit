@@ -124,6 +124,12 @@ override func viewDidLoad() {
 }
 ```
 
+## Initializing without Storyboard
+Each class in PagingKit is kind of UIViewController or UIView.
+So you can initialize them as you initialize UIViewController or UIView.
+
+Sample Project has this case. see [InitializeWithoutStoryboardViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/InitializingWithoutStoryboardViewController.swift)
+
 ## Code Snippets
 There are some snippets to save your time. 
 
