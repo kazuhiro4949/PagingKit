@@ -385,11 +385,11 @@ public class PagingMenuView: UIScrollView {
     }
 
     var maxContentOffsetX: CGFloat {
-        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
+        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right + contentInset.right) - bounds.width
     }
     
     var minContentOffsetX: CGFloat {
-        return -contentSafeAreaInsets.left
+        return -(contentSafeAreaInsets.left + contentInset.left)
     }
     
     
