@@ -46,8 +46,8 @@ You can customize menu as you like.
 
 # Requirements
 + iOS 8.0+
-+ Xcode 9.0+
-+ Swift 4.0 (3.2)
++ Xcode 10.0+
++ Swift 4.2
 
 # Installation
 
