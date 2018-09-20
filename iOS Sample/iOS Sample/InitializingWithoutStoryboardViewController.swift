@@ -39,9 +39,9 @@ class InitializingWithoutStoryboardViewController: UIViewController {
             menuViewController.view.translatesAutoresizingMaskIntoConstraints = false
             
             // add content vc on this vc.
-            addChildViewController(menuViewController)
+            addChild(menuViewController)
             view.addSubview(menuViewController.view)
-            menuViewController.didMove(toParentViewController: self)
+            menuViewController.didMove(toParent: self)
             
             // set autolayout 
             if #available(iOS 11.0, *) {
@@ -69,9 +69,9 @@ class InitializingWithoutStoryboardViewController: UIViewController {
             contentViewController.view.translatesAutoresizingMaskIntoConstraints = false
             
             // add content vc on this vc.
-            addChildViewController(contentViewController)
+            addChild(contentViewController)
             view.addSubview(contentViewController.view)
-            contentViewController.didMove(toParentViewController: self)
+            contentViewController.didMove(toParent: self)
             
             // set autolayout 
             if #available(iOS 11.0, *) {

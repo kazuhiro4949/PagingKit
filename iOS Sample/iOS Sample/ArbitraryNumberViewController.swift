@@ -80,7 +80,7 @@ extension ArbitraryNumberViewController: PagingMenuViewControllerDataSource {
             return UIScreen.main.bounds.width / CGFloat(dataSource.count)
         } else {
             ArbitraryNumberViewController.sizingCell.titleLabel.text = dataSource[index].menu
-            var referenceSize = UILayoutFittingCompressedSize
+            var referenceSize = UIView.layoutFittingCompressedSize
             referenceSize.height = viewController.view.bounds.height
             let size = ArbitraryNumberViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
             return size.width

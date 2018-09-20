@@ -358,7 +358,7 @@ public class PagingMenuView: UIScrollView {
         focusView.selectedIndex = index
         visibleCells.selectCell(with: index)
         
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+        UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
             self?.focusView.frame = itemFrame
             self?.focusView.layoutIfNeeded()
