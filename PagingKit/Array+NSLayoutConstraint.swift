@@ -24,7 +24,7 @@
 
 import Foundation
 
-extension Array where Element == NSLayoutAttribute {
+extension Array where Element == NSLayoutConstraint.Attribute {
     /// anchor same attributes between fromView and toView
     /// convert to "view1.attr1 = view2.attr2 * multiplier + constant"
     /// - Parameters:

@@ -88,7 +88,7 @@ extension PagingKitProxy where Base == UIView.Type {
         UIView.perform(
             .delete,
             on: [],
-            options: UIViewAnimationOptions(rawValue: 0),
+            options: UIView.AnimationOptions(rawValue: 0),
             animations: animations,
             completion: completion
         )

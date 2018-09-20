@@ -38,7 +38,7 @@ class TagMenuCell: PagingMenuViewCell {
             UIView.perform(
                 .delete,
                 on: [],
-                options: UIViewAnimationOptions(rawValue: 0),
+                options: UIView.AnimationOptions(rawValue: 0),
                 animations: { [weak self] in
                     self?.setNeedsLayout()
                     self?.layoutIfNeeded()

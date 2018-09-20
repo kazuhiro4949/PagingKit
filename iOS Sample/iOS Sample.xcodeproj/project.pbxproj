@@ -756,7 +756,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -771,7 +771,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -786,7 +786,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS Sample.app/iOS Sample";
 			};
 			name = Debug;
@@ -802,7 +802,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS Sample.app/iOS Sample";
 			};
 			name = Release;
@@ -817,7 +817,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = "iOS Sample";
 			};
 			name = Debug;
@@ -832,7 +832,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = "iOS Sample";
 			};
 			name = Release;

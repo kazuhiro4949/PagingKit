@@ -289,7 +289,7 @@ public class PagingContentViewController: UIViewController {
     
     fileprivate func removeAll() {
         scrollView.subviews.forEach { $0.removeFromSuperview() }
-        childViewControllers.forEach { $0.removeFromParentViewController() }
+        children.forEach { $0.removeFromParent() }
     }
     
     fileprivate func initialLoad(with page: Int) {
@@ -306,11 +306,11 @@ public class PagingContentViewController: UIViewController {
         
         if case nil = cachedViewControllers[page], let dataSource = dataSource {
             let vc = dataSource.contentViewController(viewController: self, viewControllerAt: page)
-            addChildViewController(vc)
+            addChild(vc)
             vc.view.frame = scrollView.bounds
             vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
             scrollView.addSubview(vc.view)
-            vc.didMove(toParentViewController: self)
+            vc.didMove(toParent: self)
             cachedViewControllers[page] = vc
         }
     }

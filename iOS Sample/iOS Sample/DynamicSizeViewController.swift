@@ -70,7 +70,7 @@ class DynamicSizeViewController: UIViewController {
         let height = size.height * CGFloat(arc4random_uniform(100)) / 100
         
         let updateSize = height <= 108 ? .zero : CGSize(width: width, height: height)
-        UIView.perform(.delete, on: [], options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+        UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.view.frame.size = updateSize
             self?.view.setNeedsLayout()
             self?.view.layoutIfNeeded()
@@ -88,7 +88,7 @@ extension DynamicSizeViewController: PagingMenuViewControllerDataSource {
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         DynamicSizeViewController.sizingCell.titleLabel.text = dataSource[index].menu
-        var referenceSize = UILayoutFittingCompressedSize
+        var referenceSize = UIView.layoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
         let size = DynamicSizeViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
         return size.width

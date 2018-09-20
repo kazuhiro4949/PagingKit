@@ -96,7 +96,7 @@ extension MenuReloadableViewController: PagingMenuViewControllerDataSource {
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         MenuReloadableViewController.sizingCell.titleLabel.text = dataSource[index].menu
-        var referenceSize = UILayoutFittingCompressedSize
+        var referenceSize = UIView.layoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
         let size = MenuReloadableViewController.sizingCell.systemLayoutSizeFitting(referenceSize)
         return size.width

@@ -89,7 +89,7 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
     
     
     /// syntax sugar of NSLayoutConstraint for titleLabel (Because this library supports iOS8, it cannnot use NSLayoutAnchor.)
-    private func anchorLabel(from fromItem: Any, to toItem: Any, attribute: NSLayoutAttribute) -> NSLayoutConstraint {
+    private func anchorLabel(from fromItem: Any, to toItem: Any, attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint {
         return NSLayoutConstraint(
             item: fromItem,
             attribute: attribute,
