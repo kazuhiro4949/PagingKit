@@ -369,6 +369,7 @@ public class PagingMenuView: UIScrollView {
 
     var contentSafeAreaInsets: UIEdgeInsets {
         if #available(iOS 11.0, *) {
+            guard UIApplication.shared.delegate?.window??.responds(to: #selector(getter: safeAreaInsets)) ?? false else { return .zero }
             return safeAreaInsets
         } else {
             return .zero
@@ -384,11 +385,11 @@ public class PagingMenuView: UIScrollView {
     }
 
     var maxContentOffsetX: CGFloat {
-        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right) - bounds.width
+        return max(bounds.width, contentSize.width + contentSafeAreaInsets.right + contentInset.right) - bounds.width
     }
     
     var minContentOffsetX: CGFloat {
-        return -contentSafeAreaInsets.left
+        return -(contentSafeAreaInsets.left + contentInset.left)
     }
     
     
@@ -567,6 +568,7 @@ public class PagingMenuView: UIScrollView {
     
     @available(iOS 11.0, *)
     public override func safeAreaInsetsDidChange() {
+        guard UIApplication.shared.delegate?.window??.responds(to: #selector(safeAreaInsetsDidChange)) ?? false else { return }
         super.safeAreaInsetsDidChange()
         alignEachVisibleCell()
     }
