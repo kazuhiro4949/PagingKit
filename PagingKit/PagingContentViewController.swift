@@ -132,6 +132,12 @@ public class PagingContentViewController: UIViewController {
     fileprivate var leftSidePageIndex = 0
     fileprivate var numberOfPages: Int = 0
     fileprivate var explicitPaging: ExplicitPaging?
+    
+    /// The ratio at which the origin of the left side content is offset from the origin of the page.
+    private var leftSidePagingPercent: CGFloat {
+        let rawPagingPercent = scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
+        return min(max(0, rawPagingPercent), 1)
+    }
 
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
@@ -145,17 +151,21 @@ public class PagingContentViewController: UIViewController {
     public var contentOffsetRatio: CGFloat {
         return scrollView.contentOffset.x / (scrollView.contentSize.width - scrollView.bounds.width)
     }
-
-    /// The ratio at which the origin of the left side content is offset from the origin of the page.
-    public var pagingPercent: CGFloat {
-        return scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
-    }
     
     /// The index at which the view controller is showing.
     public var currentPageIndex: Int {
-        let scrollToRightSide = (pagingPercent > 0.5)
-        let rightSidePageIndex = min(cachedViewControllers.endIndex, leftSidePageIndex + 1)
-        return scrollToRightSide ? rightSidePageIndex : leftSidePageIndex
+        return calcCurrentPageIndex(from: leftSidePageIndex, pagingPercent: leftSidePagingPercent)
+    }
+    
+    public var currentPagingPercent: CGFloat {
+        return calcCurrentPagingPercent(leftSidePagingPercent)
+    }
+    
+    
+    /// previsous or next focusing index
+    public var adjucentPageIndex: Int {
+        let percent = calcCurrentPagingPercent(leftSidePagingPercent)
+        return percent < 0 ? currentPageIndex - 1 : currentPageIndex + 1
     }
     
     ///  Reloads the content of the view controller.
@@ -327,6 +337,30 @@ public class PagingContentViewController: UIViewController {
         scrollView.layer.removeAllAnimations()
         scrollView.setContentOffset(scrollView.contentOffset, animated: false)
     }
+    
+    /// calculates current page defined in PagingKit
+    ///
+    /// - Parameters:
+    ///   - leftSidePageIndex: page index showing on left side
+    ///   - pagingPercent: paging percent from left side index
+    /// - Returns: current focusing index
+    private func calcCurrentPageIndex(from leftSidePageIndex: Int, pagingPercent: CGFloat) -> Int {
+        let scrollToRightSide = (pagingPercent >= 0.5)
+        let rightSidePageIndex = min(cachedViewControllers.endIndex, leftSidePageIndex + 1)
+        return scrollToRightSide ? rightSidePageIndex : leftSidePageIndex
+    }
+    
+    /// calculate paging percent defined by PagingKit from left side paging percent
+    ///
+    /// - Parameter leftSidePagingPercent: left side paging percent
+    /// - Returns: paging parcent defined by PagingKit
+    fileprivate func calcCurrentPagingPercent(_ leftSidePagingPercent: CGFloat) -> CGFloat {
+        if leftSidePagingPercent >= 0.5 {
+            return (leftSidePagingPercent - 1)
+        } else {
+            return leftSidePagingPercent
+        }
+    }
 }
 
 // MARK:- UIScrollViewDelegate
@@ -346,8 +380,9 @@ extension PagingContentViewController: UIScrollViewDelegate {
         if let explicitPaging = explicitPaging {
             explicitPaging.fireOnetimeHandlerIfNeeded()
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
-            let normalizedPercent = min(max(0, pagingPercent), 1)
-            delegate?.contentViewController(viewController: self, didManualScrollOn: leftSidePageIndex, percent: normalizedPercent)
+            let normalizedPercent = calcCurrentPagingPercent(leftSidePagingPercent)
+            let currentIndex = calcCurrentPageIndex(from: leftSidePageIndex, pagingPercent: leftSidePagingPercent)
+            delegate?.contentViewController(viewController: self, didManualScrollOn: currentIndex, percent: normalizedPercent)
         }
     }
     

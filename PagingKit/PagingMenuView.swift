@@ -324,6 +324,8 @@ public class PagingMenuView: UIScrollView {
     ///   - index: A index defining an menu of the menu view.
     ///   - percent: A rate that transit from the index.
     public func scroll(index: Int, percent: CGFloat = 0) {
+        let (index, percent) = correctScrollIndexAndPercent(index: index, percent: percent)
+
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
@@ -546,6 +548,21 @@ public class PagingMenuView: UIScrollView {
         }
 
         containerView.frame.origin.x = expectedOriginX
+    }
+    
+    
+    /// correct a page index as starting index is always left side.
+    ///
+    /// - Parameters:
+    ///   - index: current page index defined in PagingKit
+    ///   - percent: current percent defined in PagingKit
+    /// - Returns: index and percent
+    private func correctScrollIndexAndPercent(index: Int, percent: CGFloat) -> (index: Int, percent: CGFloat) {
+        if percent < 0 {
+            return (index: max(index - 1, 0), percent: percent + 1)
+        } else {
+            return (index: index, percent: percent)
+        }
     }
     
     //MARK:- Life Cycle

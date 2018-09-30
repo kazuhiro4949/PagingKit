@@ -112,13 +112,11 @@ extension OverlayViewController: PagingMenuViewControllerDelegate {
 
 extension OverlayViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        if percent < 0.5 {
-            let cell = menuViewController.cellForItem(at: index) as? OverlayMenuCell
-            cell?.black(percent: percent * 2)
-        } else {
-            let cell = menuViewController.cellForItem(at: index + 1) as? OverlayMenuCell
-            cell?.black(percent: (1 - percent) * 2)
-        }
+        let adjucentCell = menuViewController.cellForItem(at: viewController.adjucentPageIndex) as? OverlayMenuCell
+        let currentCell = menuViewController.cellForItem(at: index) as? OverlayMenuCell
+        currentCell?.black(percent: (abs(percent)) * 2)
+        adjucentCell?.black(percent: (1 - abs(percent)) * 2)
+
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }
 }
