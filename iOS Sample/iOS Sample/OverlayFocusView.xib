@@ -26,8 +26,8 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="AhR-eg-gSy" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="CeB-4e-CyK"/>
-                <constraint firstItem="AhR-eg-gSy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="XJX-N8-Zzt"/>
-                <constraint firstAttribute="trailing" secondItem="AhR-eg-gSy" secondAttribute="trailing" constant="8" id="voq-rB-VUn"/>
+                <constraint firstItem="AhR-eg-gSy" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" priority="750" constant="8" id="XJX-N8-Zzt"/>
+                <constraint firstAttribute="trailing" secondItem="AhR-eg-gSy" secondAttribute="trailing" priority="750" constant="8" id="voq-rB-VUn"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
