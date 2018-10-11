@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B24D3FF216F076400D2E8DC /* NavigationBarVIewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B24D3FE216F076400D2E8DC /* NavigationBarVIewController.storyboard */; };
 		2B3C7CC51F8CEB0100A43223 /* TwoLineMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C7CC41F8CEB0100A43223 /* TwoLineMenuViewController.swift */; };
 		2B3C7CC71F8CEB0900A43223 /* TwoLineMenuViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B3C7CC61F8CEB0900A43223 /* TwoLineMenuViewController.storyboard */; };
 		2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B3C7CC81F8CEF1200A43223 /* TwoLineMenuCell.swift */; };
@@ -92,6 +93,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B24D3FE216F076400D2E8DC /* NavigationBarVIewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NavigationBarVIewController.storyboard; sourceTree = "<group>"; };
 		2B3C7CC41F8CEB0100A43223 /* TwoLineMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineMenuViewController.swift; sourceTree = "<group>"; };
 		2B3C7CC61F8CEB0900A43223 /* TwoLineMenuViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = TwoLineMenuViewController.storyboard; sourceTree = "<group>"; };
 		2B3C7CC81F8CEF1200A43223 /* TwoLineMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwoLineMenuCell.swift; sourceTree = "<group>"; };
@@ -178,6 +180,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B24D3FD216F074100D2E8DC /* NavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				2B24D3FE216F076400D2E8DC /* NavigationBarVIewController.storyboard */,
+			);
+			name = NavigationBar;
+			sourceTree = "<group>";
+		};
 		2B3C7CC31F8CEAB800A43223 /* TwoLineMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -345,6 +355,7 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2B24D3FD216F074100D2E8DC /* NavigationBar */,
 				2BC782882127ECEE009999F6 /* InitializingWithoutStoryboard */,
 				2B40528F20425C6C0017F90E /* DynamicWidth */,
 				2B95EA06203164890054F23E /* Alignment */,
@@ -515,6 +526,7 @@
 				2B3C7CCB1F8CEF2200A43223 /* TwoLineMenuCell.xib in Resources */,
 				6E9827841F0A91F400860828 /* LaunchScreen.storyboard in Resources */,
 				2BC7828C2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard in Resources */,
+				2B24D3FF216F076400D2E8DC /* NavigationBarVIewController.storyboard in Resources */,
 				2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */,
 				2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */,
 				2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */,
