@@ -183,10 +183,7 @@ public class PagingMenuViewController: UIViewController {
     ///   - view: A view object to use focus view.
     ///   - isBehindCell: the focus view is placed behind the menus of menu view controller.
     public func registerFocusView(view: UIView, isBehindCell: Bool = false) {
-        menuView.focusView.addSubview(view)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        menuView.focusView.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: view, to: menuView.focusView))
-        menuView.focusView.layer.zPosition = isBehindCell ? -1 : 0
+        menuView.registerFocusView(view: view, isBehindCell: isBehindCell)
     }
 
     /// Registers a nib that a menu view controller uses to focus each menu.
@@ -195,8 +192,7 @@ public class PagingMenuViewController: UIViewController {
     ///   - view: A nib object to use focus view.
     ///   - isBehindCell: the focus view is placed behind the menus of menu view controller.
     public func registerFocusView(nib: UINib, isBehindCell: Bool = false) {
-        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
-        registerFocusView(view: view, isBehindCell: isBehindCell)
+        menuView.registerFocusView(nib: nib, isBehindCell: isBehindCell)
     }
     
     /// Registers a nib object containing a cell with the menu view controller under a specified identifier.
@@ -234,18 +230,8 @@ public class PagingMenuViewController: UIViewController {
     ///   - completionHandler: The block to execute after the reloading finishes. This block has no return value and takes no parameters. You may specify nil for this parameter.
     public func reloadData(with preferredFocusIndex: Int? = nil, completionHandler: ((Bool) -> Void)? = nil) {
         let selectedIndex = preferredFocusIndex ?? currentFocusedIndex ?? 0
-        menuView.focusView.selectedIndex = selectedIndex
-        menuView.contentOffset = .zero
         fireInvalidateLayout = { [weak self] in
-            self?.menuView.reloadData()
-            UIView.pk.catchLayoutCompletion(
-                layout: { [weak self] in
-                    self?.scroll(index: selectedIndex, percent: 0, animated: false)
-                },
-                completion: { (finish) in
-                    completionHandler?(finish)
-                }
-            )
+            self?.menuView.reloadData(with: selectedIndex, completion: completionHandler)
         }
 
         view.setNeedsLayout()

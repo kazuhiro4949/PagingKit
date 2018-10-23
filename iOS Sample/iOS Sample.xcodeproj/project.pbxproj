@@ -32,6 +32,8 @@
 		2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */; };
 		2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */; };
 		2B4F03521F905B930015FCC8 /* ContentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */; };
+		2B7F2E64217EBF1400523F2E /* NavigationBarVIewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B7F2E62217EBF0800523F2E /* NavigationBarVIewController.storyboard */; };
+		2B7F2E65217EBF1400523F2E /* NavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B7F2E63217EBF1400523F2E /* NavigationBarViewController.swift */; };
 		2B873AE31F974B3900F02D27 /* ModalViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B873AE21F974B3900F02D27 /* ModalViewController.storyboard */; };
 		2B95EA03203157B70054F23E /* MenuReloadableViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B95EA02203157B70054F23E /* MenuReloadableViewController.storyboard */; };
 		2B95EA05203157C70054F23E /* MenuReloadableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B95EA04203157C70054F23E /* MenuReloadableViewController.swift */; };
@@ -117,6 +119,8 @@
 		2B4F034D1F9057380015FCC8 /* ContentTableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentTableViewController.storyboard; sourceTree = "<group>"; };
 		2B4F034F1F90575B0015FCC8 /* ContentTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewController.swift; sourceTree = "<group>"; };
 		2B4F03511F905B930015FCC8 /* ContentTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTableViewCell.swift; sourceTree = "<group>"; };
+		2B7F2E62217EBF0800523F2E /* NavigationBarVIewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NavigationBarVIewController.storyboard; sourceTree = "<group>"; };
+		2B7F2E63217EBF1400523F2E /* NavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationBarViewController.swift; sourceTree = "<group>"; };
 		2B873AE21F974B3900F02D27 /* ModalViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ModalViewController.storyboard; sourceTree = "<group>"; };
 		2B95EA02203157B70054F23E /* MenuReloadableViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MenuReloadableViewController.storyboard; sourceTree = "<group>"; };
 		2B95EA04203157C70054F23E /* MenuReloadableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuReloadableViewController.swift; sourceTree = "<group>"; };
@@ -345,6 +349,8 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2B7F2E62217EBF0800523F2E /* NavigationBarVIewController.storyboard */,
+				2B7F2E63217EBF1400523F2E /* NavigationBarViewController.swift */,
 				2BC782882127ECEE009999F6 /* InitializingWithoutStoryboard */,
 				2B40528F20425C6C0017F90E /* DynamicWidth */,
 				2B95EA06203164890054F23E /* Alignment */,
@@ -515,6 +521,7 @@
 				2B3C7CCB1F8CEF2200A43223 /* TwoLineMenuCell.xib in Resources */,
 				6E9827841F0A91F400860828 /* LaunchScreen.storyboard in Resources */,
 				2BC7828C2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard in Resources */,
+				2B7F2E64217EBF1400523F2E /* NavigationBarVIewController.storyboard in Resources */,
 				2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */,
 				2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */,
 				2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */,
@@ -573,6 +580,7 @@
 				2B3C7CC91F8CEF1200A43223 /* TwoLineMenuCell.swift in Sources */,
 				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
 				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
+				2B7F2E65217EBF1400523F2E /* NavigationBarViewController.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
 				2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */,
