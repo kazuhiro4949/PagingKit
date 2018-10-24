@@ -55,8 +55,8 @@ open class PagingMenuViewCell: UIView {
 }
 
 /// A view that focus menu corresponding to current page.
-public class PagingMenuFocusView: UIView {
-    var selectedIndex: Int?
+open class PagingMenuFocusView: UIView {
+    open var selectedIndex: Int?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -113,7 +113,7 @@ public protocol PagingMenuViewDelegate: class {
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
-public class PagingMenuView: UIScrollView {
+open class PagingMenuView: UIScrollView {
     enum RegisteredCell {
         case nib(nib: UINib)
         case type(type: PagingMenuViewCell.Type)
@@ -145,13 +145,13 @@ public class PagingMenuView: UIScrollView {
         }
     }
 
-    //MARK:- Public
+    //MARK:- open
     
     /// The object that acts as the indicator to focus current menu.
     public let focusView = PagingMenuFocusView(frame: .zero)
     
     /// Returns an array of visible cells currently displayed by the menu view.
-    public fileprivate(set) var visibleCells = [PagingMenuViewCell]()
+    open fileprivate(set) var visibleCells = [PagingMenuViewCell]()
 
     fileprivate var queue = [String: [PagingMenuViewCell]]()
     fileprivate var registeredCells = [String: RegisteredCell]()
@@ -161,16 +161,16 @@ public class PagingMenuView: UIScrollView {
     
     
     /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells. (default: .left)
-    public var cellAlignment: Alignment = .left
+    open var cellAlignment: Alignment = .left
     
     /// space setting between cells
-    public var cellSpacing: CGFloat = 0
+    open var cellSpacing: CGFloat = 0
     
     /// The object that acts as the data source of the paging menu view.
-    public weak var dataSource: PagingMenuViewDataSource?
+    open weak var dataSource: PagingMenuViewDataSource?
     
     /// The object that acts as the delegate of the paging menu view.
-    public weak var menuDelegate: PagingMenuViewDelegate?
+    open weak var menuDelegate: PagingMenuViewDelegate?
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -187,13 +187,13 @@ public class PagingMenuView: UIScrollView {
     }
 
     /// The number of items in the paging menu view.
-    public var numberOfItem: Int = 0
+    open var numberOfItem: Int = 0
     
     /// Returns an index identifying the row and section at the given point.
     ///
     /// - Parameter point: A point in the local coordinate system of the paging menu view (the paging menu view’s bounds).
     /// - Returns: An index path representing the item associated with point, or nil if the point is out of the bounds of any item.
-    public func indexForItem(at point: CGPoint) -> Int? {
+    open func indexForItem(at point: CGPoint) -> Int? {
         var currentOffsetX: CGFloat = 0
         var resultIndex: Int? = nil
         for (idx, width) in widths.enumerated() {
@@ -211,25 +211,27 @@ public class PagingMenuView: UIScrollView {
     ///
     /// - Parameter index: The index locating the item in the paging menu view.
     /// - Returns: An object representing a cell of the menu, or nil if the cell is not visible or index is out of range.
-    public func cellForItem(at index: Int) -> PagingMenuViewCell? {
+    open func cellForItem(at index: Int) -> PagingMenuViewCell? {
         return visibleCells.filter { $0.index == index }.first
     }
     
-    /// Reloads the rows and sections of the table view.
-    public func reloadData() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        visibleCells.forEach { $0.removeFromSuperview() }
-        visibleCells = []
-        
-        numberOfItem = dataSource.numberOfItemForPagingMenuView()
-        
-        invalidateLayout()
-        
-        setNeedsLayout()
-        layoutIfNeeded()
+    /// Reloads the rows and sections of the menu view.
+    ///
+    /// - Parameters:
+    ///   - index: focusing index
+    ///   - completion: completion handler
+    open func reloadData(with index: Int = 0, completion: ((Bool) -> Void)? = nil) {
+        focusView.selectedIndex = index
+        contentOffset = .zero
+        _reloadData()
+        UIView.pk.catchLayoutCompletion(
+            layout: { [weak self] in
+                self?.scroll(index: index)
+            },
+            completion: { finish in
+                completion?(finish)
+            }
+        )
     }
     
     /// Registers a nib object containing a cell with the paging menu view under a specified identifier.
@@ -237,7 +239,7 @@ public class PagingMenuView: UIScrollView {
     /// - Parameters:
     ///   - nib: A nib object that specifies the nib file to use to create the cell.
     ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
-    public func register(nib: UINib?, with identifier: String) {
+    open func register(nib: UINib?, with identifier: String) {
         registeredCells[identifier] = nib.flatMap { .nib(nib: $0) }
     }
     
@@ -246,15 +248,27 @@ public class PagingMenuView: UIScrollView {
     /// - Parameters:
     ///   - type: A type that specifies the cell to use to create it.
     ///   - identifier: The reuse identifier for the cell. This parameter must not be nil and must not be an empty string.
-    public func register(type: PagingMenuViewCell.Type, with identifier: String) {
+    open func register(type: PagingMenuViewCell.Type, with identifier: String) {
         registeredCells[identifier] = .type(type: type)
+    }
+    
+    open func registerFocusView(view: UIView, isBehindCell: Bool = false) {
+        focusView.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        focusView.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: view, to: focusView))
+        focusView.layer.zPosition = isBehindCell ? -1 : 0
+    }
+    
+    open func registerFocusView(nib: UINib, isBehindCell: Bool = false) {
+        let view = nib.instantiate(withOwner: self, options: nil).first as! UIView
+        registerFocusView(view: view, isBehindCell: isBehindCell)
     }
 
     /// Returns a reusable paging menu view cell object for the specified reuse identifier and adds it to the menu.
     ///
     /// - Parameter identifier: A string identifying the cell object to be reused. This parameter must not be nil.
     /// - Returns: The index specifying the location of the cell.
-    public func dequeue(with identifier: String) -> PagingMenuViewCell {
+    open func dequeue(with identifier: String) -> PagingMenuViewCell {
         if var cells = queue[identifier], !cells.isEmpty {
             let cell = cells.removeFirst()
             queue[identifier] = cells
@@ -280,7 +294,7 @@ public class PagingMenuView: UIScrollView {
     ///
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
-    public func rectForItem(at index: Int) -> CGRect {
+    open func rectForItem(at index: Int) -> CGRect {
         guard index < widths.count else {
             let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
             return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
@@ -293,7 +307,7 @@ public class PagingMenuView: UIScrollView {
         return CGRect(x: x, y: 0, width: widths[index], height: bounds.height)
     }
     
-    public func invalidateLayout() {
+    open func invalidateLayout() {
         guard let dataSource = dataSource else {
             return
         }
@@ -312,7 +326,7 @@ public class PagingMenuView: UIScrollView {
         alignEachVisibleCell()
     }
     
-    public override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    open override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(UIView.bounds), let newFrame = change?[.newKey] as? CGRect, let oldFrame = change?[.oldKey] as? CGRect, newFrame.height != oldFrame.height {
             adjustComponentHeights(from: newFrame.height)
         }
@@ -323,7 +337,7 @@ public class PagingMenuView: UIScrollView {
     /// - Parameters:
     ///   - index: A index defining an menu of the menu view.
     ///   - percent: A rate that transit from the index.
-    public func scroll(index: Int, percent: CGFloat = 0) {
+    open func scroll(index: Int, percent: CGFloat = 0) {
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
@@ -349,7 +363,7 @@ public class PagingMenuView: UIScrollView {
     /// - Parameters:
     ///   - index: A index defining an menu of the menu view.
     ///   - completeHandler: handler called after completion
-    public func scroll(index: Int, completeHandler: @escaping (Bool) -> Void) {
+    open func scroll(index: Int, completeHandler: @escaping (Bool) -> Void) {
         let itemFrame = rectForItem(at: index)
         
         let offsetX = itemFrame.midX - bounds.width / 2
@@ -398,6 +412,24 @@ public class PagingMenuView: UIScrollView {
     }
 
     // MARK:- Private
+    
+    /// Reloads the rows and sections of the menu view.
+    private func _reloadData() {
+        guard let dataSource = dataSource else {
+            return
+        }
+        
+        visibleCells.forEach { $0.removeFromSuperview() }
+        visibleCells = []
+        
+        numberOfItem = dataSource.numberOfItemForPagingMenuView()
+        
+        invalidateLayout()
+        
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+    
     
     private func configureContainerView() {
         containerView.frame = bounds
@@ -550,7 +582,7 @@ public class PagingMenuView: UIScrollView {
     
     //MARK:- Life Cycle
     
-    public override func layoutSubviews() {
+    open override func layoutSubviews() {
         super.layoutSubviews()
         
         if numberOfItem != 0 {
@@ -566,7 +598,7 @@ public class PagingMenuView: UIScrollView {
     }
     
     @available(iOS 11.0, *)
-    public override func safeAreaInsetsDidChange() {
+    open override func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
         alignEachVisibleCell()
     }
@@ -578,13 +610,13 @@ public class PagingMenuView: UIScrollView {
 
 //MARK:- Touch Event
 extension PagingMenuView {
-    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
         guard let touchPoint = touches.first.flatMap({ $0.location(in: containerView) }) else { return }
         touchingIndex = visibleCells.filter { cell in cell.frame.contains(touchPoint) }.first?.index
     }
     
-    public override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
         defer {
             touchingIndex = nil
@@ -599,7 +631,7 @@ extension PagingMenuView {
         }
     }
     
-    public override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+    open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
         touchingIndex = nil
     }
