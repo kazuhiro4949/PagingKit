@@ -400,6 +400,7 @@ That's it.
 - [Underline to have the same width as each title label](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#underline-to-have-the-same-width-as-each-title-label)
 - [Controlling PagingContentViewController's scroll](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#controlling-pagingcontentviewcontrollers-scroll)
 - [Initializing without Storyboard](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#initializing-without-storyboard)
+- [Put menu on UINavigationBar](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#put-menu-on-uinavigationbar)
 - [Code Snippets](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#code-snippets)
 
 # Class Design
