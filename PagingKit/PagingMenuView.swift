@@ -215,8 +215,8 @@ open class PagingMenuView: UIScrollView {
         return visibleCells.filter { $0.index == index }.first
     }
     
-    /// Reloads the rows and sections of the table view.
-    open func reloadData() {
+    /// Reloads the rows and sections of the menu view.
+    private func reloadData() {
         guard let dataSource = dataSource else {
             return
         }
@@ -232,7 +232,13 @@ open class PagingMenuView: UIScrollView {
         layoutIfNeeded()
     }
     
-    open func reloadData(with index: Int, completion: ((Bool) -> Void)? = nil) {
+    
+    /// Reloads the rows and sections of the menu view.
+    ///
+    /// - Parameters:
+    ///   - index: focusing index
+    ///   - completion: completion handler
+    open func reloadData(with index: Int = 0, completion: ((Bool) -> Void)? = nil) {
         focusView.selectedIndex = index
         contentOffset = .zero
         reloadData()
