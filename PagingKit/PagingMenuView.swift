@@ -216,24 +216,6 @@ open class PagingMenuView: UIScrollView {
     }
     
     /// Reloads the rows and sections of the menu view.
-    private func reloadData() {
-        guard let dataSource = dataSource else {
-            return
-        }
-
-        visibleCells.forEach { $0.removeFromSuperview() }
-        visibleCells = []
-        
-        numberOfItem = dataSource.numberOfItemForPagingMenuView()
-        
-        invalidateLayout()        
-        
-        setNeedsLayout()
-        layoutIfNeeded()
-    }
-    
-    
-    /// Reloads the rows and sections of the menu view.
     ///
     /// - Parameters:
     ///   - index: focusing index
@@ -241,7 +223,7 @@ open class PagingMenuView: UIScrollView {
     open func reloadData(with index: Int = 0, completion: ((Bool) -> Void)? = nil) {
         focusView.selectedIndex = index
         contentOffset = .zero
-        reloadData()
+        _reloadData()
         UIView.pk.catchLayoutCompletion(
             layout: { [weak self] in
                 self?.scroll(index: index)
@@ -430,6 +412,24 @@ open class PagingMenuView: UIScrollView {
     }
 
     // MARK:- Private
+    
+    /// Reloads the rows and sections of the menu view.
+    private func _reloadData() {
+        guard let dataSource = dataSource else {
+            return
+        }
+        
+        visibleCells.forEach { $0.removeFromSuperview() }
+        visibleCells = []
+        
+        numberOfItem = dataSource.numberOfItemForPagingMenuView()
+        
+        invalidateLayout()
+        
+        setNeedsLayout()
+        layoutIfNeeded()
+    }
+    
     
     private func configureContainerView() {
         containerView.frame = bounds
