@@ -143,6 +143,36 @@ So you can initialize them as you initialize UIViewController or UIView.
 
 Sample Project has this case. see [InitializeWithoutStoryboardViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/InitializingWithoutStoryboardViewController.swift)
 
+## add menu view on UINavigationBar
+Initialize PagingMenuView directory and set it to container view controller's navigationTitme.titleView
+The following is part of the code. You can check the sample view controller. See [NavigationBarViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/NavigationBarViewController.swift)
+
+```swift
+class NavigationBarViewController: UIViewController {
+    
+    
+    lazy var menuView: PagingMenuView = {
+        let menuView = PagingMenuView(frame: CGRect(x: 0, y: 0, width: 200, height: 44))
+        menuView.dataSource = self
+        menuView.menuDelegate = self
+        menuView.cellAlignment = .center
+        
+        menuView.register(type: TitleLabelMenuViewCell.self, with: "identifier")
+        menuView.registerFocusView(view: UnderlineFocusView())
+        return menuView
+    }()
+    var contentViewController: PagingContentViewController?
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        menuView.reloadData(with: 0)
+        contentViewController?.reloadData()
+
+        navigationItem.titleView = menuView
+    }
+```
+
 ## Code Snippets
 There are some snippets to save your time. 
 
