@@ -166,7 +166,7 @@ class NavigationBarViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuView.reloadData(with: 0)
+        menuView.reloadData()
         contentViewController?.reloadData()
 
         navigationItem.titleView = menuView
