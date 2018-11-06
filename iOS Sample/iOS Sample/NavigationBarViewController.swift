@@ -33,9 +33,8 @@ class NavigationBarViewController: UIViewController {
         menuView.dataSource = self
         menuView.menuDelegate = self
         menuView.cellAlignment = .center
-        
-        menuView.register(type: TitleLabelMenuViewCell.self, with: "identifier")
-        menuView.registerFocusView(view: UnderlineFocusView())
+        menuView.register(nib: UINib(nibName: "NavigationBarMenuCell", bundle: nil), with: "identifier")
+        menuView.registerFocusView(nib: UINib(nibName: "NavigationBarFocusView", bundle: nil))
         return menuView
     }()
     var contentViewController: PagingContentViewController?
@@ -87,7 +86,7 @@ extension NavigationBarViewController: PagingMenuViewDataSource {
     }
     
     func pagingMenuView(pagingMenuView: PagingMenuView, cellForItemAt index: Int) -> PagingMenuViewCell {
-        let cell = pagingMenuView.dequeue(with: "identifier") as! TitleLabelMenuViewCell
+        let cell = pagingMenuView.dequeue(with: "identifier") as! NavigationBarMenuCell
         cell.titleLabel.text = dataSource[index].menu
         cell.backgroundColor = .clear
         return cell
