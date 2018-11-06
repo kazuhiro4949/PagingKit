@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PagingKit"
-  s.version          = "1.6.1"
+  s.version          = "1.7.0"
   s.summary          = "PagingKit provides customisable menu & content UI."
 
   s.description      = <<-DESC
