@@ -132,14 +132,14 @@ class PagingMenuViewControllerTests: XCTestCase {
         
         menuViewController.reloadData()
         
-        let indices = menuViewController.visibleCells.flatMap { $0.index }
+        let indices = menuViewController.visibleCells.compactMap { $0.index }
         let randamizedScrollOrder = (0..<10).map { _ in Int(arc4random_uniform(UInt32(indices.last ?? 0))) }
         var resultOrder = [Int?]()
         for i in randamizedScrollOrder {
             menuViewController.scroll(index: i, animated: false)
             resultOrder.append(menuViewController.currentFocusedCell?.index)
         }
-        let actualScrollOrder = resultOrder.flatMap{ $0 }
+        let actualScrollOrder = resultOrder.compactMap{ $0 }
         XCTAssertEqual(actualScrollOrder, randamizedScrollOrder, "focus correct cell")
     }
     

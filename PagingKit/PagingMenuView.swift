@@ -459,7 +459,7 @@ open class PagingMenuView: UIScrollView {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
         let centerOffsetX = (contentWidth - bounds.size.width) / 2
-        let distanceFromCenter = fabs(currentOffset.x - centerOffsetX)
+        let distanceFromCenter = abs(currentOffset.x - centerOffsetX)
         
         if distanceFromCenter > (contentWidth - bounds.size.width) / 4 {
             contentOffset = CGPoint(x: centerOffsetX, y: currentOffset.y)

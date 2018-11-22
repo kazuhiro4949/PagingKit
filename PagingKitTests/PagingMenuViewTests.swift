@@ -146,7 +146,7 @@ class PagingMenuViewTests: XCTestCase {
         pagingMenuView.dataSource = dataSource
         pagingMenuView.reloadData()
         
-        let actualRects = (0..<dataSource.data.count).flatMap(pagingMenuView.rectForItem)
+        let actualRects = (0..<dataSource.data.count).compactMap(pagingMenuView.rectForItem)
         let expectedRects = Array(stride(from: 0, to: 2000, by: 100)).map { CGRect(x: $0, y: 0, width: 100, height: 44) }
         XCTAssertEqual(actualRects,
                        expectedRects, "get correct rect")
@@ -279,7 +279,7 @@ class PagingMenuViewTests: XCTestCase {
                 
                 let cellIndice = pagingMenuView
                     .visibleCells
-                    .flatMap(pagingMenuView.containerView.subviews.index(of:))
+                    .compactMap(pagingMenuView.containerView.subviews.index(of:))
                 
                 let aboveIndices = cellIndice.filter { Int($0) > Int(focusViewIndex) }
                 XCTAssertEqual(aboveIndices.count, 0, "focus view is in front of cell")
@@ -298,7 +298,7 @@ class PagingMenuViewTests: XCTestCase {
                 
                 let cellIndice = pagingMenuView
                     .visibleCells
-                    .flatMap(pagingMenuView.containerView.subviews.index(of:))
+                    .compactMap(pagingMenuView.containerView.subviews.index(of:))
                 
                 let aboveIndices = cellIndice.filter { Int($0) > Int(focusViewIndex) }
                 XCTAssertEqual(aboveIndices.count, 0, "focus view is in front of cell")
