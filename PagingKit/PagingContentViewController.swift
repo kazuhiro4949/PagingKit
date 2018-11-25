@@ -128,6 +128,13 @@ public class PagingContentViewController: UIViewController {
         }
     }
     
+    private static var scrollViewClass: UIScrollView.Type = UIScrollView.self
+    
+    public convenience init(scrollView scrollViewClass: UIScrollView.Type) {
+        PagingContentViewController.scrollViewClass = scrollViewClass
+        self.init()
+    }
+    
     fileprivate var cachedViewControllers = [UIViewController?]()
     fileprivate var leftSidePageIndex = 0
     fileprivate var numberOfPages: Int = 0
@@ -224,7 +231,7 @@ public class PagingContentViewController: UIViewController {
     
     /// Return scrollView that the content view controller uses to show the contents.
     public let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
+        let scrollView = scrollViewClass.init()
         scrollView.isPagingEnabled = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
