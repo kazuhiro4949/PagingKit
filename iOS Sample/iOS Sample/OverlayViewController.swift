@@ -36,14 +36,16 @@ class OverlayViewController: UIViewController {
     var menuViewController: PagingMenuViewController!
     var contentViewController: PagingContentViewController!
     
+    var focusView: OverlayFocusView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        focusView = UINib(nibName: "OverlayFocusView", bundle: nil).instantiate(withOwner: self, options: nil).first as? OverlayFocusView
         menuViewController?.register(nib: UINib(nibName: "OverlayMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(nib: UINib(nibName: "OverlayFocusView", bundle: nil), isBehindCell: true)
-        menuViewController?.reloadData(with: 0, completionHandler: { [weak self] (_) in
-            let cell = self?.menuViewController.currentFocusedCell as? OverlayMenuCell
-            cell?.isHighlight = true
+        menuViewController?.registerFocusView(view: focusView, isBehindCell: true)
+        menuViewController?.reloadData(with: 0, completionHandler: { [weak self, focusView = focusView!] (vc) in
+            let cell = self?.menuViewController.currentFocusedCell as! OverlayMenuCell
+            cell.setFocusViewFrame(frame: focusView.frame, from: focusView)
         })
         contentViewController?.reloadData(with: 0)
     }
@@ -71,8 +73,8 @@ class OverlayViewController: UIViewController {
 extension OverlayViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
-        cell.textLabel.text = dataSource[index].menu
-        cell.isHighlight = viewController.currentFocusedIndex == index
+        cell.highlightTextLayer.string = dataSource[index].menu
+        cell.baseTextLayer.string = dataSource[index].menu
         return cell
     }
 
@@ -103,22 +105,22 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { $0.highlightWithAnimation(isHighlight: false) }
-        let selectedCell = menuViewController.cellForItem(at: page) as? OverlayMenuCell
-        selectedCell?.highlightWithAnimation(isHighlight: true)
+        viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
+            UIView.perform(.delete, on: [], options: UIView.AnimationOptions.curveEaseInOut, animations: { [viewController] in
+                cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!)
+            }, completion: nil)
+        }
         contentViewController?.scroll(to: page, animated: true)
+        
     }
 }
 
 extension OverlayViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        if percent < 0.5 {
-            let cell = menuViewController.cellForItem(at: index) as? OverlayMenuCell
-            cell?.black(percent: percent * 2)
-        } else {
-            let cell = menuViewController.cellForItem(at: index + 1) as? OverlayMenuCell
-            cell?.black(percent: (1 - percent) * 2)
-        }
         menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController.visibleCells.forEach {
+            let cell = $0 as! OverlayMenuCell
+            cell.setFocusViewFrame(frame: focusView.bounds, from: focusView)
+        }
     }
 }

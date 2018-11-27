@@ -27,29 +27,76 @@ import PagingKit
 
 class OverlayMenuCell: PagingMenuViewCell {
     static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
-
+    let maskLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.fillColor = UIColor.black.cgColor
+        return layer
+    }()
+    
+    let highlightTextLayer: CATextLayer = {
+        let layer = CATextLayer()
+        let font = UIFont.systemFont(ofSize: 16)
+        layer.font = font
+        layer.fontSize = font.pointSize
+        layer.foregroundColor = UIColor.white.cgColor
+        layer.contentsScale = UIScreen.main.scale
+        layer.alignmentMode = .center
+        return layer
+    }()
+    
+    let baseTextLayer: CATextLayer = {
+        let layer = CATextLayer()
+        let font = UIFont.systemFont(ofSize: 16)
+        layer.font = font
+        layer.fontSize = font.pointSize
+        layer.foregroundColor = UIColor.black.cgColor
+        layer.contentsScale = UIScreen.main.scale
+        layer.alignmentMode = .center
+        return layer
+    }()
+    
     @IBOutlet weak var textLabel: UILabel!
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        textLabel.isHidden = true
+        maskLayer.isHidden = true
+        layer.addSublayer(baseTextLayer)
+        highlightTextLayer.mask = maskLayer
+        layer.addSublayer(highlightTextLayer)
+    }
     
-    var isHighlight: Bool = false {
-        didSet {
-            if isHighlight {
-                black(percent: 0)
-            } else {
-                black(percent: 1)
-            }
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if let string = highlightTextLayer.string as? NSString, let font = highlightTextLayer.font as? UIFont {
+            let stringBounds = string.boundingRect(with: CGSize(width: .max, height: .min), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
+            highlightTextLayer.frame = stringBounds
+            highlightTextLayer.frame.origin.y = (bounds.height - stringBounds.height) / 2
+            highlightTextLayer.frame.origin.x = (bounds.width - stringBounds.width) / 2
         }
-    }
-    
-    func black(percent: CGFloat) {
-        let whiteRatio = 1 - percent
-        textLabel.textColor = UIColor(white: whiteRatio, alpha: 1)
-    }
-    
-    func highlightWithAnimation(isHighlight: Bool) {
-        UIView.transition(with: textLabel, duration: 0.4, options: .transitionCrossDissolve, animations: {
-            self.textLabel.textColor = isHighlight ? .white : .black
-        }, completion: { (_) in
+        if let string = baseTextLayer.string as? NSString, let font = baseTextLayer.font as? UIFont {
+            let stringBounds = string.boundingRect(with: CGSize(width: .max, height: .min), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: [.font: font], context: nil)
+            baseTextLayer.frame = stringBounds
+            baseTextLayer.frame.origin.y = (bounds.height - stringBounds.height) / 2
+            baseTextLayer.frame.origin.x = (bounds.width - stringBounds.width) / 2
+        }
         
-        })
+        maskLayer.bounds = bounds.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
+        maskLayer.path = UIBezierPath(roundedRect: maskLayer.bounds, cornerRadius: bounds.height / 2).cgPath
+        
+    }
+    
+    private func layoutMaskLayer(frame: CGRect) {
+        maskLayer.frame = frame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
+        maskLayer.path = UIBezierPath(roundedRect: maskLayer.bounds, cornerRadius: bounds.height / 2).cgPath
+    }
+
+    
+    func setFocusViewFrame(frame: CGRect, from view: UIView) {
+        maskLayer.isHidden = false
+        let convertedFrame = view.layer.convert(frame, to: highlightTextLayer)
+        CATransaction.setDisableActions(true)
+        layoutMaskLayer(frame: convertedFrame)
+        CATransaction.setDisableActions(false)
     }
 }
