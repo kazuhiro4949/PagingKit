@@ -45,7 +45,7 @@ class OverlayViewController: UIViewController {
         menuViewController?.registerFocusView(view: focusView, isBehindCell: true)
         menuViewController?.reloadData(with: 0, completionHandler: { [weak self, focusView = focusView!] (vc) in
             let cell = self?.menuViewController.currentFocusedCell as! OverlayMenuCell
-            cell.setFocusViewFrame(frame: focusView.frame, from: focusView)
+            cell.setFocusViewFrame(frame: focusView.frame, from: focusView, animated: false)
         })
         contentViewController?.reloadData(with: 0)
     }
@@ -106,9 +106,7 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
-            UIView.perform(.delete, on: [], options: UIView.AnimationOptions.curveEaseInOut, animations: { [viewController] in
-                cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!)
-            }, completion: nil)
+            cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!, baseView: viewController.cellForItem(at: previousPage)!, animated: true)
         }
         contentViewController?.scroll(to: page, animated: true)
         
@@ -120,7 +118,7 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
         menuViewController?.scroll(index: index, percent: percent, animated: false)
         menuViewController.visibleCells.forEach {
             let cell = $0 as! OverlayMenuCell
-            cell.setFocusViewFrame(frame: focusView.bounds, from: focusView)
+            cell.setFocusViewFrame(frame: focusView.bounds, from: focusView, animated: false)
         }
     }
 }

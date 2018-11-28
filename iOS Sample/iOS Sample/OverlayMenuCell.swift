@@ -92,11 +92,40 @@ class OverlayMenuCell: PagingMenuViewCell {
     }
 
     
-    func setFocusViewFrame(frame: CGRect, from view: UIView) {
+    private func animateLayoutMaskLayer(frame: CGRect, fromFrame: CGRect) {
+        let _frame = frame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
+        let _fromFrame = fromFrame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
+        
+        let positionAnimation = CABasicAnimation(keyPath: "position.x")
+        positionAnimation.fromValue = NSNumber(value: Double(_fromFrame.midX))
+        positionAnimation.toValue = NSNumber(value: Double(_frame.midX))
+        positionAnimation.duration = 0.325
+        positionAnimation.fillMode = .forwards
+        positionAnimation.isRemovedOnCompletion = false
+        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        maskLayer.add(positionAnimation, forKey: "position.x")
+        
+        let widthAnimation = CABasicAnimation(keyPath: "bounds.size.width")
+        widthAnimation.fromValue = NSNumber(value: Double(_fromFrame.width))
+        widthAnimation.toValue = NSNumber(value: Double(_frame.width))
+        widthAnimation.duration = 0.325
+        widthAnimation.fillMode = .forwards
+        widthAnimation.isRemovedOnCompletion = false
+        widthAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+        maskLayer.add(widthAnimation, forKey: "bounds.size.width")
+        
+    }
+    
+    func setFocusViewFrame(frame: CGRect, from view: UIView, baseView: UIView? = nil, animated: Bool) {
         maskLayer.isHidden = false
         let convertedFrame = view.layer.convert(frame, to: highlightTextLayer)
-        CATransaction.setDisableActions(true)
-        layoutMaskLayer(frame: convertedFrame)
-        CATransaction.setDisableActions(false)
+        if animated {
+            let fromFrame = baseView!.layer.convert(baseView!.layer.bounds, to: highlightTextLayer)
+            animateLayoutMaskLayer(frame: convertedFrame, fromFrame: fromFrame)
+        } else {
+            CATransaction.setDisableActions(true)
+            layoutMaskLayer(frame: convertedFrame)
+            CATransaction.setDisableActions(false)
+        }
     }
 }
