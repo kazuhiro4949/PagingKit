@@ -121,6 +121,7 @@ class OverlayMenuCell: PagingMenuViewCell {
             let fromFrame = baseView!.layer.convert(baseView!.layer.bounds, to: highlightTextLayer)
             animateLayoutMaskLayer(frame: convertedFrame, fromFrame: fromFrame)
         } else {
+            maskLayer.removeAllAnimations()
             CATransaction.setDisableActions(true)
             layoutMaskLayer(frame: convertedFrame)
             CATransaction.setDisableActions(false)
