@@ -93,27 +93,25 @@ class OverlayMenuCell: PagingMenuViewCell {
 
     
     private func animateLayoutMaskLayer(frame: CGRect, fromFrame: CGRect) {
-        let _frame = frame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
-        let _fromFrame = fromFrame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
-        
-        let positionAnimation = CABasicAnimation(keyPath: "position.x")
-        positionAnimation.fromValue = NSNumber(value: Double(_fromFrame.midX))
-        positionAnimation.toValue = NSNumber(value: Double(_frame.midX))
-        positionAnimation.duration = 0.325
-        positionAnimation.fillMode = .forwards
-        positionAnimation.isRemovedOnCompletion = false
+        let positionAnimation = CABasicAnimation(keyPath: "position")
+        positionAnimation.fromValue = NSValue(cgPoint: CGPoint(x: fromFrame.midX, y: fromFrame.midY)) 
+        positionAnimation.toValue = NSValue(cgPoint: CGPoint(x: frame.midX, y: frame.midY))
         positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        maskLayer.add(positionAnimation, forKey: "position.x")
         
         let widthAnimation = CABasicAnimation(keyPath: "bounds.size.width")
-        widthAnimation.fromValue = NSNumber(value: Double(_fromFrame.width))
-        widthAnimation.toValue = NSNumber(value: Double(_frame.width))
-        widthAnimation.duration = 0.325
-        widthAnimation.fillMode = .forwards
-        widthAnimation.isRemovedOnCompletion = false
-        widthAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        maskLayer.add(widthAnimation, forKey: "bounds.size.width")
+        widthAnimation.fromValue = NSNumber(value: Double(fromFrame.width))
+        widthAnimation.toValue = NSNumber(value: Double(frame.width))
+        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
         
+        CATransaction.begin()
+        let groupAnimation = CAAnimationGroup()
+        groupAnimation.fillMode = .forwards
+        groupAnimation.isRemovedOnCompletion = false
+        groupAnimation.duration = 0.325
+        groupAnimation.animations = [positionAnimation, widthAnimation]
+        maskLayer.add(groupAnimation, forKey: "group")
+        CATransaction.commit()
+
     }
     
     func setFocusViewFrame(frame: CGRect, from view: UIView, baseView: UIView? = nil, animated: Bool) {
