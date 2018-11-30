@@ -66,6 +66,8 @@ open class PagingMenuFocusView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
+    
+    public var coordinator: (() -> Void)?
 }
 
 /**
@@ -110,6 +112,12 @@ public protocol PagingMenuViewDelegate: class {
     ///   - pagingMenuView: The paging menu view requesting this information.
     ///   - index: The index that specifies the location of the item.
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
+    func pagingMenuView(pagingMenuView: PagingMenuView, willAnimate focusView: PagingMenuFocusView)
+}
+
+public extension PagingMenuViewDelegate {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
+    public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimate focusView: PagingMenuFocusView) {}
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
@@ -372,10 +380,13 @@ open class PagingMenuView: UIScrollView {
         focusView.selectedIndex = index
         visibleCells.selectCell(with: index)
         
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willAnimate: focusView)
         UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
             self?.focusView.frame = itemFrame
             self?.focusView.layoutIfNeeded()
+            self?.focusView.coordinator?()
+            self?.focusView.coordinator = nil
         }, completion:completeHandler)
     }
     

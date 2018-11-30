@@ -93,25 +93,8 @@ class OverlayMenuCell: PagingMenuViewCell {
 
     
     private func animateLayoutMaskLayer(frame: CGRect, fromFrame: CGRect) {
-        let positionAnimation = CABasicAnimation(keyPath: "position")
-        positionAnimation.fromValue = NSValue(cgPoint: CGPoint(x: fromFrame.midX, y: fromFrame.midY)) 
-        positionAnimation.toValue = NSValue(cgPoint: CGPoint(x: frame.midX, y: frame.midY))
-        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        
-        let widthAnimation = CABasicAnimation(keyPath: "bounds.size.width")
-        widthAnimation.fromValue = NSNumber(value: Double(fromFrame.width))
-        widthAnimation.toValue = NSNumber(value: Double(frame.width))
-        positionAnimation.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-        
-        CATransaction.begin()
-        let groupAnimation = CAAnimationGroup()
-        groupAnimation.fillMode = .forwards
-        groupAnimation.isRemovedOnCompletion = false
-        groupAnimation.duration = 0.325
-        groupAnimation.animations = [positionAnimation, widthAnimation]
-        maskLayer.add(groupAnimation, forKey: "group")
-        CATransaction.commit()
-
+        maskLayer.position = CGPoint(x: frame.midX, y: frame.midY)
+        maskLayer.bounds.size.width = frame.width
     }
     
     func setFocusViewFrame(frame: CGRect, from view: UIView, baseView: UIView? = nil, animated: Bool) {
