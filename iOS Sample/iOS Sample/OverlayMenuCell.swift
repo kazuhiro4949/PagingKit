@@ -91,9 +91,9 @@ class OverlayMenuCell: PagingMenuViewCell {
         maskLayer.path = UIBezierPath(roundedRect: maskLayer.bounds, cornerRadius: bounds.height / 2).cgPath
     }
     
-    func setFocusViewFrame(frame: CGRect, from view: UIView, animated: Bool) {
+    func setFrame(_ view: UIView, animated: Bool) {
         maskLayer.isHidden = false
-        let convertedFrame = view.layer.convert(frame, to: highlightTextLayer)
+        let convertedFrame = view.layer.convert(view.bounds, to: highlightTextLayer)
         
         CATransaction.setDisableActions(!animated)
         layoutMaskLayer(frame: convertedFrame)
