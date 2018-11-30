@@ -67,9 +67,6 @@ class OverlayViewController: UIViewController {
             contentViewController?.dataSource = self
         }
     }
-
-    
-    var page: Int?
 }
 
 extension OverlayViewController: PagingMenuViewControllerDataSource {
@@ -110,18 +107,17 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        self.page = page
         contentViewController?.scroll(to: page, animated: true)
         
     }
     
-    func menuViewController(viewController: PagingMenuViewController, willAnimate focusView: PagingMenuFocusView) {
-        focusView.coordinator = { [page = self.page!] in
+    func menuViewController(viewController: PagingMenuViewController, willAnimate focusView: PagingMenuFocusView, at index: Int) {
+        guard let nextCell = viewController.cellForItem(at: index) else { return }
+        focusView.coordinator = {
             viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
-                cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!, animated: true)
+                cell.setFocusViewFrame(frame: nextCell.bounds, from: nextCell, animated: true)
             }
         }
-        page = nil
     }
 }
 
