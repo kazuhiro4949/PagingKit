@@ -90,24 +90,13 @@ class OverlayMenuCell: PagingMenuViewCell {
         maskLayer.frame = frame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
         maskLayer.path = UIBezierPath(roundedRect: maskLayer.bounds, cornerRadius: bounds.height / 2).cgPath
     }
-
     
-    private func animateLayoutMaskLayer(frame: CGRect, fromFrame: CGRect) {
-        maskLayer.position = CGPoint(x: frame.midX, y: frame.midY)
-        maskLayer.bounds.size.width = frame.width
-    }
-    
-    func setFocusViewFrame(frame: CGRect, from view: UIView, baseView: UIView? = nil, animated: Bool) {
+    func setFocusViewFrame(frame: CGRect, from view: UIView, animated: Bool) {
         maskLayer.isHidden = false
         let convertedFrame = view.layer.convert(frame, to: highlightTextLayer)
-        if animated {
-            let fromFrame = baseView!.layer.convert(baseView!.layer.bounds, to: highlightTextLayer)
-            animateLayoutMaskLayer(frame: convertedFrame, fromFrame: fromFrame)
-        } else {
-            maskLayer.removeAllAnimations()
-            CATransaction.setDisableActions(true)
-            layoutMaskLayer(frame: convertedFrame)
-            CATransaction.setDisableActions(false)
-        }
+        
+        CATransaction.setDisableActions(!animated)
+        layoutMaskLayer(frame: convertedFrame)
+        CATransaction.setDisableActions(false)
     }
 }

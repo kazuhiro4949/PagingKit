@@ -70,7 +70,6 @@ class OverlayViewController: UIViewController {
 
     
     var page: Int?
-    var prevPage: Int?
 }
 
 extension OverlayViewController: PagingMenuViewControllerDataSource {
@@ -78,6 +77,9 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
         cell.highlightTextLayer.string = dataSource[index].menu
         cell.baseTextLayer.string = dataSource[index].menu
+        if let focusedCell = viewController.currentFocusedCell {
+            cell.setFocusViewFrame(frame: focusedCell.frame, from: focusedCell, animated: false)
+        }
         return cell
     }
 
@@ -109,19 +111,17 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         self.page = page
-        self.prevPage = previousPage
         contentViewController?.scroll(to: page, animated: true)
         
     }
     
     func menuViewController(viewController: PagingMenuViewController, willAnimate focusView: PagingMenuFocusView) {
-        focusView.coordinator = { [page = self.page!, prevPage = self.prevPage!] in
+        focusView.coordinator = { [page = self.page!] in
             viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
-                cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!, baseView: viewController.cellForItem(at: prevPage)!, animated: true)
+                cell.setFocusViewFrame(frame: viewController.cellForItem(at: page)!.bounds, from: viewController.cellForItem(at: page)!, animated: true)
             }
         }
         page = nil
-        prevPage = nil
     }
 }
 
