@@ -113,11 +113,11 @@ extension OverlayViewController: PagingMenuViewControllerDelegate {
     
     func menuViewController(viewController: PagingMenuViewController, willAnimate focusView: PagingMenuFocusView, at index: Int) {
         guard let nextCell = viewController.cellForItem(at: index) else { return }
-        focusView.coordinator = {
+        focusView.coordinator?.animateFocusView(alongside: { _ in
             viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
                 cell.setFocusViewFrame(frame: nextCell.bounds, from: nextCell, animated: true)
             }
-        }
+        }, completion: nil)
     }
 }
 

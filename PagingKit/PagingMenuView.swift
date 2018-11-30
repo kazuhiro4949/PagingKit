@@ -54,6 +54,16 @@ open class PagingMenuViewCell: UIView {
     public internal(set) var index: Int!
 }
 
+open class PagingMenuFocusViewAnimationCoordinator {
+    fileprivate var animationHandler: ((PagingMenuFocusViewAnimationCoordinator) -> Void)?
+    fileprivate var completionHandler: ((Bool) -> Void)?
+    
+    open func animateFocusView(alongside animation: @escaping (PagingMenuFocusViewAnimationCoordinator) -> Void, completion: ((Bool) -> Void)?) {
+        animationHandler = animation
+        completionHandler = completion
+    }
+}
+
 /// A view that focus menu corresponding to current page.
 open class PagingMenuFocusView: UIView {
     open var selectedIndex: Int?
@@ -67,7 +77,7 @@ open class PagingMenuFocusView: UIView {
         super.init(coder: aDecoder)
     }
     
-    public var coordinator: (() -> Void)?
+    open var coordinator: PagingMenuFocusViewAnimationCoordinator?
 }
 
 /**
@@ -380,14 +390,20 @@ open class PagingMenuView: UIScrollView {
         focusView.selectedIndex = index
         visibleCells.selectCell(with: index)
         
+        focusView.coordinator = PagingMenuFocusViewAnimationCoordinator()
         menuDelegate?.pagingMenuView(pagingMenuView: self, willAnimate: focusView, at: index)
         UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
             self?.focusView.frame = itemFrame
             self?.focusView.layoutIfNeeded()
-            self?.focusView.coordinator?()
+            if let coordinator = self?.focusView.coordinator {
+                coordinator.animationHandler?(coordinator)
+            }
+        }, completion: { [weak self] (finished) in
+            self?.focusView.coordinator?.completionHandler?(finished)
             self?.focusView.coordinator = nil
-        }, completion:completeHandler)
+            completeHandler(finished)
+        })
     }
     
     // MARK:- Internal
