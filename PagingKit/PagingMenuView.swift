@@ -54,8 +54,13 @@ open class PagingMenuViewCell: UIView {
     public internal(set) var index: Int!
 }
 
+
+/// A set of methods that provides support for animations associated with a focus view transition.
+/// You can use a coordinator object to perform tasks that are related to a transition but that are separate from what the animator objects are doing.
 open class PagingMenuFocusViewAnimationCoordinator {
+    /// A frame at the start position
     public let beginFrame: CGRect
+    /// A frame at the end position
     public let endFrame: CGRect
     
     fileprivate var animationHandler: ((PagingMenuFocusViewAnimationCoordinator) -> Void)?
@@ -66,6 +71,11 @@ open class PagingMenuFocusViewAnimationCoordinator {
         self.endFrame = endFrame
     }
     
+    /// Runs the specified animations at the same time as the focus view animations.
+    ///
+    /// - Parameters:
+    ///   - animation: A block containing the animations you want to perform. These animations run in the same context as the focus view animations and therefore have the same default attributes.
+    ///   - completion: The block of code to execute after the animation finishes. You may specify nil for this
     open func animateFocusView(alongside animation: @escaping (PagingMenuFocusViewAnimationCoordinator) -> Void, completion: ((Bool) -> Void)?) {
         animationHandler = animation
         completionHandler = completion
@@ -84,7 +94,9 @@ open class PagingMenuFocusView: UIView {
     required public init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
-    
+
+    /// A focus view makes this object when starting animation and destroy when finishing animation.
+    /// You can make a custom animation along a focus view animation.
     open var coordinator: PagingMenuFocusViewAnimationCoordinator?
 }
 
