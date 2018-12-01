@@ -173,8 +173,8 @@ class NavigationBarViewController: UIViewController {
     }
 ```
 
-## Custom animation alongside PagingMenuFocusView
-You can add custom animation alongside PagingMenuFocusView
+## Animating alongside PagingMenuFocusView
+You can add custom animation along PagingMenuFocusView
 
 Typically, it is good to implement the animation in the following delegate.
 
