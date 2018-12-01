@@ -173,6 +173,21 @@ class NavigationBarViewController: UIViewController {
     }
 ```
 
+## Custom animation alongside PagingFocusView
+You can add custom animation alongside PagingFocusView
+
+Typically, it is good to implement the animation in the following delegate.
+
+```swift
+func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
+        coordinator.animateFocusView(alongside: { coordinator in
+           // implement your custom animations in this closure.
+        }, completion: nil)
+}
+```
+
+Sample Project has a implementation to support the feature. See [OverlayViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayViewController.swift)
+
 ## Code Snippets
 There are some snippets to save your time. 
 
