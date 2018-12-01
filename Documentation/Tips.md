@@ -186,7 +186,7 @@ func menuViewController(viewController: PagingMenuViewController, willAnimateFoc
 }
 ```
 
-Sample Project has a implementation to support the feature. See [OverlayViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayViewController.swift)
+Sample Project has a implementation to support the feature. See [OverlayViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayViewController.swift#L108)
 
 ## Code Snippets
 There are some snippets to save your time. 
