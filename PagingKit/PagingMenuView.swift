@@ -55,8 +55,16 @@ open class PagingMenuViewCell: UIView {
 }
 
 open class PagingMenuFocusViewAnimationCoordinator {
+    public let beginFrame: CGRect
+    public let endFrame: CGRect
+    
     fileprivate var animationHandler: ((PagingMenuFocusViewAnimationCoordinator) -> Void)?
     fileprivate var completionHandler: ((Bool) -> Void)?
+    
+    init(beginFrame: CGRect, endFrame: CGRect) {
+        self.beginFrame = beginFrame
+        self.endFrame = endFrame
+    }
     
     open func animateFocusView(alongside animation: @escaping (PagingMenuFocusViewAnimationCoordinator) -> Void, completion: ((Bool) -> Void)?) {
         animationHandler = animation
@@ -390,7 +398,7 @@ open class PagingMenuView: UIScrollView {
         focusView.selectedIndex = index
         visibleCells.selectCell(with: index)
         
-        focusView.coordinator = PagingMenuFocusViewAnimationCoordinator()
+        focusView.coordinator = PagingMenuFocusViewAnimationCoordinator(beginFrame: focusView.frame, endFrame: itemFrame)
         menuDelegate?.pagingMenuView(pagingMenuView: self, willAnimate: focusView, at: index)
         UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.contentOffset = offset
