@@ -103,12 +103,9 @@ extension OverlayViewController: PagingContentViewControllerDataSource {
 extension OverlayViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController?.scroll(to: page, animated: true)
-        
     }
     
-    func menuViewController(viewController: PagingMenuViewController, willAnimate focusView: PagingMenuFocusView, at index: Int) {
-        guard let coordinator = focusView.coordinator else { return }
-        
+    func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
         viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
             cell.setFrame(viewController.menuView, maskFrame: coordinator.beginFrame, animated: true)
         }
