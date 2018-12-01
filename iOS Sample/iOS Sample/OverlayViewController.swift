@@ -42,7 +42,7 @@ class OverlayViewController: UIViewController {
         menuViewController?.registerFocusView(nib: UINib(nibName: "OverlayFocusView", bundle: nil), isBehindCell: true)
         menuViewController?.reloadData(with: 0, completionHandler: { [weak self, menuViewController = menuViewController!] (vc) in
             let cell = self?.menuViewController.currentFocusedCell as! OverlayMenuCell
-            cell.setFrame(menuViewController.menuView, frame: menuViewController.focusView.frame, animated: false)
+            cell.setFrame(menuViewController.menuView, maskFrame: menuViewController.focusView.frame, animated: false)
         })
         contentViewController?.reloadData(with: 0)
     }
@@ -71,13 +71,13 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
         cell.titleLabel.text = dataSource[index].menu
         cell.highlightLabel.text = dataSource[index].menu
-        cell.setFrame(viewController.menuView, frame: cell.frame, animated: false)
+        cell.setFrame(viewController.menuView, maskFrame: cell.frame, animated: false)
         return cell
     }
 
     
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        OverlayMenuCell.sizingCell.textLabel.text = dataSource[index].menu
+        OverlayMenuCell.sizingCell.titleLabel.text = dataSource[index].menu
         var referenceSize = UIView.layoutFittingCompressedSize
         referenceSize.height = viewController.view.bounds.height
         let size = OverlayMenuCell.sizingCell.systemLayoutSizeFitting(referenceSize, withHorizontalFittingPriority: UILayoutPriority.defaultLow, verticalFittingPriority: UILayoutPriority.defaultHigh)
@@ -110,12 +110,12 @@ extension OverlayViewController: PagingMenuViewControllerDelegate {
         guard let coordinator = focusView.coordinator else { return }
         
         viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
-            cell.setFrame(viewController.menuView, frame: coordinator.beginFrame, animated: true)
+            cell.setFrame(viewController.menuView, maskFrame: coordinator.beginFrame, animated: true)
         }
         
         coordinator.animateFocusView(alongside: { coordinator in
             viewController.visibleCells.compactMap { $0 as? OverlayMenuCell }.forEach { cell in
-                cell.setFrame(viewController.menuView, frame: coordinator.endFrame, animated: true)
+                cell.setFrame(viewController.menuView, maskFrame: coordinator.endFrame, animated: true)
             }
         }, completion: nil)
     }
@@ -126,7 +126,7 @@ extension OverlayViewController: PagingContentViewControllerDelegate {
         menuViewController.scroll(index: index, percent: percent, animated: false)
         menuViewController.visibleCells.forEach {
             let cell = $0 as! OverlayMenuCell
-            cell.setFrame(menuViewController.menuView, frame: menuViewController.focusView.frame, animated: false)
+            cell.setFrame(menuViewController.menuView, maskFrame: menuViewController.focusView.frame, animated: false)
         }
     }
 }

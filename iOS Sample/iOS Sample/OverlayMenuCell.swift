@@ -28,70 +28,28 @@ import PagingKit
 class OverlayMenuCell: PagingMenuViewCell {
     static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
     
+    let maskInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+    
     let textMaskView: UIView = {
         let view = UIView()
         view.backgroundColor = .black
         return view
     }()
     
-    let highlightLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.white
-        label.textAlignment = .center
-        return label
-    }()
-    
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textColor = UIColor.black
-        label.textAlignment = .center
-        return label
-    }()
-    
-    @IBOutlet weak var textLabel: UILabel!
+    @IBOutlet var highlightLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!    
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        textLabel.isHidden = true
-        addSubview(titleLabel)
         highlightLabel.mask = textMaskView
-        addSubview(highlightLabel)
-        
-        do {
-            titleLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            titleLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        }
-        
-        do {
-            highlightLabel.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            highlightLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            highlightLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-            highlightLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        textMaskView.bounds = bounds.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
+        textMaskView.bounds = bounds.inset(by: maskInsets)
     }
     
-    private func layoutMaskLayer(frame: CGRect) {
-        textMaskView.frame = frame.inset(by: UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8))
-    }
-    
-    
-    func setFrame(_ view: UIView, frame: CGRect, animated: Bool) {
-        textMaskView.isHidden = false
-        let convertedFrame = view.convert(frame, to: highlightLabel)
-        
-        CATransaction.setDisableActions(!animated)
-        layoutMaskLayer(frame: convertedFrame)
-        CATransaction.setDisableActions(false)
+    func setFrame(_ menuView: PagingMenuView, maskFrame: CGRect, animated: Bool) {
+        textMaskView.frame = menuView.convert(maskFrame, to: highlightLabel).inset(by: maskInsets)
     }
 }
