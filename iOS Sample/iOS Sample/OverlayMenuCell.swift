@@ -27,29 +27,29 @@ import PagingKit
 
 class OverlayMenuCell: PagingMenuViewCell {
     static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
+    
+    let maskInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
+    
+    let textMaskView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .black
+        return view
+    }()
+    
+    @IBOutlet var highlightLabel: UILabel!
+    @IBOutlet var titleLabel: UILabel!    
 
-    @IBOutlet weak var textLabel: UILabel!
-    
-    var isHighlight: Bool = false {
-        didSet {
-            if isHighlight {
-                black(percent: 0)
-            } else {
-                black(percent: 1)
-            }
-        }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        highlightLabel.mask = textMaskView
     }
     
-    func black(percent: CGFloat) {
-        let whiteRatio = 1 - percent
-        textLabel.textColor = UIColor(white: whiteRatio, alpha: 1)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        textMaskView.bounds = bounds.inset(by: maskInsets)
     }
     
-    func highlightWithAnimation(isHighlight: Bool) {
-        UIView.transition(with: textLabel, duration: 0.4, options: .transitionCrossDissolve, animations: {
-            self.textLabel.textColor = isHighlight ? .white : .black
-        }, completion: { (_) in
-        
-        })
+    func setFrame(_ menuView: PagingMenuView, maskFrame: CGRect, animated: Bool) {
+        textMaskView.frame = menuView.convert(maskFrame, to: highlightLabel).inset(by: maskInsets)
     }
 }

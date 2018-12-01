@@ -41,10 +41,21 @@ public protocol PagingMenuViewControllerDelegate: class {
     ///   - page: An page number focusing the new selected menu in menu view controller.
     ///   - previousPage: An page number previously focusing menu in menu view controller.
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int)
+    
+    
+    /// Notifies the menu view controller that the frame of its focus view is about to change.
+    ///
+    /// - Parameters:
+    ///   - viewController: A menu view controller object informing the delegate.
+    ///   - index: end index
+    ///   - coordinator: animator coordinator
+    func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator)
 }
 
 extension PagingMenuViewControllerDelegate {
     public func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView) {}
+    
+    public func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
 }
 
 /// The data source provides the paging menu view controller object with the information it needs to construct and modify the menus.
@@ -298,6 +309,10 @@ extension PagingMenuViewController: UIScrollViewDelegate {
 // MARK:- PagingMenuViewDelegate
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
+        delegate?.menuViewController(viewController: self, willAnimateFocusViewTo: index, with: coordinator)
+    }
+    
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
         guard menuView.focusView.selectedIndex != index else { return }
         

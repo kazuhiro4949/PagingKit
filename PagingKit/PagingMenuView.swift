@@ -54,6 +54,34 @@ open class PagingMenuViewCell: UIView {
     public internal(set) var index: Int!
 }
 
+
+/// A set of methods that provides support for animations associated with a focus view transition.
+/// You can use a coordinator object to perform tasks that are related to a transition but that are separate from what the animator objects are doing.
+open class PagingMenuFocusViewAnimationCoordinator {
+    /// A frame at the start position
+    public let beginFrame: CGRect
+    /// A frame at the end position
+    public let endFrame: CGRect
+    
+    fileprivate var animationHandler: ((PagingMenuFocusViewAnimationCoordinator) -> Void)?
+    fileprivate var completionHandler: ((Bool) -> Void)?
+    
+    init(beginFrame: CGRect, endFrame: CGRect) {
+        self.beginFrame = beginFrame
+        self.endFrame = endFrame
+    }
+    
+    /// Runs the specified animations at the same time as the focus view animations.
+    ///
+    /// - Parameters:
+    ///   - animation: A block containing the animations you want to perform. These animations run in the same context as the focus view animations and therefore have the same default attributes.
+    ///   - completion: The block of code to execute after the animation finishes. You may specify nil for this
+    open func animateFocusView(alongside animation: @escaping (PagingMenuFocusViewAnimationCoordinator) -> Void, completion: ((Bool) -> Void)?) {
+        animationHandler = animation
+        completionHandler = completion
+    }
+}
+
 /// A view that focus menu corresponding to current page.
 open class PagingMenuFocusView: UIView {
     open var selectedIndex: Int?
@@ -110,6 +138,19 @@ public protocol PagingMenuViewDelegate: class {
     ///   - pagingMenuView: The paging menu view requesting this information.
     ///   - index: The index that specifies the location of the item.
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
+    
+    /// Notifies the menu view that the frame of its focus view is about to change.
+    ///
+    /// - Parameters:
+    ///   - pagingMenuView: a menu view object informing the delegate.
+    ///   - index: end index
+    ///   - coordinator: animator coordinator
+    func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator)
+}
+
+public extension PagingMenuViewDelegate {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
+    public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
@@ -372,11 +413,18 @@ open class PagingMenuView: UIScrollView {
         focusView.selectedIndex = index
         visibleCells.selectCell(with: index)
         
+        let coordinator = PagingMenuFocusViewAnimationCoordinator(beginFrame: focusView.frame, endFrame: itemFrame)
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willAnimateFocusViewTo: index, with: coordinator)
         UIView.perform(.delete, on: [], options: UIView.AnimationOptions(rawValue: 0), animations: { [weak self] in
-            self?.contentOffset = offset
-            self?.focusView.frame = itemFrame
-            self?.focusView.layoutIfNeeded()
-        }, completion:completeHandler)
+            guard let _self = self else { return }
+            _self.contentOffset = offset
+            _self.focusView.frame = itemFrame
+            _self.focusView.layoutIfNeeded()
+            coordinator.animationHandler?(coordinator)
+        }, completion: { (finished) in
+            coordinator.completionHandler?(finished)
+            completeHandler(finished)
+        })
     }
     
     // MARK:- Internal
