@@ -173,6 +173,9 @@ class NavigationBarViewController: UIViewController {
     }
 ```
 
+<img width="200" alt="2018-12-03 22 41 26" src="https://user-images.githubusercontent.com/18320004/49377139-aefa1400-f74c-11e8-9b6f-392f8f725caf.png">
+
+
 ## Animating alongside PagingMenuFocusView
 You can add custom animation along PagingMenuFocusView
 
