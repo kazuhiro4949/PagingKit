@@ -402,6 +402,7 @@ That's it.
 - [Put menu on UINavigationBar](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#put-menu-on-uinavigationbar)
 - [Animating alongside PagingMenuFocusView](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#animating-alongside-pagingmenufocusview)
 - [Code Snippets](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#code-snippets)
+- [RTL Support](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#rtl-support)
 
 # Class Design
 There are some design policy in this library.
