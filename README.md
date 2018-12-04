@@ -25,16 +25,16 @@ You can fit any design to your apps as you like.
 ## Customized layout 
 You can align views as you like.
 
-| changing position | placing a view between content and menu | add floating button on right-side |
-|:------------:|:------------:|:------------:|
-| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) | ![sample6](https://user-images.githubusercontent.com/18320004/33793722-f9806f46-dcff-11e7-9909-a9f87e9ef4a0.gif) |
+| changing position | placing a view between content and menu | add floating button on right-side | on Navigation bar | 
+|:------------:|:------------:|:------------:|:------------:|
+| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) | ![sample6](https://user-images.githubusercontent.com/18320004/33793722-f9806f46-dcff-11e7-9909-a9f87e9ef4a0.gif) | <img width="320" alt="2018-12-04 10 00 51" src="https://user-images.githubusercontent.com/18320004/49411286-aa187d00-f7ab-11e8-9672-094e10853778.png"> |
 
 ## Customized menu design
 You can customize menu as you like.
 
-| tag like menu | text highlighted menu | underscore menu | Navigation bar menu | App Store app like indicator | 
+| tag like menu | text highlighted menu | underscore menu | App Store app like indicator | 
 |:------------:|:------------:|:------------:|:------------:|:------------:|
-| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | <img src="https://user-images.githubusercontent.com/18320004/49323491-a42e5c00-f55f-11e8-9690-295acc2c3341.gif" width=280>  | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) |  <img width="280" alt="2018-12-04 10 00 51" src="https://user-images.githubusercontent.com/18320004/49411286-aa187d00-f7ab-11e8-9672-094e10853778.png"> | ![indicator](https://user-images.githubusercontent.com/18320004/32141748-3e6c4fc6-bccb-11e7-8a6a-0286982f938b.gif) |
+| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | <img src="https://user-images.githubusercontent.com/18320004/49323491-a42e5c00-f55f-11e8-9690-295acc2c3341.gif" width=280>  | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) | ![indicator](https://user-images.githubusercontent.com/18320004/32141748-3e6c4fc6-bccb-11e7-8a6a-0286982f938b.gif) |
 
 
 # Feature
