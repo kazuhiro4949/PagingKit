@@ -48,6 +48,7 @@ class SimpleViewController: UIViewController {
         
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
+        contentViewController?.scrollView.bounces = true
     }
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
