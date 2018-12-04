@@ -136,7 +136,7 @@ public class PagingContentViewController: UIViewController {
     /// The ratio at which the origin of the left side content is offset from the origin of the page.
     private var leftSidePagingPercent: CGFloat {
         let rawPagingPercent = scrollView.contentOffset.x.truncatingRemainder(dividingBy: scrollView.bounds.width) / scrollView.bounds.width
-        return min(max(0, rawPagingPercent), 1)
+        return rawPagingPercent
     }
 
     /// The object that acts as the delegate of the content view controller.

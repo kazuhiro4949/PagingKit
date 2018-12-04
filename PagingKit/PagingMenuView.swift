@@ -380,9 +380,8 @@ open class PagingMenuView: UIScrollView {
     ///   - percent: A rate that transit from the index. (percent ranges from -0.5 to 0.5.)
     open func scroll(index: Int, percent: CGFloat = 0) {
         // Specification in this method is difference from the interface specification.
-        print(index, percent)
         let (index, percent) = correctScrollIndexAndPercent(index: index, percent: percent)
-        
+
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
@@ -642,7 +641,11 @@ open class PagingMenuView: UIScrollView {
     private func correctScrollIndexAndPercent(index: Int, percent: CGFloat) -> (index: Int, percent: CGFloat) {
         let pagingPositionIsLeftSide = (percent < 0)
         if pagingPositionIsLeftSide {
-            return (index: max(index - 1, 0), percent: percent + 1)
+            if index == 0 {
+                return (index: index, percent: percent)
+            } else {
+                return (index: max(index - 1, 0), percent: percent + 1)
+            }
         } else {
             return (index: index, percent: percent)
         }
