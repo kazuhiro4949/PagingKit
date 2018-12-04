@@ -33,7 +33,7 @@ You can align views as you like.
 You can customize menu as you like.
 
 | tag like menu | text highlighted menu | underscore menu | Navigation bar menu | App Store app like indicator | 
-|:------------:|:------------:|:------------:|:------------:|
+|:------------:|:------------:|:------------:|:------------:|:------------:|
 | ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | <img src="https://user-images.githubusercontent.com/18320004/49323491-a42e5c00-f55f-11e8-9690-295acc2c3341.gif" width=280>  | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) |  <img width="280" alt="2018-12-04 10 00 51" src="https://user-images.githubusercontent.com/18320004/49411286-aa187d00-f7ab-11e8-9672-094e10853778.png"> | ![indicator](https://user-images.githubusercontent.com/18320004/32141748-3e6c4fc6-bccb-11e7-8a6a-0286982f938b.gif) |
 
 
