@@ -1,8 +1,8 @@
 //
-//  OverlayMenuCell.swift
+//  NavigationBarFocusView.swift
 //  iOS Sample
 //
-//  Copyright (c) 2017 Kazuhiro Hayashi
+//  Copyright (c) 2018 Kazuhiro Hayashi
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
 //  of this software and associated documentation files (the "Software"), to deal
@@ -25,31 +25,6 @@
 import UIKit
 import PagingKit
 
-class OverlayMenuCell: PagingMenuViewCell {
-    static let sizingCell = UINib(nibName: "OverlayMenuCell", bundle: nil).instantiate(withOwner: self, options: nil).first as! OverlayMenuCell
-    
-    let maskInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
-    
-    let textMaskView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .black
-        return view
-    }()
-    
-    @IBOutlet var highlightLabel: UILabel!
-    @IBOutlet var titleLabel: UILabel!    
+class NavigationBarFocusView: PagingMenuFocusView {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        highlightLabel.mask = textMaskView
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        textMaskView.bounds = bounds.inset(by: maskInsets)
-    }
-    
-    func setFrame(_ menuView: PagingMenuView, maskFrame: CGRect, animated: Bool) {
-        textMaskView.frame = menuView.convert(maskFrame, to: highlightLabel).inset(by: maskInsets)
-    }
 }
