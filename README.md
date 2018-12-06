@@ -134,13 +134,13 @@ PagingKit has two essential classes.
 
 PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on a scrollview.
 
-If you will make a new UI which contains PagingKit, refer the following 4 steps.
+If you make a new project which contains PagingKit, follow the steps.
 
-- 1. Add PagingMenuViewController & PagingContentViewController
-- 2. Assign them to properties
-- 3. Create menu UI
-- 4. display data
-- 5. Synchronize Menu and Content view controllers
+1. Add PagingMenuViewController & PagingContentViewController
+2. Assign them to properties
+3. Create menu UI
+4. display data
+5. Synchronize Menu and Content view controllers
 
 ## 1. Add PagingMenuViewController & PagingContentViewController
 First, add PagingMenuViewController & PagingContentViewController on container view with Stroyboard.
