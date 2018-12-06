@@ -393,6 +393,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        guard 0 <= scrollView.bounds.origin.x, scrollView.bounds.maxX <= scrollView.contentSize.width else { return }
+        
         if let explicitPaging = explicitPaging {
             leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
             loadPagesIfNeeded()
