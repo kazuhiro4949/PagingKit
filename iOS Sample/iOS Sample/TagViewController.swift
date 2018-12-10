@@ -56,6 +56,7 @@ class TagViewController: UIViewController {
             plusButton.layer.shadowPath = UIBezierPath(rect: plusButton.bounds).cgPath
         }
         
+        contentViewController?.scrollView.bounces = true
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.reloadData(with: 4)
         contentViewController?.reloadData(with: 4)

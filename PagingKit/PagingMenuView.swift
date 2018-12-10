@@ -338,7 +338,8 @@ open class PagingMenuView: UIScrollView {
     open func rectForItem(at index: Int) -> CGRect {
         guard index < widths.count else {
             let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
-            return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
+            let mostRightWidth = widths[widths.endIndex - 1]
+            return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
         }
         
         var x = (0..<index).reduce(0) { (sum, idx) in
@@ -385,7 +386,7 @@ open class PagingMenuView: UIScrollView {
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
-        
+
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
         focusView.frame.size = CGSize(width: width, height: bounds.height)
         
@@ -393,7 +394,9 @@ open class PagingMenuView: UIScrollView {
         let offsetX = centerPointX - bounds.width / 2
         let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
         focusView.center = CGPoint(x: centerPointX, y: center.y)
-        focusView.selectedIndex = (focusView.center.x < leftFrame.maxX) ? index : rightIndex
+        
+        let expectedIndex = (focusView.center.x < leftFrame.maxX) ? index : rightIndex
+        focusView.selectedIndex = min(expectedIndex, numberOfItem - 1)
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
         
