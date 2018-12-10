@@ -130,7 +130,7 @@ class PagingMenuViewTests: XCTestCase {
         
         let rect = pagingMenuView?.rectForItem(at: 20)
         XCTAssertEqual(rect,
-                       CGRect(x: 2000, y: 0, width: 0, height: 44), "get correct rect")
+                       CGRect(x: 2000, y: 0, width: 100, height: 44), "get correct rect")
     }
     
     func testRectForItems() {
