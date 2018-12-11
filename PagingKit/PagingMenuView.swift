@@ -338,7 +338,8 @@ open class PagingMenuView: UIScrollView {
     open func rectForItem(at index: Int) -> CGRect {
         guard index < widths.count else {
             let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
-            return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
+            let mostRightWidth = widths[widths.endIndex - 1]
+            return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
         }
         
         var x = (0..<index).reduce(0) { (sum, idx) in
@@ -377,12 +378,15 @@ open class PagingMenuView: UIScrollView {
     ///
     /// - Parameters:
     ///   - index: A index defining an menu of the menu view.
-    ///   - percent: A rate that transit from the index.
+    ///   - percent: A rate that transit from the index. (percent ranges from -0.5 to 0.5.)
     open func scroll(index: Int, percent: CGFloat = 0) {
+        // Specification in this method is difference from the interface specification.
+        let (index, percent) = correctScrollIndexAndPercent(index: index, percent: percent)
+
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
-        
+
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
         focusView.frame.size = CGSize(width: width, height: bounds.height)
         
@@ -390,7 +394,9 @@ open class PagingMenuView: UIScrollView {
         let offsetX = centerPointX - bounds.width / 2
         let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
         focusView.center = CGPoint(x: centerPointX, y: center.y)
-        focusView.selectedIndex = leftFrame.contains(focusView.center) ? index : rightIndex
+        
+        let expectedIndex = (focusView.center.x < leftFrame.maxX) ? index : rightIndex
+        focusView.selectedIndex = min(expectedIndex, numberOfItem - 1)
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
         
@@ -626,6 +632,26 @@ open class PagingMenuView: UIScrollView {
         }
 
         containerView.frame.origin.x = expectedOriginX
+    }
+    
+    
+    /// correct a page index as starting index is always left side.
+    ///
+    /// - Parameters:
+    ///   - index: current page index defined in PagingKit
+    ///   - percent: current percent defined in PagingKit
+    /// - Returns: index and percent
+    private func correctScrollIndexAndPercent(index: Int, percent: CGFloat) -> (index: Int, percent: CGFloat) {
+        let pagingPositionIsLeftSide = (percent < 0)
+        if pagingPositionIsLeftSide {
+            if index == 0 {
+                return (index: index, percent: percent)
+            } else {
+                return (index: max(index - 1, 0), percent: percent + 1)
+            }
+        } else {
+            return (index: index, percent: percent)
+        }
     }
     
     //MARK:- Life Cycle

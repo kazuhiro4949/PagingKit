@@ -44,6 +44,7 @@ class OverlayViewController: UIViewController {
             let cell = self?.menuViewController.currentFocusedCell as! OverlayMenuCell
             cell.setFrame(menuViewController.menuView, maskFrame: menuViewController.focusView.frame, animated: false)
         })
+        contentViewController?.scrollView.bounces = true
         contentViewController?.reloadData(with: 0)
     }
 
