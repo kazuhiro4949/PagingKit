@@ -393,6 +393,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // When scrollview is bouncing, touching the scrollview calls scrollViewDidEndDecelerating(_:) immediately. So this line guards the end process.
         guard 0 <= scrollView.bounds.origin.x, scrollView.bounds.maxX <= scrollView.contentSize.width else { return }
         
         if let explicitPaging = explicitPaging {
