@@ -86,10 +86,10 @@ class ContentTableViewController: UIViewController, UITableViewDelegate, UITable
         tableView.layoutMargins = tableViewLayoutMargin
     }
 
-    /// To support safe area, all tableViews aligned on scrollView (superview) needs to be set margin for the cell's contentView and separator.
+    /// To support safe area, all tableViews aligned on scrollView needs to be set margin for the cell's contentView and separator.
     @available(iOS 11.0, *)
     private var tableViewLayoutMargin: UIEdgeInsets? {
-        guard let superview = view.superview else {
+        guard let superview = parent?.view else {
             return nil
         }
         
