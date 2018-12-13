@@ -140,17 +140,27 @@ public protocol PagingMenuViewDelegate: class {
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
     
     /// Notifies the menu view that the frame of its focus view is about to change.
+    /// The menu view calls this method before adding a cell to its content. Use this method to detect cell additions, as opposed to monitoring the cell itself to see when it appears.
     ///
     /// - Parameters:
     ///   - pagingMenuView: a menu view object informing the delegate.
     ///   - index: end index
     ///   - coordinator: animator coordinator
     func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator)
+
+    /// Tells the delegate that the specified cell is about to be displayed in the menu view.
+    ///
+    /// - Parameters:
+    ///   - pagingMenuView: a menu view object informing the delegate.
+    ///   - cell: The cell object being added.
+    ///   - index: The index path of the data item that the cell represents.
+    func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int)
 }
 
 public extension PagingMenuViewDelegate {
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
     public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
+    public func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {}
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
@@ -552,6 +562,8 @@ open class PagingMenuView: UIScrollView {
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
         cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
+        
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willDisplay: cell, forItemAt: nextIndex)
 
         return cell.frame.maxX
     }
@@ -572,6 +584,9 @@ open class PagingMenuView: UIScrollView {
         visibleCells.insert(cell, at: 0)
         cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
         cell.frame.origin = CGPoint(x: leftEdge - widths[nextIndex] - cellSpacing, y: 0)
+
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willDisplay: cell, forItemAt: nextIndex)
+        
         return cell.frame.minX
     }
 

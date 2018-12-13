@@ -72,7 +72,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
         let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! OverlayMenuCell
         cell.titleLabel.text = dataSource[index].menu
         cell.highlightLabel.text = dataSource[index].menu
-        cell.setFrame(viewController.menuView, maskFrame: cell.frame, animated: false)
+        cell.setFrame(viewController.menuView, maskFrame: menuViewController.focusView.frame, animated: false)
         return cell
     }
 
@@ -116,6 +116,10 @@ extension OverlayViewController: PagingMenuViewControllerDelegate {
                 cell.setFrame(viewController.menuView, maskFrame: coordinator.endFrame, animated: true)
             }
         }, completion: nil)
+    }
+    
+    func menuViewController(viewController: PagingMenuViewController, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {
+        (cell as? OverlayMenuCell)?.setFrame(viewController.menuView, maskFrame: menuViewController.focusView.frame, animated: false)
     }
 }
 
