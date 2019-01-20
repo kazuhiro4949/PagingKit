@@ -217,6 +217,11 @@ open class PagingMenuView: UIScrollView {
     /// space setting between cells
     open var cellSpacing: CGFloat = 0
     
+    /// total space between cells
+    open var totalSpacing: CGFloat {
+        return cellSpacing * numberOfCellSpacing
+    }
+    
     /// The object that acts as the data source of the paging menu view.
     open weak var dataSource: PagingMenuViewDataSource?
     
@@ -351,7 +356,7 @@ open class PagingMenuView: UIScrollView {
         }
         
         guard index < widths.count else {
-            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
+            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width } + totalSpacing
             let mostRightWidth = widths[widths.endIndex - 1]
             return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
         }
@@ -525,10 +530,6 @@ open class PagingMenuView: UIScrollView {
         return max(CGFloat(numberOfItem - 1), 0)
     }
     
-    private var totalSpacing: CGFloat {
-        return cellSpacing * numberOfCellSpacing
-    }
-
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
