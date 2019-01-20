@@ -346,6 +346,10 @@ open class PagingMenuView: UIScrollView {
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
     open func rectForItem(at index: Int) -> CGRect {
+        guard 0 < widths.count else {
+            return CGRect(x: 0, y: 0, width: 0, height: bounds.height)
+        }
+        
         guard index < widths.count else {
             let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
             let mostRightWidth = widths[widths.endIndex - 1]
