@@ -356,6 +356,12 @@ open class PagingMenuView: UIScrollView {
             return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
         }
         
+        guard 0 <= index else {
+            let leftEdge = -widths[0]
+            let mostLeftWidth = widths[0]
+            return CGRect(x: leftEdge, y: 0, width: mostLeftWidth, height: bounds.height)
+        }
+        
         var x = (0..<index).reduce(0) { (sum, idx) in
             return sum + widths[idx]
         }

@@ -115,9 +115,77 @@ class PagingMenuViewTests: XCTestCase {
         pagingMenuView?.dataSource = dataSource
         pagingMenuView?.reloadData()
         
-        let rect = pagingMenuView?.rectForItem(at: 3)
-        XCTAssertEqual(rect,
-                       CGRect(x: 300, y: 0, width: 100, height: 44), "get correct rect")
+
+        do {
+            let rect = pagingMenuView?.rectForItem(at: -2)
+            XCTAssertEqual(rect,
+                           CGRect(x: -100, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: -1)
+            XCTAssertEqual(rect,
+                           CGRect(x: -100, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            // first index
+            let rect = pagingMenuView?.rectForItem(at: 0)
+            XCTAssertEqual(rect,
+                           CGRect(x: 0, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: 3)
+            XCTAssertEqual(rect,
+                           CGRect(x: 300, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            // last index
+            let rect = pagingMenuView?.rectForItem(at: 19)
+            XCTAssertEqual(rect,
+                           CGRect(x: 1900, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: 20)
+            XCTAssertEqual(rect,
+                           CGRect(x: 2000, y: 0, width: 100, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: 21)
+            XCTAssertEqual(rect,
+                           CGRect(x: 2000, y: 0, width: 100, height: 44), "get correct rect")
+        }
+    }
+    
+    func testRectForItemWhenDataSourceHasNoElement() {
+        let dataSource = MenuViewDataSourceSpy()
+        dataSource.widthForItem = 100
+        dataSource.registerNib(to: pagingMenuView)
+        dataSource.data = []
+        pagingMenuView?.dataSource = dataSource
+        pagingMenuView?.reloadData()
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: -1)
+            XCTAssertEqual(rect,
+                           CGRect(x: 0, y: 0, width: 0, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: 0)
+            XCTAssertEqual(rect,
+                           CGRect(x: 0, y: 0, width: 0, height: 44), "get correct rect")
+        }
+        
+        do {
+            let rect = pagingMenuView?.rectForItem(at: 1)
+            XCTAssertEqual(rect,
+                           CGRect(x: 0, y: 0, width: 0, height: 44), "get correct rect")
+        }
     }
     
     func testRectForItemToEdgeCase() {
