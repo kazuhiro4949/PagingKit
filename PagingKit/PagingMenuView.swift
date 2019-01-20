@@ -217,6 +217,11 @@ open class PagingMenuView: UIScrollView {
     /// space setting between cells
     open var cellSpacing: CGFloat = 0
     
+    /// total space between cells
+    open var totalSpacing: CGFloat {
+        return cellSpacing * numberOfCellSpacing
+    }
+    
     /// The object that acts as the data source of the paging menu view.
     open weak var dataSource: PagingMenuViewDataSource?
     
@@ -346,10 +351,20 @@ open class PagingMenuView: UIScrollView {
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
     open func rectForItem(at index: Int) -> CGRect {
+        guard 0 < widths.count else {
+            return CGRect(x: 0, y: 0, width: 0, height: bounds.height)
+        }
+        
         guard index < widths.count else {
-            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
+            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width } + totalSpacing
             let mostRightWidth = widths[widths.endIndex - 1]
             return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
+        }
+        
+        guard 0 <= index else {
+            let leftEdge = -widths[0]
+            let mostLeftWidth = widths[0]
+            return CGRect(x: leftEdge, y: 0, width: mostLeftWidth, height: bounds.height)
         }
         
         var x = (0..<index).reduce(0) { (sum, idx) in
@@ -515,10 +530,6 @@ open class PagingMenuView: UIScrollView {
         return max(CGFloat(numberOfItem - 1), 0)
     }
     
-    private var totalSpacing: CGFloat {
-        return cellSpacing * numberOfCellSpacing
-    }
-
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
