@@ -42,12 +42,12 @@ public struct PagingKitProxy<Base: Any> {
 
 public extension NSObjectProtocol {
     /// PagingKitProxy extensions for class.
-    public static var pk: PagingKitProxy<Self.Type> {
+    static var pk: PagingKitProxy<Self.Type> {
         return PagingKitProxy(self)
     }
     
     /// PagingKitProxy extensions for instance.
-    public var pk: PagingKitProxy<Self> {
+    var pk: PagingKitProxy<Self> {
         return PagingKitProxy(self)
     }
 }

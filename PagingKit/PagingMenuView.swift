@@ -158,9 +158,9 @@ public protocol PagingMenuViewDelegate: class {
 }
 
 public extension PagingMenuViewDelegate {
-    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
-    public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
-    public func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {}
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
