@@ -416,6 +416,52 @@ PagingKit favours composition over inheritance. This figure describes overview o
 
 <img src="https://user-images.githubusercontent.com/18320004/38431789-628100e8-3a00-11e8-8ae2-30cd6122ec9a.png" width="500" />
 
+# Work with RxSwift
+
+PagingKit goes well with RxSwift.
+
+https://github.com/kazuhiro4949/RxPagingKit
+
+```swift
+    let items = PublishSubject<[(menu: String, width: CGFloat, content: UIViewController)]>()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController?.registerFocusView(view: UnderlineFocusView())
+        
+        // PagingMenuViewControllerDataSource
+        items.asObserver()
+            .map { items in items.map({ ($0.menu, $0.width) }) }
+            .bind(to: menuViewController.rx.items(
+                cellIdentifier: "identifier",
+                cellType: TitleLabelMenuViewCell.self)
+            ) { _, model, cell in
+                cell.titleLabel.text = model
+            }
+            .disposed(by: disposeBug)
+        
+        // PagingContentViewControllerDataSource
+        items.asObserver()
+            .map { items in items.map({ $0.content }) }
+            .bind(to: contentViewController.rx.viewControllers())
+            .disposed(by: disposeBug)
+        
+        // PagingMenuViewControllerDelegate
+        menuViewController.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (page, prev) in
+            self?.contentViewController.scroll(to: page, animated: true)
+        }).disposed(by: disposeBug)
+        
+        // PagingContentViewControllerDelegate
+        contentViewController.rx.didManualScroll.asObservable().subscribe(onNext: { [weak self] (index, percent) in
+            self?.menuViewController.scroll(index: index, percent: percent, animated: false)
+        }).disposed(by: disposeBug)
+    }
+```
+
+
+
 # License
 
 Copyright (c) 2017 Kazuhiro Hayashi
