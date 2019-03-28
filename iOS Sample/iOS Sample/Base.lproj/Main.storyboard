@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cr5-9o-xTf">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Cr5-9o-xTf">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -112,7 +112,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="gYS-bK-pvK" kind="push" id="t7g-nZ-I6r"/>
+                                            <segue destination="gYS-bK-pvK" kind="show" id="t7g-nZ-I6r"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="T7C-6p-X1M" style="IBUITableViewCellStyleDefault" id="InU-Ab-RUv">
@@ -132,7 +132,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="ul8-3H-sYX" kind="push" id="gGP-JO-Sbr"/>
+                                            <segue destination="ul8-3H-sYX" kind="show" id="gGP-JO-Sbr"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="kAV-9h-jYM" style="IBUITableViewCellStyleDefault" id="KuI-vC-s6a">
@@ -152,7 +152,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Ne6-VC-I3G" kind="push" id="nQX-4L-VEr"/>
+                                            <segue destination="Ne6-VC-I3G" kind="show" id="nQX-4L-VEr"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Wop-i9-uCT" style="IBUITableViewCellStyleDefault" id="PIt-z7-dsQ">
@@ -172,7 +172,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <segue destination="Nzl-bH-fXd" kind="push" id="FQU-VI-cN4"/>
+                                            <segue destination="Nzl-bH-fXd" kind="show" id="FQU-VI-cN4"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="sJY-vM-KeG" style="IBUITableViewCellStyleDefault" id="y1P-7K-TTD">
@@ -193,7 +193,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="Tp6-Um-dQ3" kind="push" id="VXm-TQ-3EF"/>
+                                            <segue destination="Tp6-Um-dQ3" kind="show" id="VXm-TQ-3EF"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="0bk-D8-1c5" style="IBUITableViewCellStyleDefault" id="g3I-ix-zLH">
@@ -214,7 +214,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="1ap-wG-bk8" kind="push" id="GIG-kD-RV7"/>
+                                            <segue destination="1ap-wG-bk8" kind="show" id="GIG-kD-RV7"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="xRP-ME-GFK" style="IBUITableViewCellStyleDefault" id="aFa-D8-lWf">
@@ -235,7 +235,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="PRQ-yw-YFw" kind="push" id="ziQ-Ff-G2p"/>
+                                            <segue destination="PRQ-yw-YFw" kind="show" id="ziQ-Ff-G2p"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="wSZ-4o-1jV" style="IBUITableViewCellStyleDefault" id="coq-Ue-xcB">
@@ -256,7 +256,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="IMk-Z4-fCn" kind="push" id="OzH-w5-i0a"/>
+                                            <segue destination="IMk-Z4-fCn" kind="show" id="OzH-w5-i0a"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Nrn-ba-H6D" style="IBUITableViewCellStyleDefault" id="kHu-NP-SqV">
@@ -298,7 +298,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="ynb-6L-0gM" kind="push" id="tGq-cX-qYm"/>
+                                            <segue destination="ynb-6L-0gM" kind="show" id="tGq-cX-qYm"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="Uqj-Qa-6sU" style="IBUITableViewCellStyleDefault" id="RND-od-7Hs">
@@ -319,7 +319,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="aaU-Y4-S7g" kind="push" id="Qhd-Ob-kK4"/>
+                                            <segue destination="aaU-Y4-S7g" kind="show" id="Qhd-Ob-kK4"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="CWl-7P-KP6" style="IBUITableViewCellStyleDefault" id="0Tj-ID-Xra">
@@ -340,7 +340,7 @@
                                         </tableViewCellContentView>
                                         <edgeInsets key="layoutMargins" top="8" left="8" bottom="8" right="8"/>
                                         <connections>
-                                            <segue destination="aMz-gW-YRw" kind="push" id="Qqk-5k-RhI"/>
+                                            <segue destination="aMz-gW-YRw" kind="show" id="Qqk-5k-RhI"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" layoutMarginsFollowReadableWidth="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="6Sc-AX-Iga" style="IBUITableViewCellStyleDefault" id="9Ui-IK-FXm">
