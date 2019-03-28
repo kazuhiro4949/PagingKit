@@ -2,8 +2,7 @@
 
 
 [![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
-![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
-![Swift 3.2](https://img.shields.io/badge/Swift-3.2-orange.svg)
+![Swift 5.0](https://img.shields.io/badge/Swift-5.0-orange.svg)
 [![License](https://img.shields.io/cocoapods/l/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Version](https://img.shields.io/cocoapods/v/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
@@ -46,7 +45,7 @@ You can customize menu as you like.
 # Requirements
 + iOS 8.0+
 + Xcode 10.0+
-+ Swift 4.2
++ Swift 5.0
 
 # Installation
 
