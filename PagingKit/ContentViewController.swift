@@ -10,13 +10,33 @@ import SwiftUI
 import UIKit
 
 struct ContentViewController: UIViewControllerRepresentable {
-    var controller: [UIViewController]
+    func makeCoordinator() -> ContentViewController.Coordinator {
+        Coordinator(self)
+    }
+    
+    var controllers: [UIViewController]
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<ContentViewController>) -> PagingContentViewController {
         return PagingContentViewController()
     }
     
     func updateUIViewController(_ uiViewController: PagingContentViewController, context: UIViewControllerRepresentableContext<ContentViewController>) {
+        uiViewController.reloadData()
+    }
+    
+    class Coordinator: NSObject, PagingContentViewControllerDataSource {
+        func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
+            return parent.controllers.count
+        }
         
+        func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
+            parent.controllers[index]
+        }
+        
+        var parent: ContentViewController
+        
+        init(_ contentViewController: ContentViewController) {
+            self.parent = contentViewController
+        }
     }
 }
