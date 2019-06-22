@@ -55,6 +55,9 @@
 		2BC7828C2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BC7828B2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard */; };
 		2BE47F081FA41AF40057A786 /* FullscreenViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BE47F071FA41AF40057A786 /* FullscreenViewController.storyboard */; };
 		2BE47F0A1FA41B090057A786 /* FullscreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE47F091FA41B090057A786 /* FullscreenViewController.swift */; };
+		2BEDEC0422BE1270001B29D9 /* SimpleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEDEC0322BE1270001B29D9 /* SimpleView.swift */; };
+		2BEDEC0A22BE16D1001B29D9 /* SwiftUIViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2BEDEC0922BE16D1001B29D9 /* SwiftUIViewController.storyboard */; };
+		2BEDEC0C22BE1747001B29D9 /* SwiftUIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BEDEC0B22BE1747001B29D9 /* SwiftUIViewController.swift */; };
 		2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */; };
 		6E98277A1F0A91F400860828 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9827791F0A91F400860828 /* AppDelegate.swift */; };
 		6E98277C1F0A91F400860828 /* SimpleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E98277B1F0A91F400860828 /* SimpleViewController.swift */; };
@@ -146,6 +149,9 @@
 		2BC7828B2127EFCB009999F6 /* InitializingWithoutStoryboardViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = InitializingWithoutStoryboardViewController.storyboard; sourceTree = "<group>"; };
 		2BE47F071FA41AF40057A786 /* FullscreenViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FullscreenViewController.storyboard; sourceTree = "<group>"; };
 		2BE47F091FA41B090057A786 /* FullscreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullscreenViewController.swift; sourceTree = "<group>"; };
+		2BEDEC0322BE1270001B29D9 /* SimpleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleView.swift; sourceTree = "<group>"; };
+		2BEDEC0922BE16D1001B29D9 /* SwiftUIViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SwiftUIViewController.storyboard; sourceTree = "<group>"; };
+		2BEDEC0B22BE1747001B29D9 /* SwiftUIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIViewController.swift; sourceTree = "<group>"; };
 		2BFA4AC21F0CEC39001B9BCA /* ModalViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
 		6E9827761F0A91F400860828 /* iOS Sample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS Sample.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6E9827791F0A91F400860828 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -345,6 +351,16 @@
 			name = Fullscreen;
 			sourceTree = "<group>";
 		};
+		2BEDEC0122BE1240001B29D9 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				2BEDEC0322BE1270001B29D9 /* SimpleView.swift */,
+				2BEDEC0922BE16D1001B29D9 /* SwiftUIViewController.storyboard */,
+				2BEDEC0B22BE1747001B29D9 /* SwiftUIViewController.swift */,
+			);
+			name = SwiftUI;
+			sourceTree = "<group>";
+		};
 		6E98276D1F0A91F400860828 = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +386,7 @@
 		6E9827781F0A91F400860828 /* iOS Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2BEDEC0122BE1240001B29D9 /* SwiftUI */,
 				2B14059F218EBD7200474615 /* NavigationBar */,
 				2BC782882127ECEE009999F6 /* InitializingWithoutStoryboard */,
 				2B40528F20425C6C0017F90E /* DynamicWidth */,
@@ -514,6 +531,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -560,6 +578,7 @@
 				2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */,
 				6E98277F1F0A91F400860828 /* Main.storyboard in Resources */,
 				2B4541991FA48FFC00A9B253 /* IndicatorFocusMenuView.xib in Resources */,
+				2BEDEC0A22BE16D1001B29D9 /* SwiftUIViewController.storyboard in Resources */,
 				2B4541931FA48E7800A9B253 /* IndicatorViewController.storyboard in Resources */,
 				2BBB70EC1F92351200320900 /* SimpleViewController.storyboard in Resources */,
 			);
@@ -591,6 +610,7 @@
 				2BE47F0A1FA41B090057A786 /* FullscreenViewController.swift in Sources */,
 				2BFA4AC31F0CEC39001B9BCA /* ModalViewController.swift in Sources */,
 				2B4541951FA48E8D00A9B253 /* IndicatorViewController.swift in Sources */,
+				2BEDEC0C22BE1747001B29D9 /* SwiftUIViewController.swift in Sources */,
 				2B95EA05203157C70054F23E /* MenuReloadableViewController.swift in Sources */,
 				2B95EA0A203164BE0054F23E /* AlignmentViewController.swift in Sources */,
 				2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */,
@@ -605,6 +625,7 @@
 				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
 				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
 				2B7F2E65217EBF1400523F2E /* NavigationBarViewController.swift in Sources */,
+				2BEDEC0422BE1270001B29D9 /* SimpleView.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
 				2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */,

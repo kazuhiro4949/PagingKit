@@ -9,6 +9,29 @@
 import SwiftUI
 import UIKit
 
+@available(iOS 13.0, *)
+public struct Menu<Selection, Content> where Selection : SelectionManager, Content : View {
+    
+    /// Creates an instance.
+    ///
+    /// - Parameter selection: A selection manager that identifies the selected row(s).
+    ///
+    /// - See Also: `View.selectionValue` which gives an identifier to the rows.
+    ///
+    /// - Note: On iOS and tvOS, you must explicitly put the `List` into Edit
+    /// Mode for the selection to apply.
+    public init(selection: Binding<Selection>?, content: () -> Content) {
+        
+    }
+    
+    /// The type of view representing the body of this view.
+    ///
+    /// When you create a custom view, Swift infers this type from your
+    /// implementation of the required `body` property.
+    public typealias Body = Never
+}
+
+
 struct ContentViewController: UIViewControllerRepresentable {
     func makeCoordinator() -> ContentViewController.Coordinator {
         Coordinator(self)
