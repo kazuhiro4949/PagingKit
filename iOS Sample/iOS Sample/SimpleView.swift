@@ -7,11 +7,12 @@
 //
 
 import SwiftUI
+import PagingKit
 
 @available(iOS 13, *)
 struct SimpleView : View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello World!"/*@END_MENU_TOKEN@*/)
+        MenuView()
     }
 }
 
@@ -23,3 +24,14 @@ struct SimpleView_Previews : PreviewProvider {
     }
 }
 #endif
+
+
+struct MenuView: UIViewControllerRepresentable {
+    func makeUIViewController(context: UIViewControllerRepresentableContext<MenuView>) -> PagingMenuViewController {
+        return PagingMenuViewController()
+    }
+    
+    func updateUIViewController(_ uiViewController: PagingMenuViewController, context: UIViewControllerRepresentableContext<MenuView>) {
+        uiViewController.reloadData()
+    }
+}
