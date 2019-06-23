@@ -11,9 +11,11 @@ import PagingKit
 
 @available(iOS 13, *)
 struct SimpleView : View {
+    @State var currentOffset: (index: Int, percent: Float) = (index: 0, percent: 0)
+    
     var body: some View {
         VStack(spacing: 0) {
-            Menu([
+            Menu(data: [
                 MenuElement(title: "1"),
                 MenuElement(title: "2"),
                 MenuElement(title: "3"),
@@ -24,7 +26,9 @@ struct SimpleView : View {
                 MenuElement(title: "9"),
                 MenuElement(title: "10"),
                 MenuElement(title: "11"),
-                MenuElement(title: "12")]) { id in
+                MenuElement(title: "12")],
+                 focus: Focus(),
+                 currentOffset: $currentOffset) { id in
                     MenuRow(title: id.title).frame(width: 100)
                 }.frame(height: 44)
             
@@ -40,7 +44,8 @@ struct SimpleView : View {
                 UIHostingController(rootView: SimpleList()),
                 UIHostingController(rootView: SimpleList()),
                 UIHostingController(rootView: SimpleList())
-                ]
+                ],
+                currentOffset: $currentOffset
             )
         }.edgesIgnoringSafeArea([.bottom, .leading, .trailing])
     }
@@ -64,6 +69,16 @@ struct SimpleList: View {
 }
 
 @available(iOS 13.0, *)
+struct Focus: View {
+    var body: some View {
+        VStack {
+            Spacer()
+            Rectangle().frame(height: 4).foregroundColor(.red)
+        }
+    }
+}
+
+@available(iOS 13.0, *)
 struct MenuRow: View {
     let title: String
     
@@ -72,28 +87,25 @@ struct MenuRow: View {
     }
 }
 
-#if DEBUG
-@available(iOS 13, *)
-struct SimpleView_Previews : PreviewProvider {
-    static var previews: some View {
-        SimpleView()
-    }
-}
-#endif
+//#if DEBUG
+//@available(iOS 13, *)
+//struct SimpleView_Previews : PreviewProvider {
+//    static var previews: some View {
+//        SimpleView()
+//    }
+//}
+//#endif
 
 
 @available(iOS 13.0, *)
-struct Menu<Data, Content>: UIViewControllerRepresentable where Data : RandomAccessCollection, Content: View, Data.Element : Identifiable, Data.Index == Int {
+struct Menu<Data, Content, Focus>: UIViewControllerRepresentable where Data : RandomAccessCollection, Content: View, Focus: View, Data.Element : Identifiable, Data.Index == Int {
     var data: Data
+    var focus: Focus
+    @Binding var currentOffset: (index: Int, percent: Float)
     var content: (Data.Element.IdentifiedValue) -> Content
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
-    }
-    
-    public init(_ data: Data, @ViewBuilder content: @escaping (Data.Element.IdentifiedValue) -> Content) {
-        self.data = data
-        self.content = content
     }
     
     func makeUIViewController(context: UIViewControllerRepresentableContext<Menu>) -> PagingMenuViewController {
@@ -101,15 +113,29 @@ struct Menu<Data, Content>: UIViewControllerRepresentable where Data : RandomAcc
         vc.register(type: PagingMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         vc.dataSource = context.coordinator
         vc.delegate = context.coordinator
+        let focusVc = UIHostingController(rootView: focus)
+        focusVc.view.backgroundColor = .clear
+        vc.registerFocusView(view: focusVc.view)
+        
         return vc
     }
     
     func updateUIViewController(_ uiViewController: PagingMenuViewController, context: UIViewControllerRepresentableContext<Menu>) {
-        uiViewController.reloadData()
+        
+        if !context.coordinator.isReloaded {
+            uiViewController.reloadData(with: currentOffset.index, completionHandler: nil)
+            context.coordinator.isReloaded.toggle()
+        } else if !context.coordinator.isSelected {
+            print(currentOffset)
+            uiViewController.scroll(index: currentOffset.index, percent: CGFloat(currentOffset.percent), animated: false)
+        }
+        context.coordinator.isSelected = false
     }
     
     class Coordinator: PagingMenuViewControllerDelegate, PagingMenuViewControllerDataSource {
         let sizingCell = PagingMenuViewCell(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+        var isReloaded = false
+        var isSelected = false
         
         func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
             let element = parent.data[index]
@@ -144,7 +170,8 @@ struct Menu<Data, Content>: UIViewControllerRepresentable where Data : RandomAcc
         }
 
         func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-
+            isSelected = true
+            parent.currentOffset = (index: page, percent: 0)
         }
 
         func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {
@@ -156,13 +183,13 @@ struct Menu<Data, Content>: UIViewControllerRepresentable where Data : RandomAcc
         init(_ vc: Menu) {
             parent = vc
         }
-
     }
 }
 
 @available(iOS 13.0, *)
 struct Content: UIViewControllerRepresentable {
     var controllers: [UIViewController]
+    @Binding var currentOffset: (index: Int, percent: Float)
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -176,11 +203,18 @@ struct Content: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: PagingContentViewController, context: UIViewControllerRepresentableContext<Content>) {
-        uiViewController.reloadData()
+        if !context.coordinator.isReloaded {
+            uiViewController.reloadData()
+            context.coordinator.isReloaded.toggle()
+        } else if !context.coordinator.isManualScrolling {
+            uiViewController.scroll(to: currentOffset.index, animated: true)
+        }
     }
     
     class Coordinator: PagingContentViewControllerDelegate, PagingContentViewControllerDataSource {
         var parent: Content
+        var isReloaded = false
+        var isManualScrolling = false
         
         init(_ vc: Content) {
             parent = vc
@@ -192,6 +226,18 @@ struct Content: UIViewControllerRepresentable {
         
         func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
             parent.controllers.count
+        }
+        
+        func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int) {
+            isManualScrolling = true
+        }
+        
+        func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
+            parent.currentOffset = (index: index, percent: Float(percent))
+        }
+        
+        func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {
+            isManualScrolling = false
         }
     }
 }
