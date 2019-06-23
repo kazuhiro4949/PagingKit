@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B11E7D622BF9FE900B54860 /* PagingMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B11E7D522BF9FE900B54860 /* PagingMenu.swift */; };
+		2B11E7D822BFA01000B54860 /* PagingContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B11E7D722BFA01000B54860 /* PagingContent.swift */; };
 		2B140598218EB84C00474615 /* NavigationBarMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B140597218EB84C00474615 /* NavigationBarMenuCell.xib */; };
 		2B14059A218EB8A000474615 /* NavigationBarMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B140599218EB8A000474615 /* NavigationBarMenuCell.swift */; };
 		2B14059C218EBAC200474615 /* NavigationBarFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B14059B218EBAC200474615 /* NavigationBarFocusView.swift */; };
@@ -101,6 +103,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2B11E7D522BF9FE900B54860 /* PagingMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingMenu.swift; sourceTree = "<group>"; };
+		2B11E7D722BFA01000B54860 /* PagingContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingContent.swift; sourceTree = "<group>"; };
 		2B140597218EB84C00474615 /* NavigationBarMenuCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NavigationBarMenuCell.xib; sourceTree = "<group>"; };
 		2B140599218EB8A000474615 /* NavigationBarMenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarMenuCell.swift; sourceTree = "<group>"; };
 		2B14059B218EBAC200474615 /* NavigationBarFocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarFocusView.swift; sourceTree = "<group>"; };
@@ -196,6 +200,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B11E7D322BF9F9800B54860 /* Wrapper */ = {
+			isa = PBXGroup;
+			children = (
+				2B11E7D522BF9FE900B54860 /* PagingMenu.swift */,
+				2B11E7D722BFA01000B54860 /* PagingContent.swift */,
+			);
+			name = Wrapper;
+			sourceTree = "<group>";
+		};
 		2B14059F218EBD7200474615 /* NavigationBar */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +367,7 @@
 		2BEDEC0122BE1240001B29D9 /* SwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				2B11E7D322BF9F9800B54860 /* Wrapper */,
 				2BEDEC0322BE1270001B29D9 /* SimpleView.swift */,
 				2BEDEC0922BE16D1001B29D9 /* SwiftUIViewController.storyboard */,
 				2BEDEC0B22BE1747001B29D9 /* SwiftUIViewController.swift */,
@@ -628,7 +642,9 @@
 				2BEDEC0422BE1270001B29D9 /* SimpleView.swift in Sources */,
 				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
+				2B11E7D822BFA01000B54860 /* PagingContent.swift in Sources */,
 				2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */,
+				2B11E7D622BF9FE900B54860 /* PagingMenu.swift in Sources */,
 				2B3C7CC51F8CEB0100A43223 /* TwoLineMenuViewController.swift in Sources */,
 				2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */,
 				2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */,
