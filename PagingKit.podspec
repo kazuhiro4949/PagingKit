@@ -24,5 +24,5 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = "PagingKit/*"
+  s.source_files = "PagingKit/**/*.{h,m,swift}"
 end
