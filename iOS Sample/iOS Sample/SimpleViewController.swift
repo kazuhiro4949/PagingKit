@@ -45,7 +45,7 @@ class SimpleViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        menuViewController?.cellSpacing = 10
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
         menuViewController?.registerFocusView(view: UnderlineFocusView())
         contentViewController?.scrollView.bounces = true
@@ -80,7 +80,7 @@ extension SimpleViewController: PagingMenuViewControllerDataSource {
     }
 
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
-        return viewController.view.bounds.width / CGFloat(dataSource.count)
+        return (viewController.view.bounds.width - viewController.menuView.totalSpacing) / CGFloat(dataSource.count)
     }
 
     var insets: UIEdgeInsets {
