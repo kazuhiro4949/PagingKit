@@ -30,6 +30,8 @@ class SimpleViewController: UIViewController {
     var menuViewController: PagingMenuViewController?
     var contentViewController: PagingContentViewController?
     
+    let focusView = UnderlineFocusView()
+    
     
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
         let title = $0
@@ -39,7 +41,9 @@ class SimpleViewController: UIViewController {
     
     lazy var firstLoad: (() -> Void)? = { [weak self, menuViewController, contentViewController] in
         menuViewController?.reloadData()
-        contentViewController?.reloadData()
+        contentViewController?.reloadData { [weak self] in
+            self?.adjustfocusViewWidth(index: 0, percent: 0)
+        }
         self?.firstLoad = nil
     }
 
@@ -47,7 +51,7 @@ class SimpleViewController: UIViewController {
         super.viewDidLoad()
         
         menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(view: UnderlineFocusView())
+        menuViewController?.registerFocusView(view: focusView)
         contentViewController?.scrollView.bounces = true
     }
     override func viewDidLayoutSubviews() {
@@ -115,6 +119,15 @@ extension SimpleViewController: PagingMenuViewControllerDelegate {
 extension SimpleViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
         menuViewController?.scroll(index: index, percent: percent, animated: false)
+        adjustfocusViewWidth(index: index, percent: percent)
+    }
+    
+    func adjustfocusViewWidth(index: Int, percent: CGFloat) {
+        guard let leftCell = menuViewController?.cellForItem(at: index) as? TitleLabelMenuViewCell,
+            let rightCell = menuViewController?.cellForItem(at: index + 1) as? TitleLabelMenuViewCell else {
+            return
+        }
+        focusView.underlineWidth = rightCell.calcIntermediateLabelSize(with: leftCell, percent: percent)
     }
 }
 
