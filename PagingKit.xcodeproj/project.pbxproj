@@ -76,6 +76,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BD0FB25232F82B900BA3894 /* Menu Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0FB27232F82CF00BA3894 /* Underline */,
+				2BD0FB26232F82C900BA3894 /* Overlay */,
+			);
+			path = "Menu Cells";
+			sourceTree = "<group>";
+		};
+		2BD0FB26232F82C900BA3894 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0FB22232F7ED600BA3894 /* OverlayFocusView.swift */,
+				2BD0FB21232F7ED600BA3894 /* OverlayMenuCell.swift */,
+			);
+			path = Overlay;
+			sourceTree = "<group>";
+		};
+		2BD0FB27232F82CF00BA3894 /* Underline */ = {
+			isa = PBXGroup;
+			children = (
+				2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */,
+				2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */,
+			);
+			path = Underline;
+			sourceTree = "<group>";
+		};
 		6EC140B11F0940F40054B514 = {
 			isa = PBXGroup;
 			children = (
@@ -97,17 +124,14 @@
 		6EC140BD1F0940F40054B514 /* PagingKit */ = {
 			isa = PBXGroup;
 			children = (
+				2BD0FB25232F82B900BA3894 /* Menu Cells */,
 				6EC140BE1F0940F40054B514 /* PagingKit.h */,
 				6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */,
 				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
 				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
 				2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */,
 				2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */,
-				2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */,
-				2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */,
 				2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */,
-				2BD0FB22232F7ED600BA3894 /* OverlayFocusView.swift */,
-				2BD0FB21232F7ED600BA3894 /* OverlayMenuCell.swift */,
 			);
 			path = PagingKit;
 			sourceTree = "<group>";
