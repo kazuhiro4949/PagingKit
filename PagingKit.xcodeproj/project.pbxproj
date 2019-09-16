@@ -17,6 +17,8 @@
 		2BC16A321FFE355F00CB884A /* UnderlineFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */; };
 		2BC16A341FFE35AA00CB884A /* PagingKitProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */; };
 		2BC16A361FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */; };
+		2BD0FB23232F7ED600BA3894 /* OverlayMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0FB21232F7ED600BA3894 /* OverlayMenuCell.swift */; };
+		2BD0FB24232F7ED600BA3894 /* OverlayFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BD0FB22232F7ED600BA3894 /* OverlayFocusView.swift */; };
 		6EC140C51F0940F40054B514 /* PagingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC140BB1F0940F40054B514 /* PagingKit.framework */; };
 		6EC140CC1F0940F40054B514 /* PagingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC140BE1F0940F40054B514 /* PagingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */; };
@@ -44,6 +46,8 @@
 		2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlineFocusView.swift; sourceTree = "<group>"; };
 		2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingKitProxy.swift; sourceTree = "<group>"; };
 		2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabelMenuViewCell.swift; sourceTree = "<group>"; };
+		2BD0FB21232F7ED600BA3894 /* OverlayMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayMenuCell.swift; sourceTree = "<group>"; };
+		2BD0FB22232F7ED600BA3894 /* OverlayFocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayFocusView.swift; sourceTree = "<group>"; };
 		6EC140BB1F0940F40054B514 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC140BE1F0940F40054B514 /* PagingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingKit.h; sourceTree = "<group>"; };
 		6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingKit-Info.plist"; sourceTree = "<group>"; };
@@ -72,6 +76,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2BD0FB25232F82B900BA3894 /* Menu Cells */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0FB27232F82CF00BA3894 /* Underline */,
+				2BD0FB26232F82C900BA3894 /* Overlay */,
+			);
+			path = "Menu Cells";
+			sourceTree = "<group>";
+		};
+		2BD0FB26232F82C900BA3894 /* Overlay */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0FB22232F7ED600BA3894 /* OverlayFocusView.swift */,
+				2BD0FB21232F7ED600BA3894 /* OverlayMenuCell.swift */,
+			);
+			path = Overlay;
+			sourceTree = "<group>";
+		};
+		2BD0FB27232F82CF00BA3894 /* Underline */ = {
+			isa = PBXGroup;
+			children = (
+				2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */,
+				2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */,
+			);
+			path = Underline;
+			sourceTree = "<group>";
+		};
 		6EC140B11F0940F40054B514 = {
 			isa = PBXGroup;
 			children = (
@@ -93,14 +124,13 @@
 		6EC140BD1F0940F40054B514 /* PagingKit */ = {
 			isa = PBXGroup;
 			children = (
+				2BD0FB25232F82B900BA3894 /* Menu Cells */,
 				6EC140BE1F0940F40054B514 /* PagingKit.h */,
 				6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */,
 				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
 				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
 				2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */,
 				2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */,
-				2BC16A311FFE355F00CB884A /* UnderlineFocusView.swift */,
-				2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */,
 				2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */,
 			);
 			path = PagingKit;
@@ -196,6 +226,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -236,7 +267,9 @@
 			files = (
 				2BC16A341FFE35AA00CB884A /* PagingKitProxy.swift in Sources */,
 				2BC16A321FFE355F00CB884A /* UnderlineFocusView.swift in Sources */,
+				2BD0FB23232F7ED600BA3894 /* OverlayMenuCell.swift in Sources */,
 				2BC16A361FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift in Sources */,
+				2BD0FB24232F7ED600BA3894 /* OverlayFocusView.swift in Sources */,
 				6EC140D81F09410F0054B514 /* PagingContentViewController.swift in Sources */,
 				2B668C5F1F1395BE008A0694 /* PagingMenuView.swift in Sources */,
 				6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */,
