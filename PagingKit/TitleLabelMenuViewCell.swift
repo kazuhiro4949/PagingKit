@@ -48,12 +48,21 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
         }
     }
     
+    public var labelWidth: CGFloat {
+        return titleLabel.bounds.width
+    }
+    
     public let titleLabel = { () -> UILabel in
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
         return label
     }()
+    
+    public func calcIntermediateLabelSize(with leftCell: TitleLabelMenuViewCell, percent: CGFloat) -> CGFloat {
+        let diff = (labelWidth - leftCell.labelWidth) * percent
+        return leftCell.labelWidth + diff
+    }
     
     public required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -71,9 +80,10 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         addConstraints([
             anchorLabel(from: titleLabel, to: self, attribute: .top),
-            anchorLabel(from: titleLabel, to: self, attribute: .leading),
-            anchorLabel(from: self, to: titleLabel, attribute: .trailing),
-            anchorLabel(from: self, to: titleLabel, attribute: .bottom)
+            anchorLabel(from: titleLabel, to: self, attribute: .leading, .greaterThanOrEqual),
+            anchorLabel(from: self, to: titleLabel, attribute: .trailing, .greaterThanOrEqual),
+            anchorLabel(from: self, to: titleLabel, attribute: .bottom),
+            anchorLabel(from: titleLabel, to: self, 0, attribute: .centerX)
         ])
     }
     
@@ -89,15 +99,15 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
     
     
     /// syntax sugar of NSLayoutConstraint for titleLabel (Because this library supports iOS8, it cannnot use NSLayoutAnchor.)
-    private func anchorLabel(from fromItem: Any, to toItem: Any, attribute: NSLayoutConstraint.Attribute) -> NSLayoutConstraint {
+    private func anchorLabel(from fromItem: Any, to toItem: Any, _ constant: CGFloat = 8, attribute: NSLayoutConstraint.Attribute, _ relatedBy: NSLayoutConstraint.Relation = .equal) -> NSLayoutConstraint {
         return NSLayoutConstraint(
             item: fromItem,
             attribute: attribute,
-            relatedBy: .equal,
+            relatedBy: relatedBy,
             toItem: toItem,
             attribute: attribute,
             multiplier: 1,
-            constant: 8
+            constant: constant
         )
     }
  }
