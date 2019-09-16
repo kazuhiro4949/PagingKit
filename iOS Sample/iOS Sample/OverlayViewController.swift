@@ -76,7 +76,7 @@ extension OverlayViewController: PagingMenuViewControllerDataSource {
     func menuViewController(viewController: PagingMenuViewController, widthForItemAt index: Int) -> CGFloat {
         return OverlayMenuCell
             .sizingCell
-            .calculateWidht(from: viewController.view.bounds.height, title: dataSource[index].menu)
+            .calculateWidth(from: viewController.view.bounds.height, title: dataSource[index].menu)
     }
     
     func numberOfItemsForMenuViewController(viewController: PagingMenuViewController) -> Int {

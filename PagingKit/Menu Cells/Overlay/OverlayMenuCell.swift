@@ -97,7 +97,7 @@ public class OverlayMenuCell: PagingMenuViewCell {
         textMaskView.frame = menuView.convert(maskFrame, to: highlightLabel).inset(by: maskInsets)
     }
     
-    public func calculateWidht(from height: CGFloat, title: String) -> CGFloat {
+    public func calculateWidth(from height: CGFloat, title: String) -> CGFloat {
         configure(title: title)
         var referenceSize = UIView.layoutFittingCompressedSize
         referenceSize.height = height
