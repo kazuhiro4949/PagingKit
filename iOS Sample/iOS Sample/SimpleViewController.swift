@@ -46,6 +46,10 @@ class SimpleViewController: UIViewController {
         }
         self?.firstLoad = nil
     }
+    
+    @IBSegueAction func embedMenuViewController(coder: NSCoder) -> PagingMenuViewController? {
+        return nil
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
