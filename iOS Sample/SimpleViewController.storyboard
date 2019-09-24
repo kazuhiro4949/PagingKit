@@ -22,13 +22,13 @@
                                     <constraint firstAttribute="height" constant="44" id="qw3-oa-0sm"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="VVt-ht-N0L" kind="embed" destinationCreationSelector="embedPagingMenuViewController:" id="pRH-N5-adc"/>
+                                    <segue destination="VVt-ht-N0L" kind="embed" identifier="embedPagingMenuViewController" destinationCreationSelector="embedPagingMenuViewController:" id="pRH-N5-adc"/>
                                 </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1U5-cO-qes">
                                 <rect key="frame" x="0.0" y="88.5" width="375" height="578.5"/>
                                 <connections>
-                                    <segue destination="qGV-r2-Oby" kind="embed" id="ny9-Ig-sj6"/>
+                                    <segue destination="qGV-r2-Oby" kind="embed" identifier="embedPagingContenttViewController" destinationCreationSelector="embedPagingContentViewController:" id="ny9-Ig-sj6"/>
                                 </connections>
                             </containerView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilx-bp-zrZ">
@@ -57,7 +57,7 @@
                     <navigationItem key="navigationItem" title="Title" id="vxD-qX-EsA">
                         <barButtonItem key="rightBarButtonItem" title="Present Modally" id="5l6-FS-ffg">
                             <connections>
-                                <segue destination="N1g-oE-csi" kind="presentation" id="G7X-KH-RGt"/>
+                                <segue destination="N1g-oE-csi" kind="presentation" identifier="presentModally" id="G7X-KH-RGt"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
