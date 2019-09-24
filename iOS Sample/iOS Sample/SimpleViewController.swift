@@ -47,10 +47,20 @@ class SimpleViewController: UIViewController {
         self?.firstLoad = nil
     }
     
-    @IBSegueAction func embedMenuViewController(coder: NSCoder) -> PagingMenuViewController? {
-        return nil
+    @IBSegueAction func embedPagingMenuViewController(_ coder: NSCoder) -> PagingMenuViewController? {
+        menuViewController = PagingMenuViewController(coder: coder)
+        menuViewController?.dataSource = self
+        menuViewController?.delegate = self
+        return menuViewController
     }
-
+    
+    @IBSegueAction func embedPagingContentViewController(_ coder: NSCoder) -> PagingContentViewController? {
+        contentViewController = PagingContentViewController(coder: coder)
+        contentViewController?.dataSource = self
+        contentViewController?.delegate = self
+        return contentViewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,17 +77,17 @@ class SimpleViewController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? PagingMenuViewController {
-            menuViewController = vc
-            menuViewController?.dataSource = self
-            menuViewController?.delegate = self
-        } else if let vc = segue.destination as? PagingContentViewController {
-            contentViewController = vc
-            contentViewController?.delegate = self
-            contentViewController?.dataSource = self
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if let vc = segue.destination as? PagingMenuViewController {
+//            menuViewController = vc
+//            menuViewController?.dataSource = self
+//            menuViewController?.delegate = self
+//        } else if let vc = segue.destination as? PagingContentViewController {
+//            contentViewController = vc
+//            contentViewController?.delegate = self
+//            contentViewController?.dataSource = self
+//        }
+//    }
 }
 
 extension SimpleViewController: PagingMenuViewControllerDataSource {
