@@ -277,8 +277,7 @@ public class PagingContentViewController: UIViewController {
     }
 
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        removeAll()
-        initialLoad(with: leftSidePageIndex)
+        relocate(with: leftSidePageIndex)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
@@ -301,6 +300,12 @@ public class PagingContentViewController: UIViewController {
         loadScrollView(with: page + 1)
     }
     
+    fileprivate func relocate(with page: Int) {
+        layoutScrollView(with: page - 1)
+        layoutScrollView(with: page)
+        layoutScrollView(with: page + 1)
+    }
+    
     fileprivate func loadScrollView(with page: Int) {
         guard (0..<cachedViewControllers.count) ~= page else { return }
         
@@ -312,6 +317,15 @@ public class PagingContentViewController: UIViewController {
             scrollView.addSubview(vc.view)
             vc.didMove(toParent: self)
             cachedViewControllers[page] = vc
+        }
+    }
+    
+    fileprivate func layoutScrollView(with page: Int) {
+        guard (0..<cachedViewControllers.count) ~= page else { return }
+        
+        if let vc = cachedViewControllers[page] {
+            vc.view.frame = scrollView.bounds
+            vc.view.frame.origin.x = scrollView.bounds.width * CGFloat(page)
         }
     }
     
