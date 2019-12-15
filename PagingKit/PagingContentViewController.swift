@@ -133,6 +133,8 @@ public class PagingContentViewController: UIViewController {
     fileprivate var numberOfPages: Int = 0
     fileprivate var explicitPaging: ExplicitPaging?
 
+    private let appearanceHandler = ContentsAppearanceHandler()
+    
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
     
@@ -172,7 +174,9 @@ public class PagingContentViewController: UIViewController {
                 self?.view.layoutIfNeeded()
             },
             completion: { [weak self] _ in
-                self?.scroll(to: preferredPage, animated: false) { _ in
+                self?.scroll(to: preferredPage, needsCallAppearance: false, animated: false) { _ in
+                    self?.cachedViewControllers[preferredPage]?.beginAppearanceTransition(true, animated: false)
+                    self?.cachedViewControllers[preferredPage]?.endAppearanceTransition()
                     completion?()
                 }
             }
@@ -185,7 +189,16 @@ public class PagingContentViewController: UIViewController {
     ///   - page: A index defining an content of the content view controller.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(to page: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        scroll(to: page, needsCallAppearance: false, animated: animated, completion: completion)
+    }
+    
+    
+    private func scroll(to page: Int, needsCallAppearance: Bool, animated: Bool, completion: ((Bool) -> Void)? = nil) {
         delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
+        
+        if needsCallAppearance {
+            appearanceHandler.beginDragging(at: leftSidePageIndex)
+        }
         
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
@@ -193,6 +206,11 @@ public class PagingContentViewController: UIViewController {
         delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
         move(to: page, animated: animated) { [weak self] (finished) in
             guard let _self = self, finished else { return }
+            
+            if needsCallAppearance {
+                _self.appearanceHandler.stopScrolling(at: _self.leftSidePageIndex)
+            }
+            
             completion?(finished)
             _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
         }
@@ -255,6 +273,30 @@ public class PagingContentViewController: UIViewController {
         view.addSubview(scrollView)
         view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: scrollView, to: view))
         view.backgroundColor = .clear
+        
+        appearanceHandler.contentsDequeueHandler = { [weak self] in
+            self?.cachedViewControllers
+        }
+    }
+    
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        appearanceHandler.callApparance(.viewWillAppear, animated: animated, at: leftSidePageIndex)
+    }
+    
+    public override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        appearanceHandler.callApparance(.viewDidAppear, animated: animated, at: leftSidePageIndex)
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        appearanceHandler.callApparance(.viewWillDisappear, animated: animated, at: leftSidePageIndex)
+    }
+    
+    public override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        appearanceHandler.callApparance(.viewDidDisappear, animated: animated, at: leftSidePageIndex)
     }
 
     override public func viewDidLayoutSubviews() {
@@ -277,12 +319,19 @@ public class PagingContentViewController: UIViewController {
     }
 
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        removeAll()
+        initialLoad(with: leftSidePageIndex)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
         }, completion: nil)
         
         super.viewWillTransition(to: size, with: coordinator)
+    }
+    
+    
+    public override var shouldAutomaticallyForwardAppearanceMethods: Bool {
+        return false
     }
     
     fileprivate func removeAll() {
@@ -331,10 +380,15 @@ public class PagingContentViewController: UIViewController {
 
 extension PagingContentViewController: UIScrollViewDelegate {
     public func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        guard !(scrollView.isDragging && scrollView.isDecelerating) else {
+            return
+        }
+        
         explicitPaging = ExplicitPaging(oneTimeHandler: { [weak self, leftSidePageIndex = leftSidePageIndex] in
             guard let _self = self else { return }
             _self.delegate?.contentViewController(viewController: _self, willBeginPagingAt: leftSidePageIndex, animated: false)
             _self.explicitPaging?.start()
+            _self.appearanceHandler.beginDragging(at: leftSidePageIndex)
         })
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
@@ -361,6 +415,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
             if explicitPaging.isPaging {
+                appearanceHandler.stopScrolling(at: leftSidePageIndex)
+
                 delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: true)
             }
         }
@@ -375,6 +431,8 @@ extension PagingContentViewController: UIScrollViewDelegate {
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
             if explicitPaging.isPaging {
+                appearanceHandler.stopScrolling(at: leftSidePageIndex)
+                
                 delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: false)
                 delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: false)
             }
@@ -382,3 +440,91 @@ extension PagingContentViewController: UIScrollViewDelegate {
         explicitPaging = nil
     }
 }
+
+
+class ContentsAppearanceHandler {
+    enum Apperance {
+        case viewDidAppear
+        case viewWillAppear
+        case viewDidDisappear
+        case viewWillDisappear
+    }
+    
+    var dissapearingIndex: Int?
+    var contentsDequeueHandler: (() -> [UIViewController?]?)?
+    
+
+    func beginDragging(at index: Int) {
+        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
+            return
+        }
+        
+        if let dissapearingIndex = dissapearingIndex, dissapearingIndex < vcs.endIndex, let prevVc = vcs[dissapearingIndex] {
+            prevVc.endAppearanceTransition()
+        }
+        
+        vc.beginAppearanceTransition(false, animated: false)
+        dissapearingIndex = index
+    }
+    
+    func stopScrolling(at index: Int) {
+        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
+            return
+        }
+        
+        if let dissapearingIndex = dissapearingIndex, dissapearingIndex < vcs.endIndex, let prevVc = vcs[dissapearingIndex] {
+            prevVc.endAppearanceTransition()
+        }
+        
+        vc.beginAppearanceTransition(true, animated: false)
+        vc.endAppearanceTransition()
+        dissapearingIndex = nil
+    }
+    
+    func callApparance(_ apperance: Apperance, animated: Bool, at index: Int) {
+        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
+            return
+        }
+        
+        if let dissapearingIndex = dissapearingIndex,
+            dissapearingIndex < vcs.endIndex,
+            let prevVc = vcs[dissapearingIndex],
+            dissapearingIndex == index {
+            
+            prevVc.endAppearanceTransition()
+        }
+        dissapearingIndex = nil
+        
+        switch apperance {
+        case .viewDidAppear, .viewDidDisappear:
+            vc.endAppearanceTransition()
+        case .viewWillAppear:
+            vc.beginAppearanceTransition(true, animated: true)
+        case .viewWillDisappear:
+            vc.beginAppearanceTransition(false, animated: true)
+        }
+    }
+    
+    func preReload(at index: Int) {
+        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
+            return
+        }
+        
+        vc.beginAppearanceTransition(false, animated: false)
+        vc.endAppearanceTransition()
+        
+    }
+    
+    
+    
+    func postReload(at index: Int) {
+        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
+            return
+        }
+        
+        vc.beginAppearanceTransition(false, animated: false)
+        vc.endAppearanceTransition()
+        
+    }
+}
+
