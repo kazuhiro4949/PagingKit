@@ -133,7 +133,7 @@ public class PagingContentViewController: UIViewController {
     fileprivate var numberOfPages: Int = 0
     fileprivate var explicitPaging: ExplicitPaging?
 
-    private let appearanceHandler = ContentsAppearanceHandler()
+    var appearanceHandler: ContentsAppearanceHandlerProtocol = ContentsAppearanceHandler()
     
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
@@ -440,91 +440,3 @@ extension PagingContentViewController: UIScrollViewDelegate {
         explicitPaging = nil
     }
 }
-
-
-class ContentsAppearanceHandler {
-    enum Apperance {
-        case viewDidAppear
-        case viewWillAppear
-        case viewDidDisappear
-        case viewWillDisappear
-    }
-    
-    var dissapearingIndex: Int?
-    var contentsDequeueHandler: (() -> [UIViewController?]?)?
-    
-
-    func beginDragging(at index: Int) {
-        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
-            return
-        }
-        
-        if let dissapearingIndex = dissapearingIndex, dissapearingIndex < vcs.endIndex, let prevVc = vcs[dissapearingIndex] {
-            prevVc.endAppearanceTransition()
-        }
-        
-        vc.beginAppearanceTransition(false, animated: false)
-        dissapearingIndex = index
-    }
-    
-    func stopScrolling(at index: Int) {
-        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
-            return
-        }
-        
-        if let dissapearingIndex = dissapearingIndex, dissapearingIndex < vcs.endIndex, let prevVc = vcs[dissapearingIndex] {
-            prevVc.endAppearanceTransition()
-        }
-        
-        vc.beginAppearanceTransition(true, animated: false)
-        vc.endAppearanceTransition()
-        dissapearingIndex = nil
-    }
-    
-    func callApparance(_ apperance: Apperance, animated: Bool, at index: Int) {
-        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
-            return
-        }
-        
-        if let dissapearingIndex = dissapearingIndex,
-            dissapearingIndex < vcs.endIndex,
-            let prevVc = vcs[dissapearingIndex],
-            dissapearingIndex == index {
-            
-            prevVc.endAppearanceTransition()
-        }
-        dissapearingIndex = nil
-        
-        switch apperance {
-        case .viewDidAppear, .viewDidDisappear:
-            vc.endAppearanceTransition()
-        case .viewWillAppear:
-            vc.beginAppearanceTransition(true, animated: true)
-        case .viewWillDisappear:
-            vc.beginAppearanceTransition(false, animated: true)
-        }
-    }
-    
-    func preReload(at index: Int) {
-        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
-            return
-        }
-        
-        vc.beginAppearanceTransition(false, animated: false)
-        vc.endAppearanceTransition()
-        
-    }
-    
-    
-    
-    func postReload(at index: Int) {
-        guard let vcs = contentsDequeueHandler?(), index < vcs.endIndex, let vc = vcs[index] else {
-            return
-        }
-        
-        vc.beginAppearanceTransition(false, animated: false)
-        vc.endAppearanceTransition()
-        
-    }
-}
-
