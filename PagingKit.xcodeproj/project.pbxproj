@@ -18,6 +18,7 @@
 		2BC16A341FFE35AA00CB884A /* PagingKitProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */; };
 		2BC16A361FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */; };
 		2BE185F623AB7AAE00B457ED /* ContentAppearanceHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE185F523AB7AAE00B457ED /* ContentAppearanceHandler.swift */; };
+		2BE185F823AB7B2600B457ED /* ContentAppearanceHandlerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE185F723AB7B2600B457ED /* ContentAppearanceHandlerTests.swift */; };
 		6EC140C51F0940F40054B514 /* PagingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EC140BB1F0940F40054B514 /* PagingKit.framework */; };
 		6EC140CC1F0940F40054B514 /* PagingKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 6EC140BE1F0940F40054B514 /* PagingKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		6EC140D71F09410F0054B514 /* PagingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */; };
@@ -46,6 +47,7 @@
 		2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingKitProxy.swift; sourceTree = "<group>"; };
 		2BC16A351FFE3B3E00CB884A /* TitleLabelMenuViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleLabelMenuViewCell.swift; sourceTree = "<group>"; };
 		2BE185F523AB7AAE00B457ED /* ContentAppearanceHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentAppearanceHandler.swift; sourceTree = "<group>"; };
+		2BE185F723AB7B2600B457ED /* ContentAppearanceHandlerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentAppearanceHandlerTests.swift; sourceTree = "<group>"; };
 		6EC140BB1F0940F40054B514 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6EC140BE1F0940F40054B514 /* PagingKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PagingKit.h; sourceTree = "<group>"; };
 		6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PagingKit-Info.plist"; sourceTree = "<group>"; };
@@ -112,6 +114,7 @@
 		6EC140C81F0940F40054B514 /* PagingKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				2BE185F723AB7B2600B457ED /* ContentAppearanceHandlerTests.swift */,
 				2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */,
 				2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */,
 				2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */,
@@ -254,6 +257,7 @@
 			files = (
 				2B4F03491F8FB9950015FCC8 /* PagingContentViewControllerTests.swift in Sources */,
 				2B4F03431F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift in Sources */,
+				2BE185F823AB7B2600B457ED /* ContentAppearanceHandlerTests.swift in Sources */,
 				2B4F03451F8FA0760015FCC8 /* PagingMenuViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

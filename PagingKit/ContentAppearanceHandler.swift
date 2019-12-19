@@ -74,9 +74,9 @@ class ContentsAppearanceHandler: ContentsAppearanceHandlerProtocol {
         case .viewDidAppear, .viewDidDisappear:
             vc.endAppearanceTransition()
         case .viewWillAppear:
-            vc.beginAppearanceTransition(true, animated: true)
+            vc.beginAppearanceTransition(true, animated: animated)
         case .viewWillDisappear:
-            vc.beginAppearanceTransition(false, animated: true)
+            vc.beginAppearanceTransition(false, animated: animated)
         }
     }
     
@@ -97,7 +97,7 @@ class ContentsAppearanceHandler: ContentsAppearanceHandlerProtocol {
             return
         }
         
-        vc.beginAppearanceTransition(false, animated: false)
+        vc.beginAppearanceTransition(true, animated: false)
         vc.endAppearanceTransition()
         
     }
