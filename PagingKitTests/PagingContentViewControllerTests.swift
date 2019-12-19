@@ -334,6 +334,41 @@ extension PagingContentViewControllerTests {
         
         wait(for: [expectation], timeout: 0.2)
     }
+    
+    func test_promgrammaticScrolling_Apperance() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.scroll(to: 4, animated: false)
+            
+            XCTAssertEqual(self.contentAppearanceHandler.beginDragging_args, 3)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    func test_reload() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.reloadData(with: 4, completion: {
+                
+                XCTAssertEqual(self.contentAppearanceHandler.preReload_args, 3)
+                XCTAssertEqual(self.contentAppearanceHandler.postReload_ags, 4)
+                
+            })
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
 }
 
 

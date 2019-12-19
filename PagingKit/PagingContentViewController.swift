@@ -165,6 +165,7 @@ public class PagingContentViewController: UIViewController {
     /// - Parameter page: An index to show after reloading.
     public func reloadData(with page: Int? = nil, completion: (() -> Void)? = nil) {
         removeAll()
+        appearanceHandler.preReload(at: leftSidePageIndex)
         let preferredPage = page ?? leftSidePageIndex
         leftSidePageIndex = preferredPage
         initialLoad(with: preferredPage)
@@ -175,8 +176,7 @@ public class PagingContentViewController: UIViewController {
             },
             completion: { [weak self] _ in
                 self?.scroll(to: preferredPage, needsCallAppearance: false, animated: false) { _ in
-                    self?.cachedViewControllers[preferredPage]?.beginAppearanceTransition(true, animated: false)
-                    self?.cachedViewControllers[preferredPage]?.endAppearanceTransition()
+                    self?.appearanceHandler.postReload(at: preferredPage)
                     completion?()
                 }
             }
@@ -189,7 +189,7 @@ public class PagingContentViewController: UIViewController {
     ///   - page: A index defining an content of the content view controller.
     ///   - animated: true if the scrolling should be animated, false if it should be immediate.
     public func scroll(to page: Int, animated: Bool, completion: ((Bool) -> Void)? = nil) {
-        scroll(to: page, needsCallAppearance: false, animated: animated, completion: completion)
+        scroll(to: page, needsCallAppearance: true, animated: animated, completion: completion)
     }
     
     
