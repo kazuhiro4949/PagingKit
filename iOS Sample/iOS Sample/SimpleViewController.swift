@@ -27,8 +27,10 @@ import PagingKit
 
 class SimpleViewController: UIViewController {
     
-    var menuViewController: PagingMenuViewController?
-    var contentViewController: PagingContentViewController?
+    var menuViewController: PagingMenuViewController!
+    var contentViewController: PagingContentViewController!
+    
+    let focusView = UnderlineFocusView()
     
     
     let dataSource: [(menu: String, content: UIViewController)] = ["Martinez", "Alfred", "Louis", "Justin"].map {
@@ -39,16 +41,34 @@ class SimpleViewController: UIViewController {
     
     lazy var firstLoad: (() -> Void)? = { [weak self, menuViewController, contentViewController] in
         menuViewController?.reloadData()
-        contentViewController?.reloadData()
+        contentViewController?.reloadData { [weak self] in
+            self?.adjustfocusViewWidth(index: 0, percent: 0)
+        }
         self?.firstLoad = nil
     }
-
+    
+    @IBSegueAction func embedPagingMenuViewController(_ coder: NSCoder) -> PagingMenuViewController? {
+        menuViewController = PagingMenuViewController(coder: coder)
+        menuViewController.dataSource = self
+        menuViewController.delegate = self
+        return menuViewController
+    }
+    
+    @IBSegueAction func embedPagingContentViewController(_ coder: NSCoder) -> PagingContentViewController? {
+        contentViewController = PagingContentViewController(coder: coder)
+        contentViewController?.dataSource = self
+        contentViewController?.delegate = self
+        return contentViewController
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
-        menuViewController?.registerFocusView(view: UnderlineFocusView())
+        menuViewController.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController.registerFocusView(view: focusView)
+        contentViewController.scrollView.bounces = true
     }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         firstLoad?()
@@ -56,18 +76,6 @@ class SimpleViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let vc = segue.destination as? PagingMenuViewController {
-            menuViewController = vc
-            menuViewController?.dataSource = self
-            menuViewController?.delegate = self
-        } else if let vc = segue.destination as? PagingContentViewController {
-            contentViewController = vc
-            contentViewController?.delegate = self
-            contentViewController?.dataSource = self
-        }
     }
 }
 
@@ -107,13 +115,22 @@ extension SimpleViewController: PagingContentViewControllerDataSource {
 
 extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
-        contentViewController?.scroll(to: page, animated: true)
+        contentViewController.scroll(to: page, animated: true)
     }
 }
 
 extension SimpleViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
+        menuViewController.scroll(index: index, percent: percent, animated: false)
+        adjustfocusViewWidth(index: index, percent: percent)
+    }
+    
+    func adjustfocusViewWidth(index: Int, percent: CGFloat) {
+        guard let leftCell = menuViewController.cellForItem(at: index) as? TitleLabelMenuViewCell,
+            let rightCell = menuViewController.cellForItem(at: index + 1) as? TitleLabelMenuViewCell else {
+            return
+        }
+        focusView.underlineWidth = rightCell.calcIntermediateLabelSize(with: leftCell, percent: percent)
     }
 }
 

@@ -50,12 +50,21 @@ public protocol PagingMenuViewControllerDelegate: class {
     ///   - index: end index
     ///   - coordinator: animator coordinator
     func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator)
+    
+    /// Tells the delegate that the specified cell is about to be displayed in the menu view.
+    ///
+    /// - Parameters:
+    ///   - viewController: A menu view controller object informing the delegate.
+    ///   - cell: The cell object being added.
+    ///   - index: The index path of the data item that the cell represents.
+    func menuViewController(viewController: PagingMenuViewController, willDisplay cell: PagingMenuViewCell, forItemAt index: Int)
 }
 
 extension PagingMenuViewControllerDelegate {
     public func menuViewController(viewController: PagingMenuViewController, focusViewDidEndTransition focusView: PagingMenuFocusView) {}
     
     public func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
+    public func menuViewController(viewController: PagingMenuViewController, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {}
 }
 
 /// The data source provides the paging menu view controller object with the information it needs to construct and modify the menus.
@@ -309,14 +318,17 @@ extension PagingMenuViewController: UIScrollViewDelegate {
 // MARK:- PagingMenuViewDelegate
 
 extension PagingMenuViewController: PagingMenuViewDelegate {
+    public func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {
+        delegate?.menuViewController(viewController: self, willDisplay: cell, forItemAt: index)
+    }
+    
     public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
         delegate?.menuViewController(viewController: self, willAnimateFocusViewTo: index, with: coordinator)
     }
     
     public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {
-        guard menuView.focusView.selectedIndex != index else { return }
-        
         delegate?.menuViewController(viewController: self, didSelect: index, previousPage: menuView.focusView.selectedIndex ?? 0)
+        guard menuView.focusView.selectedIndex != index else { return }
         menuView.scroll(index: index) { [weak self] (finish) in
             guard let _self = self, finish else { return }
             _self.delegate?.menuViewController(viewController: _self, focusViewDidEndTransition: _self.menuView.focusView)

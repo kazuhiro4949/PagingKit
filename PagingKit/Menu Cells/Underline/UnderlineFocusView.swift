@@ -43,22 +43,50 @@ public class UnderlineFocusView: UIView {
         }
     }
     
+    public var underlineWidth: CGFloat? = nil {
+        didSet {
+             if let underlineWidth = underlineWidth {
+                 widthConstraint.isActive = true
+                 widthConstraint.constant = underlineWidth
+             } else {
+                 widthConstraint.isActive = false
+             }
+        }
+    }
+    
+    private let widthConstraint: NSLayoutConstraint
     private let heightConstraint: NSLayoutConstraint
     private let underlineView = UIView()
     
     required public init?(coder aDecoder: NSCoder) {
+        widthConstraint = NSLayoutConstraint(
+            item: underlineView,
+            attribute: .width,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: 0
+        )
+        
         heightConstraint = NSLayoutConstraint(
             item: underlineView,
             attribute: .height,
             relatedBy: .equal,
             toItem: nil,
-            attribute: .height, multiplier: 1, constant: underlineHeight
+            attribute: .height, multiplier: 1, constant: 0
         )
         super.init(coder: aDecoder)
         setup()
     }
     
     override public init(frame: CGRect) {
+        widthConstraint = NSLayoutConstraint(
+            item: underlineView,
+            attribute: .width,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .height, multiplier: 1, constant: underlineHeight
+        )
+        
         heightConstraint = NSLayoutConstraint(
             item: underlineView,
             attribute: .height,
@@ -74,8 +102,16 @@ public class UnderlineFocusView: UIView {
         addSubview(underlineView)
         underlineView.translatesAutoresizingMaskIntoConstraints = false
         addConstraint(heightConstraint)
-        let constraints = [.bottom, .leading, .trailing].anchor(from: underlineView, to: self)
-        addConstraints(constraints)
+        addConstraint(widthConstraint)
+        widthConstraint.isActive = false
+        
+        let constraintsA = [.bottom].anchor(from: underlineView, to: self)
+        let constraintsB = [.width, .centerX].anchor(from: underlineView, to: self)
+        constraintsB.forEach {
+            $0.priority = .defaultHigh
+            $0.isActive = true
+        }
+        addConstraints(constraintsA + constraintsB)
         underlineView.backgroundColor = underlineColor
     }
 }

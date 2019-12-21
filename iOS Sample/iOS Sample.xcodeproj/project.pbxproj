@@ -25,11 +25,7 @@
 		2B4541991FA48FFC00A9B253 /* IndicatorFocusMenuView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B4541981FA48FFC00A9B253 /* IndicatorFocusMenuView.xib */; };
 		2B45419B1FA490B600A9B253 /* PhotoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B45419A1FA490B600A9B253 /* PhotoViewController.storyboard */; };
 		2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B45419C1FA490BE00A9B253 /* PhotoViewController.swift */; };
-		2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */; };
 		2B47E72F1F10957100D67C04 /* OverlayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E72D1F10957100D67C04 /* OverlayViewController.swift */; };
-		2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */; };
-		2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */; };
-		2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */; };
 		2B47E7401F10C08C00D67C04 /* PagingKit.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2B47E73F1F10C08C00D67C04 /* PagingKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */; };
 		2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */; };
@@ -116,11 +112,7 @@
 		2B4541981FA48FFC00A9B253 /* IndicatorFocusMenuView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndicatorFocusMenuView.xib; sourceTree = "<group>"; };
 		2B45419A1FA490B600A9B253 /* PhotoViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = PhotoViewController.storyboard; sourceTree = "<group>"; };
 		2B45419C1FA490BE00A9B253 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
-		2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayMenuCell.xib; sourceTree = "<group>"; };
 		2B47E72D1F10957100D67C04 /* OverlayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayViewController.swift; sourceTree = "<group>"; };
-		2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OverlayFocusView.xib; sourceTree = "<group>"; };
-		2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayFocusView.swift; sourceTree = "<group>"; };
-		2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayMenuCell.swift; sourceTree = "<group>"; };
 		2B47E73F1F10C08C00D67C04 /* PagingKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = PagingKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B47F8791F5BF172001A7D2B /* DynamicSizeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DynamicSizeViewController.swift; sourceTree = "<group>"; };
 		2B4F034B1F9052060015FCC8 /* ContentViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContentViewController.storyboard; sourceTree = "<group>"; };
@@ -264,11 +256,7 @@
 			isa = PBXGroup;
 			children = (
 				2BBB70E91F9234E900320900 /* OverlayViewController.storyboard */,
-				2B47E7331F109DE400D67C04 /* OverlayFocusView.swift */,
-				2B47E7311F109D8D00D67C04 /* OverlayFocusView.xib */,
 				2B47E72D1F10957100D67C04 /* OverlayViewController.swift */,
-				2B47E7351F10A15700D67C04 /* OverlayMenuCell.swift */,
-				2B47E72A1F0FB89200D67C04 /* OverlayMenuCell.xib */,
 			);
 			name = Overlay;
 			sourceTree = "<group>";
@@ -514,6 +502,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -546,7 +535,6 @@
 				2B3C7CCF1F8CF44700A43223 /* ViewInsertedViewController.storyboard in Resources */,
 				2BC1B41C1F19F4DF00829D1A /* TagMenuCell.xib in Resources */,
 				2BBB70E61F92349600320900 /* ArbitraryNumberViewController.storyboard in Resources */,
-				2B47E72C1F0FB89200D67C04 /* OverlayMenuCell.xib in Resources */,
 				2B3C7CC71F8CEB0900A43223 /* TwoLineMenuViewController.storyboard in Resources */,
 				2BBB70EA1F9234E900320900 /* OverlayViewController.storyboard in Resources */,
 				2BBB70E41F92340100320900 /* TagViewController.storyboard in Resources */,
@@ -554,7 +542,6 @@
 				6E9827811F0A91F400860828 /* Assets.xcassets in Resources */,
 				2BBB70E81F9234C100320900 /* DynamicSizeViewController.storyboard in Resources */,
 				2B14059E218EBAE600474615 /* NavigationBarFocusView.xib in Resources */,
-				2B47E7321F109D8D00D67C04 /* OverlayFocusView.xib in Resources */,
 				2B95EA03203157B70054F23E /* MenuReloadableViewController.storyboard in Resources */,
 				2B4F034E1F9057380015FCC8 /* ContentTableViewController.storyboard in Resources */,
 				2B4F034C1F9052060015FCC8 /* ContentViewController.storyboard in Resources */,
@@ -605,12 +592,10 @@
 				2B45419D1FA490BE00A9B253 /* PhotoViewController.swift in Sources */,
 				2B47F87A1F5BF173001A7D2B /* DynamicSizeViewController.swift in Sources */,
 				2B7F2E65217EBF1400523F2E /* NavigationBarViewController.swift in Sources */,
-				2B47E7341F109DE400D67C04 /* OverlayFocusView.swift in Sources */,
 				2BC1B4181F19F29800829D1A /* TagViewController.swift in Sources */,
 				2B4F03501F90575B0015FCC8 /* ContentTableViewController.swift in Sources */,
 				2B3C7CC51F8CEB0100A43223 /* TwoLineMenuViewController.swift in Sources */,
 				2BC1B41A1F19F4CB00829D1A /* TagMenuCell.swift in Sources */,
-				2B47E7361F10A15700D67C04 /* OverlayMenuCell.swift in Sources */,
 				2B442C261F1DA97D00135238 /* ArbitraryNumberViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -788,7 +773,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -803,7 +788,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -818,7 +803,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS Sample.app/iOS Sample";
 			};
 			name = Debug;
@@ -834,7 +819,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/iOS Sample.app/iOS Sample";
 			};
 			name = Release;
@@ -849,7 +834,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "iOS Sample";
 			};
 			name = Debug;
@@ -864,7 +849,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "kazuhiro.hayashi.iOS-SampleUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TEST_TARGET_NAME = "iOS Sample";
 			};
 			name = Release;

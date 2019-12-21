@@ -140,17 +140,27 @@ public protocol PagingMenuViewDelegate: class {
     func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int)
     
     /// Notifies the menu view that the frame of its focus view is about to change.
+    /// The menu view calls this method before adding a cell to its content. Use this method to detect cell additions, as opposed to monitoring the cell itself to see when it appears.
     ///
     /// - Parameters:
     ///   - pagingMenuView: a menu view object informing the delegate.
     ///   - index: end index
     ///   - coordinator: animator coordinator
     func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator)
+
+    /// Tells the delegate that the specified cell is about to be displayed in the menu view.
+    ///
+    /// - Parameters:
+    ///   - pagingMenuView: a menu view object informing the delegate.
+    ///   - cell: The cell object being added.
+    ///   - index: The index path of the data item that the cell represents.
+    func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int)
 }
 
 public extension PagingMenuViewDelegate {
-    public func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
-    public func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, didSelectItemAt index: Int) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {}
+    func pagingMenuView(pagingMenuView: PagingMenuView, willDisplay cell: PagingMenuViewCell, forItemAt index: Int) {}
 }
 
 /// Displays menu lists of information and supports selection and paging of the information.
@@ -206,6 +216,11 @@ open class PagingMenuView: UIScrollView {
     
     /// space setting between cells
     open var cellSpacing: CGFloat = 0
+    
+    /// total space between cells
+    open var totalSpacing: CGFloat {
+        return cellSpacing * numberOfCellSpacing
+    }
     
     /// The object that acts as the data source of the paging menu view.
     open weak var dataSource: PagingMenuViewDataSource?
@@ -336,9 +351,20 @@ open class PagingMenuView: UIScrollView {
     /// - Parameter index: An index that identifies a item by its index.
     /// - Returns: A rectangle defining the area in which the table view draws the row or right edge rect if index is over the number of items.
     open func rectForItem(at index: Int) -> CGRect {
+        guard 0 < widths.count else {
+            return CGRect(x: 0, y: 0, width: 0, height: bounds.height)
+        }
+        
         guard index < widths.count else {
-            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width }
-            return CGRect(x: rightEdge, y: 0, width: 0, height: bounds.height)
+            let rightEdge = widths.reduce(CGFloat(0)) { (sum, width) in sum + width } + totalSpacing
+            let mostRightWidth = widths[widths.endIndex - 1]
+            return CGRect(x: rightEdge, y: 0, width: mostRightWidth, height: bounds.height)
+        }
+        
+        guard 0 <= index else {
+            let leftEdge = -widths[0]
+            let mostLeftWidth = widths[0]
+            return CGRect(x: leftEdge, y: 0, width: mostLeftWidth, height: bounds.height)
         }
         
         var x = (0..<index).reduce(0) { (sum, idx) in
@@ -377,12 +403,15 @@ open class PagingMenuView: UIScrollView {
     ///
     /// - Parameters:
     ///   - index: A index defining an menu of the menu view.
-    ///   - percent: A rate that transit from the index.
+    ///   - percent: A rate that transit from the index. (percent ranges from -0.5 to 0.5.)
     open func scroll(index: Int, percent: CGFloat = 0) {
+        // Specification in this method is difference from the interface specification.
+        let (index, percent) = correctScrollIndexAndPercent(index: index, percent: percent)
+
         let rightIndex = index + 1
         let leftFrame = rectForItem(at: index)
         let rightFrame = rectForItem(at: rightIndex)
-        
+
         let width = (rightFrame.width - leftFrame.width) * percent + leftFrame.width
         focusView.frame.size = CGSize(width: width, height: bounds.height)
         
@@ -390,7 +419,9 @@ open class PagingMenuView: UIScrollView {
         let offsetX = centerPointX - bounds.width / 2
         let normaizedOffsetX = min(max(minContentOffsetX, offsetX), maxContentOffsetX)
         focusView.center = CGPoint(x: centerPointX, y: center.y)
-        focusView.selectedIndex = leftFrame.contains(focusView.center) ? index : rightIndex
+        
+        let expectedIndex = (focusView.center.x < leftFrame.maxX) ? index : rightIndex
+        focusView.selectedIndex = max(0, min(expectedIndex, numberOfItem - 1))
         
         contentOffset = CGPoint(x: normaizedOffsetX, y:0)
         
@@ -499,10 +530,6 @@ open class PagingMenuView: UIScrollView {
         return max(CGFloat(numberOfItem - 1), 0)
     }
     
-    private var totalSpacing: CGFloat {
-        return cellSpacing * numberOfCellSpacing
-    }
-
     private func recenterIfNeeded() {
         let currentOffset = contentOffset
         let contentWidth = contentSize.width
@@ -546,6 +573,8 @@ open class PagingMenuView: UIScrollView {
         visibleCells.append(cell)
         cell.frame.origin = CGPoint(x: rightEdge, y: 0)
         cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
+        
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willDisplay: cell, forItemAt: nextIndex)
 
         return cell.frame.maxX
     }
@@ -566,6 +595,9 @@ open class PagingMenuView: UIScrollView {
         visibleCells.insert(cell, at: 0)
         cell.frame.size = CGSize(width: widths[nextIndex], height: containerView.bounds.height)
         cell.frame.origin = CGPoint(x: leftEdge - widths[nextIndex] - cellSpacing, y: 0)
+
+        menuDelegate?.pagingMenuView(pagingMenuView: self, willDisplay: cell, forItemAt: nextIndex)
+        
         return cell.frame.minX
     }
 
@@ -626,6 +658,26 @@ open class PagingMenuView: UIScrollView {
         }
 
         containerView.frame.origin.x = expectedOriginX
+    }
+    
+    
+    /// correct a page index as starting index is always left side.
+    ///
+    /// - Parameters:
+    ///   - index: current page index defined in PagingKit
+    ///   - percent: current percent defined in PagingKit
+    /// - Returns: index and percent
+    private func correctScrollIndexAndPercent(index: Int, percent: CGFloat) -> (index: Int, percent: CGFloat) {
+        let pagingPositionIsLeftSide = (percent < 0)
+        if pagingPositionIsLeftSide {
+            if index == 0 {
+                return (index: index, percent: percent)
+            } else {
+                return (index: max(index - 1, 0), percent: percent + 1)
+            }
+        } else {
+            return (index: index, percent: percent)
+        }
     }
     
     //MARK:- Life Cycle

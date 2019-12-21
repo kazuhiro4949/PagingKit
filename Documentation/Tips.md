@@ -45,70 +45,10 @@ pagingMenuViewController.cellAligenment = .center
 ```
 
 ## Underline to have the same width as each title label
+TitleLabelMenuViewCell supports this feature.
 
-There is no feature to adjust the underline width in PagingKit.
-But you can adjust by yourself on your view controller. 
+See SimpleViewController in the repository.
 
-How to make the UI:
-
-First, you need to make a subclasses of PagingFocusView as follows.
-The view for underline has a constant width constraint (required priority) and the same width constraint as the parent view width (high priority).
-
-<img width="487" alt="2018-06-15 22 23 20" src="https://user-images.githubusercontent.com/18320004/41470284-1bd98cc4-70eb-11e8-9263-0fc32d5226fe.png">
-
-Connect IBOutliet with the constant width constraint.
-
-```swift
-class FocusView: UIView {
-    @IBOutlet weak var underlineWidthConstraint: NSLayoutConstraint!
-}
-```
-
-The class inherited to PagingMenuViewCell has the center constraints and.
-
-<img width="487" alt="2018-06-15 22 21 35" src="https://user-images.githubusercontent.com/18320004/41470293-22cfad06-70eb-11e8-8a7a-52ad8774e3ca.png">
-
-Then, binds the subclass of PagingFocusView as property on your view controller.
-
-```swift
-var focusView: FocusView! // <- binds focusview
-override func viewDidLoad() {     
-    focusView = UINib(nibName: "FocusView", bundle: nil).instantiate(withOwner: self, options: nil).first as! FocusView
-    menuViewController?.registerFocusView(view: focusView)
-```
-
-Finally, set the underline width on each the paging event.
-
-```swift
-    /// adjust focusView width
-    ///
-    /// - Parameters:
-    ///   - index: current focused left index
-    ///   - percent: percent of left to right
-    func adjustfocusViewWidth(index: Int, percent: CGFloat) {
-        guard let leftCell = menuViewController?.cellForItem(at: index) as? LabelCell else {
-            return // needs to have left cell
-        }
-        guard let rightCell = menuViewController?.cellForItem(at: index + 1) as? LabelCell else {
-            focusView.underlineWidthConstraint.constant = leftCell.titleLabel.bounds.width
-            return // If the argument to cellForItem(at:) is last index, rightCell is nil
-        }
-        // calculate the difference
-        let diff = (rightCell.titleLabel.bounds.width - leftCell.titleLabel.bounds.width) * percent
-        focusView.underlineWidthConstraint.constant = leftCell.titleLabel.bounds.width + diff
-    }
-```
-
-```swift
-extension SimpleViewController: PagingContentViewControllerDelegate {
-    func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        menuViewController?.scroll(index: index, percent: percent, animated: false)
-        adjustfocusViewWidth(index: index, percent: percent) // <- adjusts underline view width
-    }
-}
-```
-
-<img width="200" alt="2018-06-15 22 21 35" src="https://user-images.githubusercontent.com/18320004/41470870-e369f890-70ec-11e8-8065-f8b26352ef77.gif">
 
 ## Controlling PagingContentViewController's scroll
 
@@ -144,7 +84,7 @@ So you can initialize them as you initialize UIViewController or UIView.
 Sample Project has this case. see [InitializeWithoutStoryboardViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/InitializingWithoutStoryboardViewController.swift)
 
 ## Put menu on UINavigationBar
-Initialize PagingMenuView directory and set it to container view controller's navigationTitme.titleView
+Initialize PagingMenuView directly and set it to container view controller's navigationTitme.titleView
 The following is part of the code. You can check the sample view controller. See [NavigationBarViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/NavigationBarViewController.swift)
 
 ```swift
@@ -172,6 +112,73 @@ class NavigationBarViewController: UIViewController {
         navigationItem.titleView = menuView
     }
 ```
+
+<img width="200" alt="2018-12-03 22 41 26" src="https://user-images.githubusercontent.com/18320004/49377139-aefa1400-f74c-11e8-9b6f-392f8f725caf.png">
+
+
+## Animating alongside PagingMenuFocusView
+You can add custom animation along PagingMenuFocusView
+
+Typically, it is good to implement the animation in the following delegate.
+
+```swift
+func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
+        coordinator.animateFocusView(alongside: { coordinator in
+           // implement your custom animations in this closure.
+        }, completion: nil)
+}
+```
+
+Sample Project has a implementation to support the feature. See [OverlayViewController](https://github.com/kazuhiro4949/PagingKit/blob/master/iOS%20Sample/iOS%20Sample/OverlayViewController.swift#L108)
+
+## RTL Support
+PagingKit doesn't have RTL feature. In general, CGAffineTransform is a reasonable approach to implement RTL.
+
+This is SampleViewController in the sample project.
+
+<img width="200" alt="2018-12-03 22 29 30" src="https://user-images.githubusercontent.com/18320004/49376591-05665300-f74b-11e8-9e2e-c11797c8d116.png">
+
+For example, you can change the scroll direction with the following code.
+
+```swift
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        menuViewController?.menuView.transform = CGAffineTransform(scaleX: -1, y: 1) // <-
+        contentViewController?.scrollView.transform = CGAffineTransform(scaleX: -1, y: 1) // <-
+    }
+```
+
+It's not enough because PagingMenuViewCell and UITableViewCell is also transformed.
+
+<img width="200" alt="2018-12-03 22 26 19" src="https://user-images.githubusercontent.com/18320004/49376416-7f4a0c80-f74a-11e8-8b03-82ef9a96fac2.png">
+
+So you needs to apply transform to them.
+
+```swift
+extension SimpleViewController: PagingMenuViewControllerDataSource {
+    func menuViewController(viewController: PagingMenuViewController, cellForItemAt index: Int) -> PagingMenuViewCell {
+        let cell = viewController.dequeueReusableCell(withReuseIdentifier: "identifier", for: index)  as! TitleLabelMenuViewCell
+        cell.transform = CGAffineTransform(scaleX: -1, y: 1) // <-
+        cell.titleLabel.text = dataSource[index].menu
+        return cell
+    }
+}
+```
+
+```swift
+extension SimpleViewController: PagingContentViewControllerDataSource {
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
+        let viewController = dataSource[index].content
+        viewController.view.transform = CGAffineTransform(scaleX: -1, y: 1) // <-
+        return dataSource[index].content
+    }
+}
+```
+
+Only the menu will start at the right.
+
+<img width="200" alt="2018-12-03 22 22 29" src="https://user-images.githubusercontent.com/18320004/49376432-8cff9200-f74a-11e8-9a66-64e3f1fcbbfd.png">
+
 
 ## Code Snippets
 There are some snippets to save your time. 

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbn-3f-Ane">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.55" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="fbn-3f-Ane">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.43"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -22,7 +21,6 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" contentViewInsetsToSafeArea="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z6u-cs-lEJ">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <directionalEdgeInsets key="directionalLayoutMargins" top="0.0" leading="0.0" bottom="0.0" trailing="0.0"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="3Em-GE-Xap" customClass="ContentTableViewCell" customModule="iOS_Sample" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="44"/>
@@ -70,10 +68,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="top" secondItem="Vff-7w-Wn7" secondAttribute="top" id="T00-Ho-niF"/>
-                            <constraint firstAttribute="trailing" secondItem="z6u-cs-lEJ" secondAttribute="trailing" id="dhJ-1k-WOn"/>
-                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="Vff-7w-Wn7" secondAttribute="leading" id="f82-P5-fVP"/>
-                            <constraint firstAttribute="bottom" secondItem="z6u-cs-lEJ" secondAttribute="bottom" id="xOJ-9c-G8b"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="top" secondItem="Vff-7w-Wn7" secondAttribute="top" id="0Ay-8Z-qqz"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="bottom" secondItem="NVr-cB-pAu" secondAttribute="bottom" id="EYt-7F-aqm"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="leading" secondItem="NVr-cB-pAu" secondAttribute="leading" id="FPh-oB-BB4"/>
+                            <constraint firstItem="z6u-cs-lEJ" firstAttribute="trailing" secondItem="NVr-cB-pAu" secondAttribute="trailing" id="yHp-Q8-Od1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="NVr-cB-pAu"/>
                     </view>

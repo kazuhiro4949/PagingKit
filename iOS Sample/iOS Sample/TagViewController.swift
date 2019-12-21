@@ -56,6 +56,7 @@ class TagViewController: UIViewController {
             plusButton.layer.shadowPath = UIBezierPath(rect: plusButton.bounds).cgPath
         }
         
+        contentViewController?.scrollView.bounces = true
         menuViewController?.register(nib: UINib(nibName: "TagMenuCell", bundle: nil), forCellWithReuseIdentifier: "identifier")
         menuViewController?.reloadData(with: 4)
         contentViewController?.reloadData(with: 4)
@@ -132,11 +133,10 @@ extension TagViewController: PagingMenuViewControllerDelegate {
 
 extension TagViewController: PagingContentViewControllerDelegate {
     func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
-        let leftCell = menuViewController.cellForItem(at: index) as? TagMenuCell
-        let rightCell = menuViewController.cellForItem(at: index + 1) as? TagMenuCell
-        
-        leftCell?.focus(percent: (1 - percent))
-        rightCell?.focus(percent: percent)
+        let adjucentCell = menuViewController.cellForItem(at: viewController.adjucentPageIndex) as? TagMenuCell
+        let currentCell = menuViewController.cellForItem(at: index) as? TagMenuCell
+        currentCell?.focus(percent: 1 - abs(percent))
+        adjucentCell?.focus(percent: abs(percent))
 
         menuViewController?.scroll(index: index, percent: percent, animated: false)
     }

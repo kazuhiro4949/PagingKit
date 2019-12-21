@@ -2,19 +2,17 @@
 
 
 [![Platform](https://img.shields.io/cocoapods/p/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
-![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)
-![Swift 3.2](https://img.shields.io/badge/Swift-3.2-orange.svg)
+![Swift 5.1](https://img.shields.io/badge/Swift-5.1-orange.svg)
 [![License](https://img.shields.io/cocoapods/l/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Version](https://img.shields.io/cocoapods/v/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
-[![Build Status](https://www.bitrise.io/app/379f18aee0f4a759/status.svg?token=bA10yjS1flU0aal7TULGfQ&branch=master)](https://www.bitrise.io/app/379f18aee0f4a759)
 
 PagingKit provides customizable menu & content UI. It has more flexible layout and design than the other libraries.
 
 # What's this?
 There are many libraries providing "Paging UI" which have menu and content area.
 They are convenient but not customizable because your app has to be made compatible with the libraries' layout and view components.
-When your philosophy doesn't fit the libraries, you need to fork them or find another one. 
+When a UI desgin in your app doesn't fit the libraries, you need to fork them or find another one. 
 
 PagingKit has more flexible layout and design than the other libraries.
 You can construct "Menu" and "Content" UI, and they work together. That's all features this library provides.
@@ -25,17 +23,16 @@ You can fit any design to your apps as you like.
 ## Customized layout 
 You can align views as you like.
 
-| changing position | placing a view between content and menu | add floating button on right-side |
-|:------------:|:------------:|:------------:|
-| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) | ![sample6](https://user-images.githubusercontent.com/18320004/33793722-f9806f46-dcff-11e7-9909-a9f87e9ef4a0.gif) |
+| changing position | placing a view between content and menu | added floating button on right-side | on navigation bar | 
+|:------------:|:------------:|:------------:|:------------:|
+| ![sample_5](https://user-images.githubusercontent.com/18320004/31857631-08683bf4-b71e-11e7-83c4-ee4e942b5ea1.gif) | ![sample_4](https://user-images.githubusercontent.com/18320004/31857630-075948c0-b71e-11e7-9ea7-3d490c733b7f.gif) | ![sample6](https://user-images.githubusercontent.com/18320004/33793722-f9806f46-dcff-11e7-9909-a9f87e9ef4a0.gif) | <img width="320" alt="2018-12-04 10 00 51" src="https://user-images.githubusercontent.com/18320004/49411286-aa187d00-f7ab-11e8-9672-094e10853778.png"> |
 
 ## Customized menu design
 You can customize menu as you like.
 
-| tag like menu | text highlighted menu | underscore menu | App Store app like indicator |
+| tag like menu | text highlighted menu | underscore menu | App Store app like indicator | 
 |:------------:|:------------:|:------------:|:------------:|
-| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | ![sample_2](https://user-images.githubusercontent.com/18320004/31857534-d7b294de-b71b-11e7-923c-f79fe9335b1f.gif) | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) | ![indicator](https://user-images.githubusercontent.com/18320004/32141748-3e6c4fc6-bccb-11e7-8a6a-0286982f938b.gif) |
-
+| ![sample_3](https://user-images.githubusercontent.com/18320004/31857535-d8b6965a-b71b-11e7-928d-46375c2cfb7b.gif) | <img src="https://user-images.githubusercontent.com/18320004/49323491-a42e5c00-f55f-11e8-9690-295acc2c3341.gif" width=280>  | ![sample_1](https://user-images.githubusercontent.com/18320004/31857533-d69720ba-b71b-11e7-9401-534596dbb76d.gif) | ![indicator](https://user-images.githubusercontent.com/18320004/32141748-3e6c4fc6-bccb-11e7-8a6a-0286982f938b.gif) |
 
 
 # Feature
@@ -47,7 +44,7 @@ You can customize menu as you like.
 # Requirements
 + iOS 8.0+
 + Xcode 10.0+
-+ Swift 4.2
++ Swift 5.0
 
 # Installation
 
@@ -135,13 +132,13 @@ PagingKit has two essential classes.
 
 PagingMenuViewController provides interactive menu for each content. PagingContentViewController provides the contents on a scrollview.
 
-If you will make a new UI which contains PagingKit, refer the following 4 steps.
+If you make a new project which contains PagingKit, follow the steps.
 
-- 1. Add PagingMenuViewController & PagingContentViewController
-- 2. Assign them to properties
-- 3. Create menu UI
-- 4. display data
-- 5. Synchronize Menu and Content view controllers
+1. Add PagingMenuViewController & PagingContentViewController
+2. Assign them to properties
+3. Create menu UI
+4. display data
+5. Synchronize Menu and Content view controllers
 
 ## 1. Add PagingMenuViewController & PagingContentViewController
 First, add PagingMenuViewController & PagingContentViewController on container view with Stroyboard.
@@ -401,6 +398,8 @@ That's it.
 - [Controlling PagingContentViewController's scroll](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#controlling-pagingcontentviewcontrollers-scroll)
 - [Initializing without Storyboard](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#initializing-without-storyboard)
 - [Put menu on UINavigationBar](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#put-menu-on-uinavigationbar)
+- [Animating alongside PagingMenuFocusView](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#animating-alongside-pagingmenufocusview)
+- [RTL Support](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#rtl-support)
 - [Code Snippets](https://github.com/kazuhiro4949/PagingKit/blob/master/Documentation/Tips.md#code-snippets)
 
 # Class Design
@@ -414,6 +413,52 @@ Because of that, PagingKit has responsiblity for the behavior. But it doesn't sp
 PagingKit favours composition over inheritance. This figure describes overview of the class diagram.
 
 <img src="https://user-images.githubusercontent.com/18320004/38431789-628100e8-3a00-11e8-8ae2-30cd6122ec9a.png" width="500" />
+
+# Work with RxSwift
+
+PagingKit goes well with RxSwift.
+
+https://github.com/kazuhiro4949/RxPagingKit
+
+```swift
+    let items = PublishSubject<[(menu: String, width: CGFloat, content: UIViewController)]>()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        menuViewController?.register(type: TitleLabelMenuViewCell.self, forCellWithReuseIdentifier: "identifier")
+        menuViewController?.registerFocusView(view: UnderlineFocusView())
+        
+        // PagingMenuViewControllerDataSource
+        items.asObserver()
+            .map { items in items.map({ ($0.menu, $0.width) }) }
+            .bind(to: menuViewController.rx.items(
+                cellIdentifier: "identifier",
+                cellType: TitleLabelMenuViewCell.self)
+            ) { _, model, cell in
+                cell.titleLabel.text = model
+            }
+            .disposed(by: disposeBug)
+        
+        // PagingContentViewControllerDataSource
+        items.asObserver()
+            .map { items in items.map({ $0.content }) }
+            .bind(to: contentViewController.rx.viewControllers())
+            .disposed(by: disposeBug)
+        
+        // PagingMenuViewControllerDelegate
+        menuViewController.rx.itemSelected.asObservable().subscribe(onNext: { [weak self] (page, prev) in
+            self?.contentViewController.scroll(to: page, animated: true)
+        }).disposed(by: disposeBug)
+        
+        // PagingContentViewControllerDelegate
+        contentViewController.rx.didManualScroll.asObservable().subscribe(onNext: { [weak self] (index, percent) in
+            self?.menuViewController.scroll(index: index, percent: percent, animated: false)
+        }).disposed(by: disposeBug)
+    }
+```
+
+
 
 # License
 
