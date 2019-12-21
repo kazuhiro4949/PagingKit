@@ -28,16 +28,21 @@ import XCTest
 class PagingContentViewControllerTests: XCTestCase {
     var pagingContentViewController: PagingContentViewController?
     var dataSource: PagingContentViewControllerDataSource?
+    var contentAppearanceHandler: ContentsAppearanceHandlerSpy!
     
     override func setUp() {
         super.setUp()
+        contentAppearanceHandler = ContentsAppearanceHandlerSpy()
         pagingContentViewController = PagingContentViewController()
+        pagingContentViewController?.appearanceHandler = contentAppearanceHandler
         pagingContentViewController?.view.frame = CGRect(x: 0, y: 0, width: 320, height: 667)
     }
     
     override func tearDown() {
         super.tearDown()
         dataSource = nil
+        contentAppearanceHandler = nil
+        pagingContentViewController = nil
     }
     
     func testCallingDataSource() {
@@ -252,5 +257,147 @@ class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSou
         let vc = vcs[index]
         vc.view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
         return vc
+    }
+}
+
+// MARK:- Appearance
+extension PagingContentViewControllerTests {
+    func test_Appear_callApparance() {
+        
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 2) { [unowned self] in
+            self.pagingContentViewController?.beginAppearanceTransition(true, animated: false)
+            
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.0, .viewWillAppear)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.1, false)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.2, 2)
+            
+            self.pagingContentViewController?.endAppearanceTransition()
+            
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.0, .viewDidAppear)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.1, false)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.2, 2)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    
+    func test_Dissapear_callApparance() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.beginAppearanceTransition(false, animated: false)
+            
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.0, .viewWillDisappear)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.1, false)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.2, 3)
+            
+            self.pagingContentViewController?.endAppearanceTransition()
+            
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.0, .viewDidDisappear)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.1, false)
+            XCTAssertEqual(self.contentAppearanceHandler.callApparance_args!.2, 3)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    func test_scrollAppearance() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+        self.pagingContentViewController!.scrollViewWillBeginDragging(self.pagingContentViewController!.scrollView)
+            self.pagingContentViewController?.scrollViewDidScroll(self.pagingContentViewController!.scrollView)
+            
+            XCTAssertEqual(self.contentAppearanceHandler.beginDragging_args, 3)
+            
+            self.pagingContentViewController?.scroll(to: 4, animated: false)
+            self.pagingContentViewController!.scrollViewDidEndDragging(self.pagingContentViewController!.scrollView, willDecelerate: false)
+            
+            
+            XCTAssertEqual(self.contentAppearanceHandler.stopScrolling_args, 4)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    func test_promgrammaticScrolling_Apperance() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.scroll(to: 4, animated: false)
+            
+            XCTAssertEqual(self.contentAppearanceHandler.beginDragging_args, 3)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    func test_reload() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.reloadData(with: 4, completion: {
+                
+                XCTAssertEqual(self.contentAppearanceHandler.preReload_args, 3)
+                XCTAssertEqual(self.contentAppearanceHandler.postReload_ags, 4)
+                
+            })
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+}
+
+
+// MARK:- Test Double
+class ContentsAppearanceHandlerSpy: ContentsAppearanceHandlerProtocol {
+    var contentsDequeueHandler: (() -> [UIViewController?]?)?
+    
+    var beginDragging_args: Int?
+    func beginDragging(at index: Int) {
+        beginDragging_args = index
+    }
+    
+    var stopScrolling_args: Int?
+    func stopScrolling(at index: Int) {
+        stopScrolling_args = index
+    }
+    
+    var callApparance_args: (ContentsAppearanceHandler.Apperance, Bool, Int)?
+    func callApparance(_ apperance: ContentsAppearanceHandler.Apperance, animated: Bool, at index: Int) {
+        callApparance_args = (apperance, animated, index)
+    }
+    
+    var preReload_args: Int?
+    func preReload(at index: Int) {
+        preReload_args = index
+    }
+    
+    var postReload_ags: Int?
+    func postReload(at index: Int) {
+        postReload_ags = index
     }
 }
