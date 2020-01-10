@@ -319,8 +319,6 @@ public class PagingContentViewController: UIViewController {
     }
 
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        removeAll()
-        initialLoad(with: leftSidePageIndex)
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
