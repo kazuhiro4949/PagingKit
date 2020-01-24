@@ -133,7 +133,7 @@ public class PagingContentViewController: UIViewController {
     fileprivate var numberOfPages: Int = 0
     fileprivate var explicitPaging: ExplicitPaging?
 
-    var appearanceHandler: ContentsAppearanceHandlerProtocol = ContentsAppearanceHandler()
+    var appearanceHandler: ContentsAppearanceHandlerProtocol?
     
     /// The object that acts as the delegate of the content view controller.
     public weak var delegate: PagingContentViewControllerDelegate?
@@ -165,7 +165,7 @@ public class PagingContentViewController: UIViewController {
     /// - Parameter page: An index to show after reloading.
     public func reloadData(with page: Int? = nil, completion: (() -> Void)? = nil) {
         removeAll()
-        appearanceHandler.preReload(at: leftSidePageIndex)
+        appearanceHandler?.preReload(at: leftSidePageIndex)
         let preferredPage = page ?? leftSidePageIndex
         leftSidePageIndex = preferredPage
         initialLoad(with: preferredPage)
@@ -176,7 +176,7 @@ public class PagingContentViewController: UIViewController {
             },
             completion: { [weak self] _ in
                 self?.scroll(to: preferredPage, needsCallAppearance: false, animated: false) { _ in
-                    self?.appearanceHandler.postReload(at: preferredPage)
+                    self?.appearanceHandler?.postReload(at: preferredPage)
                     completion?()
                 }
             }
@@ -197,7 +197,7 @@ public class PagingContentViewController: UIViewController {
         delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
         
         if needsCallAppearance {
-            appearanceHandler.beginDragging(at: leftSidePageIndex)
+            appearanceHandler?.beginDragging(at: leftSidePageIndex)
         }
         
         loadPagesIfNeeded(page: page)
@@ -208,7 +208,7 @@ public class PagingContentViewController: UIViewController {
             guard let _self = self, finished else { return }
             
             if needsCallAppearance {
-                _self.appearanceHandler.stopScrolling(at: _self.leftSidePageIndex)
+                _self.appearanceHandler?.stopScrolling(at: _self.leftSidePageIndex)
             }
             
             completion?(finished)
@@ -274,29 +274,34 @@ public class PagingContentViewController: UIViewController {
         view.addConstraints([.top, .bottom, .leading, .trailing].anchor(from: scrollView, to: view))
         view.backgroundColor = .clear
         
-        appearanceHandler.contentsDequeueHandler = { [weak self] in
+        setupAppearanceHandler()
+    }
+    
+    private func setupAppearanceHandler() {
+        appearanceHandler = ContentsAppearanceHandler()
+        appearanceHandler?.contentsDequeueHandler = { [weak self] in
             self?.cachedViewControllers
         }
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        appearanceHandler.callApparance(.viewWillAppear, animated: animated, at: leftSidePageIndex)
+        appearanceHandler?.callApparance(.viewWillAppear, animated: animated, at: leftSidePageIndex)
     }
     
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        appearanceHandler.callApparance(.viewDidAppear, animated: animated, at: leftSidePageIndex)
+        appearanceHandler?.callApparance(.viewDidAppear, animated: animated, at: leftSidePageIndex)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        appearanceHandler.callApparance(.viewWillDisappear, animated: animated, at: leftSidePageIndex)
+        appearanceHandler?.callApparance(.viewWillDisappear, animated: animated, at: leftSidePageIndex)
     }
     
     public override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        appearanceHandler.callApparance(.viewDidDisappear, animated: animated, at: leftSidePageIndex)
+        appearanceHandler?.callApparance(.viewDidDisappear, animated: animated, at: leftSidePageIndex)
     }
 
     override public func viewDidLayoutSubviews() {
@@ -319,10 +324,13 @@ public class PagingContentViewController: UIViewController {
     }
 
     override public func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        appearanceHandler = nil
         coordinator.animate(alongsideTransition: { [weak self] (context) in
             guard let _self = self else { return }
             _self.scroll(to: _self.leftSidePageIndex, animated: false)
-        }, completion: nil)
+        }, completion: { [weak self] _ in
+            self?.setupAppearanceHandler()
+        })
         
         super.viewWillTransition(to: size, with: coordinator)
     }
@@ -386,7 +394,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
             guard let _self = self else { return }
             _self.delegate?.contentViewController(viewController: _self, willBeginPagingAt: leftSidePageIndex, animated: false)
             _self.explicitPaging?.start()
-            _self.appearanceHandler.beginDragging(at: leftSidePageIndex)
+            _self.appearanceHandler?.beginDragging(at: leftSidePageIndex)
         })
         leftSidePageIndex = Int(scrollView.contentOffset.x / scrollView.bounds.width)
         delegate?.contentViewController(viewController: self, willBeginManualScrollOn: leftSidePageIndex)
@@ -413,7 +421,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
             if explicitPaging.isPaging {
-                appearanceHandler.stopScrolling(at: leftSidePageIndex)
+                appearanceHandler?.stopScrolling(at: leftSidePageIndex)
 
                 delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: true)
             }
@@ -429,7 +437,7 @@ extension PagingContentViewController: UIScrollViewDelegate {
             loadPagesIfNeeded()
             delegate?.contentViewController(viewController: self, didEndManualScrollOn: leftSidePageIndex)
             if explicitPaging.isPaging {
-                appearanceHandler.stopScrolling(at: leftSidePageIndex)
+                appearanceHandler?.stopScrolling(at: leftSidePageIndex)
                 
                 delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: false)
                 delegate?.contentViewController(viewController: self, didFinishPagingAt: leftSidePageIndex, animated: false)
