@@ -226,40 +226,6 @@ class PagingContentViewControllerTests: XCTestCase {
     }
 }
 
-class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSource {
-    let numberOfItemExpectation = XCTestExpectation(description: "call numberOfItemsForContentViewController")
-    let viewControllerExpectation = XCTestExpectation(description: "call viewController")
-    
-    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
-        numberOfItemExpectation.fulfill()
-        return 2
-    }
-    
-    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
-        viewControllerExpectation.fulfill()
-        return UIViewController()
-    }
-}
-
-class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSource {
-    init(count: Int = 5) {
-        vcs = Array(repeating: UIViewController(), count: count)
-        super.init()
-    }
-    
-    let vcs: [UIViewController]
-    
-    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
-        return vcs.count
-    }
-    
-    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
-        let vc = vcs[index]
-        vc.view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
-        return vc
-    }
-}
-
 // MARK:- Appearance
 extension PagingContentViewControllerTests {
     func test_Appear_callApparance() {
@@ -369,10 +335,103 @@ extension PagingContentViewControllerTests {
         
         wait(for: [expectation], timeout: 0.2)
     }
+    
+    func test_UpdaingViewControllerSize_notCallApparance() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        
+        XCUIDevice.shared.orientation = .portrait
+
+        let dataSource = PagingContentVcDataSourceSpy()
+        let delegate = PagingContentVcDelegateSpy()
+        self.pagingContentViewController?.dataSource = dataSource
+        self.pagingContentViewController?.delegate = delegate
+        
+        UIApplication.shared.keyWindow?.rootViewController = self.pagingContentViewController
+        
+        XCTAssertNil(delegate.willBeginPagingAt_args)
+        XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
+        XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
+            
+        XCUIDevice.shared.orientation = .landscapeLeft
+        
+        XCTAssertNotNil(delegate.willBeginPagingAt_args)
+        XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
+        XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
+        expectation.fulfill()
+    
+        wait(for: [expectation], timeout: 1)
+    }
 }
 
 
 // MARK:- Test Double
+class PagingContentVcDataSourceMock: NSObject, PagingContentViewControllerDataSource {
+    let numberOfItemExpectation = XCTestExpectation(description: "call numberOfItemsForContentViewController")
+    let viewControllerExpectation = XCTestExpectation(description: "call viewController")
+    
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
+        numberOfItemExpectation.fulfill()
+        return 2
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
+        viewControllerExpectation.fulfill()
+        return UIViewController()
+    }
+}
+
+class PagingContentVcDataSourceSpy: NSObject, PagingContentViewControllerDataSource {
+    init(count: Int = 5) {
+        vcs = Array(repeating: UIViewController(), count: count)
+        super.init()
+    }
+    
+    let vcs: [UIViewController]
+    
+    func numberOfItemsForContentViewController(viewController: PagingContentViewController) -> Int {
+        return vcs.count
+    }
+    
+    func contentViewController(viewController: PagingContentViewController, viewControllerAt index: Int) -> UIViewController {
+        let vc = vcs[index]
+        vc.view.frame = CGRect(x: 0, y: 0, width: 1, height: 1)
+        return vc
+    }
+}
+
+class PagingContentVcDelegateSpy: NSObject, PagingContentViewControllerDelegate {
+    
+    var willBeginManualScrollOn_args: (PagingContentViewController, Int)?
+    func contentViewController(viewController: PagingContentViewController, willBeginManualScrollOn index: Int) {
+        willBeginManualScrollOn_args = (viewController, index)
+    }
+    
+    var didManualScrollOn_args: (PagingContentViewController, Int, CGFloat)?
+    func contentViewController(viewController: PagingContentViewController, didManualScrollOn index: Int, percent: CGFloat) {
+        didManualScrollOn_args = (viewController, index, percent)
+    }
+    
+    var didEndManualScrollOn_args: (PagingContentViewController, Int)?
+    func contentViewController(viewController: PagingContentViewController, didEndManualScrollOn index: Int) {
+        didEndManualScrollOn_args = (viewController, index)
+    }
+    
+    var willBeginPagingAt_args: (PagingContentViewController, Int, Bool)?
+    func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool) {
+        willBeginPagingAt_args = (viewController, index, animated)
+    }
+    
+    var willFinishPagingAt_args: (PagingContentViewController, Int, Bool)?
+    func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {
+        willFinishPagingAt_args = (viewController, index, animated)
+    }
+    
+    var didFinishPagingAt_args: (PagingContentViewController, Int, Bool)?
+    func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool) {
+        didFinishPagingAt_args = (viewController, index, animated)
+    }
+}
+
 class ContentsAppearanceHandlerSpy: ContentsAppearanceHandlerProtocol {
     var contentsDequeueHandler: (() -> [UIViewController?]?)?
     

@@ -145,6 +145,7 @@ class PagingMenuViewControllerTests: XCTestCase {
     
     func testHookCompletionHandlerAfterReloadData() {
         let dataSource = MenuViewControllerDataSourceMock()
+        dataSource.data = Array(repeating: "foo", count: 1000)
         let menuViewController = PagingMenuViewControllerTests.makeViewController(with: dataSource)
         dataSource.registerNib(to: menuViewController)
         
