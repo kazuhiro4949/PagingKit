@@ -47,20 +47,6 @@ class SimpleViewController: UIViewController {
         self?.firstLoad = nil
     }
     
-    @IBSegueAction func embedPagingMenuViewController(_ coder: NSCoder) -> PagingMenuViewController? {
-        menuViewController = PagingMenuViewController(coder: coder)
-        menuViewController.dataSource = self
-        menuViewController.delegate = self
-        return menuViewController
-    }
-    
-    @IBSegueAction func embedPagingContentViewController(_ coder: NSCoder) -> PagingContentViewController? {
-        contentViewController = PagingContentViewController(coder: coder)
-        contentViewController?.dataSource = self
-        contentViewController?.delegate = self
-        return contentViewController
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,6 +62,18 @@ class SimpleViewController: UIViewController {
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let vc = segue.destination as? PagingMenuViewController {
+            menuViewController = vc
+            menuViewController.dataSource = self
+            menuViewController.delegate = self
+        } else if let vc = segue.destination as? PagingContentViewController  {
+            contentViewController = vc
+            contentViewController?.dataSource = self
+            contentViewController?.delegate = self
+        }
     }
 }
 
