@@ -77,7 +77,6 @@ public class OverlayMenuCell: PagingMenuViewCell {
     override public func layoutSubviews() {
         super.layoutSubviews()
         textMaskView.bounds = bounds.inset(by: maskInsets)
-        highlightLabel.textColor = .white
     }
     
     public func configure(title: String) {
