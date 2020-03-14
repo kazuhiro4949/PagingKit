@@ -34,6 +34,7 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
     public var focusColor = UIColor.pk.focusRed {
         didSet {
             if isSelected {
+                imageView.tintColor = focusColor
                 titleLabel.textColor = focusColor
             }
         }
@@ -43,13 +44,14 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
     public var normalColor = UIColor.black {
         didSet {
             if !isSelected {
+                imageView.tintColor = normalColor
                 titleLabel.textColor = normalColor
             }
         }
     }
     
     public var labelWidth: CGFloat {
-        return titleLabel.bounds.width
+        return stackView.bounds.width
     }
     
     public let titleLabel = { () -> UILabel in
@@ -58,6 +60,34 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
         label.textAlignment = .center
         return label
     }()
+    
+    let imageView = { () -> UIImageView in
+        let imageView = UIImageView()
+        imageView.isHidden = true
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
+    public func setImage(_ image: UIImage?) {
+        if let image = image {
+            imageView.image = image
+            imageView.isHidden = false
+        } else {
+            imageView.image = image
+            imageView.isHidden = true
+        }
+    }
+    
+    let stackView = UIStackView()
+    
+    public var spacing: CGFloat {
+        get {
+            stackView.spacing
+        }
+        set {
+            stackView.spacing = newValue
+        }
+    }
     
     public func calcIntermediateLabelSize(with leftCell: TitleLabelMenuViewCell, percent: CGFloat) -> CGFloat {
         let diff = (labelWidth - leftCell.labelWidth) * percent
@@ -75,23 +105,31 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
     }
     
     func setup() {
+        
         backgroundColor = .white
-        addSubview(titleLabel)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.addArrangedSubview(imageView)
+        stackView.addArrangedSubview(titleLabel)
+        stackView.spacing = 4
+        addSubview(stackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         addConstraints([
-            anchorLabel(from: titleLabel, to: self, attribute: .top),
-            anchorLabel(from: titleLabel, to: self, attribute: .leading, .greaterThanOrEqual),
-            anchorLabel(from: self, to: titleLabel, attribute: .trailing, .greaterThanOrEqual),
-            anchorLabel(from: self, to: titleLabel, attribute: .bottom),
-            anchorLabel(from: titleLabel, to: self, 0, attribute: .centerX)
+            anchorLabel(from: stackView, to: self, attribute: .top),
+            anchorLabel(from: stackView, to: self, attribute: .leading, .greaterThanOrEqual),
+            anchorLabel(from: self, to: stackView, attribute: .trailing, .greaterThanOrEqual),
+            anchorLabel(from: self, to: stackView, attribute: .bottom),
+            anchorLabel(from: stackView, to: self, 0, attribute: .centerX)
         ])
     }
     
     override public var isSelected: Bool {
         didSet {
             if isSelected {
+                imageView.tintColor = focusColor
                 titleLabel.textColor = focusColor
             } else {
+                imageView.tintColor = normalColor
                 titleLabel.textColor = normalColor
             }
         }
