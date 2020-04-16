@@ -35,7 +35,7 @@ public class UnderlineFocusView: UIView {
             underlineView.backgroundColor = underlineColor
         }
     }
-
+    
     /// The color of underline
     public var underlineHeight = CGFloat(4) {
         didSet {
@@ -45,13 +45,23 @@ public class UnderlineFocusView: UIView {
     
     public var underlineWidth: CGFloat? = nil {
         didSet {
-             if let underlineWidth = underlineWidth {
-                 widthConstraint.isActive = true
-                 widthConstraint.constant = underlineWidth
-             } else {
-                 widthConstraint.isActive = false
-             }
+            if let underlineWidth = underlineWidth {
+                widthConstraint.isActive = true
+                widthConstraint.constant = underlineWidth
+            } else {
+                widthConstraint.isActive = false
+            }
         }
+    }
+    
+    public var masksToBounds: Bool {
+        get { return underlineView.layer.masksToBounds }
+        set { underlineView.layer.masksToBounds = newValue }
+    }
+    
+    public var cornerRadius: CGFloat {
+        get { return underlineView.layer.cornerRadius }
+        set { underlineView.layer.cornerRadius = newValue }
     }
     
     private let widthConstraint: NSLayoutConstraint
@@ -97,7 +107,7 @@ public class UnderlineFocusView: UIView {
         super.init(frame: frame)
         setup()
     }
-
+    
     private func setup() {
         addSubview(underlineView)
         underlineView.translatesAutoresizingMaskIntoConstraints = false
