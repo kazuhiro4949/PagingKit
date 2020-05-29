@@ -2,7 +2,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Nuke",
+    name: "PagingKit",
     platforms: [
         .macOS(.v10_13),
         .iOS(.v11),
