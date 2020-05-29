@@ -48,6 +48,10 @@ You can customize menu as you like.
 
 # Installation
 
+### Swift Package Manager
+open Swift Packages (which is next to Build Settings). You can add and remove packages from this tab.
+See [Adding Package Dependencies to Your App](https://developer.apple.com/documentation/xcode/adding_package_dependencies_to_your_app)
+
 ### CocoaPods
 + Install CocoaPods
 ```
