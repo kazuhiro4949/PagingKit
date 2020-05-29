@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.name             = "PagingKit"
   s.version          = "1.14.0"
   s.summary          = "PagingKit provides customisable menu & content UI."
-  s.swift_version = '5.0'
+  s.swift_version = '5.1'
 
   s.description      = <<-DESC
     There are many libaries providing "Paging UI" which has menu and content area. They are convinience but not customizable because your app have to make compatible with the library about layout and design. When It doesn't fit the libaries, you need to fork the library or find another one.
@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   s.author           = { "Kazuhiro Hayashi" => "k.hayashi.info@gmail.com" }
   s.source           = { :git => "https://github.com/kazuhiro4949/PagingKit.git", :tag => s.version.to_s }
 
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
 
   s.source_files = "Sources/**/*.{h,m,swift}"
 end
