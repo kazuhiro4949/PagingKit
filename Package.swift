@@ -4,10 +4,7 @@ import PackageDescription
 let package = Package(
     name: "PagingKit",
     platforms: [
-        .macOS(.v10_13),
-        .iOS(.v11),
-        .tvOS(.v11),
-        .watchOS(.v4)
+        .iOS(.v8)
     ],
     products: [
         .library(name: "PagingKit", targets: ["PagingKit"])
