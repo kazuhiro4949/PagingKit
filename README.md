@@ -42,9 +42,9 @@ You can customize menu as you like.
 - [x] Supporting iPhone, iPad and iPhone X
 
 # Requirements
-+ iOS 8.0+
-+ Xcode 10.0+
-+ Swift 5.0
++ iOS 9.0+
++ Xcode 11.0+
++ Swift 5.1
 
 # Installation
 
