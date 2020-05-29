@@ -108,7 +108,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2B28FBB723EFAF90007101B9 /* UnitTestHostApplication */ = {
+		2B003CC9248155EB00B0AF19 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				2BD0FB25232F82B900BA3894 /* Menu Cells */,
+				6EC140BE1F0940F40054B514 /* PagingKit.h */,
+				6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */,
+				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
+				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
+				2BE185F523AB7AAE00B457ED /* ContentAppearanceHandler.swift */,
+				2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */,
+				2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */,
+				2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		2B003CCA2481561A00B0AF19 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2BE185F723AB7B2600B457ED /* ContentAppearanceHandlerTests.swift */,
+				2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */,
+				2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */,
+				2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */,
+				2B4F03461F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib */,
+				2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */,
+				6EC140CB1F0940F40054B514 /* Info.plist */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		2B28FBB723EFAF90007101B9 /* TestsHostApplication */ = {
 			isa = PBXGroup;
 			children = (
 				2B28FBB823EFAF90007101B9 /* AppDelegate.swift */,
@@ -119,7 +149,7 @@
 				2B28FBC323EFAF93007101B9 /* LaunchScreen.storyboard */,
 				2B28FBC623EFAF93007101B9 /* Info.plist */,
 			);
-			path = UnitTestHostApplication;
+			path = TestsHostApplication;
 			sourceTree = "<group>";
 		};
 		2BD0FB25232F82B900BA3894 /* Menu Cells */ = {
@@ -152,9 +182,9 @@
 		6EC140B11F0940F40054B514 = {
 			isa = PBXGroup;
 			children = (
-				6EC140BD1F0940F40054B514 /* PagingKit */,
-				6EC140C81F0940F40054B514 /* PagingKitTests */,
-				2B28FBB723EFAF90007101B9 /* UnitTestHostApplication */,
+				2B003CCA2481561A00B0AF19 /* Tests */,
+				2B003CC9248155EB00B0AF19 /* Sources */,
+				2B28FBB723EFAF90007101B9 /* TestsHostApplication */,
 				6EC140BC1F0940F40054B514 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,36 +197,6 @@
 				2B28FBB623EFAF90007101B9 /* UnitTestHostApplication.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		6EC140BD1F0940F40054B514 /* PagingKit */ = {
-			isa = PBXGroup;
-			children = (
-				2BD0FB25232F82B900BA3894 /* Menu Cells */,
-				6EC140BE1F0940F40054B514 /* PagingKit.h */,
-				6EC140BF1F0940F40054B514 /* PagingKit-Info.plist */,
-				6EC140D51F09410F0054B514 /* PagingMenuViewController.swift */,
-				6EC140D61F09410F0054B514 /* PagingContentViewController.swift */,
-				2BE185F523AB7AAE00B457ED /* ContentAppearanceHandler.swift */,
-				2B668C5E1F1395BE008A0694 /* PagingMenuView.swift */,
-				2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */,
-				2BC16A331FFE35AA00CB884A /* PagingKitProxy.swift */,
-			);
-			path = PagingKit;
-			sourceTree = "<group>";
-		};
-		6EC140C81F0940F40054B514 /* PagingKitTests */ = {
-			isa = PBXGroup;
-			children = (
-				2BE185F723AB7B2600B457ED /* ContentAppearanceHandlerTests.swift */,
-				2B4F03421F8FA0230015FCC8 /* PagingMenuViewControllerTests.swift */,
-				2B4F03481F8FB9950015FCC8 /* PagingContentViewControllerTests.swift */,
-				2B4F03441F8FA0760015FCC8 /* PagingMenuViewTests.swift */,
-				2B4F03461F8FAE5D0015FCC8 /* PagingMenuViewCellStub.xib */,
-				2B463D251F958C0D00F241E1 /* PagingMenuFocusView.xib */,
-				6EC140CB1F0940F40054B514 /* Info.plist */,
-			);
-			path = PagingKitTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,7 +429,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R33Y42SDDR;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = UnitTestHostApplication/Info.plist;
+				INFOPLIST_FILE = TestsHostApplication/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -451,7 +451,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = R33Y42SDDR;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				INFOPLIST_FILE = UnitTestHostApplication/Info.plist;
+				INFOPLIST_FILE = TestsHostApplication/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_FAST_MATH = YES;
@@ -590,7 +590,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "PagingKit/PagingKit-Info.plist";
+				INFOPLIST_FILE = "Sources/PagingKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -616,7 +616,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = "PagingKit/PagingKit-Info.plist";
+				INFOPLIST_FILE = "Sources/PagingKit-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -636,7 +636,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = PagingKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kazuhiro.hayashi.PagingKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -654,7 +654,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = "";
-				INFOPLIST_FILE = PagingKitTests/Info.plist;
+				INFOPLIST_FILE = Tests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = kazuhiro.hayashi.PagingKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

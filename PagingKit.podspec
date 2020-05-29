@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PagingKit"
-  s.version          = "1.12.0"
+  s.version          = "1.14.0"
   s.summary          = "PagingKit provides customisable menu & content UI."
   s.swift_version = '5.0'
 
@@ -25,5 +25,5 @@ Pod::Spec.new do |s|
 
   s.ios.deployment_target = '8.0'
 
-  s.source_files = "PagingKit/**/*.{h,m,swift}"
+  s.source_files = "Sources/**/*.{h,m,swift}"
 end
