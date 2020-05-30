@@ -6,6 +6,7 @@
 [![License](https://img.shields.io/cocoapods/l/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Version](https://img.shields.io/cocoapods/v/PagingKit.svg?style=flat)](http://cocoapods.org/pods/PagingKit)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![Swift Package Manager compatible](https://img.shields.io/badge/Swift_Package_Manager-compatible-4BC51D.svg?style=flat)](https://swift.org/package-manager/)
 
 PagingKit provides customizable menu & content UI. It has more flexible layout and design than the other libraries.
 
