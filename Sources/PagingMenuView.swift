@@ -652,12 +652,23 @@ open class PagingMenuView: UIScrollView {
 
     /// If contentSize.width is not over safe area, paging menu view applys cellAlignment to each the cells.
     private func alignContainerViewIfNeeded() {
-        let expectedOriginX = cellAlignment.calculateOriginX(from: maxSafedOffset)
-        guard !hasScrollableArea && expectedOriginX != containerView.frame.origin.x else {
+        guard let expectedOriginX = getExpectedAlignmentPositionXIfNeeded() else {
             return
         }
-
-        containerView.frame.origin.x = expectedOriginX
+        
+        if expectedOriginX != containerView.frame.origin.x {
+            containerView.frame.origin.x = expectedOriginX
+        }
+    }
+    
+    
+    /// get correct origin X of menu view's container view, If menu view is scrollable.
+    func getExpectedAlignmentPositionXIfNeeded() -> CGFloat? {
+        let expectedOriginX = cellAlignment.calculateOriginX(from: maxSafedOffset)
+        guard !hasScrollableArea else {
+            return nil
+        }
+        return expectedOriginX
     }
     
     

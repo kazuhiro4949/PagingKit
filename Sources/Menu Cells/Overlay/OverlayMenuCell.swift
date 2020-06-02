@@ -94,6 +94,10 @@ public class OverlayMenuCell: PagingMenuViewCell {
     
     func setFrame(_ menuView: PagingMenuView, maskFrame: CGRect, animated: Bool) {
         textMaskView.frame = menuView.convert(maskFrame, to: highlightLabel).inset(by: maskInsets)
+        
+        if let expectedOriginX = menuView.getExpectedAlignmentPositionXIfNeeded() {
+            textMaskView.frame.origin.x += expectedOriginX
+        }
     }
     
     public func calculateWidth(from height: CGFloat, title: String) -> CGFloat {
