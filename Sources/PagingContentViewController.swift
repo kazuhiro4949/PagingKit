@@ -204,7 +204,11 @@ public class PagingContentViewController: UIViewController {
     
     
     private func scroll(to page: Int, needsCallAppearance: Bool, animated: Bool, completion: ((Bool) -> Void)? = nil) {
-        delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
+        let isScrollingToAnotherPage = leftSidePageIndex != page
+        
+        if isScrollingToAnotherPage {
+            delegate?.contentViewController(viewController: self, willBeginPagingAt: leftSidePageIndex, animated: animated)
+        }
         
         if needsCallAppearance {
             appearanceHandler.beginDragging(at: leftSidePageIndex)
@@ -213,7 +217,10 @@ public class PagingContentViewController: UIViewController {
         loadPagesIfNeeded(page: page)
         leftSidePageIndex = page
         
-        delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
+        if isScrollingToAnotherPage {
+            delegate?.contentViewController(viewController: self, willFinishPagingAt: leftSidePageIndex, animated: animated)
+        }
+        
         move(to: page, animated: animated) { [weak self] (finished) in
             guard let _self = self, finished else { return }
             
