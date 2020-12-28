@@ -229,7 +229,9 @@ public class PagingContentViewController: UIViewController {
             }
             
             completion?(finished)
-            _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
+            if isScrollingToAnotherPage {
+                _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
+            }
         }
     }
     
