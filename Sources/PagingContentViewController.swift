@@ -51,6 +51,7 @@ public protocol PagingContentViewControllerDelegate: class {
 
     
     /// Tells the delegate when the view controller is trying to start paging the content.
+    /// If it is the same page as the current, this delegate is not called.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
@@ -59,6 +60,7 @@ public protocol PagingContentViewControllerDelegate: class {
     func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool)
     
     /// Tells the delegate when the view controller is trying to finish paging the content.
+    /// If it is the same page as the current, this delegate is not called.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
@@ -67,6 +69,7 @@ public protocol PagingContentViewControllerDelegate: class {
     func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool)
     
     /// Tells the delegate when the view controller was finished to paging the content.
+    /// If it is the same page as the current, this delegate is not called.
     ///
     /// - Parameters:
     ///   - viewController: The view controller object in which the scrolling occurred.
@@ -229,6 +232,7 @@ public class PagingContentViewController: UIViewController {
             }
             
             completion?(finished)
+            
             if isScrollingToAnotherPage {
                 _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
             }
