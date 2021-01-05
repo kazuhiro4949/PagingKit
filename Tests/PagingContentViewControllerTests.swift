@@ -349,17 +349,62 @@ extension PagingContentViewControllerTests {
         UIApplication.shared.keyWindow?.rootViewController = self.pagingContentViewController
         
         XCTAssertNil(delegate.willBeginPagingAt_args)
+        XCTAssertNil(delegate.willFinishPagingAt_args)
+        XCTAssertNil(delegate.didFinishPagingAt_args)
         XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
         XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
             
         XCUIDevice.shared.orientation = .landscapeLeft
         
-        XCTAssertNotNil(delegate.willBeginPagingAt_args)
+        XCTAssertNil(delegate.willBeginPagingAt_args)
+        XCTAssertNil(delegate.willFinishPagingAt_args)
+        XCTAssertNil(delegate.didFinishPagingAt_args)
         XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
         XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
         expectation.fulfill()
     
         wait(for: [expectation], timeout: 1)
+    }
+    
+    func test_ScrollingTheSamePage_callingDelegate() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        let delegate = PagingContentVcDelegateSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.delegate = delegate
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.scroll(to: 3, animated: false)
+            
+            XCTAssertEqual(delegate.willBeginPagingAt_callCount, 0)
+            XCTAssertEqual(delegate.willFinishPagingAt_callCount, 0)
+            XCTAssertEqual(delegate.didFinishPagingAt_callCount, 0)
+            
+            expectation.fulfill()
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
+    }
+    
+    func test_ScrollingAnotherPage_callingDelegate() {
+        let expectation = XCTestExpectation(description: "finish reloadData")
+        let dataSource = PagingContentVcDataSourceSpy()
+        let delegate = PagingContentVcDelegateSpy()
+        pagingContentViewController?.dataSource = dataSource
+        pagingContentViewController?.delegate = delegate
+        pagingContentViewController?.loadViewIfNeeded()
+        pagingContentViewController?.reloadData(with: 3) { [unowned self] in
+            self.pagingContentViewController?.scroll(to: 4, animated: false) { _ in
+                
+                XCTAssertEqual(delegate.willBeginPagingAt_callCount, 1)
+                XCTAssertEqual(delegate.willFinishPagingAt_callCount, 1)
+                XCTAssertEqual(delegate.didFinishPagingAt_callCount, 1)
+                
+                expectation.fulfill()
+            }
+        }
+        
+        wait(for: [expectation], timeout: 0.2)
     }
 }
 
@@ -416,19 +461,24 @@ class PagingContentVcDelegateSpy: NSObject, PagingContentViewControllerDelegate 
         didEndManualScrollOn_args = (viewController, index)
     }
     
+    var willBeginPagingAt_callCount = 0
     var willBeginPagingAt_args: (PagingContentViewController, Int, Bool)?
     func contentViewController(viewController: PagingContentViewController, willBeginPagingAt index: Int, animated: Bool) {
         willBeginPagingAt_args = (viewController, index, animated)
+        willBeginPagingAt_callCount += 1
     }
     
+    var willFinishPagingAt_callCount = 0
     var willFinishPagingAt_args: (PagingContentViewController, Int, Bool)?
     func contentViewController(viewController: PagingContentViewController, willFinishPagingAt index: Int, animated: Bool) {
         willFinishPagingAt_args = (viewController, index, animated)
+        willFinishPagingAt_callCount += 1
     }
-    
+    var didFinishPagingAt_callCount = 0
     var didFinishPagingAt_args: (PagingContentViewController, Int, Bool)?
     func contentViewController(viewController: PagingContentViewController, didFinishPagingAt index: Int, animated: Bool) {
         didFinishPagingAt_args = (viewController, index, animated)
+        didFinishPagingAt_callCount += 1
     }
 }
 
