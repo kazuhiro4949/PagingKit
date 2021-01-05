@@ -231,11 +231,11 @@ public class PagingContentViewController: UIViewController {
                 _self.appearanceHandler.stopScrolling(at: _self.leftSidePageIndex)
             }
             
-            completion?(finished)
-            
             if isScrollingToAnotherPage {
                 _self.delegate?.contentViewController(viewController: _self, didFinishPagingAt: _self.leftSidePageIndex, animated: animated)
             }
+            
+            completion?(finished)
         }
     }
     
