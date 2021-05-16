@@ -25,7 +25,7 @@
 import UIKit
 
 /// this represents the display and behaviour of the cells.
-public protocol PagingMenuViewControllerDelegate: class {
+public protocol PagingMenuViewControllerDelegate: AnyObject {
     
     /// Tells the delegate when the menu finished to scroll focus view.
     ///
