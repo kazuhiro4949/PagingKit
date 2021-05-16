@@ -25,7 +25,7 @@
 import UIKit
 
 /// this represents the display and behaviour of the cells.
-public protocol PagingContentViewControllerDelegate: class {
+public protocol PagingContentViewControllerDelegate: AnyObject {
     
     /// Tells the delegate when the user is abount to start scroll the content within the receiver.
     ///
@@ -89,7 +89,7 @@ extension PagingContentViewControllerDelegate {
 }
 
 /// The data source provides the paging content view controller object with the information it needs to construct and modify the contents.
-public protocol PagingContentViewControllerDataSource: class {
+public protocol PagingContentViewControllerDataSource: AnyObject {
     
     /// Tells the data source to return the number of item in a paging scrollview of the view controller.
     ///

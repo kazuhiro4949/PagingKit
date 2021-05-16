@@ -68,7 +68,7 @@ extension PagingMenuViewControllerDelegate {
 }
 
 /// The data source provides the paging menu view controller object with the information it needs to construct and modify the menus.
-public protocol PagingMenuViewControllerDataSource: class {
+public protocol PagingMenuViewControllerDataSource: AnyObject {
     
     /// Tells the data source to return the number of items in a menu view of the menu view controller.
     ///
