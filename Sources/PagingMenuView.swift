@@ -101,7 +101,7 @@ open class PagingMenuFocusView: UIView {
  A data source object represents your app’s data model and vends information to the collection view as needed.
  It also handles the creation and configuration of cells and supplementary views used by the collection view to display your data.
  */
-public protocol PagingMenuViewDataSource: class {
+public protocol PagingMenuViewDataSource: AnyObject {
     
     /// Asks your data source object for the number of sections in the paging menu view.
     ///
@@ -130,7 +130,7 @@ public protocol PagingMenuViewDataSource: class {
 /**
  The PagingMenuViewDelegate protocol defines methods that allow you to manage the selection of items in a paging menu view and to perform actions on those items.
  */
-public protocol PagingMenuViewDelegate: class {
+public protocol PagingMenuViewDelegate: AnyObject {
     
     /// Tells the delegate that the specified row is now selected.
     ///
