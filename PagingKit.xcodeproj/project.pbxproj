@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		30609922265141D100DDF9F5 /* XCFrameworkScript */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 30609923265141D100DDF9F5 /* Build configuration list for PBXAggregateTarget "XCFrameworkScript" */;
+			buildPhases = (
+				30609926265141D800DDF9F5 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = XCFrameworkScript;
+			productName = XCFrameworkScript;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		2B283F051FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B283F041FA8A2BD00DA2FE4 /* Array+NSLayoutConstraint.swift */; };
 		2B28FBB923EFAF90007101B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B28FBB823EFAF90007101B9 /* AppDelegate.swift */; };
@@ -282,6 +296,11 @@
 						DevelopmentTeam = R33Y42SDDR;
 						ProvisioningStyle = Automatic;
 					};
+					30609922265141D100DDF9F5 = {
+						CreatedOnToolsVersion = 12.5;
+						DevelopmentTeam = R33Y42SDDR;
+						ProvisioningStyle = Automatic;
+					};
 					6EC140BA1F0940F40054B514 = {
 						CreatedOnToolsVersion = 8.3.3;
 						LastSwiftMigration = 0900;
@@ -311,6 +330,7 @@
 				6EC140BA1F0940F40054B514 /* PagingKit */,
 				6EC140C31F0940F40054B514 /* PagingKitTests */,
 				2B28FBB523EFAF90007101B9 /* UnitTestHostApplication */,
+				30609922265141D100DDF9F5 /* XCFrameworkScript */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +363,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		30609926265141D800DDF9F5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "OUTPUT_DIR=${BUILD_DIR}/Framework\nDERIVED_DIR=${OUTPUT_DIR}/${CONFIGURATION}-derived\n\nARCHIVE_DIR=${OUTPUT_DIR}/${CONFIGURATION}-archive\nXCFRAMEWORK_DIR=${OUTPUT_DIR}/${CONFIGURATION}-xcframework\n\nrm -rf ${OUTPUT_DIR}\n\nmkdir -p ${DERIVED_DIR}\nmkdir -p ${ARCHIVE_DIR}\nmkdir -p ${XCFRAMEWORK_DIR}\n\nARCHIVE_FILE_IOS=${ARCHIVE_DIR}/${PROJECT_NAME}.xcarchive\nARCHIVE_FILE_IOS_SIMULATOR=${ARCHIVE_DIR}/${PROJECT_NAME}-simulator.xcarchive\n\nxcodebuild archive -scheme ${PROJECT_NAME} -destination=\"iOS\" -archivePath $ARCHIVE_FILE_IOS -derivedDataPath $DERIVED_DIR -sdk iphoneos SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES\n\nxcodebuild archive -scheme ${PROJECT_NAME} -destination=\"iOS Simulator\" -archivePath $ARCHIVE_FILE_IOS_SIMULATOR -derivedDataPath $DERIVED_DIR -sdk iphonesimulator SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES\n\nxcodebuild -create-xcframework -framework $ARCHIVE_FILE_IOS/Products/Library/Frameworks/${PROJECT_NAME}.framework -framework $ARCHIVE_FILE_IOS_SIMULATOR/Products/Library/Frameworks/${PROJECT_NAME}.framework -output $XCFRAMEWORK_DIR/${PROJECT_NAME}.xcframework\n\nopen ${XCFRAMEWORK_DIR}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		2B28FBB223EFAF90007101B9 /* Sources */ = {
@@ -458,6 +498,24 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		30609924265141D100DDF9F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R33Y42SDDR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		30609925265141D100DDF9F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = R33Y42SDDR;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -676,6 +734,15 @@
 			buildConfigurations = (
 				2B28FBC723EFAF93007101B9 /* Debug */,
 				2B28FBC823EFAF93007101B9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		30609923265141D100DDF9F5 /* Build configuration list for PBXAggregateTarget "XCFrameworkScript" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				30609924265141D100DDF9F5 /* Debug */,
+				30609925265141D100DDF9F5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
