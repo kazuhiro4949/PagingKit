@@ -89,9 +89,9 @@ public class TitleLabelMenuViewCell: PagingMenuViewCell {
         }
     }
     
-    public func calcIntermediateLabelSize(with leftCell: TitleLabelMenuViewCell, percent: CGFloat) -> CGFloat {
-        let diff = (labelWidth - leftCell.labelWidth) * percent
-        return leftCell.labelWidth + diff
+    public func calcIntermediateLabelSize(with currentCell: TitleLabelMenuViewCell, percent: CGFloat) -> CGFloat {
+        let diff = (labelWidth - currentCell.labelWidth) * abs(percent)
+        return currentCell.labelWidth + diff
     }
     
     public required init?(coder aDecoder: NSCoder) {

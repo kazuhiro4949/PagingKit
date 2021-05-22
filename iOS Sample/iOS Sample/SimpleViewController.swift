@@ -115,6 +115,13 @@ extension SimpleViewController: PagingMenuViewControllerDelegate {
     func menuViewController(viewController: PagingMenuViewController, didSelect page: Int, previousPage: Int) {
         contentViewController.scroll(to: page, animated: true)
     }
+    
+    func menuViewController(viewController: PagingMenuViewController, willAnimateFocusViewTo index: Int, with coordinator: PagingMenuFocusViewAnimationCoordinator) {
+        setFocusViewWidth(index: index)
+        coordinator.animateFocusView { [weak self] coordinator in
+            self?.focusView.layoutIfNeeded()
+        } completion: { _ in }
+    }
 }
 
 extension SimpleViewController: PagingContentViewControllerDelegate {
@@ -123,12 +130,23 @@ extension SimpleViewController: PagingContentViewControllerDelegate {
         adjustfocusViewWidth(index: index, percent: percent)
     }
     
+    // TODO:- needs refactering
     func adjustfocusViewWidth(index: Int, percent: CGFloat) {
-        guard let leftCell = menuViewController.cellForItem(at: index) as? TitleLabelMenuViewCell,
-            let rightCell = menuViewController.cellForItem(at: index + 1) as? TitleLabelMenuViewCell else {
+        let adjucentIdx = percent < 0 ? index - 1 : index + 1
+        guard let currentCell = menuViewController.cellForItem(at: index) as? TitleLabelMenuViewCell,
+            let adjucentCell = menuViewController.cellForItem(at: adjucentIdx) as? TitleLabelMenuViewCell else {
             return
         }
-        focusView.underlineWidth = rightCell.calcIntermediateLabelSize(with: leftCell, percent: percent)
+        focusView.underlineWidth = adjucentCell.calcIntermediateLabelSize(with: currentCell, percent: percent)
+    }
+    
+    
+    // TODO:- needs refactering
+    func setFocusViewWidth(index: Int) {
+        guard let cell = menuViewController.cellForItem(at: index) as? TitleLabelMenuViewCell else {
+            return
+        }
+        focusView.underlineWidth = cell.labelWidth
     }
 }
 
