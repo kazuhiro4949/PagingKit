@@ -74,7 +74,7 @@ public class UnderlineFocusView: UIView {
             attribute: .width,
             relatedBy: .equal,
             toItem: nil,
-            attribute: .height, multiplier: 1, constant: 0
+            attribute: .width, multiplier: 1, constant: 0
         )
         
         heightConstraint = NSLayoutConstraint(
