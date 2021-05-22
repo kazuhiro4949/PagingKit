@@ -153,11 +153,16 @@ class PagingMenuViewControllerTests: XCTestCase {
         menuViewController.reloadData(with: 15) { [menuViewController = menuViewController] (_) in
             let minX = menuViewController.menuView.rectForItem(at: 15).midX
             let expectedContentOffsetX = minX - floor(menuViewController.menuView.bounds.width / 2)
+            
             XCTAssertEqual(
-                menuViewController.menuView.contentOffset,
-                CGPoint(x: expectedContentOffsetX, y: 0),
-                "PagingMenuViewController has completely finished reloading"
-            )
+                menuViewController.menuView.contentOffset.x,
+                expectedContentOffsetX,
+                accuracy: 1.0)
+            XCTAssertEqual(
+                menuViewController.menuView.contentOffset.y,
+                0,
+                accuracy: 1.0)
+            
             expectation.fulfill()
         }
         menuViewController.view.setNeedsLayout()
