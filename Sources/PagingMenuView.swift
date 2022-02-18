@@ -86,7 +86,7 @@ open class PagingMenuFocusViewAnimationCoordinator {
 open class PagingMenuFocusView: UIView {
     open var selectedIndex: Int?
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .clear
     }
