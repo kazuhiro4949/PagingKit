@@ -337,10 +337,7 @@ extension PagingContentViewControllerTests {
     }
     
     func test_UpdaingViewControllerSize_notCallApparance() {
-        let expectation = XCTestExpectation(description: "finish reloadData")
         
-        XCUIDevice.shared.orientation = .portrait
-
         let dataSource = PagingContentVcDataSourceSpy()
         let delegate = PagingContentVcDelegateSpy()
         self.pagingContentViewController?.dataSource = dataSource
@@ -353,17 +350,31 @@ extension PagingContentViewControllerTests {
         XCTAssertNil(delegate.didFinishPagingAt_args)
         XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
         XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
-            
-        XCUIDevice.shared.orientation = .landscapeLeft
+        
+        UIDevice.current.setValue(
+            UIDeviceOrientation.landscapeLeft.rawValue,
+            forKey: "orientation"
+        )
+        let bounds = pagingContentViewController?.view.bounds ?? .zero
+        let transitionCoordinator = UIViewControllerTransitionCoordinatorMock()
+        UIApplication.shared.keyWindow?.rootViewController?
+            .viewWillTransition(
+                to: CGSize(width: bounds.height, height: bounds.width),
+                with: transitionCoordinator
+            )
+        
+        let expectation = XCTKVOExpectation(
+            keyPath: "animate_alongsideTransition_completion_wasCalled",
+            object: transitionCoordinator,
+            expectedValue: true
+        )
+        wait(for: [expectation], timeout: 1)
         
         XCTAssertNil(delegate.willBeginPagingAt_args)
         XCTAssertNil(delegate.willFinishPagingAt_args)
         XCTAssertNil(delegate.didFinishPagingAt_args)
         XCTAssertNil(self.contentAppearanceHandler.beginDragging_args)
-        XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)
-        expectation.fulfill()
-    
-        wait(for: [expectation], timeout: 1)
+        XCTAssertNil(self.contentAppearanceHandler.stopScrolling_args)    
     }
     
     func test_ScrollingTheSamePage_callingDelegate() {
@@ -509,4 +520,64 @@ class ContentsAppearanceHandlerSpy: ContentsAppearanceHandlerProtocol {
     func postReload(at index: Int) {
         postReload_ags = index
     }
+}
+
+class UIViewControllerTransitionCoordinatorMock: NSObject, UIViewControllerTransitionCoordinator {
+
+    @objc dynamic var animate_alongsideTransition_completion_wasCalled = false
+    func animate(alongsideTransition animation: ((UIViewControllerTransitionCoordinatorContext) -> Void)?, completion: ((UIViewControllerTransitionCoordinatorContext) -> Void)? = nil) -> Bool {
+
+        completion?(self)
+        animate_alongsideTransition_completion_wasCalled = true
+        return true
+    }
+
+    override init () { }
+
+    func animateAlongsideTransition(in view: UIView?, animation: ((UIViewControllerTransitionCoordinatorContext) -> Void)?, completion: ((UIViewControllerTransitionCoordinatorContext) -> Void)? = nil) -> Bool {
+        completion?(self)
+
+        return true
+    }
+
+    func notifyWhenInteractionEnds(_ handler: @escaping (UIViewControllerTransitionCoordinatorContext) -> Void) {
+        handler(self)
+    }
+
+    func notifyWhenInteractionChanges(_ handler: @escaping (UIViewControllerTransitionCoordinatorContext) -> Void) {
+        handler(self)
+    }
+
+    var isAnimated: Bool = false
+
+    var presentationStyle: UIModalPresentationStyle = .none
+
+    var initiallyInteractive: Bool  = false
+
+    var isInterruptible: Bool  = false
+
+    var isInteractive: Bool  = false
+
+    var isCancelled: Bool  = false
+
+    var transitionDuration: TimeInterval = 0.0
+
+    var percentComplete: CGFloat = 0.0
+
+    var completionVelocity: CGFloat = 0.0
+
+    var completionCurve: UIView.AnimationCurve = .easeIn
+
+    func viewController(forKey key: UITransitionContextViewControllerKey) -> UIViewController? {
+        return nil
+    }
+
+    func view(forKey key: UITransitionContextViewKey) -> UIView? {
+        return nil
+    }
+
+    var containerView: UIView = UIView()
+
+    var targetTransform: CGAffineTransform = .identity
+
 }
