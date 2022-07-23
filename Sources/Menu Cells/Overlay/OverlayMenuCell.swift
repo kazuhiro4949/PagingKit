@@ -47,6 +47,24 @@ public class OverlayMenuCell: PagingMenuViewCell {
         }
     }
     
+    public var hightlightTextFont: UIFont? {
+        set {
+            highlightLabel.font = newValue
+        }
+        get {
+            return highlightLabel.font
+        }
+    }
+    
+    public var normalTextFont: UIFont? {
+        set {
+            titleLabel.font = newValue
+        }
+        get {
+            return titleLabel.font
+        }
+    }
+    
     public static let sizingCell = OverlayMenuCell()
     
     let maskInsets = UIEdgeInsets(top: 6, left: 8, bottom: 6, right: 8)
