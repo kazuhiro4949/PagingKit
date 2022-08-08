@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "PagingKit"
-  s.version          = "1.18.1"
+  s.version          = "1.18.2"
   s.summary          = "PagingKit provides customisable menu & content UI."
   s.swift_version = '5.1'
 
